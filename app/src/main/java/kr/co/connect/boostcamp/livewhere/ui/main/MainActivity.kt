@@ -1,7 +1,8 @@
-package kr.co.connect.boostcamp.livewhere
+package kr.co.connect.boostcamp.livewhere.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import kr.co.connect.boostcamp.livewhere.R
 
 class MainActivity : AppCompatActivity() {
 
