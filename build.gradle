@@ -9,6 +9,7 @@ buildscript {
         koin_version = "1.0.1"
         compiler_version = "3.3.0"
         glide_version = "4.8.0"
+        retrofit_version = "2.5.0"
     }
     repositories {
         google()

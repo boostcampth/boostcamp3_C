@@ -20,6 +20,7 @@
         <activity android:name=".ui.detail.DetailActivity">
 
         </activity>
+        <activity android:name=".ui.map.MapActivity"/>
     </application>
 
 </manifest>
