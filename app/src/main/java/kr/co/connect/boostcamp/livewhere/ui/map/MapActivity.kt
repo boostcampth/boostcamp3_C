@@ -1,20 +1,10 @@
 package kr.co.connect.boostcamp.livewhere.ui.map
 
-import android.graphics.PointF
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import com.skt.Tmap.*
-import kotlinx.android.synthetic.main.activity_map.*
 import kr.co.connect.boostcamp.livewhere.R
-import kr.co.connect.boostcamp.livewhere.databinding.ActivityMapBinding
-import kr.co.connect.boostcamp.livewhere.util.MapHelper
 import kr.co.connect.boostcamp.livewhere.util.MapHelperImpl
 import kr.co.connect.boostcamp.livewhere.util.MapUtilImpl
-import java.util.ArrayList
-import javax.inject.Inject
 
 class MapActivity : AppCompatActivity() {
     lateinit var mapUtilImpl: MapUtilImpl
