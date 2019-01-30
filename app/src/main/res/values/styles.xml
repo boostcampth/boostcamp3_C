@@ -27,7 +27,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">@dimen/space_small</item>
         <item name="android:padding">@dimen/space_small</item>
-        <item name="android:src">@drawable/img_all_arrow_up_black</item>
+        <item name="android:src">@drawable/ic_arrow_up_black_24dp</item>
     </style>
 
     <style name="BackDrop.Main.Arrow">
@@ -35,7 +35,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">@dimen/space_small</item>
         <item name="android:padding">@dimen/space_small</item>
-        <item name="android:src">@drawable/img_all_arrow_up_white</item>
+        <item name="android:src">@drawable/ic_arrow_up_white_24dp</item>
     </style>
 
     <style name="BasicTv">
