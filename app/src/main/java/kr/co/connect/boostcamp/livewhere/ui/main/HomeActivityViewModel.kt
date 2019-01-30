@@ -1,7 +1,10 @@
 package kr.co.connect.boostcamp.livewhere.ui.main
 
-interface HomeActivityViewModel {
-    fun startBookmark()
+class HomeActivityViewModel {
+    fun startBookmark() {
 
-    fun startSearch()
+    }
+    fun startSearch() {
+
+    }
 }
