@@ -3,6 +3,10 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -14,9 +18,17 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            buildConfigField "String", "BaseServerURL", keystoreProperties.getProperty("baseServerUrl")
+            buildConfigField "String", "TmapApiKey", keystoreProperties.getProperty("tMapApiKey")
+            buildConfigField "String", "GoogleApiKey", keystoreProperties.getProperty("googleApiKey")
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BaseServerURL", keystoreProperties.getProperty("baseServerUrl")
+            buildConfigField "String", "TmapApiKey", keystoreProperties.getProperty("tMapApiKey")
+            buildConfigField "String", "GoogleApiKey", keystoreProperties.getProperty("googleApiKey")
         }
     }
     dataBinding {
