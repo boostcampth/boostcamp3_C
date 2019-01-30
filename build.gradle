@@ -6,7 +6,7 @@ buildscript {
         anko_version = '0.10.5'
         ktx_version = '1.1.0-alpha03'
         material_version = '1.1.0-alpha02'
-        koin_version = "1.0.1"
+        koin_version = "1.0.2"
         compiler_version = "3.3.0"
         glide_version = "4.8.0"
         retrofit_version = "2.5.0"
