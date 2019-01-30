@@ -20,7 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/space_small"
-                android:src="@drawable/img_all_arrow_up_black"
+                android:src="@drawable/ic_arrow_up_black_24dp"
                 android:visibility="invisible"/>
         <TextView
                 style="@style/BasicTv.HeadlineS.black"
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/space_small"
-            android:src="@drawable/img_all_arrow_up_black"
+            android:src="@drawable/ic_arrow_up_black_24dp"
             android:id="@+id/iv_backdrop_toggle"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
