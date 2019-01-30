@@ -8,6 +8,15 @@
     <dimen name="space_x_large"> 24dp </dimen>
 
     <dimen name="home_between_logo_and_search_bar_margin">60dp</dimen>
+
+    <dimen name="detail_contents_bottom_padding">12dp</dimen>
+    <dimen name="detail_contents_horizontal_padding">4dp</dimen>
+    <dimen name="detail_rv_horizontal_margin">12dp</dimen>
+
+    <dimen name="detail_review_top_padding">33dp</dimen>
+    <dimen name="detail_review_bottom_padding">12dp</dimen>
+    <dimen name="detail_review_horizontal_padding">8dp</dimen>
+    <dimen name="detail_review_more_btn_height">28dp</dimen>
     <dimen name="margin_start_backdrop">8dp</dimen>
     <dimen name="margin_end_backdrop">8dp</dimen>
 </resources>

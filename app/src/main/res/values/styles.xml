@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -39,7 +39,7 @@
     </style>
 
     <style name="BasicTv">
-        <item name="android:layout_margin">@dimen/space_small</item>
+        <item name="android:padding">@dimen/space_small</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
@@ -77,6 +77,15 @@
 
     <style name="BasicTv.BodyM">
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Detail_Review_Comment">
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingTop">33sp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:paddingBottom">12dp</item>
+
     </style>
 
 </resources>

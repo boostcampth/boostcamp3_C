@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">LiveInSeoul</string>
     <string name="home_bookmark">"즐겨찾기한 건물 보기"</string>
+    <string name="warning">최근 1년 내에 5번 이상의 거래 내역이 존재합니다</string>
+    <string name="recent_price">최근 거래 가격</string>
+    <string name="recent_price_unit">단위: 만원</string>
+    <string name="trend_price">연도별 시세 추이</string>
+    <string name="past_transation">과거 거래 내역</string>
+    <string name="review">실제 거주 이야기</string>
+    <string name="charter">전세</string>
+    <string name="monthly_rent">월세</string>
+    <string name="review_create">작성하기</string>
 </resources>

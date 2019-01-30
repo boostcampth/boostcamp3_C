@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="viewModel"
+                  type="kr.co.connect.boostcamp.livewhere.ui.detail.DetailViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/detail_fragment_iv"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                tools:layout_height="200dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@color/colorPrimaryDark"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/detail_fragment_warning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/detail_fragment_iv"
+                app:layout_constraintEnd_toEndOf="@id/detail_fragment_iv"
+                android:text="@string/warning"
+                style="@style/BasicTv.BodyM"
+        />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

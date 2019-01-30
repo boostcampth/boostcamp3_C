@@ -11,7 +11,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/detail_activity_cl"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary">
 
         <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/detail_activity_ib_back"
@@ -48,7 +49,7 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-        app:layout_constraintGuide_begin="56dp"/>
+                app:layout_constraintGuide_begin="56dp"/>
 
         <FrameLayout
                 android:id="@+id/detail_activity_container"
