@@ -1,43 +1,59 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <layout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
-    <data>
-        <variable name="mapViewModel" type="kr.co.connect.boostcamp.livewhere.ui.map.MapViewModel"/>
-    </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+      <data>
+            <variable name="mapViewModel" type="kr.co.connect.boostcamp.livewhere.ui.map.MapViewModel"/>
+      </data>
+      <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                createTMap="@{mapViewModel.mapHelperImpl}">
-
-        </LinearLayout>
-        <androidx.constraintlayout.motion.widget.MotionLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutDescription="@xml/scene_map_backdrop_01"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
             <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:id="@+id/ll_place_detail"
-                    style="@style/BackDrop.White"
-                    android:orientation="vertical"
-                    app:layout_constraintHeight_percent="0.15"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  createTMap="@{mapViewModel.mapHelperImpl}">
 
             </LinearLayout>
+            <androidx.constraintlayout.motion.widget.MotionLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  app:layoutDescription="@xml/scene_map_backdrop_01">
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:id="@+id/ll_place_detail"
+                        android:orientation="horizontal"
+                        android:layout_marginStart="@dimen/margin_start_backdrop"
+                        android:layout_marginEnd="@dimen/margin_end_backdrop"
+                        style="@style/BackDrop.White"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent">
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/space_small"
+                            android:visibility="invisible"/>
 
-        </androidx.constraintlayout.motion.widget.MotionLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                            style="@style/BasicTv.HeadlineS.black"
+                            android:textColor="@color/black"
+                            android:layout_gravity="top"
+                            android:text="@string/home_bookmark"
+                            android:id="@+id/tv_backdrop_title"/>
+                </LinearLayout>
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/space_small"
+                        android:id="@+id/iv_backdrop_toggle"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintStart_toStartOf="@+id/ll_place_detail"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintTop_toTopOf="@+id/ll_place_detail"/>
+            </androidx.constraintlayout.motion.widget.MotionLayout>
+      </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
