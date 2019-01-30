@@ -1,0 +1,7 @@
+package kr.co.connect.boostcamp.livewhere.model
+
+data class PlaceRequest(val name: String)
+
+enum class Category {
+    MARKET, RESTARUANT, HOSPITAL, CAFE, SCHOOL;
+}
