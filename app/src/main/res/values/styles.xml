@@ -8,4 +8,45 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="BasicTv">
+        <item name="android:layout_margin">@dimen/space_small</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="BasicTv.HeadlineM">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="BasicTv.HeadlineS">
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+    </style>
+
+    <style name="BasicTv.HeadlineS.black">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="BasicTv.HeadlineS.main">
+        <item name="android:textColor">@color/main_color</item>
+    </style>
+
+    <style name="BasicTv.HeadlineS.main.variable">
+        <item name="android:textColor">@color/main_color_variation</item>
+    </style>
+
+    <style name="BasicTv.BodyL">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="BasicTv.BodyMB">
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+    </style>
+
+    <style name="BasicTv.BodyM">
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>
