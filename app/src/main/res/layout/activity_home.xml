@@ -54,7 +54,6 @@
                     style="@style/BasicTv.HeadlineS.black"
                     android:textColor="@color/black"
                     android:text="@string/home_bookmark" />
-
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
