@@ -34,8 +34,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/space_small"
-                            android:visibility="invisible"
-                            android:src="@drawable/img_all_arrow_up_black"/>
+                            android:visibility="invisible"/>
 
                     <TextView
                             style="@style/BasicTv.HeadlineS.black"
@@ -48,7 +47,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/space_small"
-                        android:src="@drawable/img_all_arrow_up_black"
                         android:id="@+id/iv_backdrop_toggle"
                         android:layout_marginEnd="8dp"
                         app:layout_constraintStart_toStartOf="@+id/ll_place_detail"
