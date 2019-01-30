@@ -1,8 +1,8 @@
 package kr.co.connect.boostcamp.livewhere.di
 
 import io.reactivex.schedulers.Schedulers
+import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.api.Api
-import kr.co.connect.boostcamp.livewhere.util.localhost
 import okhttp3.OkHttpClient
 import org.koin.dsl.module.module
 import retrofit2.Retrofit
@@ -23,7 +23,7 @@ val apiModule = module {
             )
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(localhost)
+            .baseUrl(BuildConfig.BaseServerURL)
             .build()
             .create(Api::class.java)
     }

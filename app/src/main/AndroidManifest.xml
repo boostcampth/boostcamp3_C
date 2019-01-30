@@ -6,9 +6,9 @@
     <application
             android:name=".LiveApplication"
             android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/img_home_logo"
+            android:roundIcon="@drawable/img_home_logo"
             android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity android:name=".ui.main.HomeActivity">
