@@ -1,7 +1,15 @@
 package kr.co.connect.boostcamp.livewhere.model
 
-data class Place(val name: String)
+import com.google.gson.annotations.SerializedName
 
-enum class Category {
-    MARKET, RESTARUANT, HOSPITAL, CAFE, SCHOOL;
-}
+data class Place(
+    @SerializedName("address_name") val addrName:String, // 지번주소
+    @SerializedName("category_group") val category:String,
+    @SerializedName("distance") val distance:String,
+    @SerializedName("phone") val phone:String,
+    @SerializedName("place_name") val placeName:String,
+    @SerializedName("place_url") val place_url:String,
+    @SerializedName("road_address_name") val roadAddr:String,
+    @SerializedName("x") val x:String,
+    @SerializedName("y") val y:String
+)
