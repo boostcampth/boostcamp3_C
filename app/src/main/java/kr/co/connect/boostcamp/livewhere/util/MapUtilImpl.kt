@@ -1,6 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.util
 
-class MapUtilImpl : MapUtil{
+class MapUtilImpl() : MapUtil{
     override fun findMyLocation() {
 
     }

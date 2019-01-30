@@ -1,11 +1,16 @@
 package kr.co.connect.boostcamp.livewhere.util
 
-class MapHelperImpl : MapHelper{
+import androidx.lifecycle.ViewModel
+import com.skt.Tmap.TMapView
+
+class MapHelperImpl(private val tMapView: TMapView) : MapHelper, ViewModel(){
+    override fun getTMapView() {
+
+    }
+
     override fun close() {
 
     }
 
-    override fun start() {
-
-    }
+    override fun create(): TMapView = tMapView
 }
