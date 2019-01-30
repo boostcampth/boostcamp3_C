@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+                name="viewModel"
+                type="kr.co.connect.boostcamp.livewhere.ui.detail.DetailViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:paddingHorizontal="@dimen/detail_contents_horizontal_padding">
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/detail_fragment_tv_recent_price"
+                android:text="@string/recent_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/BasicTv.BodyL"
+        />
+        <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/recent_price_unit"
+                style="@style/BasicTv.BodyM"
+                app:layout_constraintStart_toEndOf="@id/detail_fragment_tv_recent_price"
+                app:layout_constraintTop_toTopOf="@id/detail_fragment_tv_recent_price"
+                app:layout_constraintBottom_toBottomOf="@id/detail_fragment_tv_recent_price"
+
+        />
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/detail_fragment_tv_charter"
+                android:text="@string/charter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/detail_fragment_tv_recent_price"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/BasicTv.HeadlineM"
+        />
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/detail_fragment_tv_monthly_rent"
+                android:text="@string/monthly_rent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/detail_fragment_tv_recent_price"
+                app:layout_constraintStart_toEndOf="@id/detail_fragment_tv_charter"
+                style="@style/BasicTv.HeadlineM"
+        />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
