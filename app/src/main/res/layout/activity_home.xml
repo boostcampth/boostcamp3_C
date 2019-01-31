@@ -5,9 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".ui.main.HomeActivity">
     <data>
-        <variable
-            name="homeActivity"
-            type="kr.co.connect.boostcamp.livewhere.ui.main.HomeActivity"/>
+
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
@@ -39,8 +37,7 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_logo"
                     android:layout_margin="@dimen/home_between_logo_and_search_bar_margin"
-                    android:src="@drawable/btn_home_search_bar"
-                    android:onClick="@{homeActivity::onSearchBtnClicked}"/>
+                    android:src="@drawable/btn_home_search_bar" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         <include
@@ -54,10 +51,4 @@
                 app:layout_behavior="@string/bottom_sheet_behavior"
                 app:behavior_hideable="false"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-            <TextView
-                    style="@style/BasicTv.HeadlineS.black"
-                    android:textColor="@color/black"
-                    android:text="@string/home_bookmark" />
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
