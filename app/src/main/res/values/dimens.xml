@@ -8,6 +8,13 @@
     <dimen name="space_x_large"> 24dp </dimen>
 
     <dimen name="home_between_logo_and_search_bar_margin">60dp</dimen>
+
+    <!-- motionlayout 관련 dimen-->
     <dimen name="margin_start_backdrop">8dp</dimen>
     <dimen name="margin_end_backdrop">8dp</dimen>
+
+    <dimen name="space_guide_line">260dp</dimen>
+    <dimen name="fb_filter_main_margin_end">32dp</dimen>
+    <dimen name="fb_filter_main_margin_bottom">16dp</dimen>
+
 </resources>
