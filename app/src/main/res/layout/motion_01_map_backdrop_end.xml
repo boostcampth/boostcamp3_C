@@ -40,4 +40,11 @@
             android:rotation="180"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.0"/>
+    <androidx.constraintlayout.motion.widget.MotionLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ml_float_btn"
+            app:layoutDescription="@xml/scene_map_float_btn_01">
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
