@@ -19,4 +19,6 @@
     <dimen name="detail_review_more_btn_height">28dp</dimen>
     <dimen name="margin_start_backdrop">8dp</dimen>
     <dimen name="margin_end_backdrop">8dp</dimen>
+
+    <dimen name="detail_bar_chart_height">200dp</dimen>
 </resources>
