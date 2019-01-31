@@ -11,6 +11,6 @@
     <dimen name="elevation_m">4dp</dimen>
     <dimen name="elevation_l">6dp</dimen>
 
-    <dimen name="dropbar_header">52dp</dimen>
+    <dimen name="dropbar_header">40dp</dimen>
     <dimen name="home_between_logo_and_search_bar_margin">60dp</dimen>
 </resources>
