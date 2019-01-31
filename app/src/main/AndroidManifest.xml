@@ -25,7 +25,13 @@
         <activity android:name=".ui.detail.DetailActivity">
 
         </activity>
-        <activity android:name=".ui.map.MapActivity"/>
+        <activity android:name=".ui.map.MapActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -54,4 +54,10 @@
                 app:layout_behavior="@string/bottom_sheet_behavior"
                 app:behavior_hideable="false"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <TextView
+                    style="@style/BasicTv.HeadlineS.black"
+                    android:textColor="@color/black"
+                    android:text="@string/home_bookmark" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

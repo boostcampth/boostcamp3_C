@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import kr.co.connect.boostcamp.livewhere.databinding.FragmentDetailBinding
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
+
 class DetailFragment : Fragment() {
 
     companion object {
@@ -27,6 +28,7 @@ class DetailFragment : Fragment() {
             viewModel = this@DetailFragment.viewModel
             setLifecycleOwner(this@DetailFragment)
         }
+
         return binding.root
     }
 }
