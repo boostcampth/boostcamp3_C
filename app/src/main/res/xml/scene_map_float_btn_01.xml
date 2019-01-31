@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene
+        xmlns:motion="http://schemas.android.com/apk/res-auto">
+    <Transition
+            motion:constraintSetStart="@layout/motion_01_map_filter_start"
+            motion:constraintSetEnd="@layout/motion_01_map_filter_end"
+            motion:duration="400">
+        <OnClick
+                motion:clickAction="toggle"
+                motion:target="@id/fb_filter_main"/>
+    </Transition>
+</MotionScene>
