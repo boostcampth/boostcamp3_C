@@ -3,11 +3,9 @@
         xmlns:motion="http://schemas.android.com/apk/res-auto">
     <Transition
             motion:constraintSetStart="@layout/motion_01_map_backdrop_start"
-            motion:constraintSetEnd="@layout/motion_01_map_backdrop_end"
-            motion:duration="1000">
-        <OnSwipe
-                motion:touchAnchorId="@+id/ll_place_detail"
-                motion:touchAnchorSide="top"
-                motion:dragDirection="dragUp"/>
+            motion:constraintSetEnd="@layout/motion_01_map_backdrop_end">
+        <OnClick
+            motion:clickAction="toggle"
+            motion:target="@id/ll_place_detail"/>]
     </Transition>
 </MotionScene>
