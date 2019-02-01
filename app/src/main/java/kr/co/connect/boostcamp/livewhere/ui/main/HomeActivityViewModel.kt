@@ -1,6 +1,11 @@
 package kr.co.connect.boostcamp.livewhere.ui.main
 
-class HomeActivityViewModel {
+import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
+
+class HomeActivityViewModel() : BaseViewModel() {
+
+    init {}
+
     fun startBookmark() {
 
     }

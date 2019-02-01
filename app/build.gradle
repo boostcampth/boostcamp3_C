@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
 
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
@@ -66,9 +67,21 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 
+    //design
+    implementation 	'androidx.coordinatorlayout:coordinatorlayout:1.0.0'
+    
     //firebase
     implementation "com.google.firebase:firebase-database:$firebase_version"
+    implementation "com.google.firebase:firebase-core:$firebase_version"
+
+    //crashlytics
+    implementation "com.crashlytics.sdk.android:crashlytics:$crashlytics_version"
 
     //MPchart
     implementation "com.github.PhilJay:MPAndroidChart:$mpchart_version"
+    
+    //stetho
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.facebook.stetho:stetho-js-rhino:1.5.0'
 }
+
