@@ -1,7 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import kr.co.connect.boostcamp.livewhere.R
@@ -17,12 +16,17 @@ class DetailActivity : AppCompatActivity(){
     private val viewModel: DetailViewModel by viewModel()
     private lateinit var binding : ActivityDetailBinding
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_detail)
 
         if (savedInstanceState == null) {
             addDetailFragment()
+        }
+
+        binding.apply {
+            viewModel = this@DetailActivity.viewModel
+            setLifecycleOwner(this@DetailActivity)
         }
     }
 
