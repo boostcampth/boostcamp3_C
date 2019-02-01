@@ -1,35 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
 
     </data>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:app="http://schemas.android.com/apk/res-auto"
-                  android:background="@color/white"
-                  android:orientation="horizontal"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content">
-        <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardElevation="@dimen/elevation_s">
-            <LinearLayout
-                    android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:cardElevation="@dimen/elevation_s">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                style="@style/Table"
+                android:padding="@dimen/space_large">
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_bookmark_image"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-                    <androidx.appcompat.widget.AppCompatTextView
-                            style="@style/BasicTv.HeadlineS.black"/>
-                    <androidx.appcompat.widget.AppCompatTextView
-                            style="@style/BasicTv.HeadlineS.black"/>
-                </LinearLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_bookmark_building_title"
+                    style="@style/BasicTv.HeadlineS.black"
+                    android:text="빌딩이름"
+                    app:layout_constraintLeft_toRightOf="@id/iv_bookmark_image"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/tv_bookmark_building_contents"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_bookmark_building_contents"
+                    style="@style/BasicTv.BodyM.Black"
+                    android:text="빌딩빌딩"
+                    app:layout_constraintLeft_toRightOf="@id/iv_bookmark_image"
+                    app:layout_constraintTop_toBottomOf="@id/tv_bookmark_building_title"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_bookmark_location_title"
+                    android:layout_marginBottom="@dimen/space_small"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_bookmark_location_title"
+                    style="@style/BasicTv.HeadlineS.black"
+                    android:text="주소"
+                    app:layout_constraintLeft_toRightOf="@id/iv_bookmark_image"
+                    app:layout_constraintTop_toBottomOf="@id/tv_bookmark_building_contents"
+                    app:layout_constraintBottom_toTopOf="@id/tv_bookmark_location_contents"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_bookmark_location_contents"
+                    style="@style/BasicTv.BodyM.Black"
+                    android:text="신당동"
+                    app:layout_constraintLeft_toRightOf="@id/iv_bookmark_image"
+                    app:layout_constraintTop_toBottomOf="@id/tv_bookmark_location_title"
+                    app:layout_constraintBottom_toTopOf="@id/tv_bookmark_pay_title"
+                    android:layout_marginBottom="@dimen/space_small"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_bookmark_pay_title"
+                    style="@style/BasicTv.HeadlineS.black"
+                    android:text="월세"
+                    app:layout_constraintLeft_toRightOf="@id/iv_bookmark_image"
+                    app:layout_constraintTop_toBottomOf="@id/tv_bookmark_location_contents"
+                    app:layout_constraintBottom_toTopOf="@id/tv_bookmark_pay_contents"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_bookmark_pay_contents"
+                    style="@style/BasicTv.BodyM.Black"
+                    android:text="testtest"
+                    app:layout_constraintLeft_toRightOf="@id/iv_bookmark_image"
+                    app:layout_constraintTop_toBottomOf="@id/tv_bookmark_pay_title"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="@dimen/space_small"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 </layout>
