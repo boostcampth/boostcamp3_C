@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            style="@style/BackDrop.White"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dropbar_header"
+                android:orientation="horizontal">
+            <ImageView
+                    style="@style/BackDrop.White.Arrow"
+                    android:src="@drawable/ic_arrow_up_black_24dp"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/BasicTv.HeadlineS.black"
+                    android:text="@string/home_bookmark"/>
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_bookmark"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white" >
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+</layout>
