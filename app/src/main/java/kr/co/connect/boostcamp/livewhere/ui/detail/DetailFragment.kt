@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_detail_past_transation.view.*
 import kr.co.connect.boostcamp.livewhere.databinding.FragmentDetailBinding
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+
 
 class DetailFragment : Fragment() {
 
@@ -21,12 +24,26 @@ class DetailFragment : Fragment() {
 
     private val viewModel: DetailViewModel by sharedViewModel()
     private lateinit var binding: FragmentDetailBinding
+    private lateinit var rvAdapter : DetailRvAdapter
+    private lateinit var rvLayoutManager  : LinearLayoutManager
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        rvAdapter = DetailRvAdapter(this@DetailFragment)
+        rvLayoutManager = LinearLayoutManager(context)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentDetailBinding.inflate(inflater,container,false).apply {
             viewModel = this@DetailFragment.viewModel
             setLifecycleOwner(this@DetailFragment)
         }
+
+        binding.detailFragmentLl.detail_fragment_rv_past_transation.apply {
+            layoutManager = rvLayoutManager
+                    adapter = rvAdapter
+        }
+
         return binding.root
     }
 }

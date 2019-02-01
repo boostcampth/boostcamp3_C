@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+                name="pastTransaction"
+                type="kr.co.connect.boostcamp.livewhere.model.PastTransaction"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rv_header_border"
+    >
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/past_transaction_header_building_name"
+                style="@style/RvText"
+                android:text="@{pastTransaction.buildingName}"
+                android:layout_width="0dp"
+                app:layout_constraintHorizontal_weight="0.3"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/past_transaction_header_price"
+        />
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/past_transaction_header_price"
+                android:text="@{pastTransaction.price}"
+                style="@style/RvText"
+                android:layout_width="0dp"
+                app:layout_constraintHorizontal_weight="0.2"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/past_transaction_header_building_name"
+                app:layout_constraintEnd_toStartOf="@id/past_transaction_header_area"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/past_transaction_header_area"
+                android:text="@{pastTransaction.area}"
+                style="@style/RvText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintHorizontal_weight="0.16"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/past_transaction_header_price"
+                app:layout_constraintEnd_toStartOf="@id/past_transaction_header_type"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/past_transaction_header_type"
+                android:text="@{pastTransaction.type}"
+                style="@style/RvText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintHorizontal_weight="0.16"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/past_transaction_header_area"
+                app:layout_constraintEnd_toStartOf="@id/past_transaction_header_contract_year"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/past_transaction_header_contract_year"
+                android:text="@{pastTransaction.contractYear}"
+                style="@style/RvText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintHorizontal_weight="0.16"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/past_transaction_header_type"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
