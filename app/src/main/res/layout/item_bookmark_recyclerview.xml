@@ -12,7 +12,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 style="@style/Table"
-                android:padding="@dimen/space_large">
+                android:padding="@dimen/space_median">
             <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_bookmark_image"
                     android:layout_width="wrap_content"
@@ -24,7 +24,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_bookmark_building_title"
                     style="@style/BasicTv.HeadlineS.black"
-                    android:text="빌딩이름"
+                    android:text="@string/building_name"
                     app:layout_constraintLeft_toRightOf="@id/iv_bookmark_image"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/tv_bookmark_building_contents"/>
@@ -32,7 +32,6 @@
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_bookmark_building_contents"
                     style="@style/BasicTv.BodyM.Black"
-                    android:text="빌딩빌딩"
                     app:layout_constraintLeft_toRightOf="@id/iv_bookmark_image"
                     app:layout_constraintTop_toBottomOf="@id/tv_bookmark_building_title"
                     app:layout_constraintBottom_toTopOf="@+id/tv_bookmark_location_title"
@@ -41,7 +40,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_bookmark_location_title"
                     style="@style/BasicTv.HeadlineS.black"
-                    android:text="주소"
+                    android:text="@string/address"
                     app:layout_constraintLeft_toRightOf="@id/iv_bookmark_image"
                     app:layout_constraintTop_toBottomOf="@id/tv_bookmark_building_contents"
                     app:layout_constraintBottom_toTopOf="@id/tv_bookmark_location_contents"/>
@@ -49,7 +48,6 @@
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_bookmark_location_contents"
                     style="@style/BasicTv.BodyM.Black"
-                    android:text="신당동"
                     app:layout_constraintLeft_toRightOf="@id/iv_bookmark_image"
                     app:layout_constraintTop_toBottomOf="@id/tv_bookmark_location_title"
                     app:layout_constraintBottom_toTopOf="@id/tv_bookmark_pay_title"
@@ -58,7 +56,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_bookmark_pay_title"
                     style="@style/BasicTv.HeadlineS.black"
-                    android:text="월세"
+                    android:text="@string/charter_and_monthly_rent"
                     app:layout_constraintLeft_toRightOf="@id/iv_bookmark_image"
                     app:layout_constraintTop_toBottomOf="@id/tv_bookmark_location_contents"
                     app:layout_constraintBottom_toTopOf="@id/tv_bookmark_pay_contents"/>
@@ -66,7 +64,6 @@
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_bookmark_pay_contents"
                     style="@style/BasicTv.BodyM.Black"
-                    android:text="testtest"
                     app:layout_constraintLeft_toRightOf="@id/iv_bookmark_image"
                     app:layout_constraintTop_toBottomOf="@id/tv_bookmark_pay_title"
                     app:layout_constraintBottom_toBottomOf="parent"
