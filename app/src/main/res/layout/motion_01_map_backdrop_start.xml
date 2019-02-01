@@ -38,7 +38,7 @@
             android:id="@+id/iv_backdrop_toggle"
             app:layout_constraintStart_toStartOf="@+id/ll_place_detail"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintTop_toTopOf="@+id/ll_place_detail"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

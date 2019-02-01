@@ -1,44 +1,47 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <layout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:bind="http://schemas.android.com/tools">
     <data>
         <variable name="mapViewModel" type="kr.co.connect.boostcamp.livewhere.ui.map.MapViewModel"/>
+        <variable name="mlFloatBtn" type="androidx.constraintlayout.motion.widget.MotionLayout"/>
+        <variable name="mlBackdrop" type="androidx.constraintlayout.motion.widget.MotionLayout"/>
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/ll_map_view"
+                android:orientation="horizontal"
                 createTMap="@{mapViewModel.mapHelperImpl}">
 
         </LinearLayout>
         <androidx.constraintlayout.motion.widget.MotionLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layoutDescription="@xml/scene_map_backdrop_01">
+                android:id="@+id/ml_backdrop"
+                app:layoutDescription="@xml/scene_map_backdrop_01"
+                triggerFloatingButton="@{mlFloatBtn}">
+
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:id="@+id/ll_place_detail"
                     android:orientation="horizontal"
-                    android:layout_marginStart="@dimen/margin_start_backdrop"
-                    android:layout_marginEnd="@dimen/margin_end_backdrop"
                     style="@style/BackDrop.White"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="8dp">
                 <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/space_small"
                         android:visibility="invisible"
-                        android:src="@drawable/ic_arrow_up_black_24dp"/>
+                        android:src="@drawable/ic_search_white_24dp"/>
 
                 <TextView
-                        style="@style/BasicTv.HeadlineS.black"
+                        style="@style/BasicTv.BodyL"
                         android:textColor="@color/black"
                         android:layout_gravity="top"
                         android:text="@string/home_bookmark"
@@ -55,7 +58,120 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintTop_toTopOf="@+id/ll_place_detail"/>
-        </androidx.constraintlayout.motion.widget.MotionLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.motion.widget.MotionLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/ml_float_btn"
+                    app:layoutDescription="@xml/scene_map_float_btn_01">
+                <TextView
+                        style="@style/FilterTextView.CloseMode"
+                        android:text="@string/all_cafe"
+                        android:id="@+id/tv_filter_cafe"
+                        app:layout_constraintEnd_toStartOf="@+id/fab_filter_cafe"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toTopOf="@+id/fab_filter_cafe"
+                        app:layout_constraintHorizontal_bias="0.5"/>
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        style="@style/FloatingButton.Filter.CloseMode"
+                        app:fabSize="mini"
+                        android:id="@+id/fab_filter_cafe"
+                        android:src="@drawable/ic_map_cafe_white_24dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:borderWidth="0dp"
+                        triggerFloatingButton="@{mlFloatBtn}"
+                        triggerBackdrop="@{mlBackdrop}"/>
+                <TextView
+                        style="@style/FilterTextView.CloseMode"
+                        android:text="@string/all_food"
+                        android:id="@+id/tv_filter_food"
+                        app:layout_constraintEnd_toStartOf="@+id/fab_filter_food"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toTopOf="@+id/fab_filter_food"
+                        app:layout_constraintHorizontal_bias="0.5"/>
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        style="@style/FloatingButton.Filter.CloseMode"
+                        android:id="@+id/fab_filter_food"
+                        android:src="@drawable/ic_map_food_white_24px"
+                        app:fabSize="mini"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:borderWidth="0dp"
+                        triggerFloatingButton="@{mlFloatBtn}"
+                        triggerBackdrop="@{mlBackdrop}"/>
+                <TextView
+                        style="@style/FilterTextView.CloseMode"
+                        android:text="@string/all_hospital"
+                        android:id="@+id/tv_filter_hospital"
+                        app:layout_constraintEnd_toStartOf="@+id/fab_filter_hospital"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toTopOf="@+id/fab_filter_hospital"
+                        app:layout_constraintHorizontal_bias="0.5"/>
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        style="@style/FloatingButton.Filter.CloseMode"
+                        app:fabSize="mini"
+                        app:borderWidth="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:id="@+id/fab_filter_hospital"
+                        android:src="@drawable/ic_map_hospital_white_24dp"
+                        triggerFloatingButton="@{mlFloatBtn}"
+                        triggerBackdrop="@{mlBackdrop}"/>
+                <TextView
+                        style="@style/FilterTextView.CloseMode"
+                        android:text="@string/all_school"
+                        android:id="@+id/tv_filter_school"
+                        app:layout_constraintEnd_toStartOf="@+id/fab_filter_school"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toTopOf="@+id/fab_filter_school"
+                        app:layout_constraintHorizontal_bias="0.5"/>
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        style="@style/FloatingButton.Filter.CloseMode"
+                        app:fabSize="mini"
+                        app:borderWidth="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:id="@+id/fab_filter_school"
+                        android:src="@drawable/ic_map_school_white_24dp"
+                        triggerFloatingButton="@{mlFloatBtn}"
+                        triggerBackdrop="@{mlBackdrop}"/>
+                <TextView
+                        style="@style/FilterTextView.CloseMode"
+                        android:text="@string/all_store"
+                        android:id="@+id/tv_filter_store"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintEnd_toStartOf="@+id/fab_filter_store"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toTopOf="@+id/fab_filter_store"
+                        app:layout_constraintHorizontal_bias="0.5"/>
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        style="@style/FloatingButton.Filter.CloseMode"
+                        android:id="@+id/fab_filter_store"
+                        android:src="@drawable/ic_map_store_white_24dp"
+                        app:fabSize="mini"
+                        app:borderWidth="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        triggerFloatingButton="@{mlFloatBtn}"
+                        triggerBackdrop="@{mlBackdrop}"
+                        />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        style="@style/FloatingButton.Filter"
+                        app:fabSize="normal"
+                        app:borderWidth="0dp"
+                        android:id="@+id/fab_filter_main"
+                        android:src="@drawable/ic_search_white_24dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.motion.widget.MotionLayout>
+            <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline"
+                    app:layout_constraintGuide_begin="@dimen/space_guide_line"
+                    android:orientation="vertical"/>
+        </androidx.constraintlayout.motion.widget.MotionLayout>
+    </FrameLayout>
 </layout>
