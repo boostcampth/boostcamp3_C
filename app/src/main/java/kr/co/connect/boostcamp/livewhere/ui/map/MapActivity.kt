@@ -15,6 +15,8 @@ class MapActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val activityMapBinding: ActivityMapBinding = DataBindingUtil.setContentView(this, R.layout.activity_map)
         activityMapBinding.setVariable(BR.mapViewModel, mapViewModel)
+        activityMapBinding.setVariable(BR.mlFloatBtn, activityMapBinding.mlFloatBtn)
+        activityMapBinding.setVariable(BR.mlBackdrop, activityMapBinding.mlBackdrop)
     }
 
     override fun onStart() {
