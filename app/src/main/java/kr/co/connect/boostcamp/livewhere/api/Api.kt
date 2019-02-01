@@ -8,12 +8,12 @@ import retrofit2.http.Query
 
 interface Api{
     @GET("house/search/infos")
-    fun getDetail(
+    fun getHouseDetail(
         @Query("address")address:String
     ):Single<Response<List<Any>>>
     
     @GET("house/search/infos")
-    fun getHouseDetail(
+    fun getDetail(
         @Query("address")address:String
     ): Single<HouseResponse>
 }
