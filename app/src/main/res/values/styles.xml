@@ -14,22 +14,9 @@
 
     <style name="Table">
         <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/white</item>
-        <item name="android:layout_marginLeft">@dimen/space_xx_small</item>
-        <item name="android:layout_marginRight">@dimen/space_xx_small</item>
         <item name="android:orientation">horizontal</item>
-    </style>
-
-    <style name="Table.Narrow">
-        <item name="android:layout_height">@dimen/table_narrow</item>
-    </style>
-
-    <style name="Table.Normal">
-        <item name="android:layout_height">@dimen/table_normal</item>
-    </style>
-
-    <style name="Table.Double">
-        <item name="android:layout_height">@dimen/table_double</item>
     </style>
 
     <style name="BackDrop">
@@ -63,7 +50,7 @@
     </style>
 
     <style name="BasicTv">
-        <item name="android:padding">@dimen/space_small</item>
+        <!--<item name="android:padding">@dimen/space_small</item>-->
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
@@ -101,6 +88,10 @@
 
     <style name="BasicTv.BodyM">
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="BasicTv.BodyM.Black">
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="Detail_Review_Comment">
