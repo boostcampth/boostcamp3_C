@@ -10,4 +10,9 @@
     <string name="charter">전세</string>
     <string name="monthly_rent">월세</string>
     <string name="review_create">작성하기</string>
+    <string name="building_name">건물명</string>
+    <string name="price">거래 가격</string>
+    <string name="area">면적</string>
+    <string name="type">종류</string>
+    <string name="contract_year">계약연도</string>
 </resources>
