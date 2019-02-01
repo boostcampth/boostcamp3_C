@@ -9,13 +9,13 @@
             style="@style/FilterTextView.CloseMode"
             android:text="@string/all_cafe"
             android:id="@+id/tv_filter_cafe"
-            app:layout_constraintEnd_toStartOf="@+id/fb_filter_cafe"
+            app:layout_constraintEnd_toStartOf="@+id/fab_filter_cafe"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="@+id/fb_filter_cafe"
+            app:layout_constraintTop_toTopOf="@+id/fab_filter_cafe"
             app:layout_constraintHorizontal_bias="0.5"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             style="@style/FloatingButton.Filter.CloseMode"
-            android:id="@+id/fb_filter_cafe"
+            android:id="@+id/fab_filter_cafe"
             android:src="@drawable/ic_map_cafe_white_24dp"
             app:fabSize="mini"
             app:borderWidth="0dp"
@@ -25,9 +25,9 @@
             style="@style/FilterTextView.CloseMode"
             android:text="@string/all_food"
             android:id="@+id/tv_filter_food"
-            app:layout_constraintEnd_toStartOf="@+id/fb_filter_food"
+            app:layout_constraintEnd_toStartOf="@+id/fab_filter_food"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="@+id/fb_filter_food"
+            app:layout_constraintTop_toTopOf="@+id/fab_filter_food"
             app:layout_constraintHorizontal_bias="0.5"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             style="@style/FloatingButton.Filter.CloseMode"
@@ -35,19 +35,19 @@
             app:borderWidth="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/fb_filter_food"
+            android:id="@+id/fab_filter_food"
             android:src="@drawable/ic_map_food_white_24px"/>
     <TextView
             style="@style/FilterTextView.CloseMode"
             android:text="@string/all_hospital"
             android:id="@+id/tv_filter_hospital"
-            app:layout_constraintEnd_toStartOf="@+id/fb_filter_hospital"
+            app:layout_constraintEnd_toStartOf="@+id/fab_filter_hospital"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="@+id/fb_filter_hospital"
+            app:layout_constraintTop_toTopOf="@+id/fab_filter_hospital"
             app:layout_constraintHorizontal_bias="0.5"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             style="@style/FloatingButton.Filter.CloseMode"
-            android:id="@+id/fb_filter_hospital"
+            android:id="@+id/fab_filter_hospital"
             app:fabSize="mini"
             app:borderWidth="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -57,9 +57,9 @@
             style="@style/FilterTextView.CloseMode"
             android:text="@string/all_school"
             android:id="@+id/tv_filter_school"
-            app:layout_constraintEnd_toStartOf="@+id/fb_filter_school"
+            app:layout_constraintEnd_toStartOf="@+id/fab_filter_school"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="@+id/fb_filter_school"
+            app:layout_constraintTop_toTopOf="@+id/fab_filter_school"
             app:layout_constraintHorizontal_bias="0.5"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             style="@style/FloatingButton.Filter.CloseMode"
@@ -67,7 +67,7 @@
             app:borderWidth="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/fb_filter_school"
+            android:id="@+id/fab_filter_school"
             android:src="@drawable/ic_map_school_white_24dp"/>
     <TextView
             style="@style/FilterTextView.CloseMode"
@@ -75,13 +75,13 @@
             android:id="@+id/tv_filter_store"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintEnd_toStartOf="@+id/fb_filter_store"
+            app:layout_constraintEnd_toStartOf="@+id/fab_filter_store"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="@+id/fb_filter_store"
+            app:layout_constraintTop_toTopOf="@+id/fab_filter_store"
             app:layout_constraintHorizontal_bias="0.5"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             style="@style/FloatingButton.Filter.CloseMode"
-            android:id="@+id/fb_filter_store"
+            android:id="@+id/fab_filter_store"
             app:fabSize="mini"
             app:borderWidth="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -89,7 +89,7 @@
             android:src="@drawable/ic_map_store_white_24dp"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             style="@style/FloatingButton.Filter"
-            android:id="@+id/fb_filter_main"
+            android:id="@+id/fab_filter_main"
             android:src="@drawable/ic_search_white_24dp"
             app:fabSize="normal"
             app:borderWidth="0dp"
