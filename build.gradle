@@ -16,6 +16,7 @@ buildscript {
         okhttp3_version = "3.12.0"
         mpchart_version = "v3.1.0-alpha"
         crashlytics_version = "2.9.8"
+        naver_map_version = "3.1.0"
     }
     repositories {
         google()
@@ -39,6 +40,7 @@ allprojects {
         jcenter()
         maven { url 'https://jitpack.io' }
         maven { url 'https://maven.google.com/' }
+        maven { url 'https://navercorp.bintray.com/maps' }
     }
 }
 
