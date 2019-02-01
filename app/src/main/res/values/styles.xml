@@ -12,6 +12,26 @@
         <item name="android:windowBackground">@xml/splash_background</item>
     </style>
 
+    <style name="Table">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:layout_marginLeft">@dimen/space_xx_small</item>
+        <item name="android:layout_marginRight">@dimen/space_xx_small</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="Table.Narrow">
+        <item name="android:layout_height">@dimen/table_narrow</item>
+    </style>
+
+    <style name="Table.Normal">
+        <item name="android:layout_height">@dimen/table_normal</item>
+    </style>
+
+    <style name="Table.Double">
+        <item name="android:layout_height">@dimen/table_double</item>
+    </style>
+
     <style name="BackDrop">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
