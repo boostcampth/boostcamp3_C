@@ -1,6 +1,7 @@
 package kr.co.connect.boostcamp.livewhere.ui.main.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.Resource
+import com.bumptech.glide.request.RequestOptions
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.Bookmark
 
@@ -34,11 +37,14 @@ class BookmarkRecyclerViewAdapter(private val context: Context, private val list
         val tv_pay_contents = itemView?.findViewById<TextView>(R.id.tv_bookmark_pay_contents)
 
         fun bind(context: Context, item: Bookmark) {
-            //image 추후 추가
-            if (iv_building != null)
+            // Exception 추가해야함
+            if (iv_building != null) {
                 Glide.with(context)
                     .load(item.imgUrl)
+                    .apply { RequestOptions.fitCenterTransform()}
                     .into(iv_building)
+                Log.d("Adapter", item.imgUrl)
+            }
             /*
             type when default images are added
             else

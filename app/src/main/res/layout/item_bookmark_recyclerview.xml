@@ -15,8 +15,7 @@
                 android:padding="@dimen/space_median">
             <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_bookmark_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    style="@style/TableImage"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>

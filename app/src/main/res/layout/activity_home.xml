@@ -50,6 +50,6 @@
                 android:id="@+id/ll_main_backdrop"
                 app:behavior_peekHeight="@dimen/dropbar_header"
                 app:layout_behavior="@string/bottom_sheet_behavior"
-                app:behavior_hideable="false"/>
+                app:behavior_hideable="true"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

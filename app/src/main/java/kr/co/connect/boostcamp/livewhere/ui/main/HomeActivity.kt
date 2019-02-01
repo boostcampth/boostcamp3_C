@@ -15,8 +15,8 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private val homeViewModel: HomeActivityViewModel by viewModel()
     private val tempbookmarkvalue = arrayListOf<Bookmark>(
-        Bookmark("", "서초구", "서초빌딩", true, 100, 1000),
-        Bookmark("", "광진구", "광진빌딩", false, 0, 10000)
+        Bookmark("https://newsimg.sedaily.com/2016/07/07/1KYRUQMJ0M_1.jpg", "서초구", "서초빌딩", true, 100, 1000),
+        Bookmark("https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Doona_Bae_promoting_The_Tunnel.png/250px-Doona_Bae_promoting_The_Tunnel.png", "광진구", "광진빌딩", false, 0, 10000)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

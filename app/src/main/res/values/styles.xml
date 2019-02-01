@@ -12,6 +12,12 @@
         <item name="android:windowBackground">@xml/splash_background</item>
     </style>
 
+    <style name="TableImage">
+        <item name="android:layout_width">186dp</item>
+        <item name="android:layout_height">124dp</item>
+        <item name="android:padding">@dimen/space_median</item>
+    </style>
+
     <style name="Table">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
