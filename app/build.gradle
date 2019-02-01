@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
 
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
@@ -71,8 +72,13 @@ dependencies {
     
     //firebase
     implementation "com.google.firebase:firebase-database:$firebase_version"
+    implementation "com.google.firebase:firebase-core:$firebase_version"
+
+    //crashlytics
+    implementation "com.crashlytics.sdk.android:crashlytics:$crashlytics_version"
 
     //MPchart
     implementation "com.github.PhilJay:MPAndroidChart:$mpchart_version"
     
 }
+
