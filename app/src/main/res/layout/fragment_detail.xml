@@ -1,16 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
                 name="viewModel"
                 type="kr.co.connect.boostcamp.livewhere.ui.detail.DetailViewModel"/>
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/detail_fragment_cl"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-    >
+    <ScrollView android:layout_width="match_parent" android:layout_height="wrap_content">
+        <LinearLayout
+                android:id="@+id/detail_fragment_ll"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+        >
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <include layout="@layout/fragment_detail_image"
+                     bind:viewModel="@{viewModel}"
+            />
+
+            <include layout="@layout/fragment_detail_recent_price"
+                     bind:viewModel="@{viewModel}"
+            />
+
+            <include layout="@layout/fragment_detail_trend_price"
+                     bind:viewModel="@{viewModel}"
+            />
+
+            <include layout="@layout/fragment_detail_past_transation"
+                     bind:viewModel="@{viewModel}"
+            />
+
+            <include layout="@layout/fragment_detail_review"
+                     bind:viewModel="@{viewModel}"
+            />
+
+        </LinearLayout>
+    </ScrollView>
+
 </layout>
