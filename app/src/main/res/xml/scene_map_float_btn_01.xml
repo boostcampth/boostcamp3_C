@@ -7,6 +7,6 @@
             motion:duration="400">
         <OnClick
                 motion:clickAction="toggle"
-                motion:target="@id/fb_filter_main"/>
+                motion:target="@id/fab_filter_main"/>
     </Transition>
 </MotionScene>
