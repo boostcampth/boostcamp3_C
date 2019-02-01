@@ -13,4 +13,9 @@
     <string name="building_name">건물 이름</string>
     <string name="address">주소</string>
     <string name="charter_and_monthly_rent">보증금 / 월세</string>
+    <string name="building_name">건물명</string>
+    <string name="price">거래 가격</string>
+    <string name="area">면적</string>
+    <string name="type">종류</string>
+    <string name="contract_year">계약연도</string>
 </resources>

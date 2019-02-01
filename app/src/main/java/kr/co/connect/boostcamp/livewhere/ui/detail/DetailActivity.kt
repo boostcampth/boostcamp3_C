@@ -1,7 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import kr.co.connect.boostcamp.livewhere.R

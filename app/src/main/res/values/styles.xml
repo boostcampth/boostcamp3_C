@@ -98,6 +98,12 @@
 
     <style name="BasicTv.BodyM.Black">
         <item name="android:textColor">@color/black</item>
+      
+    <style name="RvText">
+        <item name="android:textSize">10sp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textAlignment">center</item>
     </style>
 
     <style name="Detail_Review_Comment">
