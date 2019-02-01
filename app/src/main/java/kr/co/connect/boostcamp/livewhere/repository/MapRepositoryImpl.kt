@@ -1,8 +1,12 @@
 package kr.co.connect.boostcamp.livewhere.repository
 
-class MapRepositoryImpl : MapRepository{
-    override fun getHouseInfo() {
+import io.reactivex.Single
+import kr.co.connect.boostcamp.livewhere.api.Api
+import kr.co.connect.boostcamp.livewhere.model.HouseResponse
 
+class MapRepositoryImpl(private val api : Api) : MapRepository{
+    override fun getHouseDetail(address: String): Single<HouseResponse> {
+        return api.getHouseDetail(address)
     }
 
     override fun getPlace() {
