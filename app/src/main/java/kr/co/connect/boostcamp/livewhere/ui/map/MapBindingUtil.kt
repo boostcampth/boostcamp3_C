@@ -1,26 +1,50 @@
 package kr.co.connect.boostcamp.livewhere.ui.map
 
+import android.graphics.BitmapFactory
 import android.widget.LinearLayout
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.LiveData
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.skt.Tmap.TMapPoint
+import com.skt.Tmap.TMapView
 import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.R
-import kr.co.connect.boostcamp.livewhere.util.MapHelperImpl
 
-@BindingAdapter(value = ["createTMap"])
-fun LinearLayout.initMap(mapHelper: MapHelperImpl) {
-    val tMapView = mapHelper.create()
-    tMapView.setSKTMapApiKey(BuildConfig.TmapApiKey)
-    this.addView(tMapView)
+@BindingAdapter(value = ["isCreateTMap"])
+fun LinearLayout.initMap(isCreateMap: Boolean) {
+    if(isCreateMap){
+        val tMapView = TMapView(this.context)
+
+        tMapView.setSKTMapApiKey(BuildConfig.TmapApiKey)
+        this.addView(tMapView)
+    }
 }
 
-@BindingAdapter(value = ["triggerBackdrop","triggerFloatingButton"])
-fun FloatingActionButton.setTriggerBackdrop(backdropML: MotionLayout, filterML:MotionLayout) {
+
+@BindingAdapter(value=["setOnLongClickListenerCallback"])
+fun LinearLayout.setOnLongClickListenerCallback(mapViewModel:MapViewModel){
+    val tMapView = getChildAt(0) as TMapView
+    val context = tMapView.context
+    tMapView.setOnLongClickListenerCallback(mapViewModel)
+}
+
+@BindingAdapter(value=["onDrawMarker","onPointLiveData"])
+fun LinearLayout.onDrawMarker(mapViewModel: MapViewModel, pointLiveData: LiveData<TMapPoint>){
+    val tMapView = getChildAt(0) as TMapView
+    val markerBitmap = BitmapFactory.decodeResource(this.context.resources, R.drawable.ic_map_marker_24dp)
+    if(pointLiveData.value!=null){
+        val tMapMarkerItem = mapViewModel.mapUtilImpl.makeMarker(pointLiveData.value!!, markerBitmap)
+        tMapView.addMarkerItem("marker", tMapMarkerItem)
+    }
+}
+
+@BindingAdapter(value = ["triggerBackdrop", "triggerFloatingButton"])
+fun FloatingActionButton.setTriggerBackdrop(backdropML: MotionLayout, filterML: MotionLayout) {
     this.setOnClickListener {
-        if(backdropML.currentState==R.layout.motion_01_map_backdrop_end){
+        if (backdropML.currentState == R.layout.motion_01_map_backdrop_end) {
             backdropML.transitionToStart()
-        }else{
+        } else {
             filterML.transitionToStart()
         }
     }
@@ -42,6 +66,5 @@ fun MotionLayout.setTriggerFB(filterML: MotionLayout) {
                 filterML.transitionToStart()
             }
         }
-
     })
 }

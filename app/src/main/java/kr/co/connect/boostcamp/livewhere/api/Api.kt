@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface Api{
-    @GET("house/search/infos")
+    @GET("house/search/info")
     fun getHouseDetail(
         @Query("address")address:String
     ):Single<Response<List<Any>>>

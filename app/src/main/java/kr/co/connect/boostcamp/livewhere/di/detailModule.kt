@@ -9,7 +9,7 @@ import org.koin.dsl.module.module
 
 val detailModule = module {
 
-    factory("detailRepository") { DetailRepositoryImpl(get("api")) as DetailRepository}
+    factory("detailRepository") { DetailRepositoryImpl(get("api")) as DetailRepository }
 
     viewModel { DetailViewModel(get("detailRepository")) }
 

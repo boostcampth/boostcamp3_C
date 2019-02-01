@@ -5,7 +5,6 @@ import kr.co.connect.boostcamp.livewhere.api.Api
 import retrofit2.Response
 
 interface DetailRepository {
-
     fun getDetail(address:String): Single<Response<List<Any>>>
 
 }

@@ -59,6 +59,9 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
 
+    //okhttp3
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
+
     //koin
     implementation "org.koin:koin-android:$koin_version"
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
@@ -72,6 +75,10 @@ dependencies {
 
     //firebase
     implementation "com.google.firebase:firebase-database:$firebase_version"
+
+    //rxjava
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
     implementation "com.google.firebase:firebase-core:$firebase_version"
 
     //crashlytics
@@ -83,5 +90,6 @@ dependencies {
     //stetho
     implementation 'com.facebook.stetho:stetho:1.5.0'
     implementation 'com.facebook.stetho:stetho-js-rhino:1.5.0'
+
 }
 
