@@ -98,6 +98,7 @@
 
     <style name="BasicTv.BodyM.Black">
         <item name="android:textColor">@color/black</item>
+    </style>
       
     <style name="RvText">
         <item name="android:textSize">10sp</item>
