@@ -71,8 +71,8 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 
     //design
-    implementation 	'androidx.coordinatorlayout:coordinatorlayout:1.0.0'
-    
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.0.0'
+
     //firebase
     implementation "com.google.firebase:firebase-database:$firebase_version"
 
