@@ -22,4 +22,7 @@
     <string name="area">면적</string>
     <string name="type">종류</string>
     <string name="contract_year">계약연도</string>
+    <string name="search_title">목적지 검색</string>
+    <string name="recent_search">최근 검색어</string>
+    <string name="delete_all">전체 삭제</string>
 </resources>

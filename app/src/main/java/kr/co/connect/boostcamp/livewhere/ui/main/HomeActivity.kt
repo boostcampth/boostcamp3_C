@@ -23,7 +23,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
 
-        var bookmarkRecyclerView = binding.llMainBackdrop.rvBookmark
+        var bookmarkRecyclerView = binding.llMainBackdrop.rv_bookmark
 
         val bookmarkAdapter = BookmarkRecyclerViewAdapter(this, tempbookmarkvalue)
         bookmarkRecyclerView.adapter = bookmarkAdapter

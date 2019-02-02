@@ -56,11 +56,21 @@
         <item name="android:src">@drawable/ic_arrow_up_white_24dp</item>
     </style>
 
+    <style name="BasicEt">
+        <item name="android:layout_width">@dimen/search_et</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="BasicBtn">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:padding">@dimen/space_small</item>
+    </style>
+
     <style name="BasicTv">
         <item name="android:padding">@dimen/space_small</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center</item>
     </style>
 
     <style name="BasicTv.HeadlineM">
@@ -74,14 +84,6 @@
 
     <style name="BasicTv.HeadlineS.black">
         <item name="android:textColor">@color/black</item>
-    </style>
-
-    <style name="BasicTv.HeadlineS.main">
-        <item name="android:textColor">@color/main_color</item>
-    </style>
-
-    <style name="BasicTv.HeadlineS.main.variable">
-        <item name="android:textColor">@color/main_color_variation</item>
     </style>
 
     <style name="BasicTv.BodyL">

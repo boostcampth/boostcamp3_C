@@ -16,6 +16,9 @@
     <dimen name="table_normal">48dp</dimen>
     <dimen name="table_double">56dp</dimen>
 
+    <dimen name="search_et">288dp</dimen>
+    <dimen name="searchbar_height">92dp</dimen>
+
     <dimen name="dropbar_header">40dp</dimen>
     <dimen name="home_between_logo_and_search_bar_margin">60dp</dimen>
 
