@@ -22,4 +22,7 @@
     <string name="area">면적</string>
     <string name="type">종류</string>
     <string name="contract_year">계약연도</string>
+    <string name="sort_by_area">면적 순</string>
+    <string name="sort_by_contract_year">계약연도 순</string>
+    <string name="sort_by_type">거래종류 순</string>
 </resources>

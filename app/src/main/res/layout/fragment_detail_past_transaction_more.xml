@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+                name="viewModel"
+                type="kr.co.connect.boostcamp.livewhere.ui.detail.DetailViewModel"/>
+    </data>
+
+    <ScrollView android:layout_width="match_parent" android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/past_transaction_more_cl"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/detail_more_vertical_padding"
+                android:background="@color/white">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/past_transaction_more_sort_by_area"
+                    app:layout_constraintStart_toStartOf="@id/past_transaction_more_rv"
+                    app:layout_constraintEnd_toStartOf="@id/past_transaction_more_sort_by_type"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/sort_by_area"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    style="@style/RvText"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/past_transaction_more_sort_by_type"
+                    app:layout_constraintStart_toEndOf="@id/past_transaction_more_sort_by_area"
+                    app:layout_constraintEnd_toStartOf="@id/past_transaction_more_sort_by_contract_year"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/sort_by_type"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    style="@style/RvText"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/past_transaction_more_sort_by_contract_year"
+                    app:layout_constraintStart_toEndOf="@id/past_transaction_more_sort_by_type"
+                    app:layout_constraintEnd_toEndOf="@id/past_transaction_more_rv"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/sort_by_contract_year"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    style="@style/RvText"/>
+
+            <include
+                    android:id="@+id/past_transaction_more_header"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    layout="@layout/fragment_detail_past_transaction_header_item"
+                    app:layout_constraintStart_toStartOf="@id/past_transaction_more_rv"
+                    app:layout_constraintEnd_toEndOf="@id/past_transaction_more_rv"
+                    app:layout_constraintTop_toBottomOf="@id/past_transaction_more_sort_by_area"
+            />
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/past_transaction_more_rv"
+                    android:layout_marginHorizontal="@dimen/detail_rv_horizontal_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    app:setRvItems="@{viewModel.pastTransactionMore}"
+                    app:layout_constraintTop_toBottomOf="@id/past_transaction_more_header"
+                    app:layout_constraintStart_toStartOf="parent">
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

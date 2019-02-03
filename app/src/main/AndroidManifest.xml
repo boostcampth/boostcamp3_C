@@ -13,13 +13,14 @@
             android:theme="@style/AppTheme">
         <activity android:name=".ui.main.SplashActivity"
                   android:theme="@style/SplashTheme"  >
+
+        </activity>
+        <activity android:name=".ui.main.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".ui.main.HomeActivity">
         </activity>
         <activity android:name=".ui.detail.DetailActivity">
 

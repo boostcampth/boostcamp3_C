@@ -32,10 +32,13 @@
     <dimen name="detail_review_top_padding">33dp</dimen>
     <dimen name="detail_review_bottom_padding">12dp</dimen>
     <dimen name="detail_review_horizontal_padding">8dp</dimen>
-    <dimen name="detail_review_more_btn_height">28dp</dimen>\
+    <dimen name="detail_more_btn_height">28dp</dimen>
+
+    <dimen name="detail_review_more_btn_height">28dp</dimen>
     <dimen name="margin_start_backdrop">8dp</dimen>
     <dimen name="margin_end_backdrop">8dp</dimen>
 
     <dimen name="detail_bar_chart_height">200dp</dimen>
+    <dimen name="detail_more_vertical_padding">20dp</dimen>
 
 </resources>

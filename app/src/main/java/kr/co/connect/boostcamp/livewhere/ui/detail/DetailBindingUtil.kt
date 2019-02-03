@@ -8,6 +8,7 @@ import com.github.mikephil.charting.charts.BarChart
 import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.model.HouseAvgPrice
 import kr.co.connect.boostcamp.livewhere.model.PastTransaction
+import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailRvAdapter
 import kr.co.connect.boostcamp.livewhere.util.BarChartUtil
 import kr.co.connect.boostcamp.livewhere.util.No_barChart_text
 
@@ -37,3 +38,4 @@ fun setRvItems(recyclerView: RecyclerView,itemList:List<PastTransaction>?){
         // TODO 데이터 정보 없음 처리.
     }
 }
+
