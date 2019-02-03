@@ -32,7 +32,7 @@ android {
             buildConfigField "String", "BaseServerURL", keystoreProperties.getProperty("baseServerUrl")
             buildConfigField "String", "TmapApiKey", keystoreProperties.getProperty("tMapApiKey")
             buildConfigField "String", "GoogleApiKey", keystoreProperties.getProperty("googleApiKey")
-            buildConfigField "Stridng", "NaverClientId", keystoreProperties.getProperty("naverClientId")
+            buildConfigField "String", "NaverClientId", keystoreProperties.getProperty("naverClientId")
         }
     }
     dataBinding {
