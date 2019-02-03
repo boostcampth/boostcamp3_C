@@ -37,6 +37,14 @@ booscamp3_C팀의 서울살이 repository입니다. 해당 프로젝트는 MVVM�
 ## 1주차 산출물 
 [DOCS](https://github.com/boostcampth/boostcamp3_C/tree/dev/docs) 문서 작업 (기획서, 기능정의서, 프로젝트 일정, Api명세서)
 
-Zeplin
+Zeplin[![Seoul42_UI](https://img.shields.io/badge/UI-zeplin-blue.svg)](https://app.zeplin.io/project/5c4db2597a8bebbfe8be9d39/dashboard)
+![image](https://user-images.githubusercontent.com/22374750/52126227-17dd0a00-2672-11e9-9678-2cf1e2aeb6fc.png)
 ![Zeplin](/docs/ui/seoul42_ui.png)
 
+## 2주차 산출물
+
+Seoul42 API [![Seoul42_API](https://img.shields.io/badge/API-SwaggerHub-blue.svg)](https://app.zeplin.io/project/5c4db2597a8bebbfe8be9d39/dashboard)
+![image](https://user-images.githubusercontent.com/22374750/52177071-3f151200-27ff-11e9-8b58-ebc916b21c75.png)
+
+2주차 진행사항
+++
