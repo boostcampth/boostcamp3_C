@@ -39,7 +39,6 @@ android {
             buildConfigField "String", "NaverClientId", keystoreProperties.getProperty("naverClientId")
             buildConfigField "String", "KakaoLocalUrl", keystoreProperties.getProperty("kakaoLocalUrl")
             buildConfigField "String", "KakaoServiceKey", keystoreProperties.getProperty("kakaoServiceKey")
-
         }
     }
     dataBinding {

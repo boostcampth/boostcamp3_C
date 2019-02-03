@@ -1,4 +1,4 @@
-package kr.co.connect.boostcamp.livewhere.ui.detail
+package kr.co.connect.boostcamp.livewhere.ui.detail.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
