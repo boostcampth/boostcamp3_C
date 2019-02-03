@@ -8,35 +8,65 @@
     </data>
 
     <ScrollView android:layout_width="match_parent" android:layout_height="wrap_content">
-        <LinearLayout
-                android:id="@+id/detail_fragment_ll"
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/detail_fragment_cl"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
         >
 
-            <include layout="@layout/fragment_detail_image"
-                     bind:viewModel="@{viewModel}"
+            <include
+                    android:id="@+id/include_fragment_detail_image"
+                    layout="@layout/fragment_detail_image"
+                    bind:viewModel="@{viewModel}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    bind:layout_constraintTop_toTopOf="parent"
+                    bind:layout_constraintStart_toStartOf="parent"
             />
 
-            <include layout="@layout/fragment_detail_recent_price"
-                     bind:viewModel="@{viewModel}"
+            <include
+                    android:id="@+id/include_fragment_detail_recent_price"
+                    layout="@layout/fragment_detail_recent_price"
+                    bind:viewModel="@{viewModel}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    bind:layout_constraintTop_toBottomOf="@id/include_fragment_detail_image"
+                    bind:layout_constraintStart_toStartOf="parent"
             />
 
-            <include layout="@layout/fragment_detail_trend_price"
-                     bind:viewModel="@{viewModel}"
+            <include
+                    android:id="@+id/include_fragment_detail_trend_price"
+                    layout="@layout/fragment_detail_trend_price"
+                    bind:viewModel="@{viewModel}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    bind:layout_constraintTop_toBottomOf="@id/include_fragment_detail_recent_price"
+                    bind:layout_constraintStart_toStartOf="parent"
             />
 
-            <include layout="@layout/fragment_detail_past_transation"
-                     bind:viewModel="@{viewModel}"
+            <include
+                    android:id="@+id/include_fragment_detail_past_transation"
+                    layout="@layout/fragment_detail_past_transation"
+                    bind:viewModel="@{viewModel}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    bind:layout_constraintTop_toBottomOf="@id/include_fragment_detail_trend_price"
+                    bind:layout_constraintStart_toStartOf="parent"
             />
 
-            <include layout="@layout/fragment_detail_review"
-                     bind:viewModel="@{viewModel}"
+            <include
+                    android:id="@+id/include_fragment_detail_review"
+                    layout="@layout/fragment_detail_review"
+                    bind:viewModel="@{viewModel}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    bind:layout_constraintTop_toBottomOf="@id/include_fragment_detail_past_transation"
+                    bind:layout_constraintStart_toStartOf="parent"
             />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
 </layout>

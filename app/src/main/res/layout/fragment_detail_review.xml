@@ -73,7 +73,7 @@
         <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/detail_fragment_btn_review_more"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/detail_review_more_btn_height"
+                android:layout_height="@dimen/detail_more_btn_height"
                 android:background="@color/colorPrimaryDark"
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_tv_review_contents"
                 app:layout_constraintStart_toStartOf="@id/detail_fragment_tv_review_contents"
