@@ -15,5 +15,5 @@ interface Api{
     @GET("house/search/infos")
     fun getDetail(
         @Query("address")address:String
-    ): Single<HouseResponse>
+    ): Single<Response<HouseResponse>>
 }
