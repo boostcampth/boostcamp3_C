@@ -37,5 +37,8 @@
     <dimen name="margin_end_backdrop">8dp</dimen>
 
     <dimen name="detail_bar_chart_height">200dp</dimen>
+    <dimen name="margin_map_widget_default">12dp</dimen>
+    <dimen name="margin_map_widget_zoom_control_view_bottom">128dp</dimen>
+    <dimen name="ll_window_dialog_size">164dp</dimen>
 
 </resources>
