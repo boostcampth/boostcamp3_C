@@ -24,7 +24,10 @@ android {
             buildConfigField "String", "BaseServerURL", keystoreProperties.getProperty("baseServerUrl")
             buildConfigField "String", "TmapApiKey", keystoreProperties.getProperty("tMapApiKey")
             buildConfigField "String", "GoogleApiKey", keystoreProperties.getProperty("googleApiKey")
+            buildConfigField "String", "BaseGoogleUrl", keystoreProperties.getProperty("baseGoogleUrl")
             buildConfigField "String", "NaverClientId", keystoreProperties.getProperty("naverClientId")
+            buildConfigField "String", "KakaoLocalUrl", keystoreProperties.getProperty("kakaoLocalUrl")
+            buildConfigField "String", "KakaoServiceKey", keystoreProperties.getProperty("kakaoServiceKey")
         }
         release {
             minifyEnabled false
@@ -32,7 +35,11 @@ android {
             buildConfigField "String", "BaseServerURL", keystoreProperties.getProperty("baseServerUrl")
             buildConfigField "String", "TmapApiKey", keystoreProperties.getProperty("tMapApiKey")
             buildConfigField "String", "GoogleApiKey", keystoreProperties.getProperty("googleApiKey")
-            buildConfigField "Stridng", "NaverClientId", keystoreProperties.getProperty("naverClientId")
+            buildConfigField "String", "BaseGoogleUrl", keystoreProperties.getProperty("baseGoogleUrl")
+            buildConfigField "String", "NaverClientId", keystoreProperties.getProperty("naverClientId")
+            buildConfigField "String", "KakaoLocalUrl", keystoreProperties.getProperty("kakaoLocalUrl")
+            buildConfigField "String", "KakaoServiceKey", keystoreProperties.getProperty("kakaoServiceKey")
+
         }
     }
     dataBinding {
@@ -70,7 +77,7 @@ dependencies {
 
     //glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
-    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
 
     //design
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.0.0'
@@ -95,5 +102,7 @@ dependencies {
 
     //Naver Map
     implementation "com.naver.maps:map-sdk:$naver_map_version"
+    //naver 위치 구현을 하기 위한 library
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
 }
 
