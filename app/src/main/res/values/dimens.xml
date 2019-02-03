@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="space_xx_small">4dp</dimen>
     <dimen name="space_x_small">8dp</dimen>
     <dimen name="space_small">12dp</dimen>
     <dimen name="space_median">16dp</dimen>
@@ -11,8 +12,18 @@
     <dimen name="elevation_m">4dp</dimen>
     <dimen name="elevation_l">6dp</dimen>
 
+    <dimen name="table_narrow">32dp</dimen>
+    <dimen name="table_normal">48dp</dimen>
+    <dimen name="table_double">56dp</dimen>
+
     <dimen name="dropbar_header">40dp</dimen>
     <dimen name="home_between_logo_and_search_bar_margin">60dp</dimen>
+
+    <!-- motionlayout 관련 dimen-->
+
+    <dimen name="space_guide_line">260dp</dimen>
+    <dimen name="fab_filter_main_margin_end">32dp</dimen>
+    <dimen name="fab_filter_main_margin_bottom">16dp</dimen>
 
     <dimen name="detail_contents_bottom_padding">12dp</dimen>
     <dimen name="detail_contents_horizontal_padding">4dp</dimen>
@@ -22,9 +33,12 @@
     <dimen name="detail_review_bottom_padding">12dp</dimen>
     <dimen name="detail_review_horizontal_padding">8dp</dimen>
     <dimen name="detail_more_btn_height">28dp</dimen>
+
+    <dimen name="detail_review_more_btn_height">28dp</dimen>
     <dimen name="margin_start_backdrop">8dp</dimen>
     <dimen name="margin_end_backdrop">8dp</dimen>
 
     <dimen name="detail_bar_chart_height">200dp</dimen>
     <dimen name="detail_more_vertical_padding">20dp</dimen>
+
 </resources>

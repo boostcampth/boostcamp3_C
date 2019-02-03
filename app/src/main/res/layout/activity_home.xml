@@ -11,12 +11,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true">
+
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_home"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
-                android:background="@color/main_color" >
+                android:background="@color/main_color">
 
             <ImageView
                     android:id="@+id/iv_logo"
@@ -37,7 +38,7 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_logo"
                     android:layout_margin="@dimen/home_between_logo_and_search_bar_margin"
-                    android:src="@drawable/btn_home_search_bar" />
+                    android:src="@drawable/btn_home_search_bar"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         <include
@@ -45,10 +46,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
-                layout="@layout/main_back_drop"
+                layout="@layout/layout_main_back_drop"
                 android:id="@+id/ll_main_backdrop"
                 app:behavior_peekHeight="@dimen/dropbar_header"
                 app:layout_behavior="@string/bottom_sheet_behavior"
-                app:behavior_hideable="false"/>
+                app:behavior_hideable="true"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

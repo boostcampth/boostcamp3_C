@@ -5,7 +5,7 @@
 
     <application
             android:name=".LiveApplication"
-            android:allowBackup="true"
+            android:allowBackup="false"
             android:icon="@drawable/img_home_logo"
             android:roundIcon="@drawable/img_home_logo"
             android:label="@string/app_name"
@@ -26,11 +26,6 @@
 
         </activity>
         <activity android:name=".ui.map.MapActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
     </application>
 
