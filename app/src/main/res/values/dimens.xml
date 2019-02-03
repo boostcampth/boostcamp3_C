@@ -40,5 +40,7 @@
     <dimen name="margin_map_widget_default">12dp</dimen>
     <dimen name="margin_map_widget_zoom_control_view_bottom">128dp</dimen>
     <dimen name="ll_window_dialog_size">164dp</dimen>
+    <dimen name="map_vertical_guideline">654dp</dimen>
+    <dimen name="backdrop_toggle_left_margin">8dp</dimen>
 
 </resources>
