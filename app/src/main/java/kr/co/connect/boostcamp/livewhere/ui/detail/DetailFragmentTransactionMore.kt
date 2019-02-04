@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import kr.co.connect.boostcamp.livewhere.databinding.FragmentDetailPastTransactionMoreBinding
-import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailRvAdapter
+import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailTransactionRvAdapter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class DetailFragmentMore : Fragment() {
@@ -33,7 +33,7 @@ class DetailFragmentMore : Fragment() {
 
         binding.pastTransactionMoreRv.apply{
             layoutManager = LinearLayoutManager(context)
-            adapter = DetailRvAdapter(this@DetailFragmentMore)
+            adapter = DetailTransactionRvAdapter(this@DetailFragmentMore)
         }
 
         return binding.root
