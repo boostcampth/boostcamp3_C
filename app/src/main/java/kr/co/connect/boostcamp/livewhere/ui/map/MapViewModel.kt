@@ -1,45 +1,63 @@
 package kr.co.connect.boostcamp.livewhere.ui.map
 
+import android.graphics.PointF
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.skt.Tmap.*
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.NaverMap
+import com.naver.maps.map.OnMapReadyCallback
+import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
 import kr.co.connect.boostcamp.livewhere.repository.MapRepositoryImpl
-import kr.co.connect.boostcamp.livewhere.util.HttpResult
 import kr.co.connect.boostcamp.livewhere.util.MapUtilImpl
-import java.util.*
+import kr.co.connect.boostcamp.livewhere.util.StatusCode
 
 class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositoryImpl) : ViewModel(),
-    TMapView.OnLongClickListenerCallback {
-    private val _pointLiveData: MutableLiveData<TMapPoint> = MutableLiveData()
-    val pointLiveData: LiveData<TMapPoint>
-        get() = _pointLiveData
+    NaverMap.OnMapLongClickListener, NaverMap.OnMapClickListener, OnMapReadyCallback {
 
-    override fun onLongPressEvent(
-        markerList: ArrayList<TMapMarkerItem>?,
-        polist: ArrayList<TMapPOIItem>?,
-        point: TMapPoint?
-    ) {
-        _pointLiveData.postValue(point)
-        Single.fromCallable { TMapData().convertGpsToAddress(point!!.latitude, point.longitude) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ address ->
-                mapRepository.getHouseDetail(address).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread()).subscribe({ body ->
-                        var title = ""
-                        var subTitle = ""
-                        if (body.houseStatusCode == HttpResult.RESULT_200.response) {
-                            title = body.houseList[0].deposite + "/" + body.houseList[0].fee
-                            subTitle = "최근 거래:" + body.houseList[0].contractYear//변경 예정인 테스트 코드
-                        } else if (body.houseStatusCode == HttpResult.RESULT_204.response) {
-                            title = "최근 거래내역이 없습니다."//변경 예정인 테스트 코드
-                            subTitle = ""
-                        }
-                    }, {})
-            }, {})
+    private val _markerLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
+    val markerLiveData: LiveData<MarkerInfo>
+        get() = _markerLiveData
+
+    private val _mapStatusLiveData: MutableLiveData<NaverMap> = MutableLiveData()
+    val mapStatusLiveData: LiveData<NaverMap>
+        get() = _mapStatusLiveData
+
+
+    override fun onMapLongClick(point: PointF, latLng: LatLng) {
+        loadHousePrice(latLng)
     }
+
+    override fun onMapClick(point: PointF, latLng: LatLng) {
+        loadHousePrice(latLng)
+    }
+
+
+    override fun onMapReady(naverMap: NaverMap) {
+        _mapStatusLiveData.postValue(naverMap)
+    }
+
+    private fun loadHousePrice(latLng: LatLng) = mapRepository
+        .getAddress(latLng.latitude.toString(), latLng.longitude.toString(), "WGS84")
+        .subscribe({ result ->
+            val addressData = result.body()
+            if (addressData?.metaData?.total_count!! > 0) {
+                val addressName = addressData.documentData[0].addressMeta.addressName
+                mapRepository.getHouseDetail(addressName)
+                    .subscribe({ houseInfo ->
+                        val houseResponse = houseInfo.body()
+                        if (houseResponse?.addrStatusCode == StatusCode.RESULT_200.response
+                            && houseResponse.houseStatusCode == StatusCode.RESULT_200.response)
+                        {
+                            _markerLiveData.postValue(MarkerInfo(latLng,houseResponse.houseList,StatusCode.RESULT_200))
+                        } else {
+                            _markerLiveData.postValue(MarkerInfo(latLng, emptyList(), StatusCode.RESULT_204))
+                        }
+                    }, {
+                        //TODO: timeout 시간이 너무 길어서 의견 조율이 필요함.
+                        _markerLiveData.postValue(MarkerInfo(latLng, emptyList(), StatusCode.RESULT_204))
+                    })
+            } }, {
+
+        })
 }

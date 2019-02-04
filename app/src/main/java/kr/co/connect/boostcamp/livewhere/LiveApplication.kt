@@ -11,18 +11,11 @@ import kr.co.connect.boostcamp.livewhere.di.appModules
 import org.koin.android.ext.android.startKoin
 
 
-
-
-
-class LiveApplication : Application(){
-
-    lateinit var glide : Glide
-
+class LiveApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         Stetho.initializeWithDefaults(this)
         startKoin(applicationContext, appModules)
-        glide = Glide.get(this)
         //Firebase Crashlytics
         Fabric.with(this, Crashlytics())
         NaverMapSdk.getInstance(this).client = NaverMapSdk.NaverCloudPlatformClient(NaverClientId)
@@ -30,11 +23,13 @@ class LiveApplication : Application(){
 
     override fun onLowMemory() {
         super.onLowMemory()
-        glide.clearMemory()
+        Glide.get(this).clearMemory()
+        //GlideApp.get(this).clearMemory()
     }
 
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
-        glide.trimMemory(level)
+        Glide.get(this).trimMemory(level)
+        //GlideApp.get(this).trimMemory(level)
     }
 }

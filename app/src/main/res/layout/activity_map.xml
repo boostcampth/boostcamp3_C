@@ -1,28 +1,57 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <layout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:bind="http://schemas.android.com/tools">
+>
     <data>
         <variable name="mapViewModel" type="kr.co.connect.boostcamp.livewhere.ui.map.MapViewModel"/>
         <variable name="mlFloatBtn" type="androidx.constraintlayout.motion.widget.MotionLayout"/>
         <variable name="mlBackdrop" type="androidx.constraintlayout.motion.widget.MotionLayout"/>
+        <variable name="locationSource" type="com.naver.maps.map.util.FusedLocationSource"/>
     </data>
-    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
-        <fragment android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:id="@+id/fragment_map"
-                  android:name="com.naver.maps.map.MapFragment" />
-        <!--<LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <com.naver.maps.map.MapView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/ll_map_view"
-                android:orientation="horizontal"
-                isCreateTMap="@{true}"
-                onDrawMarker="@{mapViewModel}"
-                onPointLiveData="@{mapViewModel.pointLiveData}"
-                setOnLongClickListenerCallback="@{mapViewModel}">
-
-        </LinearLayout>-->
+                android:id="@+id/mv_main_naver"
+                onMakeNaverMapData="@{mapViewModel.mapStatusLiveData}"
+                onDrawMarker="@{mapViewModel.markerLiveData}"
+                bindViewModel="@{mapViewModel}"/>
+        <com.naver.maps.map.widget.LogoView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/logoView" app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="@dimen/margin_map_widget_default"
+                app:layout_constraintBottom_toTopOf="@+id/guideline2"/>
+        <com.naver.maps.map.widget.ScaleBarView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_map_widget_default"
+                app:layout_constraintBottom_toTopOf="@+id/guideline2"
+                android:id="@+id/scaleBarView"
+                app:layout_constraintStart_toEndOf="@+id/logoView"></com.naver.maps.map.widget.ScaleBarView>
+        <com.naver.maps.map.widget.LocationButtonView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="@dimen/margin_map_widget_default"
+                onMakeNaverMapData="@{mapViewModel.mapStatusLiveData}"
+                onLocationSource="@{locationSource}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/locationButtonView" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"></com.naver.maps.map.widget.LocationButtonView>
+        <com.naver.maps.map.widget.ZoomControlView
+                android:id="@+id/cv_zoom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                onMakeNaverMapData="@{mapViewModel.mapStatusLiveData}"
+                android:layout_margin="@dimen/margin_map_widget_default"
+                app:layout_constraintTop_toBottomOf="@+id/locationButtonView"
+                app:layout_constraintEnd_toEndOf="parent"/>
         <androidx.constraintlayout.motion.widget.MotionLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -59,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/space_small"
                     android:id="@+id/iv_backdrop_toggle"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="@dimen/backdrop_toggle_left_margin"
                     android:src="@drawable/ic_arrow_up_black_24dp"
                     app:layout_constraintStart_toStartOf="@+id/ll_place_detail"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -163,7 +192,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         triggerFloatingButton="@{mlFloatBtn}"
                         triggerBackdrop="@{mlBackdrop}"
-                        />
+                />
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                         style="@style/FloatingButton.Filter"
                         app:fabSize="normal"
@@ -179,6 +208,13 @@
                     android:id="@+id/guideline"
                     app:layout_constraintGuide_begin="@dimen/space_guide_line"
                     android:orientation="vertical"/>
+
         </androidx.constraintlayout.motion.widget.MotionLayout>
-    </FrameLayout>
+        <androidx.constraintlayout.widget.Guideline
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/guideline2"
+                app:layout_constraintGuide_begin="@dimen/map_vertical_guideline"
+                android:orientation="horizontal"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
