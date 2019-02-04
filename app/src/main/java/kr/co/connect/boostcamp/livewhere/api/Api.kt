@@ -16,11 +16,12 @@ interface Api {
 
     @GET("house/search/infos")
     fun getDetail(
-        @Query("address") address: String
-    ): Single<HouseResponse>
+        @Query("address")address:String
+    ): Single<Response<HouseResponse>>
 
     @POST("")
     fun postReview(
         @Query("nickname") nickname: String, @Query("id") id: String, @Query("contents") contents: String
     ) : Single<Response<Any>>
+        
 }

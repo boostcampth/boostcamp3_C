@@ -22,6 +22,11 @@
     <string name="area">면적</string>
     <string name="type">종류</string>
     <string name="contract_year">계약연도</string>
+  
+    <string name="permission_fine_location">위치 권한이 필요한 기능입니다.</string>
+    <string name="btn_detail_house_info">매물 조회</string>
+    <string name="title_detail_history_empty">해당 건물의 거래내역이 존재하지 않습니다.</string>
+
     <string name="sort_by_area">면적 순</string>
     <string name="sort_by_contract_year">계약연도 순</string>
     <string name="sort_by_type">거래종류 순</string>

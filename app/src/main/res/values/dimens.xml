@@ -39,6 +39,11 @@
     <dimen name="margin_end_backdrop">8dp</dimen>
 
     <dimen name="detail_bar_chart_height">200dp</dimen>
+    <dimen name="margin_map_widget_default">12dp</dimen>
+    <dimen name="margin_map_widget_zoom_control_view_bottom">128dp</dimen>
+    <dimen name="ll_window_dialog_size">164dp</dimen>
+    <dimen name="map_vertical_guideline">654dp</dimen>
+    <dimen name="backdrop_toggle_left_margin">8dp</dimen>
     <dimen name="detail_more_vertical_padding">20dp</dimen>
 
     <dimen name="detail_post_review_contents_height">250dp</dimen>
