@@ -11,6 +11,7 @@ interface Api{
     fun getHouseDetail(
         @Query("address")address:String
     ):Single<Response<List<Any>>>
+    // FIXME Response로 둘 필요 없습니다. Single<<List<Any>> 로 변경하고 사용하는게 더 좋습니다. 모든 API의 return값들을 바꿔주세요
     
     @GET("house/search/infos")
     fun getDetail(
