@@ -84,9 +84,14 @@ dependencies {
     //firebase
     implementation "com.google.firebase:firebase-database:$firebase_version"
 
+    //firebase Auth
+    implementation "com.google.firebase:firebase-auth:$firebase_auth_version"
+
     //rxjava
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
     implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+
+    //firebase core
     implementation "com.google.firebase:firebase-core:$firebase_version"
 
     //crashlytics
@@ -101,6 +106,10 @@ dependencies {
 
     //Naver Map
     implementation "com.naver.maps:map-sdk:$naver_map_version"
+    
+    //ted permission
+    implementation "gun0912.ted:tedpermission-rx2:$tedpermission_version"
+
     //naver 위치 구현을 하기 위한 library
     implementation 'com.google.android.gms:play-services-location:16.0.0'
 }

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+                name="review"
+                type="kr.co.connect.boostcamp.livewhere.model.Review"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rv_header_border">
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/review_more_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/BasicTv.BodyL"
+                android:text="@{review.nickname}"
+                tools:text="asdasd"/>
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/review_more_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/review_more_nickname"
+                app:layout_constraintTop_toTopOf="@id/review_more_nickname"
+                app:layout_constraintBottom_toBottomOf="@id/review_more_nickname"
+                style="@style/BasicTv.BodyM"
+                android:text="@{review.id}"
+                tools:text="010-****-****"
+                android:textColor="@color/colorPrimaryDark"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/review_more_contents"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/review_more_nickname"
+                style="@style/BasicTv.BodyM"
+                android:text="@{review.contents}"
+                tools:text="어릴 적 살았었는데 정말 조용하고 교통도 편리하고 좋은 동네였다고 생각해요 다시 이사가고 싶은 동네입니다."/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

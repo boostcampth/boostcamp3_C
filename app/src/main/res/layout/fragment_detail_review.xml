@@ -27,6 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/review_create"
+                android:onClick="@{()->viewModel.onClickedReviewPost()}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 style="@style/BasicTv.BodyL"/>
@@ -35,6 +36,7 @@
                 android:id="@+id/detail_fragment_iv_review_create"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{()->viewModel.onClickedReviewPost()}"
                 app:layout_constraintTop_toTopOf="@id/detail_fragment_tv_review_create"
                 app:layout_constraintBottom_toBottomOf="@id/detail_fragment_tv_review_create"
                 app:layout_constraintEnd_toStartOf="@id/detail_fragment_tv_review_create"/>
@@ -47,6 +49,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:background="@color/colorPrimary"
+                app:setPreReview="@{viewModel.reviewList}"
                 tools:text="어릴 적 살았었는데 정말 조용하고 교통도 편리하고 좋은 동네였다고 생각해요 다시 이사가고 싶은 동네입니다."
                 style="@style/Detail_Review_Comment"
                 android:layout_marginHorizontal="@dimen/detail_rv_horizontal_margin"
@@ -57,6 +60,7 @@
                 style="@style/BasicTv.BodyL"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:setPreReview="@{viewModel.reviewList}"
                 app:layout_constraintTop_toTopOf="@id/detail_fragment_tv_review_contents"
                 app:layout_constraintStart_toStartOf="@id/detail_fragment_tv_review_contents"/>
 
@@ -65,6 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="010-****-****"
+                app:setPreReview="@{viewModel.reviewList}"
                 app:layout_constraintStart_toEndOf="@id/detail_fragment_tv_review_nickname"
                 app:layout_constraintTop_toTopOf="@id/detail_fragment_tv_review_nickname"
                 app:layout_constraintBottom_toBottomOf="@id/detail_fragment_tv_review_nickname"
@@ -75,6 +80,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/detail_more_btn_height"
                 android:background="@color/colorPrimaryDark"
+                android:onClick="@{()->viewModel.onClickedReviewMore()}"
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_tv_review_contents"
                 app:layout_constraintStart_toStartOf="@id/detail_fragment_tv_review_contents"
                 app:layout_constraintEnd_toEndOf="@id/detail_fragment_tv_review_contents"/>

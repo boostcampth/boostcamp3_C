@@ -46,4 +46,6 @@
     <dimen name="backdrop_toggle_left_margin">8dp</dimen>
     <dimen name="detail_more_vertical_padding">20dp</dimen>
 
+    <dimen name="detail_post_review_contents_height">250dp</dimen>
+
 </resources>
