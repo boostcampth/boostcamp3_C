@@ -11,9 +11,11 @@ import kr.co.connect.boostcamp.livewhere.di.appModules
 import org.koin.android.ext.android.startKoin
 
 
+// FIXME MultiDex 이슈가 발생할 여지가 충분하기때문에 gradle과 Application클래스에서 Multidex 환경을 구성해주세요
 class LiveApplication : Application() {
     override fun onCreate() {
         super.onCreate()
+        // FIXME 개발빌드에서만 stetho가 적용되도록 해주세요. 배포버전에서도 적용되면 사용자가 직접 앱을 디버깅 할 수 있는 문제가 있습니다.
         Stetho.initializeWithDefaults(this)
         startKoin(applicationContext, appModules)
         //Firebase Crashlytics
