@@ -1,7 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="viewModel"
+                  type="kr.co.connect.boostcamp.livewhere.ui.detail.DetailViewModel"/>
+    </data>
 
-</LinearLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+        <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/post_review_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/BasicTv.BodyL"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/post_review_contents"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/detail_post_review_contents_height"
+                style="@style/BasicTv.BodyL.Hint"
+                android:hint="@string/post_review_hint"
+                app:layout_constraintTop_toBottomOf="@id/post_review_nickname"
+                app:layout_constraintStart_toStartOf="parent"/>
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/post_review_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/detail_rv_horizontal_margin"
+                app:layout_constraintTop_toBottomOf="@id/post_review_contents"
+        />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
