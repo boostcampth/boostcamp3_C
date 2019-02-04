@@ -41,4 +41,6 @@
     <dimen name="detail_bar_chart_height">200dp</dimen>
     <dimen name="detail_more_vertical_padding">20dp</dimen>
 
+    <dimen name="detail_post_review_contents_height">250dp</dimen>
+
 </resources>
