@@ -22,6 +22,7 @@ class MapActivity : AppCompatActivity() {
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
         activityMapBinding = DataBindingUtil.setContentView(this, R.layout.activity_map)
         activityMapBinding.setLifecycleOwner(this)
+        // FIXME setVariable() 대신 명확한 함수를 사용해 주세요 activityMapBinding.mapViewModel =  mapViewModel
         activityMapBinding.setVariable(BR.mapViewModel, mapViewModel)
         activityMapBinding.setVariable(BR.mlFloatBtn, activityMapBinding.mlFloatBtn)
         activityMapBinding.setVariable(BR.mlBackdrop, activityMapBinding.mlBackdrop)

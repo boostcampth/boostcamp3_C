@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.Resource
 import com.bumptech.glide.request.RequestOptions
+import kotlinx.android.synthetic.main.item_bookmark_recyclerview.view.*
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.Bookmark
 
@@ -30,11 +31,13 @@ class BookmarkRecyclerViewAdapter(private val context: Context, private val list
         holder.bind(context, list[position])
     }
 
-    inner class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
-        val iv_building = itemView?.findViewById<ImageView>(R.id.iv_bookmark_image)
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        // FIXME findViewById를 사용할 필요 없이 itemView.iv_bookmark_image로 사용할 수 있습니다.
+        val iv_building = itemView.findViewById<ImageView>(R.id.iv_bookmark_image)
         val tv_building_contents = itemView?.findViewById<TextView>(R.id.tv_bookmark_building_contents)
         val tv_location_contents = itemView?.findViewById<TextView>(R.id.tv_bookmark_location_contents)
         val tv_pay_contents = itemView?.findViewById<TextView>(R.id.tv_bookmark_pay_contents)
+
 
         fun bind(context: Context, item: Bookmark) {
             // Exception 추가해야함
