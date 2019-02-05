@@ -48,4 +48,6 @@
     <dimen name="guideline_map_bottom_margin">650dp</dimen>
     <dimen name="map_widget_size">64dp</dimen>
 
+    <dimen name="detail_post_review_contents_height">250dp</dimen>
+
 </resources>

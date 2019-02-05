@@ -1,10 +1,12 @@
 package kr.co.connect.boostcamp.livewhere.api
 
+import android.provider.ContactsContract
 import io.reactivex.Single
 import kr.co.connect.boostcamp.livewhere.model.HouseResponse
 import kr.co.connect.boostcamp.livewhere.model.PlaceResponse
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface Api {
@@ -25,4 +27,10 @@ interface Api {
         @Query("radius") radius: String,
         @Query("category") category: String
     ): Single<Response<PlaceResponse>>
+
+    @POST("")
+    fun postReview(
+        @Query("nickname") nickname: String, @Query("id") id: String, @Query("contents") contents: String
+    ) : Single<Response<Any>>
+        
 }

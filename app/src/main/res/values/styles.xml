@@ -160,4 +160,9 @@
         <item name="android:paddingBottom">12dp</item>
     </style>
 
+    <style name="BasicTv.BodyL.Hint">
+        <item name="android:gravity">top</item>
+        <item name="android:textColorHint">@color/gray</item>
+    </style>
+
 </resources>

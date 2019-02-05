@@ -35,6 +35,14 @@ class DetailActivity : AppCompatActivity(){
         viewModel.transactionMoreClicked.observe(this, Observer {
             addDetailMore()
         })
+
+        viewModel.reviewMoreClicked.observe(this, Observer {
+            addReviewMore()
+        })
+
+        viewModel.reviewPostClicked.observe(this, Observer {
+            addReviewPost()
+        })
     }
 
     private fun addDetailFragment(){
@@ -48,20 +56,45 @@ class DetailActivity : AppCompatActivity(){
     }
 
     private fun addDetailMore(){
-        val fragment = DetailFragmentMore.newInstance()
+        val fragment = DetailFragmentTransactionMore.newInstance()
         currentFragment = fragment
         supportFragmentManager
             .beginTransaction()
             .setCustomAnimations(R.anim.slide_in_left,R.anim.slide_out_left,R.anim.slide_in_right,R.anim.slide_out_right)
             .replace(DETAIL_CONTAINER_ID, fragment)
             .addToBackStack(null)
-            .commit() //TODO 더보기 화면에서 나올때 기존 디테일화면으로 전환하도록 구현
+            .commit()
+    }
+
+    private fun addReviewMore(){
+        val fragment = DetailFragmentReviewMore.newInstance()
+        currentFragment = fragment
+        supportFragmentManager
+            .beginTransaction()
+//            .setCustomAnimations(R.anim.slide_in_left,R.anim.slide_out_left,R.anim.slide_in_right,R.anim.slide_out_right)
+            .setCustomAnimations(R.anim.slide_in_left,R.anim.slide_out_left,R.anim.slide_in_right,R.anim.slide_out_right)
+            .replace(DETAIL_CONTAINER_ID, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun addReviewPost(){
+        val fragment = DetailFragmentReviewPost.newInstance()
+        currentFragment = fragment
+        supportFragmentManager
+            .beginTransaction()
+            .setCustomAnimations(R.anim.slide_in_top,R.anim.slide_out_top,R.anim.slide_in_bottom,R.anim.slide_out_bottom)
+            .replace(DETAIL_CONTAINER_ID, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onBackPressed() {
         when (currentFragment) {
             is DetailFragment -> super.onBackPressed()
-            is DetailFragmentMore -> supportFragmentManager.popBackStack()
+            is DetailFragmentTransactionMore -> supportFragmentManager.popBackStack()
+            is DetailFragmentReviewMore -> supportFragmentManager.popBackStack()
+            is DetailFragmentReviewPost -> supportFragmentManager.popBackStack()
         }
     }
 
