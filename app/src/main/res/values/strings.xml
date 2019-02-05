@@ -30,5 +30,7 @@
     <string name="sort_by_area">면적 순</string>
     <string name="sort_by_contract_year">계약연도 순</string>
     <string name="sort_by_type">거래종류 순</string>
+    <string name="all_find_house_text">매물 조회</string>
+    <string name="all_find_store_text">매장 검색</string>
 
 </resources>
