@@ -12,11 +12,13 @@ import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.util.MarkerIcons.BLUE
 import com.naver.maps.map.widget.LocationButtonView
 import com.naver.maps.map.widget.ZoomControlView
 import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
+import kr.co.connect.boostcamp.livewhere.model.PlaceResponse
 import kr.co.connect.boostcamp.livewhere.util.StatusCode
 
 
@@ -38,9 +40,10 @@ fun MapView.onMakeNaverMap(mapStatusLiveData: LiveData<NaverMap>, mapViewModel: 
         naverMap.uiSettings.isIndoorLevelPickerEnabled = true
         naverMap.uiSettings.isZoomControlEnabled = false//줌 버튼 이벤트
         naverMap.onMapLongClickListener = mapViewModel //맵클릭
-        naverMap.onMapClickListener = mapViewModel //맵롱클릭
+        //naverMap.onMapClickListener = mapViewModel //맵롱클릭
     }
 }
+
 
 @BindingAdapter(value = ["onDrawMarker"])
 fun MapView.OnDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>) {
@@ -52,22 +55,38 @@ fun MapView.OnDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>) {
         getMapAsync { naverMap ->
             val infoWindow = InfoWindow()
             val marker = Marker()
-            var streetImgUrl=""
-            var title =""
+            var streetImgUrl = ""
+            var title = ""
             if (statusCode == StatusCode.RESULT_200) {
-                streetImgUrl = String.format(BuildConfig.BaseGoogleUrl, latLang.latitude, latLang.longitude, BuildConfig.GoogleApiKey)
+                streetImgUrl = String.format(
+                    BuildConfig.BaseGoogleUrl,
+                    latLang.latitude,
+                    latLang.longitude,
+                    BuildConfig.GoogleApiKey
+                )
                 title = houseList[0].rentCase + ":" + houseList[0].deposite + "/" + houseList[0].fee
                 marker.tag = houseList[0].name
             } else if (statusCode == StatusCode.RESULT_204) {
                 streetImgUrl = ""
                 title = context.resources.getString(R.string.title_detail_history_empty)
-                marker.tag =""
+                marker.tag = ""
             }
-            infoWindow.position = LatLng(latLang.latitude, latLang.longitude)
-            infoWindow.adapter = MapMarkerAdapter(context, parent, streetImgUrl, title)
-            infoWindow.setOnClickListener { _ ->
-                infoWindow.close()
-                true
+
+            infoWindow.apply {
+                position = LatLng(latLang.latitude, latLang.longitude)
+                adapter = MapMarkerAdapter(
+                    context,
+                    parent,
+                    streetImgUrl,
+                    "",
+                    title,
+                    context.getString(R.string.all_find_house_text)
+                )
+                setOnClickListener {
+                    Log.d("hello","on")
+                    false
+                }
+                setOnTouchListener { v, event ->  false}
             }
 
             if (tag != null) {
@@ -75,14 +94,56 @@ fun MapView.OnDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>) {
                 tempMarker.map = null
                 tempMarker.infoWindow?.close()
             }
-            marker.position = LatLng(latLang.latitude, latLang.longitude)
-            marker.setOnClickListener { overlay ->
-                infoWindow.open(marker)
-                true
+            marker.apply {
+                position = LatLng(latLang.latitude, latLang.longitude)
+                setOnClickListener { _ ->
+                    infoWindow.open(marker)
+                    true
+                }
+                map = naverMap
             }
-
-            marker.map = naverMap
             tag = marker
+        }
+    }
+}
+
+
+@BindingAdapter(value = ["onPlaceDrawMarker"])
+fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>) {
+    val placeResponse = placeResponseLiveData.value
+    if (placeResponse != null) {
+        getMapAsync { naverMap ->
+            placeResponse.placeList.forEach { place ->
+                val marker = Marker()
+                marker.position = LatLng(place.y.toDouble(), place.x.toDouble())
+                val infoWindow = InfoWindow()
+                infoWindow.adapter = MapMarkerAdapter(
+                    context,
+                    parent,
+                    "",
+                    place.place_url,
+                    place.placeName,
+                    context.getString(R.string.all_find_store_text)
+                )
+                marker.setOnClickListener {
+                    infoWindow.open(marker)
+                    true
+                }
+                marker.apply {
+                    width = 50
+                    height = 80
+                    subCaptionText = place.placeName
+                    icon = BLUE
+                    /*when (place.category) {
+                        "대형마트", "편의점" -> icon = BLUE
+                        "어린이집", "유치원", "학교" -> icon = YELLOW
+                        "음식점" -> icon = LIGHTBLUE
+                        "카페" -> icon = PINK
+                        "병원" -> icon = GREEN
+                    }*/
+                    map = naverMap
+                }
+            }
         }
     }
 }
@@ -106,14 +167,19 @@ fun LocationButtonView.setOnClick(mapStatusLiveData: LiveData<NaverMap>, locatio
     }
 }
 
-@BindingAdapter(value = ["triggerBackdrop", "triggerFloatingButton"])
-fun FloatingActionButton.setTriggerBackdrop(backdropML: MotionLayout, filterML: MotionLayout) {
-    this.setOnClickListener {
+@BindingAdapter(value = ["triggerBackdrop", "triggerFloatingButton", "triggerOnClick"])
+fun FloatingActionButton.setTriggerBackdrop(
+    backdropML: MotionLayout,
+    filterML: MotionLayout,
+    mapViewModel: MapViewModel
+) {
+    setOnClickListener { view ->
         if (backdropML.currentState == R.layout.motion_01_map_backdrop_end) {
             backdropML.transitionToStart()
         } else {
             filterML.transitionToStart()
         }
+        mapViewModel.onClick(view)
     }
 }
 
