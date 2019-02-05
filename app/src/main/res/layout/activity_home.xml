@@ -47,20 +47,44 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" >
+                    app:layout_constraintBottom_toBottomOf="parent">
 
             </FrameLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <include
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom"
-                layout="@layout/layout_main_back_drop"
+
+        <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                style="@style/BackDrop.White"
                 android:id="@+id/ll_main_backdrop"
                 app:behavior_peekHeight="@dimen/dropbar_header"
                 app:layout_behavior="@string/bottom_sheet_behavior"
-                app:behavior_hideable="true"/>
+                app:behavior_hideable="false"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dropbar_header"
+                    android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatImageView
+                        style="@style/BackDrop.White.Arrow"
+                        android:src="@drawable/ic_arrow_up_black_24dp"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/BasicTv.HeadlineS"
+                        android:padding="@dimen/space_small"
+                        android:textColor="@color/black"
+                        android:text="@string/home_bookmark"/>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_bookmark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

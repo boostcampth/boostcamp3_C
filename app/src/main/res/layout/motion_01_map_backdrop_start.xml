@@ -24,7 +24,7 @@
                 android:src="@drawable/ic_arrow_up_black_24dp"/>
 
         <TextView
-                style="@style/BasicTv.HeadlineS.black"
+                style="@style/BasicTv.HeadlineS"
                 android:textColor="@color/black"
                 android:layout_gravity="top"
                 android:text="@string/home_bookmark"

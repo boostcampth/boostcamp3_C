@@ -11,62 +11,78 @@
             app:cardElevation="@dimen/elevation_s">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-                style="@style/Table"
+                style="@style/Table.Image"
                 android:padding="@dimen/space_median">
+
             <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_bookmark_image"
                     style="@style/TableImage"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="@id/image_guideline"
                     app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintGuide_begin="148dp"
+                    android:id="@+id/image_guideline"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_bookmark_building_title"
-                    style="@style/BasicTv.HeadlineS.black"
+                    style="@style/BasicTv.HeadlineS"
                     android:text="@string/building_name"
-                    app:layout_constraintLeft_toRightOf="@id/iv_bookmark_image"
+                    android:textColor="@color/black"
+                    app:layout_constraintLeft_toRightOf="@id/image_guideline"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/tv_bookmark_building_contents"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_bookmark_building_contents"
-                    style="@style/BasicTv.BodyM.Black"
-                    app:layout_constraintLeft_toRightOf="@id/iv_bookmark_image"
+                    style="@style/BasicTv.BodyS"
+                    android:textColor="@color/black"
+                    app:layout_constraintLeft_toRightOf="@id/image_guideline"
                     app:layout_constraintTop_toBottomOf="@id/tv_bookmark_building_title"
                     app:layout_constraintBottom_toTopOf="@+id/tv_bookmark_location_title"
-                    android:layout_marginBottom="@dimen/space_small"/>
+                    android:layout_marginBottom="@dimen/space_xx_small"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_bookmark_location_title"
-                    style="@style/BasicTv.HeadlineS.black"
+                    style="@style/BasicTv.HeadlineS"
                     android:text="@string/address"
-                    app:layout_constraintLeft_toRightOf="@id/iv_bookmark_image"
+                    android:textColor="@color/black"
+                    app:layout_constraintLeft_toRightOf="@id/image_guideline"
                     app:layout_constraintTop_toBottomOf="@id/tv_bookmark_building_contents"
                     app:layout_constraintBottom_toTopOf="@id/tv_bookmark_location_contents"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_bookmark_location_contents"
-                    style="@style/BasicTv.BodyM.Black"
-                    app:layout_constraintLeft_toRightOf="@id/iv_bookmark_image"
+                    style="@style/BasicTv.BodyS"
+                    android:textColor="@color/black"
+                    app:layout_constraintLeft_toRightOf="@id/image_guideline"
                     app:layout_constraintTop_toBottomOf="@id/tv_bookmark_location_title"
                     app:layout_constraintBottom_toTopOf="@id/tv_bookmark_pay_title"
-                    android:layout_marginBottom="@dimen/space_small"/>
+                    android:layout_marginBottom="@dimen/space_xx_small"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_bookmark_pay_title"
-                    style="@style/BasicTv.HeadlineS.black"
+                    style="@style/BasicTv.HeadlineS"
+                    android:textColor="@color/black"
                     android:text="@string/charter_and_monthly_rent"
-                    app:layout_constraintLeft_toRightOf="@id/iv_bookmark_image"
+                    app:layout_constraintLeft_toRightOf="@id/image_guideline"
                     app:layout_constraintTop_toBottomOf="@id/tv_bookmark_location_contents"
                     app:layout_constraintBottom_toTopOf="@id/tv_bookmark_pay_contents"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_bookmark_pay_contents"
-                    style="@style/BasicTv.BodyM.Black"
-                    app:layout_constraintLeft_toRightOf="@id/iv_bookmark_image"
+                    style="@style/BasicTv.BodyS"
+                    android:textColor="@color/black"
+                    app:layout_constraintLeft_toRightOf="@id/image_guideline"
                     app:layout_constraintTop_toBottomOf="@id/tv_bookmark_pay_title"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginBottom="@dimen/space_small"/>
+                    android:layout_marginBottom="@dimen/space_xx_small"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

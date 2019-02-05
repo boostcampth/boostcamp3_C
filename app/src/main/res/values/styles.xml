@@ -12,25 +12,38 @@
         <item name="android:windowBackground">@xml/splash_background</item>
     </style>
 
+    <style name="Table">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="Table.Narrow">
+        <item name="android:layout_height">@dimen/table_narrow</item>
+    </style>
+
+    <style name="Table.Normal">
+        <item name="android:layout_height">@dimen/table_normal</item>
+    </style>
+
+    <style name="Table.Double">
+        <item name="android:layout_height">@dimen/table_double</item>
+    </style>
+
+    <style name="Table.Image">
+        <item name="android:layout_height">@dimen/table_image</item>
+    </style>
+
+    <style name="TableImage">
+        <item name="android:layout_width">108dp</item>
+        <item name="android:layout_height">108dp</item>
+    </style>
+
     <style name="BackDrop">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
     </style>
-
-    <style name="TableImage">
-        <item name="android:layout_width">186dp</item>
-        <item name="android:layout_height">124dp</item>
-        <item name="android:padding">@dimen/space_median</item>
-    </style>
-
-    <style name="Table">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/white</item>
-        <item name="android:orientation">horizontal</item>
-    </style>
-
 
     <style name="BackDrop.White">
         <item name="android:background">@drawable/shape_drop_bar_white</item>
@@ -68,7 +81,6 @@
     </style>
 
     <style name="BasicTv">
-        <item name="android:padding">@dimen/space_small</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
@@ -82,8 +94,8 @@
         <item name="android:lineSpacingExtra">2sp</item>
     </style>
 
-    <style name="BasicTv.HeadlineS.black">
-        <item name="android:textColor">@color/black</item>
+    <style name="BasicTv.HeadlineXS">
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="BasicTv.BodyL">
@@ -97,6 +109,10 @@
 
     <style name="BasicTv.BodyM">
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="BasicTv.BodyS">
+        <item name="android:textSize">10sp</item>
     </style>
 
     <style name="BasicTv.BodyM.Transparent">
@@ -120,11 +136,6 @@
         <item name="android:layout_marginBottom">20dp</item>
         <item name="android:layout_marginEnd">36dp</item>
     </style>
-
-    <style name="BasicTv.BodyM.Black">
-        <item name="android:textColor">@color/black</item>
-    </style>
-
     
     <style name="FloatingButton.Filter.CloseMode">
         <item name="android:layout_marginBottom">20dp</item>

@@ -12,11 +12,12 @@
             android:id="@+id/iv_recent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/rv_recent_search"
-            app:layout_constraintLeft_toLeftOf="rv"/>
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-            style="@style/BasicTv.BodyM.Black"
+            style="@style/BasicTv.BodyM"
             android:text="@string/recent_search"
+            android:textColor="@color/black"
             app:layout_constraintLeft_toRightOf="@id/iv_recent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/rv_recent_search"/>
