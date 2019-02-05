@@ -30,6 +30,9 @@
     <string name="sort_by_area">면적 순</string>
     <string name="sort_by_contract_year">계약연도 순</string>
     <string name="sort_by_type">거래종류 순</string>
+    <string name="all_find_house_text">매물 조회</string>
+    <string name="all_find_store_text">매장 검색</string>
     <string name="post_review_hint">해당 지역의 좋은 점, 나쁜 점 등 집을 알아보는 사람들에게 알려주고 싶은 정보와 팁을 적어주세요.</string>
+
 
 </resources>

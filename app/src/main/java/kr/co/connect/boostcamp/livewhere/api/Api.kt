@@ -3,6 +3,7 @@ package kr.co.connect.boostcamp.livewhere.api
 import android.provider.ContactsContract
 import io.reactivex.Single
 import kr.co.connect.boostcamp.livewhere.model.HouseResponse
+import kr.co.connect.boostcamp.livewhere.model.PlaceResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -16,8 +17,16 @@ interface Api {
 
     @GET("house/search/infos")
     fun getDetail(
-        @Query("address")address:String
+        @Query("address") address: String
     ): Single<Response<HouseResponse>>
+
+    @GET("place/search/infos")
+    fun getPlace(
+        @Query("lat") lat: String,
+        @Query("lng") lng: String,
+        @Query("radius") radius: String,
+        @Query("category") category: String
+    ): Single<Response<PlaceResponse>>
 
     @POST("")
     fun postReview(
