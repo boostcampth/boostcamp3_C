@@ -18,20 +18,26 @@
                 android:id="@+id/mv_main_naver"
                 onMakeNaverMapData="@{mapViewModel.mapStatusLiveData}"
                 onDrawMarker="@{mapViewModel.markerLiveData}"
-                bindViewModel="@{mapViewModel}"/>
+                bindViewModel="@{mapViewModel}"
+                onPlaceDrawMarker="@{mapViewModel.placeResponseLiveData}"/>
         <com.naver.maps.map.widget.LogoView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/logoView" app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="@dimen/map_widget_size"
+                android:layout_height="@dimen/map_widget_size"
+                android:id="@+id/logoView"
+                app:layout_constraintStart_toStartOf="parent"
                 android:layout_margin="@dimen/margin_map_widget_default"
-                app:layout_constraintBottom_toTopOf="@+id/guideline2"/>
+                app:layout_constraintBottom_toTopOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.955" android:layout_marginStart="16dp"/>
         <com.naver.maps.map.widget.ScaleBarView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/map_widget_size"
                 android:layout_margin="@dimen/margin_map_widget_default"
                 app:layout_constraintBottom_toTopOf="@+id/guideline2"
                 android:id="@+id/scaleBarView"
-                app:layout_constraintStart_toEndOf="@+id/logoView"></com.naver.maps.map.widget.ScaleBarView>
+                app:layout_constraintStart_toEndOf="@+id/logoView"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" android:layout_marginStart="12dp"/>
         <com.naver.maps.map.widget.LocationButtonView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,8 +47,9 @@
                 onLocationSource="@{locationSource}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/locationButtonView" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"></com.naver.maps.map.widget.LocationButtonView>
+                android:id="@+id/locationButtonView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"/>
         <com.naver.maps.map.widget.ZoomControlView
                 android:id="@+id/cv_zoom"
                 android:layout_width="wrap_content"
@@ -67,15 +74,13 @@
                     style="@style/BackDrop.White"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginTop="8dp">
+                    app:layout_constraintBottom_toBottomOf="parent">
                 <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/space_small"
                         android:visibility="invisible"
                         android:src="@drawable/ic_search_white_24dp"/>
-
                 <TextView
                         style="@style/BasicTv.BodyL"
                         android:textColor="@color/black"
@@ -117,7 +122,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:borderWidth="0dp"
                         triggerFloatingButton="@{mlFloatBtn}"
-                        triggerBackdrop="@{mlBackdrop}"/>
+                        triggerBackdrop="@{mlBackdrop}"
+                        triggerOnClick="@{mapViewModel}"/>
                 <TextView
                         style="@style/FilterTextView.CloseMode"
                         android:text="@string/all_food"
@@ -135,7 +141,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:borderWidth="0dp"
                         triggerFloatingButton="@{mlFloatBtn}"
-                        triggerBackdrop="@{mlBackdrop}"/>
+                        triggerBackdrop="@{mlBackdrop}"
+                        triggerOnClick="@{mapViewModel}"/>
                 <TextView
                         style="@style/FilterTextView.CloseMode"
                         android:text="@string/all_hospital"
@@ -153,7 +160,8 @@
                         android:id="@+id/fab_filter_hospital"
                         android:src="@drawable/ic_map_hospital_white_24dp"
                         triggerFloatingButton="@{mlFloatBtn}"
-                        triggerBackdrop="@{mlBackdrop}"/>
+                        triggerBackdrop="@{mlBackdrop}"
+                        triggerOnClick="@{mapViewModel}"/>
                 <TextView
                         style="@style/FilterTextView.CloseMode"
                         android:text="@string/all_school"
@@ -171,7 +179,8 @@
                         android:id="@+id/fab_filter_school"
                         android:src="@drawable/ic_map_school_white_24dp"
                         triggerFloatingButton="@{mlFloatBtn}"
-                        triggerBackdrop="@{mlBackdrop}"/>
+                        triggerBackdrop="@{mlBackdrop}"
+                        triggerOnClick="@{mapViewModel}"/>
                 <TextView
                         style="@style/FilterTextView.CloseMode"
                         android:text="@string/all_store"
@@ -192,6 +201,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         triggerFloatingButton="@{mlFloatBtn}"
                         triggerBackdrop="@{mlBackdrop}"
+                        triggerOnClick="@{mapViewModel}"
                 />
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                         style="@style/FloatingButton.Filter"
@@ -208,13 +218,12 @@
                     android:id="@+id/guideline"
                     app:layout_constraintGuide_begin="@dimen/space_guide_line"
                     android:orientation="vertical"/>
-
-        </androidx.constraintlayout.motion.widget.MotionLayout>
+        </kr.co.connect.boostcamp.livewhere.ui.map.BackdropMotionLayout>
         <androidx.constraintlayout.widget.Guideline
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/guideline2"
-                app:layout_constraintGuide_begin="@dimen/map_vertical_guideline"
+                app:layout_constraintGuide_begin="@dimen/guideline_map_bottom_margin"
                 android:orientation="horizontal"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
