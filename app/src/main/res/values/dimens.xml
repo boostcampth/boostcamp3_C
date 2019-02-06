@@ -51,4 +51,6 @@
     <dimen name="place_image_view_height">64dp</dimen>
     <dimen name="map_place_image_view_margin">8dp</dimen>
 
+    <dimen name="detail_post_review_contents_height">250dp</dimen>
+
 </resources>

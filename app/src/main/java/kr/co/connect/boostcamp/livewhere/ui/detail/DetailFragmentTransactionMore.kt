@@ -7,15 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import kr.co.connect.boostcamp.livewhere.databinding.FragmentDetailPastTransactionMoreBinding
-import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailRvAdapter
+import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailTransactionRvAdapter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class DetailFragmentMore : Fragment() {
+class DetailFragmentTransactionMore : Fragment() {
 
     companion object {
-        fun newInstance(): DetailFragmentMore {
+        fun newInstance(): DetailFragmentTransactionMore {
             val args = Bundle()
-            val fragment = DetailFragmentMore()
+            val fragment = DetailFragmentTransactionMore()
             fragment.arguments = args
             return fragment
         }
@@ -27,13 +27,13 @@ class DetailFragmentMore : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentDetailPastTransactionMoreBinding.inflate(inflater,container,false).apply {
-            viewModel = this@DetailFragmentMore.viewModel
-            setLifecycleOwner(this@DetailFragmentMore)
+            viewModel = this@DetailFragmentTransactionMore.viewModel
+            setLifecycleOwner(this@DetailFragmentTransactionMore)
         }
 
         binding.pastTransactionMoreRv.apply{
             layoutManager = LinearLayoutManager(context)
-            adapter = DetailRvAdapter(this@DetailFragmentMore)
+            adapter = DetailTransactionRvAdapter(this@DetailFragmentTransactionMore)
         }
 
         return binding.root
