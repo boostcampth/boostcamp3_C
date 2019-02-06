@@ -1,0 +1,7 @@
+package kr.co.connect.boostcamp.livewhere.repository
+
+class BookmarkRepositoryImpl : BookmarkRepository {
+    override fun get() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+}

@@ -7,54 +7,51 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.Resource
 import com.bumptech.glide.request.RequestOptions
 import kr.co.connect.boostcamp.livewhere.R
+import kr.co.connect.boostcamp.livewhere.databinding.ItemBookmarkRecyclerviewBinding
 import kr.co.connect.boostcamp.livewhere.model.Bookmark
 
-class BookmarkRecyclerViewAdapter(private val context: Context, private val list: ArrayList<Bookmark>) :
-    RecyclerView.Adapter<BookmarkRecyclerViewAdapter.ViewHolder>() {
+class BookmarkRecyclerViewAdapter(
+    private val lifecycleOwner: LifecycleOwner)
+    : RecyclerView.Adapter<BookmarkRecyclerViewAdapter.BookmarkViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkRecyclerViewAdapter.ViewHolder {
-        val view = LayoutInflater
-            .from(context)
-            .inflate(R.layout.item_bookmark_recyclerview, parent, false)
-        return ViewHolder(view)
+    private var list = listOf<Bookmark>()
+
+    fun setData(list: List<Bookmark>) {
+        this.list = list
+        this.notifyDataSetChanged()
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkViewHolder {
+        val binding = ItemBookmarkRecyclerviewBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
+        return BookmarkViewHolder(binding)
     }
 
     override fun getItemCount() = list.size
 
-    override fun onBindViewHolder(holder: BookmarkRecyclerViewAdapter.ViewHolder, position: Int) {
-        holder.bind(context, list[position])
+    override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
+        holder.bind(lifecycleOwner, list[position])
     }
 
-    inner class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
-        val iv_building = itemView?.findViewById<ImageView>(R.id.iv_bookmark_image)
-        val tv_building_contents = itemView?.findViewById<TextView>(R.id.tv_bookmark_building_contents)
-        val tv_location_contents = itemView?.findViewById<TextView>(R.id.tv_bookmark_location_contents)
-        val tv_pay_contents = itemView?.findViewById<TextView>(R.id.tv_bookmark_pay_contents)
+    inner class BookmarkViewHolder(
+        private val itemBinding: ItemBookmarkRecyclerviewBinding
+    ) : RecyclerView.ViewHolder(itemBinding.root) {
 
-        fun bind(context: Context, item: Bookmark) {
-            // Exception 추가해야함
-            if (iv_building != null) {
-                Glide.with(context)
-                    .load(item.imgUrl)
-                    .apply { RequestOptions.fitCenterTransform()}
-                    .into(iv_building)
-                Log.d("Adapter", item.imgUrl)
-            }
-            /*
-            type when default images are added
-            else
-             */
-            tv_building_contents?.text = item.buildingName
-            tv_location_contents?.text = item.address
-            if (item.isRent) {
-                tv_pay_contents?.text = item.pee.toString()
-            } else {
-                tv_pay_contents?.text = item.deposit.toString()
+        fun bind(lifecycleOwner: LifecycleOwner, bookmark: Bookmark) {
+            itemBinding.setLifecycleOwner(lifecycleOwner)
+            itemBinding.bookmark = bookmark
+
+            if (itemBinding.ivBookmarkImage != null) {
+                Glide.with(itemBinding.root)
+                    .load(bookmark.imgUrl)
+                    .apply { RequestOptions.fitCenterTransform() }
+                    .into(itemBinding.ivBookmarkImage)
             }
         }
     }
