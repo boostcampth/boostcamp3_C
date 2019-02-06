@@ -16,3 +16,14 @@ data class House(
     @SerializedName("CNTRCT_DE") val contractYearMonth:String, //계약년월
     @SerializedName("ROOM_CNT") val roomCount:String // 방개수
 )
+
+class CompareByContractYM {
+
+    companion object : Comparator<House> {
+
+        override fun compare(a: House , b: House): Int = when {
+            a.contractYearMonth != b.contractYearMonth -> Integer.parseInt(b.contractYearMonth) - Integer.parseInt(a.contractYearMonth)
+            else -> 0
+        }
+    }
+}
