@@ -5,6 +5,6 @@ data class Bookmark(
     var address:String,
     var buildingName:String,
     var isRent: Boolean,
-    var pee: Int,
-    var deposit: Int
+    var pee: String,
+    var deposit: String
 )
