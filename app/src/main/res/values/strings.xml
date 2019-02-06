@@ -31,5 +31,7 @@
     <string name="sort_by_contract_year">계약연도 순</string>
     <string name="sort_by_type">거래종류 순</string>
     <string name="post_review_hint">해당 지역의 좋은 점, 나쁜 점 등 집을 알아보는 사람들에게 알려주고 싶은 정보와 팁을 적어주세요.</string>
+    <string name="recent_charter_price">전세 %1$s</string>
+    <string name="recent_monthly_price">월세 %1$s</string>
 
 </resources>
