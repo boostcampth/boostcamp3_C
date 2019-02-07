@@ -1,5 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.ui.map
 
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
@@ -9,9 +10,9 @@ import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
 import kr.co.connect.boostcamp.livewhere.R
 
-class BackdropMotionLayout (context: Context, attributeSet: AttributeSet? = null) : MotionLayout(context, attributeSet) {
+class PlaceImageViewMotionLayout (context: Context, attributeSet: AttributeSet? = null) : MotionLayout(context, attributeSet) {
     private val viewToDetectTouch by lazy {
-        findViewById<View>(R.id.ll_place_detail)
+        findViewById<View>(R.id.iv_place_image)
     }
     private val viewRect = Rect()
     private var touchStarted = false

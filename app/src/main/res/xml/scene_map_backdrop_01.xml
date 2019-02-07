@@ -5,11 +5,11 @@
             motion:constraintSetStart="@layout/motion_01_map_backdrop_start"
             motion:constraintSetEnd="@layout/motion_01_map_backdrop_end"
             motion:duration="400">
+        <!-- recyclerview 중첩 이벤트 제거 moveWhenScrollAtTop = true-->
         <OnSwipe
                 motion:touchAnchorId="@id/ll_place_detail"
-                motion:moveWhenScrollAtTop="false"
+                motion:moveWhenScrollAtTop="true"
                 motion:touchAnchorSide="top"
-                motion:dragDirection="dragUp"></OnSwipe>
+                motion:dragDirection="dragUp"/>
     </Transition>
-
 </MotionScene>
