@@ -7,3 +7,35 @@ data class PastTransaction(
     val type: String,
     val contractYear: String
 )
+
+class CompareByArea {
+
+    companion object : Comparator<PastTransaction> {
+
+        override fun compare(a: PastTransaction , b: PastTransaction): Int = when {
+            a.area != b.area -> Integer.parseInt(b.area) - Integer.parseInt(a.area)
+            else -> 0
+        }
+    }
+}
+class CompareByType {
+
+    companion object : Comparator<PastTransaction> {
+
+        override fun compare(a: PastTransaction , b: PastTransaction): Int = when {
+            a.type != b.type && a.type=="월세" -> 1
+            a.type != b.type && a.type=="전세" -> -1
+            else -> 0
+        }
+    }
+}
+class CompareByYear {
+
+    companion object : Comparator<PastTransaction> {
+
+        override fun compare(a: PastTransaction , b: PastTransaction): Int = when {
+            a.contractYear!= b.contractYear -> Integer.parseInt(b.contractYear) - Integer.parseInt(a.contractYear)
+            else -> 0
+        }
+    }
+}
