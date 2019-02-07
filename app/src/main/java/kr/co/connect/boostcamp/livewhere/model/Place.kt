@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Place(
     @SerializedName("address_name") val addrName:String, // 지번주소
-    @SerializedName("category_group") val category:String,
+    @SerializedName("category_group_name") val category:String,
     @SerializedName("distance") val distance:String,
     @SerializedName("phone") val phone:String,
     @SerializedName("place_name") val placeName:String,

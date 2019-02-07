@@ -24,6 +24,7 @@
                 android:id="@+id/detail_fragment_btn_trend_price_charter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{viewModel.onClickedAvgPriceType}"
                 android:text="@string/charter"
                 app:layout_constraintEnd_toStartOf="@id/detail_fragment_btn_trend_price_monthly"
                 app:layout_constraintTop_toTopOf="parent"/>
@@ -32,6 +33,7 @@
                 android:id="@+id/detail_fragment_btn_trend_price_monthly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{viewModel.onClickedAvgPriceType}"
                 android:text="@string/monthly_rent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
@@ -44,7 +46,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginHorizontal="@dimen/detail_rv_horizontal_margin"
-                app:setBarChart="@{viewModel.listHouseAvgPrice}">
+                app:setBarChart="@{viewModel.getAvgPriceList()}">
 
         </com.github.mikephil.charting.charts.BarChart>
 

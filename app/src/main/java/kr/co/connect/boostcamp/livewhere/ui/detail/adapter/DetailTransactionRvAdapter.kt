@@ -1,4 +1,4 @@
-package kr.co.connect.boostcamp.livewhere.ui.detail
+package kr.co.connect.boostcamp.livewhere.ui.detail.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.co.connect.boostcamp.livewhere.databinding.FragmentDetailPastTransactionBodyItemBinding
 import kr.co.connect.boostcamp.livewhere.model.PastTransaction
 
-class DetailRvAdapter(
+class DetailTransactionRvAdapter(
     private val lifecycleOwner: LifecycleOwner) :
-    RecyclerView.Adapter<DetailRvAdapter.DetailViewHolder>() {
+    RecyclerView.Adapter<DetailTransactionRvAdapter.DetailViewHolder>() {
 
     private var list = listOf<PastTransaction>()
 
