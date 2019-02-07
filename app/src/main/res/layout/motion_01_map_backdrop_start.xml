@@ -31,12 +31,6 @@
                     android:id="@+id/tv_backdrop_title"/>
         </LinearLayout>
 
-        <TextView
-                style="@style/BasicTv.HeadlineS"
-                android:textColor="@color/black"
-                android:layout_gravity="top"
-                android:text="@string/home_bookmark"
-                android:id="@+id/tv_backdrop_title"/>
     </LinearLayout>
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="0dp"
