@@ -38,7 +38,5 @@ class SearchFragment : Fragment() {
             viewModel = this@SearchFragment.viewModel
             setLifecycleOwner(this@SearchFragment)
         }
-
-        binding.
     }
 }
