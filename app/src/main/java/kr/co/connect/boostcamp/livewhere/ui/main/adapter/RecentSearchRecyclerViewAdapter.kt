@@ -27,7 +27,7 @@ class RecentSearchRecyclerViewAdapter(
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: RecentSearchViewHolder, position: Int) {
-        //holder.bind(lifecycleOwner, list[position])
+        holder.bind(lifecycleOwner, list[position])
     }
 
     inner class RecentSearchViewHolder(
