@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import kotlinx.android.synthetic.main.fragment_detail_review_more.view.*
 import kotlinx.android.synthetic.main.fragment_detail_trend_price.view.*
 import kr.co.connect.boostcamp.livewhere.LiveApplication
 import kr.co.connect.boostcamp.livewhere.R
@@ -57,9 +58,7 @@ class DetailActivity : AppCompatActivity() {
             addReviewPost()
         })
 
-        viewModel.avgPriceType.observe(this, Observer { //전세 월세별 시세추이
-            setBarChart(binding.detailActivityCl.detail_fragment_chart,viewModel.getAvgPriceList())
-        })
+
     }
 
     private fun addDetailFragment() {

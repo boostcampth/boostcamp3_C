@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_detail_past_transation.view.*
+import kotlinx.android.synthetic.main.fragment_detail_trend_price.view.*
 import kr.co.connect.boostcamp.livewhere.databinding.FragmentDetailBinding
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailTransactionRvAdapter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -37,6 +39,9 @@ class DetailFragment : Fragment() {
                     adapter = DetailTransactionRvAdapter(this@DetailFragment)
         }
 
+        viewModel.avgPriceType.observe(this, Observer { //전세 월세별 시세추이
+            setBarChart(binding.detailFragmentCl.detail_fragment_chart,viewModel.getAvgPriceList())
+        })
 
         return binding.root
     }
