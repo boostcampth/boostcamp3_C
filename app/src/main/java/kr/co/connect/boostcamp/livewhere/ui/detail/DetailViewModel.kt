@@ -1,16 +1,15 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.naver.maps.geometry.LatLng
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.repository.DetailRepository
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
-import kr.co.connect.boostcamp.livewhere.util.SingleLiveEvent
-import kr.co.connect.boostcamp.livewhere.util.StatusCode
-import kr.co.connect.boostcamp.livewhere.util.TYPE_CHARTER
-import kr.co.connect.boostcamp.livewhere.util.TYPE_MONTHLY
+import kr.co.connect.boostcamp.livewhere.util.*
 
 class DetailViewModel(private val detailRepository: DetailRepository) : BaseViewModel() {
 
@@ -39,6 +38,10 @@ class DetailViewModel(private val detailRepository: DetailRepository) : BaseView
     val listMonthlyHouseAvgPrice: LiveData<ArrayList<HouseAvgPrice>>
         get() = _listMonthlyHouseAvgPrice
 
+    private val _pastTransactionSort = MutableLiveData<Int>() //detail page 의 5개 미리보기 리스트
+    val pastTransactionSort: LiveData<Int>
+        get() = _pastTransactionSort
+
     private val _pastTransactionPre = MutableLiveData<ArrayList<PastTransaction>>() //detail page 의 5개 미리보기 리스트
     val pastTransactionPre: LiveData<ArrayList<PastTransaction>>
         get() = _pastTransactionPre
@@ -64,28 +67,29 @@ class DetailViewModel(private val detailRepository: DetailRepository) : BaseView
         get() = _reviewPostClicked
 
     init {
-//        _avgPriceType.postValue(TYPE_CHARTER)
-//        val latLng = LatLng(37.5390102, 127.0685085)
-//        val charterList = ArrayList<House>()
-//        val monthlyList = ArrayList<House>()
-//        val house = House("asd", "asd", "asd", "asd", "asd", "asd", "전세", "2000", "30", "2013", "201305", "1")
-//        val house2 = House("asd", "asd", "asd", "asd", "asd", "asd", "월세", "3000", "30", "2012", "201202", "1")
-//        val house3 = House("asd", "asd", "asd", "asd", "asd", "asd", "전세", "2000", "30", "2014", "201401", "1")
-//        val house4 = House("asd", "asd", "asd", "asd", "asd", "asd", "전세", "5000", "30", "2010", "201002", "1")
-//        val house5 = House("asd", "asd", "asd", "asd", "asd", "asd", "전세", "4500", "30", "2014", "201401", "1")
-//        val house6 = House("asd", "asd", "asd", "asd", "asd", "asd", "전세", "3500", "30", "2011", "201112", "1")
-//        val house7 = House("asd", "asd", "asd", "asd", "asd", "asd", "월세", "3500", "50", "2010", "201012", "1")
-//        val house8 = House("asd", "asd", "asd", "asd", "asd", "asd", "월세", "3500", "80", "2013", "201312", "1")
-//        charterList.add(house)
-//        charterList.add(house2)
-//        charterList.add(house3)
-//        charterList.add(house4)
-//        charterList.add(house5)
-//        charterList.add(house6)
-//        charterList.add(house7)
-//        charterList.add(house8)
-//        val markerInfo = MarkerInfo(latLng, charterList, StatusCode.RESULT_200)
-//        _markerInfo.postValue(markerInfo)
+        _pastTransactionSort.postValue(SORT_BY_AREA)
+        _avgPriceType.postValue(TYPE_CHARTER)
+        val latLng = LatLng(37.5390102, 127.0685085)
+        val charterList = ArrayList<House>()
+        val monthlyList = ArrayList<House>()
+        val house = House("asd", "asd", "asd", "asd", "asd", "asd", "전세", "2000", "30", "2013", "201305", "1")
+        val house2 = House("asd", "asd", "asd", "asd", "asd", "asd", "월세", "3000", "30", "2012", "201202", "1")
+        val house3 = House("asd", "asd", "asd", "asd", "asd", "asd", "전세", "2000", "30", "2014", "201401", "1")
+        val house4 = House("asd", "asd", "asd", "asd", "asd", "asd", "전세", "5000", "30", "2010", "201002", "1")
+        val house5 = House("asd", "asd", "asd", "asd", "asd", "asd", "전세", "4500", "30", "2014", "201401", "1")
+        val house6 = House("asd", "asd", "asd", "asd", "asd", "asd", "전세", "3500", "30", "2011", "201112", "1")
+        val house7 = House("asd", "asd", "asd", "asd", "asd", "asd", "월세", "3500", "50", "2010", "201012", "1")
+        val house8 = House("asd", "asd", "asd", "asd", "asd", "asd", "월세", "3500", "80", "2013", "201312", "1")
+        charterList.add(house)
+        charterList.add(house2)
+        charterList.add(house3)
+        charterList.add(house4)
+        charterList.add(house5)
+        charterList.add(house6)
+        charterList.add(house7)
+        charterList.add(house8)
+        val markerInfo = MarkerInfo(latLng, charterList, StatusCode.RESULT_200)
+        _markerInfo.postValue(markerInfo)
 
     }
 
@@ -133,10 +137,21 @@ class DetailViewModel(private val detailRepository: DetailRepository) : BaseView
                 addAll(_markerInfo.value!!.houseList.filter { it.rentCase == "월세" })// 전체데이터의 월세 데이터만 추가
                 sortedWith(CompareByContractYM) // 계약년월(최근순)순으로 정렬
             }
-            val recentPrice = RecentPrice(
-                charterList[0].deposite,
-                monthlyList[0].fee
-            ) //가장 최근 전,월세 데이터 반영 //TODO : 전세 or 월세 정보 없을 경우 예외처리
+            val recentPrice:RecentPrice
+            when {
+                charterList.isEmpty() -> recentPrice = RecentPrice(
+                    "정보 없음",
+                    monthlyList[0].fee
+                )
+                monthlyList.isEmpty() -> recentPrice = RecentPrice(
+                    charterList[0].deposite,
+                    "정보 없음"
+                )
+                else -> recentPrice = RecentPrice(
+                    charterList[0].deposite,
+                    monthlyList[0].fee
+                )
+            }//가장 최근 전,월세 데이터 반영 //TODO : 전세 or 월세 정보 없을 경우 예외처리
             _recentPrice.postValue(recentPrice)
 
             getAvgPriceFromList(charterList, monthlyList)
@@ -203,6 +218,31 @@ class DetailViewModel(private val detailRepository: DetailRepository) : BaseView
                 tempList.add(transactionList[i])
             }
             _pastTransactionPre.postValue(tempList)
+        }
+    }
+
+    fun setPastTransactionSort(view: View) {
+        when (view.id) {
+            R.id.past_transaction_more_sort_by_area -> _pastTransactionSort.postValue(SORT_BY_AREA)
+            R.id.past_transaction_more_sort_by_type -> _pastTransactionSort.postValue(SORT_BY_TYPE)
+            R.id.past_transaction_more_sort_by_contract_year -> _pastTransactionSort.postValue(SORT_BY_YEAR)
+        }
+    }
+
+    fun sortTransactionList() {
+        Log.d("@@@", "in")
+        if (!(_pastTransactionMore.value.isNullOrEmpty())) {
+            when (_pastTransactionSort.value) {
+                SORT_BY_AREA -> {
+                    _pastTransactionMore.value!!.sortWith(CompareByArea)
+                }
+                SORT_BY_TYPE -> {
+                    _pastTransactionMore.value!!.sortWith(CompareByType)
+                }
+                SORT_BY_YEAR -> {
+                    _pastTransactionMore.value!!.sortWith(CompareByYear)
+                }
+            }
         }
     }
 
