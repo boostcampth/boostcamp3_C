@@ -18,16 +18,7 @@
 
         <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/space_small"
-                android:src="@drawable/ic_arrow_up_black_24dp"
-                android:visibility="invisible"/>
-        <TextView
-                style="@style/BasicTv.HeadlineS"
-                android:textColor="@color/black"
-                android:layout_gravity="top"
-                android:text="@string/home_bookmark"
-                android:id="@+id/tv_backdrop_title"/>
+                android:layout_height="wrap_content">
             <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
