@@ -6,12 +6,13 @@
                 type="kr.co.connect.boostcamp.livewhere.model.RecentSearch"/>
     </data>
     <LinearLayout
-            style="@style/Table.Narrow"
-            android:padding="@dimen/space_small"
+            style="@style/Table.Double"
+            android:gravity="center|left"
             android:orientation="horizontal">
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_recent_search"
                 style="@style/BasicTv.BodyL"
+                android:layout_margin="@dimen/space_small"
                 android:text="@{recentSearch.text}"
                 android:textColor="@color/black"/>
     </LinearLayout>
