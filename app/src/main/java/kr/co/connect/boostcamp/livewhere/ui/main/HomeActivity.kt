@@ -41,4 +41,12 @@ class HomeActivity : AppCompatActivity() {
             .commit()
     }
 
+    private fun startSearchFragment() {
+        val fragment = SearchFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(HOME_CONTAINER_ID, fragment)
+            .commit()
+    }
+
 }

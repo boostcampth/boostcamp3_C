@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+                name="recentsearch"
+                type="kr.co.connect.boostcamp.livewhere.model.RecentSearch"/>
+    </data>
+    <LinearLayout
+            style="@style/Table.Narrow"
+            android:padding="@dimen/space_small"
+            android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_recent_search"
+                style="@style/BasicTv.BodyL"
+                android:text="@{recentsearch.text}"
+                android:textColor="@color/black"/>
+
+    </LinearLayout>
+</layout>

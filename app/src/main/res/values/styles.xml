@@ -12,6 +12,18 @@
         <item name="android:windowBackground">@xml/splash_background</item>
     </style>
 
+    <style name="Horizontal_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/black_opacity_60</item>
+    </style>
+
+    <style name="ImageBtn">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/space_small</item>
+    </style>
+
     <style name="Table">
         <item name="android:layout_width">match_parent</item>
         <item name="android:background">@color/white</item>

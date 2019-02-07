@@ -1,43 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:padding="@dimen/space_xx_small">
-    <androidx.appcompat.widget.AppCompatImageView
-            style="@style/BasicBtn"
-            android:id="@+id/iv_recent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/rv_recent_search"
-            app:layout_constraintLeft_toLeftOf="parent"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-            style="@style/BasicTv.BodyM"
-            android:text="@string/recent_search"
-            android:textColor="@color/black"
-            app:layout_constraintLeft_toRightOf="@id/iv_recent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/rv_recent_search"/>
-    <androidx.appcompat.widget.AppCompatTextView
-            style="@style/BasicTv.BodyM"
-            android:textColor="@color/black_opacity_60"
-            android:text="@string/delete_all"
-            android:layout_gravity="right"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/rv_recent_search"
-            app:layout_constraintRight_toRightOf="parent"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_recent_search"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+                name="viewModel"
+                type="kr.co.connect.boostcamp.livewhere.ui.main.HomeActivityViewModel"/>
+    </data>
+    <LinearLayout
+            android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/iv_recent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent">
+            android:orientation="vertical">
 
-    </androidx.recyclerview.widget.RecyclerView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:elevation="@dimen/elevation_s">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    style="@style/ImageBtn"
+                    android:src="@drawable/ic_history_black_24dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/BasicTv.BodyM"
+                    android:textColor="@color/black"
+                    android:text="@string/recent_search"
+                    android:layout_gravity="center"/>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/space_small"
+                    android:gravity="right|center"
+                    android:orientation="vertical">
+                <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/BasicTv.BodyM"
+                        android:textColor="@color/black_opacity_60"
+                        android:text="@string/delete_all"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <ScrollView android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_recent_search"
+                    app:setRvItems="@{viewModel.recentSearch}"
+                    android:layout_width="match_parent"
+                    android:background="@color/white"
+                    android:layout_height="wrap_content"/>
+        </ScrollView>
+
+
+    </LinearLayout>
+</layout>
