@@ -7,6 +7,9 @@
         <variable
                 name="viewModel"
                 type="kr.co.connect.boostcamp.livewhere.ui.main.HomeViewModel"/>
+        <variable
+            name="searchViewModel"
+            type="kr.co.connect.boostcamp.livewhere.ui.main.SearchViewModel"/>
     </data>
     <FrameLayout
             android:id="@+id/fl_home_frame"

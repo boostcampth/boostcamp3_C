@@ -21,7 +21,7 @@
                     android:id="@+id/iv_search_back"
                     style="@style/BasicBtn"
                     android:src="@drawable/ic_arrow_back_white_24dp"
-                    android:onClick="@{() -> viewModel.searchBtnClicked}"
+                    android:onClick="@{()->viewModel.onClickedBack()}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/et_search_bar"/>

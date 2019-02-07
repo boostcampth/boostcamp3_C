@@ -2,6 +2,7 @@ package kr.co.connect.boostcamp.livewhere.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.reactivex.Single
 import kr.co.connect.boostcamp.livewhere.model.RecentSearch
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 import kr.co.connect.boostcamp.livewhere.util.SingleLiveEvent
@@ -12,13 +13,13 @@ class SearchViewModel() : BaseViewModel() {
     val recentSearch: LiveData<ArrayList<RecentSearch>>
         get() = _recentSearch
 
-    private var _searchBtnClicked = SingleLiveEvent<Any>()
-    val searchBtnClicked: LiveData<Any>
-        get() = _searchBtnClicked
-
     private var _mapBtnClicked = SingleLiveEvent<Any>()
     val mapBtnClicked: LiveData<Any>
         get() = _mapBtnClicked
+
+    private var _backBtnClicked = SingleLiveEvent<Any>()
+    val backBtnClicked: LiveData<Any>
+        get() = _backBtnClicked
 
     init {
         val temprecentsearchvalue = arrayListOf<RecentSearch>(
@@ -27,11 +28,11 @@ class SearchViewModel() : BaseViewModel() {
         _recentSearch.postValue(temprecentsearchvalue)
     }
 
-    private fun searchClicked() {
-        _searchBtnClicked.call()
+    fun onClickedMap() {
+        _mapBtnClicked.call()
     }
 
-    private fun mapClicked() {
-        _mapBtnClicked.call()
+    fun onClickedBack() {
+        _backBtnClicked.call()
     }
 }

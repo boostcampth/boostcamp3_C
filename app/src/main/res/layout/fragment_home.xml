@@ -39,6 +39,7 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_logo"
                     android:layout_margin="@dimen/home_between_logo_and_search_bar_margin"
+                    android:onClick="@{()->viewModel.onSearchClicked()}"
                     android:src="@drawable/btn_home_search_bar"/>
 
             <FrameLayout
