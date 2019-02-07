@@ -89,6 +89,7 @@
     <style name="BasicBtn">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
+    </style>
       
     <style name="BasicTv">
         <item name="android:layout_width">wrap_content</item>
@@ -159,12 +160,14 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">8dp</item>
     </style>
+        
     <style name="FilterTextView.CloseMode">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_margin">0dp</item>
 
     </style>
+        
     <style name="RvText">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">10sp</item>
