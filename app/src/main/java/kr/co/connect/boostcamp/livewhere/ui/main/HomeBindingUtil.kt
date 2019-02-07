@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.co.connect.boostcamp.livewhere.model.Bookmark
 import kr.co.connect.boostcamp.livewhere.ui.main.adapter.BookmarkRecyclerViewAdapter
 
-@BindingAdapter("setRvItems")
+@BindingAdapter("setRecyclerViewItems")
 fun setRvItems(recyclerView: RecyclerView, itemList:List<Bookmark>?){
     if(itemList!=null){
         (recyclerView.adapter as BookmarkRecyclerViewAdapter).setData(itemList)

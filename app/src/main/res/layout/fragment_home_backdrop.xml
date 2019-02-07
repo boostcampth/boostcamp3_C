@@ -3,13 +3,12 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="viewModel"
-                  type="kr.co.connect.boostcamp.livewhere.ui.main.HomeActivityViewModel"/>
+                  type="kr.co.connect.boostcamp.livewhere.ui.main.HomeViewModel"/>
     </data>
     <LinearLayout
             style="@style/BackDrop.White"
             android:id="@+id/ll_main_backdrop"
             android:orientation="vertical">
-
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dropbar_header"
@@ -17,22 +16,17 @@
             <androidx.appcompat.widget.AppCompatImageView
                     style="@style/BackDrop.White.Arrow"
                     android:src="@drawable/ic_arrow_up_black_24dp"/>
-
             <androidx.appcompat.widget.AppCompatTextView
                     style="@style/BasicTv.HeadlineS"
                     android:padding="@dimen/space_small"
                     android:textColor="@color/black"
                     android:text="@string/home_bookmark"/>
-
         </LinearLayout>
-
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_bookmark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:setRvItems="@{viewModel.bookmark}"
-                android:background="@color/white">
-        </androidx.recyclerview.widget.RecyclerView>
-
+                app:setRecyclerViewItems="@{viewModel.bookmark}"
+                android:background="@color/white"/>
     </LinearLayout>
 </layout>

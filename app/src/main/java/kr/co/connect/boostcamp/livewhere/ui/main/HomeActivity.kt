@@ -2,12 +2,9 @@ package kr.co.connect.boostcamp.livewhere.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.annotation.IdRes
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityHomeBinding
-import kr.co.connect.boostcamp.livewhere.ui.detail.DetailFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeActivity : AppCompatActivity() {
@@ -17,7 +14,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityHomeBinding
-    private val viewModel: HomeActivityViewModel by viewModel()
+    private val viewModel: HomeViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +37,7 @@ class HomeActivity : AppCompatActivity() {
             .replace(HOME_CONTAINER_ID, fragment)
             .commit()
     }
-
+/*
     private fun startSearchFragment() {
         val fragment = SearchFragment.newInstance()
         supportFragmentManager
@@ -48,5 +45,5 @@ class HomeActivity : AppCompatActivity() {
             .replace(HOME_CONTAINER_ID, fragment)
             .commit()
     }
-
+*/
 }

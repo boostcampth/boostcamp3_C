@@ -24,7 +24,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private val viewModel: HomeActivityViewModel by sharedViewModel()
+    private val viewModel: HomeViewModel by sharedViewModel()
     private lateinit var binding : FragmentHomeBinding
     private lateinit var bookmarkRecyclerViewAdapter: BookmarkRecyclerViewAdapter
     private lateinit var recyclerViewLayoutManager: LinearLayoutManager

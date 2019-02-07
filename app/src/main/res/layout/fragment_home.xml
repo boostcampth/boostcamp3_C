@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="kr.co.connect.boostcamp.livewhere.ui.main.HomeActivityViewModel"/>
+            type="kr.co.connect.boostcamp.livewhere.ui.main.HomeViewModel"/>
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/cl_home_backdrop"

@@ -5,9 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import kr.co.connect.boostcamp.livewhere.model.Bookmark
 import kr.co.connect.boostcamp.livewhere.model.RecentSearch
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
-import kr.co.connect.boostcamp.livewhere.util.SingleLiveEvent
 
-class HomeActivityViewModel() : BaseViewModel() {
+class HomeViewModel() : BaseViewModel() {
     private val _bookmark = MutableLiveData<ArrayList<Bookmark>>()
     val bookmark: LiveData<ArrayList<Bookmark>>
         get() = _bookmark
@@ -15,10 +14,6 @@ class HomeActivityViewModel() : BaseViewModel() {
     private val _recentSearch = MutableLiveData<ArrayList<RecentSearch>>()
     val recentSearch: LiveData<ArrayList<RecentSearch>>
         get() = _recentSearch
-
-    private var _searchBtnClicked = SingleLiveEvent<Any>()
-    val searchBtnClicked: LiveData<Any>
-        get() = _searchBtnClicked
 
     init {
 
@@ -57,14 +52,6 @@ class HomeActivityViewModel() : BaseViewModel() {
                 "400000"
             )
         )
-        val temprecentsearchvalue = arrayListOf<RecentSearch>(
-            RecentSearch("서울특별시 동대문구 제기동 133")
-        )
-        _recentSearch.postValue(temprecentsearchvalue)
         _bookmark.postValue(tempbookmarkvalue)
-    }
-
-    private fun searchBtnClicked() {
-        _searchBtnClicked.call()
     }
 }
