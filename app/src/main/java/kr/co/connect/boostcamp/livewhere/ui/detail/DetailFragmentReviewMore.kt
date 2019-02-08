@@ -1,10 +1,12 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kr.co.connect.boostcamp.livewhere.databinding.FragmentDetailReviewMoreBinding
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailReviewRvAdapter
@@ -37,6 +39,9 @@ class DetailFragmentReviewMore : Fragment() {
             adapter = DetailReviewRvAdapter(this@DetailFragmentReviewMore)
         }
 
+        viewModel.getComments().observe(this, Observer {
+            binding.detailReviewMoreRv.adapter!!.notifyDataSetChanged()
+        })
         return binding.root
     }
 
