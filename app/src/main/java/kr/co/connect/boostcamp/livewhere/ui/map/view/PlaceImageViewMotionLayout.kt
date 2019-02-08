@@ -1,4 +1,4 @@
-package kr.co.connect.boostcamp.livewhere.ui.map
+package kr.co.connect.boostcamp.livewhere.ui.map.view
 
 
 import android.annotation.SuppressLint
