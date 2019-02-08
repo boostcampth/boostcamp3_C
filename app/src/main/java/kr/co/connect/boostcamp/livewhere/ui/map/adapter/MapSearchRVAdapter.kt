@@ -1,4 +1,4 @@
-package kr.co.connect.boostcamp.livewhere.ui.map
+package kr.co.connect.boostcamp.livewhere.ui.map.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +13,7 @@ import kr.co.connect.boostcamp.livewhere.model.House
 import kr.co.connect.boostcamp.livewhere.model.Place
 import java.util.*
 
-class MapSearchRVAdapter(private val itemList: List<Any>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MapSearchRVAdapter(private var itemList: List<Any>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == Category.HOUSE.type) {
             val itemHouseSearchRecyclerviewBinding: ItemHouseSearchRecyclerviewBinding =
@@ -23,7 +23,9 @@ class MapSearchRVAdapter(private val itemList: List<Any>?) : RecyclerView.Adapte
                     parent,
                     false
                 )
-            return HouseViewHolder(itemHouseSearchRecyclerviewBinding)
+            return HouseViewHolder(
+                itemHouseSearchRecyclerviewBinding
+            )
         } else if (viewType == Category.PLACE.type) {
             val itemPlaceSearchRecyclerviewBinding: ItemPlaceSearchRecyclerviewBinding =
                 DataBindingUtil.inflate(
@@ -32,7 +34,9 @@ class MapSearchRVAdapter(private val itemList: List<Any>?) : RecyclerView.Adapte
                     parent,
                     false
                 )
-            return PlaceViewHolder(itemPlaceSearchRecyclerviewBinding)
+            return PlaceViewHolder(
+                itemPlaceSearchRecyclerviewBinding
+            )
         }
         val adViewInflater =
             LayoutInflater.from(parent.context).inflate(R.layout.item_empty_recyclerview, parent, false)
@@ -42,6 +46,10 @@ class MapSearchRVAdapter(private val itemList: List<Any>?) : RecyclerView.Adapte
 
     override fun getItemCount(): Int {
         return itemList?.size!!
+    }
+
+    fun changeItemList(itemList: List<Any>) {
+        this.itemList = itemList
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -57,15 +65,18 @@ class MapSearchRVAdapter(private val itemList: List<Any>?) : RecyclerView.Adapte
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (itemList?.size!! > 0) {
-            if (itemList[0] is House) {
-                return Category.HOUSE.type
-            } else if (itemList[0] is Place) {
-                //올림차순
-                Collections.sort(itemList as List<Place>) { o1, o2 -> o1.distance.toInt() - o2.distance.toInt() }
-                return Category.PLACE.type
+        if (itemList != null) {
+            if (itemList?.size!! > 0) {
+                if (itemList!![0] is House) {
+                    return Category.HOUSE.type
+                } else if (itemList!![0] is Place) {
+                    //올림차순
+                    Collections.sort(itemList as List<Place>) { o1, o2 -> o1.distance.toInt() - o2.distance.toInt() }
+                    return Category.PLACE.type
+                }
             }
         }
+
         return super.getItemViewType(position)
     }
 
