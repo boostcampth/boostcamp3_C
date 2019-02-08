@@ -60,7 +60,7 @@ class DetailActivity : AppCompatActivity() {
 
 
     }
-
+  
     private fun addDetailFragment() {
         val fragment = DetailFragment.newInstance()
         currentFragment = fragment
