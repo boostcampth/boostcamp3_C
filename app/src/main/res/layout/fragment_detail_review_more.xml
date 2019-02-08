@@ -18,7 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/detail_rv_horizontal_margin"
-                app:setReviews="@{viewModel.reviewList}"
+                app:setReviews="@{viewModel.getComments}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
 
