@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <layout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android"
 >
     <data>
@@ -17,21 +17,12 @@
                 android:layout_height="match_parent"
                 android:id="@+id/mv_main_naver"
                 onMakeNaverMapData="@{mapViewModel.mapStatusLiveData}"
-                onDrawMarker="@{mapViewModel.markerLiveData}"
-                bindViewModel="@{mapViewModel}"/>
-        <com.naver.maps.map.widget.LogoView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/logoView" app:layout_constraintStart_toStartOf="parent"
-                android:layout_margin="@dimen/margin_map_widget_default"
-                app:layout_constraintBottom_toTopOf="@+id/guideline2"/>
-        <com.naver.maps.map.widget.ScaleBarView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_map_widget_default"
-                app:layout_constraintBottom_toTopOf="@+id/guideline2"
-                android:id="@+id/scaleBarView"
-                app:layout_constraintStart_toEndOf="@+id/logoView"></com.naver.maps.map.widget.ScaleBarView>
+                onHouseDrawMarker="@{mapViewModel.markerLiveData}"
+                bindViewModel="@{mapViewModel}"
+                onPlaceDrawMarker="@{mapViewModel.placeResponseLiveData}"
+                onClickPlaceMarker="@{mapViewModel}"
+                onClickHouseMarker="@{mapViewModel}"/>
+
         <com.naver.maps.map.widget.LocationButtonView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,8 +32,9 @@
                 onLocationSource="@{locationSource}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/locationButtonView" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"></com.naver.maps.map.widget.LocationButtonView>
+                android:id="@+id/locationButtonView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"/>
         <com.naver.maps.map.widget.ZoomControlView
                 android:id="@+id/cv_zoom"
                 android:layout_width="wrap_content"
@@ -52,36 +44,105 @@
                 android:layout_margin="@dimen/margin_map_widget_default"
                 app:layout_constraintTop_toBottomOf="@+id/locationButtonView"
                 app:layout_constraintEnd_toEndOf="parent"/>
-        <androidx.constraintlayout.motion.widget.MotionLayout
+
+        <kr.co.connect.boostcamp.livewhere.ui.map.BackdropMotionLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/ml_backdrop"
                 app:layoutDescription="@xml/scene_map_backdrop_01"
-                triggerFloatingButton="@{mlFloatBtn}">
+                triggerFloatingButton="@{mlFloatBtn}"
+                android:background="@android:color/transparent">
+            <com.naver.maps.map.widget.LogoView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/map_widget_size"
+                    android:id="@+id/logoView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_margin="@dimen/margin_map_widget_default"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline2"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.95" android:layout_marginStart="16dp"/>
+            <com.naver.maps.map.widget.ScaleBarView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/map_widget_size"
+                    android:layout_margin="@dimen/margin_map_widget_default"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline2"
+                    android:id="@+id/scaleBarView"
+                    app:layout_constraintStart_toEndOf="@+id/logoView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0" android:layout_marginStart="12dp"/>
+            <kr.co.connect.boostcamp.livewhere.ui.map.PlaceImageViewMotionLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/ml_place_image"
+                    app:layoutDescription="@xml/scene_map_place_image_view"
+                    app:layout_constraintBottom_toTopOf="@+id/logoView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:elevation="2dp">
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:id="@+id/view_background_ml_place"
+                        android:alpha="0"/>
+                <ImageView
+                        android:layout_width="@dimen/place_image_view_width"
+                        android:layout_height="@dimen/place_image_view_height"
+                        android:id="@+id/iv_place_image"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        onDrawHouse="@{mapViewModel.markerLiveData}"
+                        onDrawPlace="@{mapViewModel.placeMarkerLiveData}"
+                        android:layout_marginStart="@dimen/map_place_image_view_margin"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.85"/>
+
+            </kr.co.connect.boostcamp.livewhere.ui.map.PlaceImageViewMotionLayout>
 
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:id="@+id/ll_place_detail"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     style="@style/BackDrop.White"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginTop="8dp">
-                <ImageView
+                    app:layout_constraintBottom_toBottomOf="parent">
+                <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/space_small"
-                        android:visibility="invisible"
-                        android:src="@drawable/ic_search_white_24dp"/>
+                        >
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/space_small"
+                            android:visibility="invisible"
+                            android:src="@drawable/ic_search_white_24dp"/>
+                    <TextView
+                            style="@style/BasicTv.BodyL"
+                            android:textColor="@color/black"
+                            android:layout_gravity="top"
+                            android:text="@string/home_bookmark"
+                            android:id="@+id/tv_backdrop_title"
+                            onStatusTitleEvent="@{mapViewModel.userStatusLiveData}"/>
+                </LinearLayout>
 
-                <TextView
-                        style="@style/BasicTv.BodyL"
-                        android:textColor="@color/black"
-                        android:layout_gravity="top"
-                        android:text="@string/home_bookmark"
-                        android:id="@+id/tv_backdrop_title"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="0dp"
+                          android:id="@+id/ll_search_map"
+                          android:alpha="0.0"
+                          app:layout_constraintEnd_toEndOf="parent"
+                          app:layout_constraintHeight_percent="0"
+                          app:layout_constraintTop_toBottomOf="@+id/iv_backdrop_toggle"
+                          app:layout_constraintBottom_toBottomOf="parent">
+                <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/rv_search_map"
+                        bindPlaceData="@{mapViewModel.searchListLiveData}"/>
             </LinearLayout>
             <ImageView
                     android:layout_width="wrap_content"
@@ -117,7 +178,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:borderWidth="0dp"
                         triggerFloatingButton="@{mlFloatBtn}"
-                        triggerBackdrop="@{mlBackdrop}"/>
+                        triggerBackdrop="@{mlBackdrop}"
+                        triggerOnClick="@{mapViewModel}"/>
                 <TextView
                         style="@style/FilterTextView.CloseMode"
                         android:text="@string/all_food"
@@ -135,7 +197,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:borderWidth="0dp"
                         triggerFloatingButton="@{mlFloatBtn}"
-                        triggerBackdrop="@{mlBackdrop}"/>
+                        triggerBackdrop="@{mlBackdrop}"
+                        triggerOnClick="@{mapViewModel}"/>
                 <TextView
                         style="@style/FilterTextView.CloseMode"
                         android:text="@string/all_hospital"
@@ -153,7 +216,8 @@
                         android:id="@+id/fab_filter_hospital"
                         android:src="@drawable/ic_map_hospital_white_24dp"
                         triggerFloatingButton="@{mlFloatBtn}"
-                        triggerBackdrop="@{mlBackdrop}"/>
+                        triggerBackdrop="@{mlBackdrop}"
+                        triggerOnClick="@{mapViewModel}"/>
                 <TextView
                         style="@style/FilterTextView.CloseMode"
                         android:text="@string/all_school"
@@ -171,7 +235,8 @@
                         android:id="@+id/fab_filter_school"
                         android:src="@drawable/ic_map_school_white_24dp"
                         triggerFloatingButton="@{mlFloatBtn}"
-                        triggerBackdrop="@{mlBackdrop}"/>
+                        triggerBackdrop="@{mlBackdrop}"
+                        triggerOnClick="@{mapViewModel}"/>
                 <TextView
                         style="@style/FilterTextView.CloseMode"
                         android:text="@string/all_store"
@@ -192,6 +257,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         triggerFloatingButton="@{mlFloatBtn}"
                         triggerBackdrop="@{mlBackdrop}"
+                        triggerOnClick="@{mapViewModel}"
                 />
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                         style="@style/FloatingButton.Filter"
@@ -208,13 +274,14 @@
                     android:id="@+id/guideline"
                     app:layout_constraintGuide_begin="@dimen/space_guide_line"
                     android:orientation="vertical"/>
-
-        </androidx.constraintlayout.motion.widget.MotionLayout>
-        <androidx.constraintlayout.widget.Guideline
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/guideline2"
-                app:layout_constraintGuide_begin="@dimen/map_vertical_guideline"
-                android:orientation="horizontal"/>
+            <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline2"
+                    app:layout_constraintGuide_begin="@dimen/guideline_map_bottom_margin"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@+id/ml_backdrop"
+                    app:layout_constraintTop_toTopOf="@id/ml_backdrop"/>
+        </kr.co.connect.boostcamp.livewhere.ui.map.BackdropMotionLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

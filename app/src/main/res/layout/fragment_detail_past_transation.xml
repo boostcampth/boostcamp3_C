@@ -47,7 +47,7 @@
                 android:id="@+id/detail_foragment_btn_past_transaction_more"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/detail_more_btn_height"
-                android:onClick="@{()->viewModel.onClickedMore()}"
+                android:onClick="@{()->viewModel.onClickedTransactionMore()}"
                 android:background="@color/black"
                 app:layout_constraintStart_toStartOf="@id/detail_fragment_rv_past_transation"
                 app:layout_constraintEnd_toEndOf="@id/detail_fragment_rv_past_transation"

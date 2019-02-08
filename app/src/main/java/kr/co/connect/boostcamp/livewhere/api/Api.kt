@@ -1,20 +1,36 @@
 package kr.co.connect.boostcamp.livewhere.api
 
+import android.provider.ContactsContract
 import io.reactivex.Single
 import kr.co.connect.boostcamp.livewhere.model.HouseResponse
+import kr.co.connect.boostcamp.livewhere.model.PlaceResponse
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 
-interface Api{
+interface Api {
     @GET("house/search/info")
     fun getHouseDetail(
-        @Query("address")address:String
-    ):Single<Response<List<Any>>>
-    // FIXME Response로 둘 필요 없습니다. Single<<List<Any>> 로 변경하고 사용하는게 더 좋습니다. 모든 API의 return값들을 바꿔주세요
-    
+        @Query("address") address: String
+    ): Single<Response<List<Any>>>
+
     @GET("house/search/infos")
     fun getDetail(
-        @Query("address")address:String
+        @Query("address") address: String
     ): Single<Response<HouseResponse>>
+
+    @GET("place/search/infos")
+    fun getPlace(
+        @Query("lat") lat: String,
+        @Query("lng") lng: String,
+        @Query("radius") radius: String,
+        @Query("category") category: String
+    ): Single<Response<PlaceResponse>>
+
+    @POST("")
+    fun postReview(
+        @Query("nickname") nickname: String, @Query("id") id: String, @Query("contents") contents: String
+    ) : Single<Response<Any>>
+        
 }

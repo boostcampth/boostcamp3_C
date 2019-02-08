@@ -21,6 +21,7 @@
                     app:layout_constraintEnd_toStartOf="@id/past_transaction_more_sort_by_type"
                     app:layout_constraintTop_toTopOf="parent"
                     android:text="@string/sort_by_area"
+                    android:onClick="@{viewModel.setPastTransactionSort}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     style="@style/RvText"/>
@@ -31,6 +32,7 @@
                     app:layout_constraintEnd_toStartOf="@id/past_transaction_more_sort_by_contract_year"
                     app:layout_constraintTop_toTopOf="parent"
                     android:text="@string/sort_by_type"
+                    android:onClick="@{viewModel.setPastTransactionSort}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     style="@style/RvText"/>
@@ -41,6 +43,7 @@
                     app:layout_constraintEnd_toEndOf="@id/past_transaction_more_rv"
                     app:layout_constraintTop_toTopOf="parent"
                     android:text="@string/sort_by_contract_year"
+                    android:onClick="@{viewModel.setPastTransactionSort}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     style="@style/RvText"/>

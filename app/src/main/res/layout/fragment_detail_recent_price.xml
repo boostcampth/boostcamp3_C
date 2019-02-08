@@ -36,6 +36,7 @@
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/detail_fragment_tv_charter"
                 android:text="@string/charter"
+                setRecentPrice="@{viewModel.recentPrice}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_tv_recent_price"
@@ -46,6 +47,7 @@
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/detail_fragment_tv_monthly_rent"
                 android:text="@string/monthly_rent"
+                setRecentPrice="@{viewModel.recentPrice}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_tv_recent_price"
