@@ -45,7 +45,7 @@ fun MapView.onMakeNaverMap(mapStatusLiveData: LiveData<NaverMap>, mapViewModel: 
                 LocationTrackingMode.Face//위치추적모드
                 LocationTrackingMode.Follow
             }
-            uiSettings.apply{
+            uiSettings.apply {
                 isCompassEnabled = true // 나침반
                 isLogoClickEnabled = false//로고 클릭 이벤트
                 isLocationButtonEnabled = false//위치찾기 버튼 이벤트
@@ -230,14 +230,14 @@ fun RecyclerView.setBindPlaceData(bindLiveData: LiveData<List<Any>>) {
         val bindList = bindLiveData.value
         if (adapter == null) {
             Log.d("first", bindList?.size.toString())
-            apply{
+            apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = MapSearchRVAdapter(bindList)
                 adapter?.notifyItemRangeInserted(0, bindList?.size!!)
             }
         } else {
             Log.d("second", bindList?.size.toString())
-            apply{
+            apply {
                 adapter?.notifyItemRangeRemoved(0, adapter?.itemCount!!)
                 adapter = MapSearchRVAdapter(bindList)
                 adapter?.notifyItemRangeInserted(0, bindList?.size!!)
@@ -261,5 +261,5 @@ fun TextView.setStatusTextView(userStatusLiveData: LiveData<UserStatus>) {
         StatusCode.SUCCESS_SEARCH_HOUSE -> userStatusLiveData.value?.content
         else -> ""
     }
-
 }
+

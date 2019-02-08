@@ -62,7 +62,8 @@
                     android:layout_height="36dp"
                     android:layout_margin="8dp"
                     android:gravity="center"
-                    android:background="@drawable/drawable_circle_view_design">
+                    android:background="@drawable/drawable_circle_view_design"
+                    onCallClickListener="@{place.phone}">
                 <ImageView
                         android:layout_width="18dp"
                         android:layout_height="18dp"
@@ -74,7 +75,8 @@
                     android:layout_height="36dp"
                     android:layout_margin="8dp"
                     android:gravity="center"
-                    android:background="@drawable/drawable_circle_view_design">
+                    android:background="@drawable/drawable_circle_view_design"
+                    onWebClickListener="@{place.place_url}">
                 <ImageView
                         android:layout_width="18dp"
                         android:layout_height="18dp"

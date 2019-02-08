@@ -68,6 +68,9 @@ dependencies {
     //ktx
     implementation "androidx.core:core-ktx:$ktx_version"
 
+    //chrome custom tabs
+    implementation "androidx.browser:browser:$browser_version"
+
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
