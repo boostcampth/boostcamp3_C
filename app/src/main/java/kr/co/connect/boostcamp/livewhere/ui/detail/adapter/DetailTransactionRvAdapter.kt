@@ -40,6 +40,13 @@ class DetailTransactionRvAdapter(
             itemBinding.setLifecycleOwner(lifecycleOwner)
             itemBinding.pastTransaction = pastTransaction
             itemBinding.executePendingBindings()
+            /* FIXME apply 를 활용하면 효율적으로 코드량을 줄일 수 있습니다.
+            itemBinding.apply {
+                setLifecycleOwner(lifecycleOwner)
+                pastTransaction = _pastTransaction
+                executePendingBindings()
+            }
+            */
         }
     }
 }

@@ -1,6 +1,5 @@
 package kr.co.connect.boostcamp.livewhere.api
 
-import android.provider.ContactsContract
 import io.reactivex.Single
 import kr.co.connect.boostcamp.livewhere.model.HouseResponse
 import kr.co.connect.boostcamp.livewhere.model.PlaceResponse
