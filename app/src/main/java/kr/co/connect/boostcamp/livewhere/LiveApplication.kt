@@ -1,6 +1,8 @@
 package kr.co.connect.boostcamp.livewhere
 
 import android.app.Application
+import android.content.Context
+import androidx.multidex.MultiDex
 import com.bumptech.glide.Glide
 import com.crashlytics.android.Crashlytics
 import com.facebook.stetho.Stetho
@@ -15,14 +17,22 @@ import org.koin.android.ext.android.startKoin
 class LiveApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        // FIXME 개발빌드에서만 stetho가 적용되도록 해주세요. 배포버전에서도 적용되면 사용자가 직접 앱을 디버깅 할 수 있는 문제가 있습니다.
-        Stetho.initializeWithDefaults(this)
+
+        //debug변수를 놓고 debug 인지 캐치함.
+        if(BuildConfig.isDebug){
+            Stetho.initializeWithDefaults(this)
+        }
         startKoin(applicationContext, appModules)
         //Firebase Crashlytics
         Fabric.with(this, Crashlytics())
         NaverMapSdk.getInstance(this).client = NaverMapSdk.NaverCloudPlatformClient(NaverClientId)
     }
 
+    //application class에서 MultiDex 사용
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
+    }
     override fun onLowMemory() {
         super.onLowMemory()
         Glide.get(this).clearMemory()
