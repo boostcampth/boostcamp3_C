@@ -1,6 +1,5 @@
 package kr.co.connect.boostcamp.livewhere.ui.map
 
-import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -27,6 +26,8 @@ import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
 import kr.co.connect.boostcamp.livewhere.model.Place
 import kr.co.connect.boostcamp.livewhere.model.PlaceResponse
 import kr.co.connect.boostcamp.livewhere.model.UserStatus
+import kr.co.connect.boostcamp.livewhere.ui.map.adapter.MapMarkerAdapter
+import kr.co.connect.boostcamp.livewhere.ui.map.adapter.MapSearchRVAdapter
 import kr.co.connect.boostcamp.livewhere.util.RADIUS
 import kr.co.connect.boostcamp.livewhere.util.StatusCode
 
@@ -132,7 +133,8 @@ fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, ma
             placeResponse.placeList.forEach { place ->
                 val marker = Marker()
                 val infoWindow = InfoWindow()
-                infoWindow.adapter = MapMarkerAdapter(context, place.placeName)
+                infoWindow.adapter =
+                    MapMarkerAdapter(context, place.placeName)
                 marker.apply {
                     position = LatLng(place.y.toDouble(), place.x.toDouble())
                     width = 50
@@ -220,15 +222,14 @@ fun RecyclerView.setBindPlaceData(bindLiveData: LiveData<List<Any>>) {
     if (bindLiveData.value != null) {
         val bindList = bindLiveData.value
         if (adapter == null) {
-            Log.d("first", bindList?.size.toString())
             layoutManager = LinearLayoutManager(context)
             adapter = MapSearchRVAdapter(bindList)
             adapter?.notifyItemRangeInserted(0, bindList?.size!!)
         } else {
-            Log.d("second", bindList?.size.toString())
-            adapter?.notifyItemRangeRemoved(0, adapter?.itemCount!!)
-            adapter = MapSearchRVAdapter(bindList)
-            adapter?.notifyItemRangeInserted(0, bindList?.size!!)
+            val mapSearchRVAdapter = (adapter as MapSearchRVAdapter)
+            mapSearchRVAdapter.notifyItemRangeRemoved(0, adapter?.itemCount!!)
+            mapSearchRVAdapter.changeItemList(bindList!!)
+            mapSearchRVAdapter.notifyItemRangeInserted(0, bindList.size)
         }
     }
 }
