@@ -36,18 +36,24 @@ import kr.co.connect.boostcamp.livewhere.util.StatusCode
 fun MapView.onMakeNaverMap(mapStatusLiveData: LiveData<NaverMap>, mapViewModel: MapViewModel) {
     if (mapStatusLiveData.value != null) {
         val naverMap: NaverMap = mapStatusLiveData.value!!
-        naverMap.setLayerGroupEnabled(NaverMap.LAYER_GROUP_BUILDING, true)//building
-        naverMap.setLayerGroupEnabled(NaverMap.LAYER_GROUP_TRANSIT, true)//대중교통
-        naverMap.uiSettings.isCompassEnabled = true // 나침반
-        naverMap.uiSettings.isLogoClickEnabled = false//로고 클릭 이벤트
-        naverMap.locationTrackingMode = LocationTrackingMode.Face//위치추적모드
-        naverMap.locationTrackingMode = LocationTrackingMode.Follow
-        naverMap.uiSettings.isLocationButtonEnabled = false//위치찾기 버튼 이벤트
-        naverMap.uiSettings.isScaleBarEnabled = false
-        naverMap.isIndoorEnabled = true//실내모드
-        naverMap.uiSettings.isIndoorLevelPickerEnabled = true
-        naverMap.uiSettings.isZoomControlEnabled = false//줌 버튼 이벤트
-        naverMap.onMapLongClickListener = mapViewModel //맵롱클릭
+        naverMap.apply {
+            onMapLongClickListener = mapViewModel //맵롱클릭
+            isIndoorEnabled = true//실내모드
+            setLayerGroupEnabled(NaverMap.LAYER_GROUP_BUILDING, true)//building
+            setLayerGroupEnabled(NaverMap.LAYER_GROUP_TRANSIT, true)//대중교통
+            locationTrackingMode.apply {
+                LocationTrackingMode.Face//위치추적모드
+                LocationTrackingMode.Follow
+            }
+            uiSettings.apply{
+                isCompassEnabled = true // 나침반
+                isLogoClickEnabled = false//로고 클릭 이벤트
+                isLocationButtonEnabled = false//위치찾기 버튼 이벤트
+                isScaleBarEnabled = false
+                isIndoorLevelPickerEnabled = true
+                isZoomControlEnabled = false//줌 버튼 이벤트
+            }
+        }
     }
 }
 
@@ -125,10 +131,13 @@ fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, ma
         getMapAsync { naverMap ->
             val circle = CircleOverlay()
             val latLng = mapViewModel.markerLiveData.value?.latLng
-            circle.center = LatLng(latLng?.latitude!!, latLng.longitude)
-            circle.radius = RADIUS.toDouble()
-            circle.map = naverMap
-            circle.color = 0x5000FF00.toInt()
+            circle.apply {
+                center = LatLng(latLng?.latitude!!, latLng.longitude)//중앙 위치
+                radius = RADIUS.toDouble()//반경
+                circle.color = 0x5000FF00.toInt()//색깔
+                map = naverMap//맵셋팅
+
+            }
             placeResponse.placeList.forEach { place ->
                 val marker = Marker()
                 val infoWindow = InfoWindow()
@@ -222,8 +231,11 @@ fun RecyclerView.setBindPlaceData(bindLiveData: LiveData<List<Any>>) {
         if (adapter == null) {
             Log.d("first", bindList?.size.toString())
             layoutManager = LinearLayoutManager(context)
-            adapter = MapSearchRVAdapter(bindList)
-            adapter?.notifyItemRangeInserted(0, bindList?.size!!)
+            adapter.apply{
+                MapSearchRVAdapter(bindList)
+                this?.notifyItemRangeInserted(0, bindList?.size!!)
+            }
+
         } else {
             Log.d("second", bindList?.size.toString())
             adapter?.notifyItemRangeRemoved(0, adapter?.itemCount!!)
@@ -248,5 +260,4 @@ fun TextView.setStatusTextView(userStatusLiveData: LiveData<UserStatus>) {
         StatusCode.SUCCESS_SEARCH_HOUSE -> userStatusLiveData.value?.content
         else -> ""
     }
-
 }
