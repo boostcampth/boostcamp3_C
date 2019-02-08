@@ -28,6 +28,8 @@ android {
             buildConfigField "String", "NaverClientId", keystoreProperties.getProperty("naverClientId")
             buildConfigField "String", "KakaoLocalUrl", keystoreProperties.getProperty("kakaoLocalUrl")
             buildConfigField "String", "KakaoServiceKey", keystoreProperties.getProperty("kakaoServiceKey")
+            buildConfigField "boolean", "isDebug", "true"
+
         }
         release {
             minifyEnabled false
@@ -39,10 +41,14 @@ android {
             buildConfigField "String", "NaverClientId", keystoreProperties.getProperty("naverClientId")
             buildConfigField "String", "KakaoLocalUrl", keystoreProperties.getProperty("kakaoLocalUrl")
             buildConfigField "String", "KakaoServiceKey", keystoreProperties.getProperty("kakaoServiceKey")
+            buildConfigField "boolean", "isDebug", "false"
         }
     }
     dataBinding {
         enabled = true
+    }
+    defaultConfig{
+        multiDexEnabled true
     }
 }
 
@@ -112,5 +118,7 @@ dependencies {
 
     //naver 위치 구현을 하기 위한 library
     implementation "com.google.android.gms:play-services-location:$play_service_location_version"
+
+    implementation "com.android.support:multidex:$multidex_version"
 }
 
