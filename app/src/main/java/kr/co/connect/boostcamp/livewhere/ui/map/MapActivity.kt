@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.naver.maps.map.util.FusedLocationSource
-import kr.co.connect.boostcamp.livewhere.BR
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityMapBinding
 import kr.co.connect.boostcamp.livewhere.util.MapUtilImpl.Companion.LOCATION_PERMISSION_REQUEST_CODE
@@ -22,11 +21,10 @@ class MapActivity : AppCompatActivity() {
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
         activityMapBinding = DataBindingUtil.setContentView(this, R.layout.activity_map)
         activityMapBinding.setLifecycleOwner(this)
-        // FIXME setVariable() 대신 명확한 함수를 사용해 주세요 activityMapBinding.mapViewModel =  mapViewModel
-        activityMapBinding.setVariable(BR.mapViewModel, mapViewModel)
-        activityMapBinding.setVariable(BR.mlFloatBtn, activityMapBinding.mlFloatBtn)
-        activityMapBinding.setVariable(BR.mlBackdrop, activityMapBinding.mlBackdrop)
-        activityMapBinding.setVariable(BR.locationSource, locationSource)
+        activityMapBinding.mapViewModel = mapViewModel
+        activityMapBinding.locationSource = locationSource
+        activityMapBinding.setMlFloatBtn(activityMapBinding.mlFloatBtn)
+        activityMapBinding.setMlBackdrop(activityMapBinding.mlBackdrop)
         activityMapBinding.mvMainNaver.onCreate(savedInstanceState)
         activityMapBinding.mvMainNaver.getMapAsync(mapViewModel)
     }
