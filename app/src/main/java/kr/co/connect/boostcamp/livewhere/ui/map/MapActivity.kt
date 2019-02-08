@@ -22,12 +22,13 @@ class MapActivity : AppCompatActivity() {
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
         activityMapBinding = DataBindingUtil.setContentView(this, R.layout.activity_map)
         activityMapBinding.setLifecycleOwner(this)
-        activityMapBinding.setVariable(BR.mapViewModel, mapViewModel)
-        activityMapBinding.setVariable(BR.mlFloatBtn, activityMapBinding.mlFloatBtn)
-        activityMapBinding.setVariable(BR.mlBackdrop, activityMapBinding.mlBackdrop)
-        activityMapBinding.setVariable(BR.locationSource, locationSource)
+        activityMapBinding.mapViewModel = mapViewModel
+        activityMapBinding.locationSource = locationSource
+        activityMapBinding.setMlFloatBtn(activityMapBinding.mlFloatBtn)
+        activityMapBinding.setMlBackdrop(activityMapBinding.mlBackdrop)
         activityMapBinding.mvMainNaver.onCreate(savedInstanceState)
         activityMapBinding.mvMainNaver.getMapAsync(mapViewModel)
+
     }
 
     override fun onStart() {
