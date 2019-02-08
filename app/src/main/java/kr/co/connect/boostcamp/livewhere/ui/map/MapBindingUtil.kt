@@ -182,7 +182,7 @@ fun LocationButtonView.setOnClick(mapStatusLiveData: LiveData<NaverMap>, locatio
 
 @BindingAdapter(value = ["triggerBackdrop", "triggerFloatingButton", "triggerOnClick"])
 fun FloatingActionButton.setTriggerBackdrop(
-    backdropML: MotionLayout,
+    backdropML: BackdropMotionLayout,
     filterML: MotionLayout,
     mapViewModel: MapViewModel
 ) {

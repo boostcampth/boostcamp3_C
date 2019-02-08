@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <layout
         xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
->
+        xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable name="mapViewModel" type="kr.co.connect.boostcamp.livewhere.ui.map.MapViewModel"/>
         <variable name="mlFloatBtn" type="androidx.constraintlayout.motion.widget.MotionLayout"/>
@@ -45,7 +44,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/locationButtonView"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-        <kr.co.connect.boostcamp.livewhere.ui.map.view.BackdropMotionLayout
+        <kr.co.connect.boostcamp.livewhere.ui.map.BackdropMotionLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/ml_backdrop"
@@ -70,7 +69,7 @@
                     app:layout_constraintStart_toEndOf="@+id/logoView"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="1.0" android:layout_marginStart="12dp"/>
-            <kr.co.connect.boostcamp.livewhere.ui.map.view.PlaceImageViewMotionLayout
+            <kr.co.connect.boostcamp.livewhere.ui.map.PlaceImageViewMotionLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/ml_place_image"
@@ -99,7 +98,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.85"/>
 
-            </kr.co.connect.boostcamp.livewhere.ui.map.view.PlaceImageViewMotionLayout>
+            </kr.co.connect.boostcamp.livewhere.ui.map.PlaceImageViewMotionLayout>
 
             <LinearLayout
                     android:layout_width="match_parent"
@@ -282,6 +281,6 @@
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="@+id/ml_backdrop"
                     app:layout_constraintTop_toTopOf="@id/ml_backdrop"/>
-        </kr.co.connect.boostcamp.livewhere.ui.map.view.BackdropMotionLayout>
+        </kr.co.connect.boostcamp.livewhere.ui.map.BackdropMotionLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
