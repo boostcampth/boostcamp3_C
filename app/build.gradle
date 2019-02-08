@@ -101,8 +101,8 @@ dependencies {
     implementation "com.github.PhilJay:MPAndroidChart:$mpchart_version"
     
     //stetho
-    implementation 'com.facebook.stetho:stetho:1.5.0'
-    implementation 'com.facebook.stetho:stetho-js-rhino:1.5.0'
+    implementation "com.facebook.stetho:stetho:$stetho_version"
+    implementation "com.facebook.stetho:stetho-js-rhino:$stetho_version"
 
     //Naver Map
     implementation "com.naver.maps:map-sdk:$naver_map_version"
@@ -111,6 +111,6 @@ dependencies {
     implementation "gun0912.ted:tedpermission-rx2:$tedpermission_version"
 
     //naver 위치 구현을 하기 위한 library
-    implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation "com.google.android.gms:play-services-location:$play_service_location_version"
 }
 
