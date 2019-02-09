@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MotionScene
-        xmlns:motion="http://schemas.android.com/apk/res-auto">
+        xmlns:motion="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
     <Transition
             motion:constraintSetStart="@layout/motion_01_map_backdrop_start"
             motion:constraintSetEnd="@layout/motion_01_map_backdrop_end"
@@ -11,5 +12,26 @@
                 motion:moveWhenScrollAtTop="true"
                 motion:touchAnchorSide="top"
                 motion:dragDirection="dragUp"/>
+        <!-- 20 frame 까지 버튼을 보여줬다가
+        40 프레임 때 버튼을 감춤-->
+        <KeyFrameSet>
+            <KeyAttribute
+                    motion:target="@+id/iv_backdrop_toggle"
+                    motion:framePosition="20"
+                    android:rotation="0">
+            </KeyAttribute>
+        </KeyFrameSet>
+        <KeyFrameSet>
+            <KeyAttribute
+                    motion:target="@+id/ml_float_btn"
+                    motion:framePosition="20"
+                    android:alpha="1.0">
+            </KeyAttribute>
+            <KeyAttribute
+                    motion:target="@+id/ml_float_btn"
+                    motion:framePosition="40"
+                    android:alpha="0.0">
+            </KeyAttribute>
+        </KeyFrameSet>
     </Transition>
 </MotionScene>
