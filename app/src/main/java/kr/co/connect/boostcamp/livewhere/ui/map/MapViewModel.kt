@@ -64,8 +64,11 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
         }
     }
 
-    override fun searchTrigger(view : BackdropMotionLayout) {
-        //view.transitionToState(R.id.cs_search_house_end)
+    override fun searchTrigger(view : View) {
+        if(view is BackdropMotionLayout)
+        {
+
+        }
     }
 
     override fun onClickMarkerPlace(place: Place) {
@@ -151,6 +154,7 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
 
                         } else {
                             _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_HOUSE, ""))
+                            _searchListLiveData.postValue(listOf(EmptyInfo(addressName)))
                             _markerLiveData.postValue(MarkerInfo(latLng, emptyList(), StatusCode.RESULT_204))
                         }
                     }, {
