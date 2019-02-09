@@ -88,6 +88,8 @@ fun ImageView.onDrawPlace(placeMarkerLiveData: LiveData<Place>) {
             .load(streetImgUrl)
             .into(this)
     }
+
+
 }
 
 @BindingAdapter(value = ["onHouseDrawMarker", "onClickHouseMarker"])
@@ -166,7 +168,6 @@ fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, ma
                 }
             }
         }
-
     }
 }
 
@@ -224,10 +225,10 @@ fun MotionLayout.setTriggerFB(filterML: MotionLayout) {
     })
 }
 
-@BindingAdapter(value = ["bindPlaceData"])
-fun RecyclerView.setBindPlaceData(bindLiveData: LiveData<List<Any>>) {
-    if (bindLiveData.value != null) {
-        val bindList = bindLiveData.value
+@BindingAdapter(value = ["bindData"])
+fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
+    if (bindPlaceLiveData.value != null) {
+        val bindList = bindPlaceLiveData.value
         if (adapter == null) {
             Log.d("first", bindList?.size.toString())
             apply {
@@ -243,6 +244,13 @@ fun RecyclerView.setBindPlaceData(bindLiveData: LiveData<List<Any>>) {
                 adapter?.notifyItemRangeInserted(0, bindList?.size!!)
             }
         }
+    }
+}
+
+@BindingAdapter(value=["triggerSearchHeight","searchLiveData"])
+fun BackdropMotionLayout.changeSearchHeight(mapViewModel: MapViewModel,searchListLiveData: LiveData<List<Any>>){
+    if(searchListLiveData.value!=null){
+        mapViewModel.searchTrigger(this)
     }
 }
 

@@ -10,18 +10,14 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import kr.co.connect.boostcamp.livewhere.R
-import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
-import kr.co.connect.boostcamp.livewhere.model.Place
-import kr.co.connect.boostcamp.livewhere.model.PlaceResponse
-import kr.co.connect.boostcamp.livewhere.model.UserStatus
+import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.repository.MapRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.util.MapUtilImpl
 import kr.co.connect.boostcamp.livewhere.util.RADIUS
 import kr.co.connect.boostcamp.livewhere.util.StatusCode
 
 class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositoryImpl) : ViewModel(),
-    NaverMap.OnMapLongClickListener, OnMapReadyCallback, View.OnClickListener, OnMarkerListener {
-
+    NaverMap.OnMapLongClickListener, OnMapReadyCallback, View.OnClickListener, OnMarkerListener, OnSearchTrigger {
 
     private val _markerLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
     //현재 검색하려는 house의 좌표 livedata
@@ -32,7 +28,6 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
     //현재 검색하려는 house의 좌표 livedata
     val filterMarkerLiveData: LiveData<MarkerInfo>
         get() = _filterMarkerLiveData
-
 
     //현재 사용하고 있는 naverMap의 status livedata
     private val _mapStatusLiveData: MutableLiveData<NaverMap> = MutableLiveData()
@@ -56,7 +51,7 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
     val userStatusLiveData: LiveData<UserStatus>
         get() = _userStatusLiveData
 
-    private val _markerList:MutableList<Marker> = arrayListOf()
+    private val _markerList: MutableList<Marker> = arrayListOf()
 
     override fun onSaveFilterMarker(marker: Marker) {
         _markerList.add(marker)
@@ -67,6 +62,10 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
             marker.map = null
 
         }
+    }
+
+    override fun searchTrigger(view : BackdropMotionLayout) {
+        //view.transitionToState(R.id.cs_search_house_end)
     }
 
     override fun onClickMarkerPlace(place: Place) {
@@ -137,7 +136,6 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
                         if (houseResponse?.addrStatusCode == StatusCode.RESULT_200.response
                             && houseResponse.houseStatusCode == StatusCode.RESULT_200.response
                         ) {
-                            _searchListLiveData.postValue(houseResponse.houseList)
                             _markerLiveData.postValue(
                                 MarkerInfo(
                                     latLng,
@@ -148,6 +146,9 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
                             _userStatusLiveData.postValue(
                                 UserStatus(StatusCode.SUCCESS_SEARCH_HOUSE, houseResponse.houseList[0].name)
                             )
+                            val houseLastItemList = listOf(HouseInfo(houseResponse.houseList[houseResponse.houseList.size-1], addressName))
+                            _searchListLiveData.postValue(houseLastItemList)
+
                         } else {
                             _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_HOUSE, ""))
                             _markerLiveData.postValue(MarkerInfo(latLng, emptyList(), StatusCode.RESULT_204))
