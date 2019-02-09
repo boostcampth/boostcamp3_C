@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"/>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="emptyInfo" type="kr.co.connect.boostcamp.livewhere.model.EmptyInfo"/>
+    </data>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_search_recyclerview_height">
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@{emptyInfo.addressName}"
+                android:textColor="@color/black"/>
+    </LinearLayout>
+</layout>
