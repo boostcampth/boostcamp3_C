@@ -1,6 +1,5 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
-import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
@@ -69,7 +68,7 @@ fun setRecentPrice(textView: TextView, recentPrice: LiveData<RecentPrice>) {
     }
 }
 
-@BindingAdapter("setRvItems")
+@BindingAdapter("setRvItems") //과거 거래내역 rv
 fun setRvItems(recyclerView: RecyclerView, itemList: List<PastTransaction>?) {
     if (itemList != null) {
         (recyclerView.adapter as DetailTransactionRvAdapter).setData(itemList)
@@ -88,12 +87,12 @@ fun setReviews(recyclerView: RecyclerView, reviewList: List<Review>?) {
 }
 
 @BindingAdapter("setPreReview")
-fun setPreReview(textView: TextView, review: LiveData<ArrayList<Review>>) {
+fun setPreReview(textView: TextView, review: List<Review>?) {
     try {
         when (textView.id) {
-            R.id.detail_fragment_tv_review_id -> textView.text = review.value!![0].id
-            R.id.detail_fragment_tv_review_nickname -> textView.text = review.value!![0].nickname
-            R.id.detail_fragment_tv_review_contents -> textView.text = review.value!![0].contents
+            R.id.detail_fragment_tv_review_id -> textView.text = review!![0].id
+            R.id.detail_fragment_tv_review_nickname -> textView.text = review!![0].nickname
+            R.id.detail_fragment_tv_review_contents -> textView.text = review!![0].contents
         }
     } catch (e: KotlinNullPointerException) {
         when (textView.id) {

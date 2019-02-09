@@ -101,6 +101,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-app/src/main/java/kr/co/connect/boostcamp/livewhere/firebase/
 app/src/main/java/kr/co/connect/boostcamp/livewhere/ui/bookmark/
 app/src/main/java/kr/co/connect/boostcamp/livewhere/ui/search/
+app/src/main/res/layout-v26/

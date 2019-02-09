@@ -43,6 +43,7 @@ class DetailFragment : Fragment() {
             setBarChart(binding.detailFragmentCl.detail_fragment_chart,viewModel.getAvgPriceList())
         })
 
+
         return binding.root
     }
 }

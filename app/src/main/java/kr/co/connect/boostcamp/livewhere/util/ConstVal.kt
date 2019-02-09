@@ -10,3 +10,4 @@ const val TYPE_MONTHLY = 2
 const val SORT_BY_AREA = 1
 const val SORT_BY_TYPE = 2
 const val SORT_BY_YEAR = 3
+const val ROOT_NODE_NAME = "comments"
