@@ -1,9 +1,15 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import androidx.databinding.InverseBindingListener
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -23,11 +29,11 @@ import kr.co.connect.boostcamp.livewhere.util.No_barChart_text
 
 @BindingAdapter("setBarChart")
 fun setBarChart(barChart: BarChart, list: LiveData<ArrayList<HouseAvgPrice>>) {
-    try{
+    try {
         BarChartUtil.setChartData(barChart, list.value!!)
         BarChartUtil.showChart(barChart)
         barChart.notifyDataSetChanged()
-    } catch (e:KotlinNullPointerException) {
+    } catch (e: KotlinNullPointerException) {
         barChart.setNoDataText(No_barChart_text)
     }
 }
@@ -38,8 +44,8 @@ fun setDetailImage(imageView: AppCompatImageView, location: LiveData<String>?) {
         Glide.with(imageView.context)
             .load("https://maps.googleapis.com/maps/api/streetview?size=360x200&location=${location!!.value}&key=${BuildConfig.GoogleApiKey}")
             .into(imageView)
-    }catch (e:KotlinNullPointerException){
-        Toast.makeText(imageView.context,"이미지 없음",Toast.LENGTH_SHORT).show()
+    } catch (e: KotlinNullPointerException) {
+        Toast.makeText(imageView.context, "이미지 없음", Toast.LENGTH_SHORT).show()
     }
 }
 
@@ -99,6 +105,27 @@ fun setPreReview(textView: TextView, review: List<Review>?) {
             R.id.detail_fragment_tv_review_contents -> textView.text = No_Review_Text
         }
     }
+}
 
 
+@BindingAdapter("android:text")
+fun setText( view:TextView, text:CharSequence? ) {
+//    view.text = text
+}
+
+@InverseBindingAdapter(attribute = "android:text", event = "android:textAttrChanged")
+fun getTextString(textView: TextView): String {
+    return textView.text.toString()
+}
+
+@BindingAdapter("android:textAttrChanged")
+fun setTextWatcher(view: TextView, textAttrChanged: InverseBindingListener) {
+    view.addTextChangedListener(object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {}
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            textAttrChanged.onChange()
+        }
+
+    })
 }
