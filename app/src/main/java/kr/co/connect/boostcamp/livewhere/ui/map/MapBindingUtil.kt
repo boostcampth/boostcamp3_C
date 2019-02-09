@@ -1,6 +1,8 @@
 package kr.co.connect.boostcamp.livewhere.ui.map
 
+import android.graphics.drawable.Drawable
 import android.util.Log
+import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -9,6 +11,10 @@ import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.LocationSource
@@ -70,6 +76,27 @@ fun ImageView.onDrawHouse(markerInfoLiveData: LiveData<MarkerInfo>) {
         )
         Glide.with(this)
             .load(streetImgUrl)
+            .addListener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    visibility = VISIBLE
+                    return false
+                }
+            })
             .into(this)
     }
 }
@@ -86,6 +113,27 @@ fun ImageView.onDrawPlace(placeMarkerLiveData: LiveData<Place>) {
         )
         Glide.with(this)
             .load(streetImgUrl)
+            .addListener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    visibility = VISIBLE
+                    return false
+                }
+            })
             .into(this)
     }
 
@@ -241,15 +289,19 @@ fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
             apply {
                 adapter?.notifyItemRangeRemoved(0, adapter?.itemCount!!)
                 adapter = MapSearchRVAdapter(bindList)
-                adapter?.notifyItemRangeInserted(0, bindList?.size!!)
             }
         }
+    } else {
+        val emptyList = arrayListOf<Any>()
+        layoutManager = LinearLayoutManager(context)
+        adapter = MapSearchRVAdapter(emptyList)
+        adapter?.notifyItemRangeInserted(0, emptyList.size)
     }
 }
 
-@BindingAdapter(value=["triggerSearchHeight","searchLiveData"])
-fun BackdropMotionLayout.changeSearchHeight(mapViewModel: MapViewModel,searchListLiveData: LiveData<List<Any>>){
-    if(searchListLiveData.value!=null){
+@BindingAdapter(value = ["triggerSearchHeight", "searchLiveData"])
+fun BackdropMotionLayout.changeSearchHeight(mapViewModel: MapViewModel, searchListLiveData: LiveData<List<Any>>) {
+    if (searchListLiveData.value != null) {
         mapViewModel.searchTrigger(this)
     }
 }
@@ -270,4 +322,3 @@ fun TextView.setStatusTextView(userStatusLiveData: LiveData<UserStatus>) {
         else -> ""
     }
 }
-
