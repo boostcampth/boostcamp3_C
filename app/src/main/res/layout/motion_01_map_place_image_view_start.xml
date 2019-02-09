@@ -15,10 +15,35 @@
             android:layout_width="@dimen/place_image_view_width"
             android:layout_height="@dimen/place_image_view_height"
             android:id="@+id/iv_place_image"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="@dimen/margin_map_widget_default"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="@dimen/map_place_image_view_margin"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.85"/>
+            app:layout_constraintBottom_toBottomOf="@+id/guideline_place_image_bottom"
+            app:layout_constraintVertical_bias="1.0"/>
 
+    <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline_place_image"
+            app:layout_constraintGuide_percent="0.99"
+            android:orientation="horizontal"/>
+    <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline_place_image_bottom"
+            app:layout_constraintGuide_percent="0.75"
+            android:orientation="horizontal"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline_place_image_top"
+            app:layout_constraintGuide_percent="0.88"
+            android:orientation="horizontal"/>
+    <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline_float_btn"
+            app:layout_constraintGuide_percent="0.96"
+            android:orientation="horizontal"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
