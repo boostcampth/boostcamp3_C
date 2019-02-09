@@ -2,15 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/ml_float_btn_width"
         android:layout_height="match_parent"
-        android:id="@+id/cl_backdrop_container">
+        android:id="@+id/ml_float_btn"
+        app:layout_constraintStart_toEndOf="@+id/guideline_filter_ml_width"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_filter_ml_height"
+        android:paddingEnd="@dimen/ml_float_btn_padding_end">
     <TextView
             style="@style/FilterTextView.CloseMode"
             android:text="@string/all_cafe"
             android:id="@+id/tv_filter_cafe"
             app:layout_constraintEnd_toStartOf="@+id/fab_filter_cafe"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/fab_filter_cafe"
             app:layout_constraintHorizontal_bias="0.5"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -26,7 +29,6 @@
             android:text="@string/all_food"
             android:id="@+id/tv_filter_food"
             app:layout_constraintEnd_toStartOf="@+id/fab_filter_food"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/fab_filter_food"
             app:layout_constraintHorizontal_bias="0.5"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -42,7 +44,6 @@
             android:text="@string/all_hospital"
             android:id="@+id/tv_filter_hospital"
             app:layout_constraintEnd_toStartOf="@+id/fab_filter_hospital"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/fab_filter_hospital"
             app:layout_constraintHorizontal_bias="0.5"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -58,7 +59,6 @@
             android:text="@string/all_school"
             android:id="@+id/tv_filter_school"
             app:layout_constraintEnd_toStartOf="@+id/fab_filter_school"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/fab_filter_school"
             app:layout_constraintHorizontal_bias="0.5"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -76,7 +76,6 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintEnd_toStartOf="@+id/fab_filter_store"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/fab_filter_store"
             app:layout_constraintHorizontal_bias="0.5"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -95,10 +94,4 @@
             app:borderWidth="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
-    <androidx.constraintlayout.widget.Guideline
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/guideline"
-            app:layout_constraintGuide_begin="@dimen/space_guide_line"
-            android:orientation="vertical"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
