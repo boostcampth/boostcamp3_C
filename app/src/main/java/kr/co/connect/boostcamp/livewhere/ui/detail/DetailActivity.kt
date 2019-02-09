@@ -5,10 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.google.firebase.database.FirebaseDatabase
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityDetailBinding
-import kr.co.connect.boostcamp.livewhere.model.Review
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -35,6 +33,7 @@ class DetailActivity : AppCompatActivity() {
             setLifecycleOwner(this@DetailActivity)
         }
 
+
         viewModel.markerInfo.observe(this, Observer {
             viewModel.getCoordinateFromInfo()
             viewModel.getRecentPriceFromInfo()
@@ -49,12 +48,11 @@ class DetailActivity : AppCompatActivity() {
             addReviewMore()
         })
 
-        viewModel.reviewPostClicked.observe(this, Observer {
+        viewModel.reviewPostOpenClicked.observe(this, Observer {
             addReviewPost()
         })
-
     }
-  
+
     private fun addDetailFragment() {
         val fragment = DetailFragment.newInstance()
         currentFragment = fragment

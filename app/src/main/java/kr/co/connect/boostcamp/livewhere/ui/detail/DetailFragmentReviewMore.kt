@@ -31,7 +31,7 @@ class DetailFragmentReviewMore : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentDetailReviewMoreBinding.inflate(inflater,container,false).apply {
             viewModel = this@DetailFragmentReviewMore.viewModel
-            setLifecycleOwner(this@DetailFragmentReviewMore)
+            lifecycleOwner = this@DetailFragmentReviewMore
         }
 
         binding.detailReviewMoreRv.apply{
