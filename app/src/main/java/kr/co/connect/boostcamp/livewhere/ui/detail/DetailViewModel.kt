@@ -1,11 +1,13 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
 import android.view.View
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.firebase.FirebaseDatabaseRepository
 import kr.co.connect.boostcamp.livewhere.model.*
+import kr.co.connect.boostcamp.livewhere.model.entity.ReviewEntity
 import kr.co.connect.boostcamp.livewhere.repository.DetailRepository
 import kr.co.connect.boostcamp.livewhere.repository.ReviewRepository
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
@@ -58,6 +60,10 @@ class DetailViewModel(private val detailRepository: DetailRepository,private val
     val reviewMoreClicked: LiveData<Any>
         get() = _reviewMoreClicked
 
+    private val _reviewPostOpenClicked = SingleLiveEvent<Any>()
+    val reviewPostOpenClicked: LiveData<Any>
+        get() = _reviewPostOpenClicked
+
     private val _reviewPostClicked = SingleLiveEvent<Any>()
     val reviewPostClicked: LiveData<Any>
         get() = _reviewPostClicked
@@ -69,6 +75,9 @@ class DetailViewModel(private val detailRepository: DetailRepository,private val
         }
         return _commentsList
     }
+
+    val postReviewNickname = ObservableField<String>()
+    val postReviewContents = ObservableField<String>()
 
     init {
 
@@ -87,7 +96,11 @@ class DetailViewModel(private val detailRepository: DetailRepository,private val
         _reviewMoreClicked.call()
     }
 
-    fun onClickedReviewPost() {
+    fun onClickedReviewPostOpen() {
+        _reviewPostOpenClicked.call()
+    }
+
+    fun onClickedReviewPost(){
         _reviewPostClicked.call()
     }
 
@@ -226,22 +239,30 @@ class DetailViewModel(private val detailRepository: DetailRepository,private val
                 }
                 SORT_BY_YEAR -> {
                     _pastTransactionMore.value!!.sortWith(CompareByYear)
-                }
+                } // TODO 역순으로 정렬 기능 구현.
             }
         }
     }
 
     fun loadComments(pnu:String){
         reviewRepository.addListener(pnu,object : FirebaseDatabaseRepository.FirebaseDatabaseRepositoryCallback<Review> {
+
             override fun onSuccess(result: List<Review>) {
                 _commentsList.postValue(result)
             }
 
             override fun onError(e: Exception) {
-                //TODO : 후기 가져오기 실패 예외
+                //TODO : 후기 가져오기 실패 예외 처리
             }
         })
     }
 
-    //TODO : 과거 거래 내역 더보기 정렬기준 별 기능 구현.
+    fun postComment(review:ReviewEntity){
+        reviewRepository.postReview(review).addOnCompleteListener {
+            // TODO : 게시 성공 처리
+        }.addOnFailureListener {
+            // TODO : 게시 실패 처리
+        }
+    }
+
 }
