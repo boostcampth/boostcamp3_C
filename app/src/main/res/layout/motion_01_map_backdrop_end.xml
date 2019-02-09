@@ -60,9 +60,15 @@
             app:layout_constraintHorizontal_bias="0.0"/>
     <androidx.constraintlayout.motion.widget.MotionLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:alpha="0.0"
             android:id="@+id/ml_float_btn"
-            app:layoutDescription="@xml/scene_map_float_btn_01">
+            app:layout_constraintBottom_toTopOf="@id/guideline_float_btn">
     </androidx.constraintlayout.motion.widget.MotionLayout>
-
+    <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline_float_btn"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.0"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
