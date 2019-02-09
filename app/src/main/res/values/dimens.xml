@@ -52,5 +52,6 @@
     <dimen name="map_place_image_view_margin">8dp</dimen>
 
     <dimen name="detail_post_review_contents_height">250dp</dimen>
-
+    <dimen name="backdrop_hide_top_margin">120dp</dimen>
+    <dimen name="fab_clone_size">64dp</dimen>
 </resources>
