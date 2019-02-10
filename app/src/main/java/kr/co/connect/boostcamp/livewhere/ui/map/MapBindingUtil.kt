@@ -177,10 +177,11 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
 fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, mapViewModel: MapViewModel) {
     val placeResponse = placeResponseLiveData.value
     if (placeResponse != null) {
-        mapViewModel.onRemoveFilterMarkers()
+        val placeMarkerList : MutableList<Marker> = arrayListOf()
         getMapAsync { naverMap ->
             val circle = CircleOverlay()
             val latLng = mapViewModel.markerLiveData.value?.latLng
+            mapViewModel.onRemoveFilterMarker()//마커 삭제
             circle.apply {
                 center = LatLng(latLng?.latitude!!, latLng.longitude)//중앙 위치
                 radius = RADIUS.toDouble()//반경
@@ -212,10 +213,19 @@ fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, ma
                         infoWindow.invalidate()
                         true
                     }
-                    mapViewModel.onSaveFilterMarker(marker)
+                    placeMarkerList.add(marker)
                 }
             }
+            mapViewModel.onSaveFilterMarker(placeMarkerList)//마커 값 저장
         }
+    }
+}
+
+@BindingAdapter(value =["onRemovePlaceDrawMarker"])
+fun MapView.onRemovePlaceDrawMarker(removePlaceMarkersLiveData: LiveData<MutableList<Marker>>) {
+    val removeMarkerList = removePlaceMarkersLiveData.value
+    removeMarkerList?.forEach { marker->
+        marker.map = null
     }
 }
 

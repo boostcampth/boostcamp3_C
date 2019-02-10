@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.overlay.CircleOverlay
 import com.naver.maps.map.overlay.Marker
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.*
@@ -17,7 +18,9 @@ import kr.co.connect.boostcamp.livewhere.util.RADIUS
 import kr.co.connect.boostcamp.livewhere.util.StatusCode
 
 class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositoryImpl) : ViewModel(),
-    NaverMap.OnMapLongClickListener, OnMapReadyCallback, View.OnClickListener, OnMarkerListener, OnSearchTrigger {
+    NaverMap.OnMapLongClickListener, OnMapReadyCallback, View.OnClickListener, OnMapHistoryListener, OnSearchTrigger {
+
+
 
     private val _markerLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
     //현재 검색하려는 house의 좌표 livedata
@@ -51,22 +54,35 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
     val userStatusLiveData: LiveData<UserStatus>
         get() = _userStatusLiveData
 
-    private val _markerList: MutableList<Marker> = arrayListOf()
+    private val _removePlaceMarkersLiveData: MutableLiveData<MutableList<Marker>> = MutableLiveData()
+    private val _savePlaceMarkersLiveData: MutableLiveData<MutableList<Marker>> = MutableLiveData()
+    val removePlaceMarkersLiveData: LiveData<MutableList<Marker>>
+        get() = _removePlaceMarkersLiveData
 
-    override fun onSaveFilterMarker(marker: Marker) {
-        _markerList.add(marker)
+    private val _tempOverlayLiveData: MutableLiveData<CircleOverlay> = MutableLiveData()
+    val tempOverlayLiveData: LiveData<CircleOverlay>
+        get() = _tempOverlayLiveData
+
+    private val _currentOverlayLiveData: MutableLiveData<CircleOverlay> = MutableLiveData()
+    val currentOverlayLiveData: LiveData<CircleOverlay>
+        get() = _currentOverlayLiveData
+
+    override fun onDrawCircleOverlay(currentOverlay: CircleOverlay) {
+        _tempOverlayLiveData.postValue(_tempOverlayLiveData.value)
+        _tempOverlayLiveData.postValue(currentOverlay)
+        _currentOverlayLiveData.postValue(currentOverlay)
     }
 
-    override fun onRemoveFilterMarkers() {
-        _markerList.forEach { marker ->
-            marker.map = null
-
-        }
+    override fun onSaveFilterMarker(markerList: MutableList<Marker>) {
+        _savePlaceMarkersLiveData.postValue(markerList)
     }
 
-    override fun searchTrigger(view : View) {
-        if(view is BackdropMotionLayout)
-        {
+    override fun onRemoveFilterMarker() {
+        _removePlaceMarkersLiveData.postValue(_savePlaceMarkersLiveData.value)
+    }
+
+    override fun searchTrigger(view: View) {
+        if (view is BackdropMotionLayout) {
 
         }
     }
@@ -149,7 +165,12 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
                             _userStatusLiveData.postValue(
                                 UserStatus(StatusCode.SUCCESS_SEARCH_HOUSE, houseResponse.houseList[0].name)
                             )
-                            val houseLastItemList = listOf(HouseInfo(houseResponse.houseList[houseResponse.houseList.size-1], addressName))
+                            val houseLastItemList = listOf(
+                                HouseInfo(
+                                    houseResponse.houseList[houseResponse.houseList.size - 1],
+                                    addressName
+                                )
+                            )
                             _searchListLiveData.postValue(houseLastItemList)
 
                         } else {
