@@ -19,9 +19,6 @@ import kr.co.connect.boostcamp.livewhere.util.StatusCode
 
 class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositoryImpl) : ViewModel(),
     NaverMap.OnMapLongClickListener, OnMapReadyCallback, View.OnClickListener, OnMapHistoryListener, OnSearchTrigger {
-
-
-
     private val _markerLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
     //현재 검색하려는 house의 좌표 livedata
     val markerLiveData: LiveData<MarkerInfo>
@@ -66,6 +63,18 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
     private val _currentOverlayLiveData: MutableLiveData<CircleOverlay> = MutableLiveData()
     val currentOverlayLiveData: LiveData<CircleOverlay>
         get() = _currentOverlayLiveData
+
+    override fun onSaveCircleOverlay(circleOverlay: CircleOverlay) {
+        if(circleOverlay!=_currentOverlayLiveData.value)
+        {
+            _currentOverlayLiveData.postValue(circleOverlay)
+        }
+    }
+
+    override fun onRemoveCircleOverlay() {
+        _tempOverlayLiveData.postValue(currentOverlayLiveData.value)
+    }
+
 
     override fun onDrawCircleOverlay(currentOverlay: CircleOverlay) {
         _tempOverlayLiveData.postValue(_tempOverlayLiveData.value)

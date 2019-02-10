@@ -21,7 +21,11 @@
                 bindViewModel="@{mapViewModel}"
                 onClickPlaceMarker="@{mapViewModel}"
                 onClickHouseMarker="@{mapViewModel}"
-                onRemovePlaceDrawMarker="@{mapViewModel.removePlaceMarkersLiveData}"/>
+                onPlaceCenterData="@{mapViewModel}"
+                onRemovePlaceDrawMarker="@{mapViewModel.removePlaceMarkersLiveData}"
+                onDrawPlaceOverlay="@{mapViewModel.currentOverlayLiveData}"
+                onRemovePlaceOverlay="@{mapViewModel.tempOverlayLiveData}"
+                />
 
         <com.naver.maps.map.widget.LocationButtonView
                 android:layout_width="wrap_content"

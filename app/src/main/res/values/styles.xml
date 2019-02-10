@@ -139,17 +139,17 @@
     <style name="FloatingButton.Filter">
         <item name="android:colorAccent">@color/main_color_variation</item>
         <item name="android:backgroundTint">@color/main_color_variation</item>
-        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
         <item name="android:layout_marginEnd">36dp</item>
     </style>
 
     <style name="FloatingButton.Filter.OpenMode">
-        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
         <item name="android:layout_marginEnd">36dp</item>
     </style>
     
     <style name="FloatingButton.Filter.CloseMode">
-        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
         <item name="android:layout_marginEnd">36dp</item>
     </style>
 

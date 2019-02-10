@@ -10,5 +10,7 @@ interface OnMapHistoryListener{
     fun onClickMarkerHouse(house: MarkerInfo)
     fun onSaveFilterMarker(markerList:MutableList<Marker>)
     fun onRemoveFilterMarker()
+    fun onSaveCircleOverlay(circleOverlay: CircleOverlay)
+    fun onRemoveCircleOverlay()
     fun onDrawCircleOverlay(currentOverlay: CircleOverlay)
 }

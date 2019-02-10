@@ -148,6 +148,7 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
         val houseList = markerInfo.houseList
         val statusCode = markerInfo.statusCode
         getMapAsync { naverMap ->
+            mapViewModel.onRemoveCircleOverlay()//오버레이 삭제
             val marker = Marker()
             if (statusCode == StatusCode.RESULT_200) {
                 marker.tag = houseList[0].name
@@ -168,6 +169,7 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
                     true
                 }
             }
+            mapViewModel.onSaveCircleOverlay(CircleOverlay())//오버레이 추가
             tag = marker
         }
     }
@@ -177,18 +179,9 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
 fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, mapViewModel: MapViewModel) {
     val placeResponse = placeResponseLiveData.value
     if (placeResponse != null) {
-        val placeMarkerList : MutableList<Marker> = arrayListOf()
+        val placeMarkerList: MutableList<Marker> = arrayListOf()
         getMapAsync { naverMap ->
-            val circle = CircleOverlay()
-            val latLng = mapViewModel.markerLiveData.value?.latLng
             mapViewModel.onRemoveFilterMarker()//마커 삭제
-            circle.apply {
-                center = LatLng(latLng?.latitude!!, latLng.longitude)//중앙 위치
-                radius = RADIUS.toDouble()//반경
-                circle.color = 0x5000FF00.toInt()//색깔
-                map = naverMap//맵셋팅
-
-            }
             placeResponse.placeList.forEach { place ->
                 val marker = Marker()
                 val infoWindow = InfoWindow()
@@ -221,10 +214,33 @@ fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, ma
     }
 }
 
-@BindingAdapter(value =["onRemovePlaceDrawMarker"])
+@BindingAdapter(value = ["onDrawPlaceOverlay", "onPlaceCenterData"])
+fun MapView.onDrawPlaceOverlay(currentOverlayLiveData: LiveData<CircleOverlay>,mapViewModel: MapViewModel) {
+    val currentOverlay = currentOverlayLiveData.value
+    if (currentOverlay != null){
+        val latLng = mapViewModel.markerLiveData.value?.latLng
+        getMapAsync { naverMap->
+            currentOverlay.apply {
+                center = LatLng(latLng?.latitude!!, latLng.longitude)//중앙 위치
+                radius = RADIUS.toDouble()//반경
+                color = 0x5000FF00.toInt()//색깔
+                map = naverMap//맵셋팅
+            }
+            mapViewModel.onSaveCircleOverlay(currentOverlay)
+        }
+    }
+}
+
+@BindingAdapter(value = ["onRemovePlaceOverlay"])
+fun MapView.onRemovePlaceOverlay(tempOverlayLiveData: LiveData<CircleOverlay>) {
+    val tempOverlay = tempOverlayLiveData.value
+    tempOverlay?.map = null
+}
+
+@BindingAdapter(value = ["onRemovePlaceDrawMarker"])
 fun MapView.onRemovePlaceDrawMarker(removePlaceMarkersLiveData: LiveData<MutableList<Marker>>) {
     val removeMarkerList = removePlaceMarkersLiveData.value
-    removeMarkerList?.forEach { marker->
+    removeMarkerList?.forEach { marker ->
         marker.map = null
     }
 }
