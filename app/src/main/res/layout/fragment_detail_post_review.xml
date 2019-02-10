@@ -31,11 +31,12 @@
                 android:hint="@string/post_review_hint_contents"
                 app:layout_constraintTop_toBottomOf="@id/post_review_nickname"
                 app:layout_constraintStart_toStartOf="parent"/>
+
         <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/post_review_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="@{()->viewModel.onClickedReviewPost()}"
+                android:onClick="@{viewModel.onClickedReviewPost}"
                 android:layout_marginHorizontal="@dimen/detail_rv_horizontal_margin"
                 app:layout_constraintTop_toBottomOf="@id/post_review_contents"
         />
