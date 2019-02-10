@@ -13,7 +13,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MapActivity : AppCompatActivity() {
     private val mapViewModel: MapViewModel by viewModel()
     private lateinit var activityMapBinding: ActivityMapBinding
-    private lateinit var locationSource : FusedLocationSource
+    private lateinit var locationSource: FusedLocationSource
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,8 +60,10 @@ class MapActivity : AppCompatActivity() {
     }
 
     //자신의 위치 관련한 permission 함수
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         if (locationSource.onRequestPermissionsResult(requestCode, permissions, grantResults)) {
             return
         }

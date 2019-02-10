@@ -10,6 +10,7 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.CircleOverlay
 import com.naver.maps.map.overlay.Marker
+import io.reactivex.Single
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.repository.MapRepositoryImpl
@@ -17,10 +18,14 @@ import kr.co.connect.boostcamp.livewhere.util.MapUtilImpl
 import kr.co.connect.boostcamp.livewhere.util.RADIUS
 import kr.co.connect.boostcamp.livewhere.util.StatusCode
 
+interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, OnMapReadyCallback, View.OnClickListener,
+    OnMapHistoryListener, OnSearchTrigger
+
 class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositoryImpl) : ViewModel(),
-    NaverMap.OnMapLongClickListener, OnMapReadyCallback, View.OnClickListener, OnMapHistoryListener, OnSearchTrigger {
+    OnMapViewModelInterface {
+
+    //현재 검색하려는 매물의 좌표 livedata
     private val _markerLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
-    //현재 검색하려는 house의 좌표 livedata
     val markerLiveData: LiveData<MarkerInfo>
         get() = _markerLiveData
 
@@ -34,14 +39,18 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
     val mapStatusLiveData: LiveData<NaverMap>
         get() = _mapStatusLiveData
 
+    //상권 정보에 대한 LiveData
     private val _placeResponseLiveData: MutableLiveData<PlaceResponse> = MutableLiveData()
     val placeResponseLiveData: LiveData<PlaceResponse>
         get() = _placeResponseLiveData
 
+    //하나의 상권의 정보를 가져오기 위한 LiveData
     private val _placeMarkerLiveData: MutableLiveData<Place> = MutableLiveData()
     val placeMarkerLiveData: LiveData<Place>
         get() = _placeMarkerLiveData
 
+    //결과 값을 보여주는 RecyclerView에 들어가는 LiveData,
+    //List<Place>, List<House>, List<Empty>의 data가 들어옴
     private val _searchListLiveData: MutableLiveData<List<Any>> = MutableLiveData()
     val searchListLiveData: LiveData<List<Any>>
         get() = _searchListLiveData
@@ -51,22 +60,26 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
     val userStatusLiveData: LiveData<UserStatus>
         get() = _userStatusLiveData
 
+    //삭제할 PlaceMarker Livedata
     private val _removePlaceMarkersLiveData: MutableLiveData<MutableList<Marker>> = MutableLiveData()
+
+    //PlaceMarker의 정보를 저장해두는 LiveData
     private val _savePlaceMarkersLiveData: MutableLiveData<MutableList<Marker>> = MutableLiveData()
     val removePlaceMarkersLiveData: LiveData<MutableList<Marker>>
         get() = _removePlaceMarkersLiveData
 
+    //이전 overlay의 정보를 갖고 있는 LiveData
     private val _tempOverlayLiveData: MutableLiveData<CircleOverlay> = MutableLiveData()
     val tempOverlayLiveData: LiveData<CircleOverlay>
         get() = _tempOverlayLiveData
 
+    //현재 overlay의 정보를 갖고 있는 LiveData
     private val _currentOverlayLiveData: MutableLiveData<CircleOverlay> = MutableLiveData()
     val currentOverlayLiveData: LiveData<CircleOverlay>
         get() = _currentOverlayLiveData
 
     override fun onSaveCircleOverlay(circleOverlay: CircleOverlay) {
-        if(circleOverlay!=_currentOverlayLiveData.value)
-        {
+        if (circleOverlay != _currentOverlayLiveData.value) {
             _currentOverlayLiveData.postValue(circleOverlay)
         }
     }
@@ -117,27 +130,23 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
         }
 
         if (currentMarkerInfo != null) {
-            mapRepository.getPlace(
-                currentMarkerInfo.latLng.latitude,
-                currentMarkerInfo.latLng.longitude,
-                RADIUS,
-                category
-            ).subscribe({ response ->
+            val latLng = currentMarkerInfo.latLng
+            mapRepository.getPlace(latLng.latitude, latLng.longitude, RADIUS, category).subscribe({ response ->
                 val placeResponse = response.body()
+                val placeList = placeResponse?.placeList
                 _placeResponseLiveData.postValue(placeResponse)
-                _searchListLiveData.postValue(placeResponse?.placeList)
+                _searchListLiveData.postValue(placeList)
                 _userStatusLiveData.postValue(
                     UserStatus(
-                        StatusCode.SUCCESS_SEARCH_PLACE,
-                        String.format(
+                        StatusCode.SUCCESS_SEARCH_PLACE, String.format(
                             view?.context!!.getString(R.string.info_success_search_place_text),
-                            placeResponse?.placeList!![0].category,
-                            placeResponse?.placeList.size
+                            placeList!![0].category,
+                            placeList.size
                         )
                     )
                 )
             }, {
-                _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_PLACE, "검색에 실패했습니다."))
+                _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_PLACE, ""))
             })
         }
     }
@@ -154,46 +163,41 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
 
     private fun loadHousePrice(latLng: LatLng) = mapRepository
         .getAddress(latLng.latitude.toString(), latLng.longitude.toString(), "WGS84")
+        .flatMap { address ->
+            if (address.isSuccessful && address.body()?.metaData?.total_count!! >= 1) {
+                mapRepository.getHouseDetail(address.body()?.documentData!![0].addressMeta.addressName)
+                    .map { response -> Pair(response, address.body()?.documentData!![0].addressMeta.addressName) }
+            } else {
+                mapRepository.getHouseDetail(address.body()?.metaData?.total_count.toString())
+                    .map { response -> Pair(response, address.body()?.documentData!![0].addressMeta.addressName) }
+            }
+        }
+        .flatMap { pair ->
+            val response = pair.first
+            val address = pair.second
+            val houseResponse = response.body()
+            if (houseResponse?.addrStatusCode == StatusCode.RESULT_200.response
+                && houseResponse.houseStatusCode == StatusCode.RESULT_200.response
+            ) {
+                Single.just(Pair(address, houseResponse))
+            } else {
+                Single.just(Pair(address, null))
+            }
+        }
         .subscribe({ result ->
-            val addressData = result.body()
-            if (addressData?.metaData?.total_count!! > 0) {
-                val addressName = addressData.documentData[0].addressMeta.addressName
-                mapRepository.getHouseDetail(addressName)
-                    .subscribe({ houseInfo ->
-                        val houseResponse = houseInfo.body()
-                        if (houseResponse?.addrStatusCode == StatusCode.RESULT_200.response
-                            && houseResponse.houseStatusCode == StatusCode.RESULT_200.response
-                        ) {
-                            _markerLiveData.postValue(
-                                MarkerInfo(
-                                    latLng,
-                                    houseResponse.houseList,
-                                    StatusCode.RESULT_200
-                                )
-                            )
-                            _userStatusLiveData.postValue(
-                                UserStatus(StatusCode.SUCCESS_SEARCH_HOUSE, houseResponse.houseList[0].name)
-                            )
-                            val houseLastItemList = listOf(
-                                HouseInfo(
-                                    houseResponse.houseList[houseResponse.houseList.size - 1],
-                                    addressName
-                                )
-                            )
-                            _searchListLiveData.postValue(houseLastItemList)
-
-                        } else {
-                            _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_HOUSE, ""))
-                            _searchListLiveData.postValue(listOf(EmptyInfo(addressName)))
-                            _markerLiveData.postValue(MarkerInfo(latLng, emptyList(), StatusCode.RESULT_204))
-                        }
-                    }, {
-                        //TODO: timeout 시간이 너무 길어서 의견 조율이 필요함.
-                        _userStatusLiveData.postValue(
-                            UserStatus(StatusCode.FAILURE_SEARCH_HOUSE, "")
-                        )
-                        _markerLiveData.postValue(MarkerInfo(latLng, emptyList(), StatusCode.RESULT_204))
-                    })
+            val address = result.first
+            val response = result.second
+            if (response != null) {
+                val houseList = response.houseList
+                val currentMarkerInfo = MarkerInfo(latLng, houseList, StatusCode.RESULT_200)
+                _markerLiveData.postValue(currentMarkerInfo)
+                _userStatusLiveData.postValue(UserStatus(StatusCode.SUCCESS_SEARCH_HOUSE, houseList[0].name))
+                _searchListLiveData.postValue(houseList)
+            } else {
+                val currentMarkerInfo = MarkerInfo(latLng, emptyList(), StatusCode.RESULT_204)
+                _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_HOUSE, ""))
+                _searchListLiveData.postValue(listOf(EmptyInfo(address)))
+                _markerLiveData.postValue(currentMarkerInfo)
             }
         }, {
             _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_HOUSE, ""))
