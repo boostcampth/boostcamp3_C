@@ -7,25 +7,29 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
-import kr.co.connect.boostcamp.livewhere.R
+import kotlinx.android.synthetic.main.activity_map.view.*
 
-class BackdropMotionLayout (context: Context, attributeSet: AttributeSet? = null) : MotionLayout(context, attributeSet) {
-    private val viewToDetectTouch by lazy {
-        findViewById<View>(R.id.ll_place_detail)
-    }
+class BackdropMotionLayout(context: Context, attributeSet: AttributeSet? = null) : MotionLayout(context, attributeSet) {
     private val viewRect = Rect()
     private var touchStarted = false
 
     init {
         setTransitionListener(object : MotionLayout.TransitionListener {
-            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}
+            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
 
-            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {}
+            }
 
-            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {}
+            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
 
-            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
+            }
+
+            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
+
+            }
+
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
                 touchStarted = false
+
             }
         })
     }
@@ -39,8 +43,11 @@ class BackdropMotionLayout (context: Context, attributeSet: AttributeSet? = null
             }
         }
         if (!touchStarted) {
-            viewToDetectTouch.getHitRect(viewRect)
+            ll_place_detail.getHitRect(viewRect)
             touchStarted = viewRect.contains(event.x.toInt(), event.y.toInt())
+            if(touchStarted){
+                ml_place_image.iv_place_image.visibility = View.GONE
+            }
         }
         return touchStarted && super.onTouchEvent(event)
     }

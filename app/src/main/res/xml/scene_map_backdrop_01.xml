@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MotionScene
-        xmlns:motion="http://schemas.android.com/apk/res-auto">
+        xmlns:motion="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
     <Transition
+            android:id="@+id/transition_backdrop_start"
             motion:constraintSetStart="@layout/motion_01_map_backdrop_start"
             motion:constraintSetEnd="@layout/motion_01_map_backdrop_end"
             motion:duration="400">
@@ -10,6 +12,38 @@
                 motion:touchAnchorId="@id/ll_place_detail"
                 motion:moveWhenScrollAtTop="true"
                 motion:touchAnchorSide="top"
-                motion:dragDirection="dragUp"/>
+                motion:dragDirection="dragUp"
+                motion:dragScale="0.5"/>
+        <!-- 20 frame 까지 버튼을 보여줬다가
+        40 프레임 때 버튼을 감춤-->
+    </Transition>
+    <Transition
+            motion:constraintSetStart="@layout/motion_01_map_backdrop_start"
+            motion:constraintSetEnd="@layout/motion_02_map_backdrop_end"
+            motion:duration="400">
+        <OnSwipe
+                motion:touchAnchorId="@id/ll_place_detail"
+                motion:moveWhenScrollAtTop="false"
+                motion:touchAnchorSide="top"
+                motion:dragDirection="dragDown"/>
+        <KeyFrameSet>
+            <KeyAttribute
+                    motion:target="@id/ll_search_map"
+                    motion:framePosition="5"
+                    android:scaleY="0">
+
+            </KeyAttribute>
+        </KeyFrameSet>
+    </Transition>
+    <Transition
+            motion:constraintSetStart="@layout/motion_02_map_backdrop_end"
+            motion:constraintSetEnd="@layout/motion_01_map_backdrop_start"
+            motion:duration="400">
+        <OnSwipe
+                motion:touchAnchorId="@id/ll_place_detail"
+                motion:moveWhenScrollAtTop="true"
+                motion:touchAnchorSide="bottom"
+                motion:dragDirection="dragUp"
+                motion:dragScale="0.2"/>
     </Transition>
 </MotionScene>

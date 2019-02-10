@@ -25,7 +25,6 @@
 
     <!-- motionlayout 관련 dimen-->
 
-    <dimen name="space_guide_line">260dp</dimen>
     <dimen name="fab_filter_main_margin_end">32dp</dimen>
     <dimen name="fab_filter_main_margin_bottom">16dp</dimen>
 
@@ -56,5 +55,9 @@
     <dimen name="map_place_image_view_margin">8dp</dimen>
 
     <dimen name="detail_post_review_contents_height">250dp</dimen>
-
+    <dimen name="backdrop_hide_top_margin">120dp</dimen>
+    <dimen name="fab_clone_size">64dp</dimen>
+    <dimen name="ml_float_btn_width">256dp</dimen>
+    <dimen name="ml_float_btn_padding_end">24dp</dimen>
+    <dimen name="item_search_recyclerview_height">120dp</dimen>
 </resources>

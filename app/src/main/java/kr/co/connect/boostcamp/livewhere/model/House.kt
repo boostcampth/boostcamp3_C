@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class House(
     @SerializedName("LAND_CD") val landCode:String, // pnu
-    @SerializedName("ACC_YEAR") val accYear:String, // 건축년도
+    @SerializedName("ACC_YEAR") val accYear:String, // 접수년도
     @SerializedName("BLDG_NM") val name:String, // 건물이름
     @SerializedName("DONG_NM") val dong:String, //OO동 (102동)
     @SerializedName("FLR_NO") val floor:String, // 층

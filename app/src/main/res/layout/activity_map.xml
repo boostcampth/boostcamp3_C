@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <layout
         xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
->
+        xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable name="mapViewModel" type="kr.co.connect.boostcamp.livewhere.ui.map.MapViewModel"/>
         <variable name="mlFloatBtn" type="androidx.constraintlayout.motion.widget.MotionLayout"/>
@@ -45,61 +44,34 @@
                 app:layout_constraintTop_toBottomOf="@+id/locationButtonView"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
+        <com.naver.maps.map.widget.LogoView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/map_widget_size"
+                android:id="@+id/logoView"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="@dimen/margin_map_widget_default"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.96"/>
+
+        <com.naver.maps.map.widget.ScaleBarView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/map_widget_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:id="@+id/scaleBarView"
+                app:layout_constraintStart_toEndOf="@+id/logoView"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.98"/>
+
         <kr.co.connect.boostcamp.livewhere.ui.map.BackdropMotionLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/ml_backdrop"
                 app:layoutDescription="@xml/scene_map_backdrop_01"
                 triggerFloatingButton="@{mlFloatBtn}"
+                triggerSearchHeight="@{mapViewModel}"
+                searchLiveData="@{mapViewModel.searchListLiveData}"
                 android:background="@android:color/transparent">
-            <com.naver.maps.map.widget.LogoView
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/map_widget_size"
-                    android:id="@+id/logoView"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_margin="@dimen/margin_map_widget_default"
-                    app:layout_constraintBottom_toTopOf="@+id/guideline2"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.95" android:layout_marginStart="16dp"/>
-            <com.naver.maps.map.widget.ScaleBarView
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/map_widget_size"
-                    android:layout_margin="@dimen/margin_map_widget_default"
-                    app:layout_constraintBottom_toTopOf="@+id/guideline2"
-                    android:id="@+id/scaleBarView"
-                    app:layout_constraintStart_toEndOf="@+id/logoView"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" android:layout_marginStart="12dp"/>
-            <kr.co.connect.boostcamp.livewhere.ui.map.PlaceImageViewMotionLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/ml_place_image"
-                    app:layoutDescription="@xml/scene_map_place_image_view"
-                    app:layout_constraintBottom_toTopOf="@+id/logoView"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
-                <View
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/white"
-                        android:id="@+id/view_background_ml_place"
-                        android:alpha="0"/>
-                <ImageView
-                        android:layout_width="@dimen/place_image_view_width"
-                        android:layout_height="@dimen/place_image_view_height"
-                        android:id="@+id/iv_place_image"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        onDrawHouse="@{mapViewModel.markerLiveData}"
-                        onDrawPlace="@{mapViewModel.placeMarkerLiveData}"
-                        android:layout_marginStart="@dimen/map_place_image_view_margin"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.85"/>
-
-            </kr.co.connect.boostcamp.livewhere.ui.map.PlaceImageViewMotionLayout>
-
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -108,11 +80,11 @@
                     style="@style/BackDrop.White"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/guideline_backdrop_ml_height">
                 <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
                     <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -129,19 +101,18 @@
                 </LinearLayout>
 
             </LinearLayout>
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="0dp"
-                          android:id="@+id/ll_search_map"
-                          android:alpha="0.0"
-                          app:layout_constraintEnd_toEndOf="parent"
-                          app:layout_constraintHeight_percent="0"
-                          app:layout_constraintTop_toBottomOf="@+id/iv_backdrop_toggle"
-                          app:layout_constraintBottom_toBottomOf="parent">
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:id="@+id/ll_search_map"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_backdrop_toggle"
+                    app:layout_constraintBottom_toBottomOf="parent">
                 <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/rv_search_map"
-                        bindPlaceData="@{mapViewModel.searchListLiveData}"/>
+                        bindData="@{mapViewModel.searchListLiveData}"/>
             </LinearLayout>
             <ImageView
                     android:layout_width="wrap_content"
@@ -156,16 +127,19 @@
                     app:layout_constraintTop_toTopOf="@+id/ll_place_detail"/>
 
             <androidx.constraintlayout.motion.widget.MotionLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="@dimen/ml_float_btn_width"
+                    android:layout_height="0dp"
                     android:id="@+id/ml_float_btn"
-                    app:layoutDescription="@xml/scene_map_float_btn_01">
+                    android:paddingEnd="@dimen/ml_float_btn_padding_end"
+                    app:layoutDescription="@xml/scene_map_float_btn_01"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/guideline_filter_ml_width"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline_filter_ml_height">
                 <TextView
                         style="@style/FilterTextView.CloseMode"
                         android:text="@string/all_cafe"
                         android:id="@+id/tv_filter_cafe"
                         app:layout_constraintEnd_toStartOf="@+id/fab_filter_cafe"
-                        app:layout_constraintStart_toStartOf="@+id/guideline"
                         app:layout_constraintTop_toTopOf="@+id/fab_filter_cafe"
                         app:layout_constraintHorizontal_bias="0.5"/>
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -184,7 +158,6 @@
                         android:text="@string/all_food"
                         android:id="@+id/tv_filter_food"
                         app:layout_constraintEnd_toStartOf="@+id/fab_filter_food"
-                        app:layout_constraintStart_toStartOf="@+id/guideline"
                         app:layout_constraintTop_toTopOf="@+id/fab_filter_food"
                         app:layout_constraintHorizontal_bias="0.5"/>
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -203,7 +176,6 @@
                         android:text="@string/all_hospital"
                         android:id="@+id/tv_filter_hospital"
                         app:layout_constraintEnd_toStartOf="@+id/fab_filter_hospital"
-                        app:layout_constraintStart_toStartOf="@+id/guideline"
                         app:layout_constraintTop_toTopOf="@+id/fab_filter_hospital"
                         app:layout_constraintHorizontal_bias="0.5"/>
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -222,7 +194,6 @@
                         android:text="@string/all_school"
                         android:id="@+id/tv_filter_school"
                         app:layout_constraintEnd_toStartOf="@+id/fab_filter_school"
-                        app:layout_constraintStart_toStartOf="@+id/guideline"
                         app:layout_constraintTop_toTopOf="@+id/fab_filter_school"
                         app:layout_constraintHorizontal_bias="0.5"/>
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -243,7 +214,6 @@
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         app:layout_constraintEnd_toStartOf="@+id/fab_filter_store"
-                        app:layout_constraintStart_toStartOf="@+id/guideline"
                         app:layout_constraintTop_toTopOf="@+id/fab_filter_store"
                         app:layout_constraintHorizontal_bias="0.5"/>
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -267,20 +237,72 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"/>
             </androidx.constraintlayout.motion.widget.MotionLayout>
+            <kr.co.connect.boostcamp.livewhere.ui.map.PlaceImageViewMotionLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:id="@+id/ml_place_image"
+                    app:layoutDescription="@xml/scene_map_place_image_view"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/guideline_place_image_ml_bottom"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintVertical_bias="1.0">
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:id="@+id/view_background_ml_place"
+                        android:alpha="0"/>
+                <ImageView
+                        android:layout_width="@dimen/place_image_view_width"
+                        android:layout_height="@dimen/place_image_view_height"
+                        android:id="@+id/iv_place_image"
+                        onDrawHouse="@{mapViewModel.markerLiveData}"
+                        onDrawPlace="@{mapViewModel.placeMarkerLiveData}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@+id/guideline_place_image_bottom"
+                        app:layout_constraintVertical_bias="1.0"/>
+
+                <androidx.constraintlayout.widget.Guideline
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/guideline_place_image_bottom"
+                        app:layout_constraintGuide_percent="0.85"
+                        android:orientation="horizontal"/>
+
+            </kr.co.connect.boostcamp.livewhere.ui.map.PlaceImageViewMotionLayout>
             <androidx.constraintlayout.widget.Guideline
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/guideline"
-                    app:layout_constraintGuide_begin="@dimen/space_guide_line"
+                    android:id="@+id/guideline_place_image_ml_bottom"
+                    app:layout_constraintGuide_percent="0.88"
+                    android:orientation="horizontal"/>
+            <!-- 해당 가이드 라인을 통해서 각종 뷰의 크기 조절-->
+            <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline_backdrop_ml_height"
+                    app:layout_constraintGuide_percent="0.93"
+                    android:orientation="horizontal"/>
+            <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline_filter_ml_height"
+                    app:layout_constraintGuide_percent="1.0"
+                    android:orientation="horizontal"/>
+            <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline_filter_ml_width"
+                    app:layout_constraintGuide_percent="0.4"
                     android:orientation="vertical"/>
-            <androidx.constraintlayout.widget.Guideline
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/guideline2"
-                    app:layout_constraintGuide_begin="@dimen/guideline_map_bottom_margin"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="@+id/ml_backdrop"
-                    app:layout_constraintTop_toTopOf="@id/ml_backdrop"/>
         </kr.co.connect.boostcamp.livewhere.ui.map.BackdropMotionLayout>
+        <androidx.constraintlayout.widget.Guideline
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/guideline2"
+                app:layout_constraintGuide_percent="0.0"
+                android:orientation="horizontal"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -5,10 +5,8 @@
             motion:constraintSetStart="@layout/motion_01_map_place_image_view_start"
             motion:constraintSetEnd="@layout/motion_01_map_place_image_view_end"
             motion:duration="400">
-        <OnSwipe
-                motion:touchAnchorId="@id/iv_place_image"
-                motion:moveWhenScrollAtTop="false"
-                motion:touchAnchorSide="right"
-                motion:dragDirection="dragRight"/>
+        <OnClick
+                motion:target="@id/iv_place_image"
+                motion:clickAction="toggle"/>
     </Transition>
 </MotionScene>
