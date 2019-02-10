@@ -37,7 +37,7 @@ class DetailReviewRvAdapter(
         private val itemBinding: FragmentDetailReviewMoreItemBinding
     ) : RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(lifecycleOwner: LifecycleOwner,review: Review) {
-            itemBinding.setLifecycleOwner(lifecycleOwner)
+            itemBinding.lifecycleOwner = lifecycleOwner
             itemBinding.review = review
             itemBinding.executePendingBindings()
         }

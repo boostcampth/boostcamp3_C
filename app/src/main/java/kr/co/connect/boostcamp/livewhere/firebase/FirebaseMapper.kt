@@ -1,5 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.firebase
 
+import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import java.lang.reflect.ParameterizedType
 import java.util.*
@@ -22,7 +23,9 @@ abstract class FirebaseMapper<Entity, Model> : IMapper<Entity, Model> {
         val list = ArrayList<Model>()
         for (item in dataSnapshot.children) {
             if(item.key == pnu) {
-                list.add(map(item))
+                item.children.forEach{
+                    list.add(map(it))
+                }
             }
         }
         return list

@@ -22,6 +22,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 style="@style/BasicTv.BodyL"
                 android:text="@{review.nickname}"
+                android:textColor="@color/colorPrimaryDark"
                 tools:text="asdasd"/>
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/review_more_id"
@@ -43,6 +44,7 @@
                 app:layout_constraintTop_toBottomOf="@id/review_more_nickname"
                 style="@style/BasicTv.BodyM"
                 android:text="@{review.contents}"
+                android:textColor="@color/colorPrimaryDark"
                 tools:text="어릴 적 살았었는데 정말 조용하고 교통도 편리하고 좋은 동네였다고 생각해요 다시 이사가고 싶은 동네입니다."/>
 
 
