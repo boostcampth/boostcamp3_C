@@ -21,11 +21,9 @@
                 bindViewModel="@{mapViewModel}"
                 onClickPlaceMarker="@{mapViewModel}"
                 onClickHouseMarker="@{mapViewModel}"
-                onPlaceCenterData="@{mapViewModel}"
                 onRemovePlaceDrawMarker="@{mapViewModel.removePlaceMarkersLiveData}"
-                onDrawPlaceOverlay="@{mapViewModel.currentOverlayLiveData}"
                 onRemovePlaceOverlay="@{mapViewModel.tempOverlayLiveData}"
-        />
+                onRemovePlaceMarker="@{mapViewModel.tempInfoWindowLiveData}"/>
 
         <com.naver.maps.map.widget.LocationButtonView
                 android:layout_width="wrap_content"
@@ -264,7 +262,7 @@
                         android:layout_width="@dimen/place_image_view_width"
                         android:layout_height="@dimen/place_image_view_height"
                         android:id="@+id/iv_place_image"
-                        onDrawHouse="@{mapViewModel.markerLiveData}"
+                        onDrawHouse="@{mapViewModel.markerImageLiveData}"
                         onDrawPlace="@{mapViewModel.placeMarkerLiveData}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
