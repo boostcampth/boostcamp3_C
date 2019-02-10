@@ -91,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/guideline_filter_ml_height"
-            app:layout_constraintGuide_percent="1.0"
+            app:layout_constraintGuide_percent="0.83"
             android:orientation="horizontal"/>
     <androidx.constraintlayout.widget.Guideline
             android:layout_width="wrap_content"

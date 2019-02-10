@@ -23,13 +23,13 @@
             motion:duration="400">
         <OnSwipe
                 motion:touchAnchorId="@id/ll_place_detail"
-                motion:moveWhenScrollAtTop="true"
+                motion:moveWhenScrollAtTop="false"
                 motion:touchAnchorSide="top"
                 motion:dragDirection="dragDown"/>
         <KeyFrameSet>
             <KeyAttribute
                     motion:target="@id/ll_search_map"
-                    motion:framePosition="0"
+                    motion:framePosition="5"
                     android:scaleY="0">
 
             </KeyAttribute>
