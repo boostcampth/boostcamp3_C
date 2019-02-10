@@ -23,8 +23,9 @@ interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, OnMapReadyC
 
 class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositoryImpl) : ViewModel(),
     OnMapViewModelInterface {
+
+    //현재 검색하려는 매물의 좌표 livedata
     private val _markerLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
-    //현재 검색하려는 house의 좌표 livedata
     val markerLiveData: LiveData<MarkerInfo>
         get() = _markerLiveData
 
@@ -38,14 +39,18 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
     val mapStatusLiveData: LiveData<NaverMap>
         get() = _mapStatusLiveData
 
+    //상권 정보에 대한 LiveData
     private val _placeResponseLiveData: MutableLiveData<PlaceResponse> = MutableLiveData()
     val placeResponseLiveData: LiveData<PlaceResponse>
         get() = _placeResponseLiveData
 
+    //하나의 상권의 정보를 가져오기 위한 LiveData
     private val _placeMarkerLiveData: MutableLiveData<Place> = MutableLiveData()
     val placeMarkerLiveData: LiveData<Place>
         get() = _placeMarkerLiveData
 
+    //결과 값을 보여주는 RecyclerView에 들어가는 LiveData,
+    //List<Place>, List<House>, List<Empty>의 data가 들어옴
     private val _searchListLiveData: MutableLiveData<List<Any>> = MutableLiveData()
     val searchListLiveData: LiveData<List<Any>>
         get() = _searchListLiveData
@@ -55,15 +60,20 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
     val userStatusLiveData: LiveData<UserStatus>
         get() = _userStatusLiveData
 
+    //삭제할 PlaceMarker Livedata
     private val _removePlaceMarkersLiveData: MutableLiveData<MutableList<Marker>> = MutableLiveData()
+
+    //PlaceMarker의 정보를 저장해두는 LiveData
     private val _savePlaceMarkersLiveData: MutableLiveData<MutableList<Marker>> = MutableLiveData()
     val removePlaceMarkersLiveData: LiveData<MutableList<Marker>>
         get() = _removePlaceMarkersLiveData
 
+    //이전 overlay의 정보를 갖고 있는 LiveData
     private val _tempOverlayLiveData: MutableLiveData<CircleOverlay> = MutableLiveData()
     val tempOverlayLiveData: LiveData<CircleOverlay>
         get() = _tempOverlayLiveData
 
+    //현재 overlay의 정보를 갖고 있는 LiveData
     private val _currentOverlayLiveData: MutableLiveData<CircleOverlay> = MutableLiveData()
     val currentOverlayLiveData: LiveData<CircleOverlay>
         get() = _currentOverlayLiveData
@@ -120,27 +130,23 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
         }
 
         if (currentMarkerInfo != null) {
-            mapRepository.getPlace(
-                currentMarkerInfo.latLng.latitude,
-                currentMarkerInfo.latLng.longitude,
-                RADIUS,
-                category
-            ).subscribe({ response ->
+            val latLng = currentMarkerInfo.latLng
+            mapRepository.getPlace(latLng.latitude, latLng.longitude, RADIUS, category).subscribe({ response ->
                 val placeResponse = response.body()
+                val placeList = placeResponse?.placeList
                 _placeResponseLiveData.postValue(placeResponse)
-                _searchListLiveData.postValue(placeResponse?.placeList)
+                _searchListLiveData.postValue(placeList)
                 _userStatusLiveData.postValue(
                     UserStatus(
-                        StatusCode.SUCCESS_SEARCH_PLACE,
-                        String.format(
+                        StatusCode.SUCCESS_SEARCH_PLACE, String.format(
                             view?.context!!.getString(R.string.info_success_search_place_text),
-                            placeResponse?.placeList!![0].category,
-                            placeResponse?.placeList.size
+                            placeList!![0].category,
+                            placeList.size
                         )
                     )
                 )
             }, {
-                _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_PLACE, "검색에 실패했습니다."))
+                _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_PLACE, ""))
             })
         }
     }
@@ -171,18 +177,17 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
             val address = pair.second
             val houseResponse = response.body()
             if (houseResponse?.addrStatusCode == StatusCode.RESULT_200.response
-                && houseResponse.houseStatusCode == StatusCode.RESULT_200.response)
-            {
-                Single.just(Pair(address,houseResponse))
-            } else
-            {
-                Single.just(Pair(address,null))
+                && houseResponse.houseStatusCode == StatusCode.RESULT_200.response
+            ) {
+                Single.just(Pair(address, houseResponse))
+            } else {
+                Single.just(Pair(address, null))
             }
         }
         .subscribe({ result ->
             val address = result.first
             val response = result.second
-            if (response!=null) {
+            if (response != null) {
                 val houseList = response.houseList
                 val currentMarkerInfo = MarkerInfo(latLng, houseList, StatusCode.RESULT_200)
                 _markerLiveData.postValue(currentMarkerInfo)

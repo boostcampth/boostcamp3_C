@@ -23,9 +23,7 @@ class PlaceImageViewMotionLayout (context: Context, attributeSet: AttributeSet? 
 
             override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {}
 
-            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, progress: Float) {
-
-            }
+            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, progress: Float) {}
 
             override fun onTransitionCompleted(motionLayout: MotionLayout?, motionId: Int) {
                 touchStarted = false

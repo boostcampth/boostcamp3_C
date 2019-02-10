@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="houseInfo" type="kr.co.connect.boostcamp.livewhere.model.HouseInfo"/>
+        <variable name="houseInfo" type="kr.co.connect.boostcamp.livewhere.model.House"/>
     </data>
     <LinearLayout
             android:layout_width="match_parent"
@@ -22,7 +22,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/darker_gray"
                     android:textAlignment="center"
-                    android:text="@{houseInfo.house.accYear}"/>
+                    android:text="@{houseInfo.accYear}"/>
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
@@ -32,14 +32,14 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{houseInfo.house.name}"
+                    android:text="@{houseInfo.name}"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:textStyle="bold"/>
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{houseInfo.addressName}"
+                    android:text="@{houseInfo.name}"
                     android:textSize="14sp"
                     android:textColor="@android:color/darker_gray"/>
             <TextView

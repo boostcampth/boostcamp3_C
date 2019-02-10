@@ -93,7 +93,7 @@ fun ImageView.onDrawHouse(markerInfoLiveData: LiveData<MarkerInfo>) {
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    visibility = VISIBLE
+
                     return false
                 }
             })
@@ -136,8 +136,6 @@ fun ImageView.onDrawPlace(placeMarkerLiveData: LiveData<Place>) {
             })
             .into(this)
     }
-
-
 }
 
 @BindingAdapter(value = ["onHouseDrawMarker", "onClickHouseMarker"])
