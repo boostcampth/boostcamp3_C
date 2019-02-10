@@ -20,7 +20,7 @@ class MapActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
         activityMapBinding = DataBindingUtil.setContentView(this, R.layout.activity_map)
-        activityMapBinding.setLifecycleOwner(this)
+        activityMapBinding.lifecycleOwner = this
         activityMapBinding.mapViewModel = mapViewModel
         activityMapBinding.locationSource = locationSource
         activityMapBinding.setMlFloatBtn(activityMapBinding.mlFloatBtn)

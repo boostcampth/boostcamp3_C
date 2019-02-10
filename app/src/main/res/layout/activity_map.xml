@@ -17,10 +17,15 @@
                 android:id="@+id/mv_main_naver"
                 onMakeNaverMapData="@{mapViewModel.mapStatusLiveData}"
                 onHouseDrawMarker="@{mapViewModel.markerLiveData}"
-                bindViewModel="@{mapViewModel}"
                 onPlaceDrawMarker="@{mapViewModel.placeResponseLiveData}"
+                bindViewModel="@{mapViewModel}"
                 onClickPlaceMarker="@{mapViewModel}"
-                onClickHouseMarker="@{mapViewModel}"/>
+                onClickHouseMarker="@{mapViewModel}"
+                onPlaceCenterData="@{mapViewModel}"
+                onRemovePlaceDrawMarker="@{mapViewModel.removePlaceMarkersLiveData}"
+                onDrawPlaceOverlay="@{mapViewModel.currentOverlayLiveData}"
+                onRemovePlaceOverlay="@{mapViewModel.tempOverlayLiveData}"
+        />
 
         <com.naver.maps.map.widget.LocationButtonView
                 android:layout_width="wrap_content"
@@ -93,6 +98,8 @@
                             android:src="@drawable/ic_search_white_24dp"/>
                     <TextView
                             style="@style/BasicTv.BodyL"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
                             android:textColor="@color/black"
                             android:layout_gravity="top"
                             android:text="@string/home_bookmark"
