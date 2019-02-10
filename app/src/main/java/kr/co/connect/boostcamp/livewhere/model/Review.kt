@@ -1,7 +1,11 @@
 package kr.co.connect.boostcamp.livewhere.model
 
 data class Review(
-    val nickname:String,
-    val id:String,
-    val contents:String
-)
+    var nickname: String? = null,
+    var id: String? = null,
+    var contents: String? = null,
+    var land_code:String? =null
+){
+    constructor():this("","","","")
+}
+

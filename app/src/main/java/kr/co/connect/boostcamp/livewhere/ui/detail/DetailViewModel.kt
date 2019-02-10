@@ -1,17 +1,17 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.naver.maps.geometry.LatLng
 import kr.co.connect.boostcamp.livewhere.R
+import kr.co.connect.boostcamp.livewhere.firebase.FirebaseDatabaseRepository
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.repository.DetailRepository
+import kr.co.connect.boostcamp.livewhere.repository.ReviewRepository
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 import kr.co.connect.boostcamp.livewhere.util.*
 
-class DetailViewModel(private val detailRepository: DetailRepository) : BaseViewModel() {
+class DetailViewModel(private val detailRepository: DetailRepository,private val reviewRepository: ReviewRepository) : BaseViewModel() {
 
     private val _markerInfo = MutableLiveData<MarkerInfo>() // 전체 데이터 리스트
     val markerInfo: LiveData<MarkerInfo>
@@ -50,10 +50,6 @@ class DetailViewModel(private val detailRepository: DetailRepository) : BaseView
     val pastTransactionMore: LiveData<ArrayList<PastTransaction>>
         get() = _pastTransactionMore
 
-    private val _reviewList = MutableLiveData<ArrayList<Review>>() //거주 후기 정보 전체 리스트
-    val reviewList: LiveData<ArrayList<Review>>
-        get() = _reviewList
-
     private val _transactionMoreClicked = SingleLiveEvent<Any>() // 뒤로가기 버튼
     val transactionMoreClicked: LiveData<Any>
         get() = _transactionMoreClicked
@@ -66,31 +62,21 @@ class DetailViewModel(private val detailRepository: DetailRepository) : BaseView
     val reviewPostClicked: LiveData<Any>
         get() = _reviewPostClicked
 
-    init {
-        _pastTransactionSort.postValue(SORT_BY_AREA)
-        _avgPriceType.postValue(TYPE_CHARTER)
-        val latLng = LatLng(37.5390102, 127.0685085)
-        val charterList = ArrayList<House>()
-        val monthlyList = ArrayList<House>()
-        val house = House("asd", "asd", "asd", "asd", "asd", "asd", "전세", "2000", "30", "2013", "201305", "1")
-        val house2 = House("asd", "asd", "asd", "asd", "asd", "asd", "월세", "3000", "30", "2012", "201202", "1")
-        val house3 = House("asd", "asd", "asd", "asd", "asd", "asd", "전세", "2000", "30", "2014", "201401", "1")
-        val house4 = House("asd", "asd", "asd", "asd", "asd", "asd", "전세", "5000", "30", "2010", "201002", "1")
-        val house5 = House("asd", "asd", "asd", "asd", "asd", "asd", "전세", "4500", "30", "2014", "201401", "1")
-        val house6 = House("asd", "asd", "asd", "asd", "asd", "asd", "전세", "3500", "30", "2011", "201112", "1")
-        val house7 = House("asd", "asd", "asd", "asd", "asd", "asd", "월세", "3500", "50", "2010", "201012", "1")
-        val house8 = House("asd", "asd", "asd", "asd", "asd", "asd", "월세", "3500", "80", "2013", "201312", "1")
-        charterList.add(house)
-        charterList.add(house2)
-        charterList.add(house3)
-        charterList.add(house4)
-        charterList.add(house5)
-        charterList.add(house6)
-        charterList.add(house7)
-        charterList.add(house8)
-        val markerInfo = MarkerInfo(latLng, charterList, StatusCode.RESULT_200)
-        _markerInfo.postValue(markerInfo)
+    private val _commentsList = MutableLiveData<List<Review>>()
+    fun getComments():LiveData<List<Review>> {
+        if (_commentsList.value == null) {
+            loadComments("1234567890123456789") // TODO: markerInfo 에서 현재 페이지 pnu코드 인자로 넘기기.
+        }
+        return _commentsList
+    }
 
+    init {
+
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        reviewRepository.removeListener()
     }
 
     fun onClickedTransactionMore() { //과거 거래 내역 더보기 클릭
@@ -230,7 +216,6 @@ class DetailViewModel(private val detailRepository: DetailRepository) : BaseView
     }
 
     fun sortTransactionList() {
-        Log.d("@@@", "in")
         if (!(_pastTransactionMore.value.isNullOrEmpty())) {
             when (_pastTransactionSort.value) {
                 SORT_BY_AREA -> {
@@ -244,6 +229,18 @@ class DetailViewModel(private val detailRepository: DetailRepository) : BaseView
                 }
             }
         }
+    }
+
+    fun loadComments(pnu:String){
+        reviewRepository.addListener(pnu,object : FirebaseDatabaseRepository.FirebaseDatabaseRepositoryCallback<Review> {
+            override fun onSuccess(result: List<Review>) {
+                _commentsList.postValue(result)
+            }
+
+            override fun onError(e: Exception) {
+                //TODO : 후기 가져오기 실패 예외
+            }
+        })
     }
 
     //TODO : 과거 거래 내역 더보기 정렬기준 별 기능 구현.
