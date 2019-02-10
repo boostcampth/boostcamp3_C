@@ -17,10 +17,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.naver.maps.geometry.LatLng
-import com.naver.maps.map.LocationSource
-import com.naver.maps.map.LocationTrackingMode
-import com.naver.maps.map.MapView
-import com.naver.maps.map.NaverMap
+import com.naver.maps.map.*
 import com.naver.maps.map.overlay.CircleOverlay
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
@@ -161,7 +158,7 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
                 tempMarker.infoWindow?.close()
             }
             marker.apply {
-                position = LatLng(latLang.latitude, latLang.longitude)
+                position = latLang
                 setOnClickListener {
                     mapViewModel.onClickMarkerHouse(markerInfo)//매물 이미지 추가
                     true
@@ -172,6 +169,9 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
             mInfoWindow.adapter = MapMarkerAdapter(context, mapViewModel.userStatusLiveData.value?.content!!)
             mInfoWindow.open(marker)
             tag = marker //해당 마커를 닫기 위해서 tag에 marker 값을 저장
+            val cameraUpdate = CameraUpdate.toCameraPosition(CameraPosition(latLang,14.0))
+                .animate(CameraAnimation.Linear, 1000)
+            naverMap.moveCamera(cameraUpdate)
         }
     }
 }
