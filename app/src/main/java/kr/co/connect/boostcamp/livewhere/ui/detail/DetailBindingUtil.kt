@@ -3,6 +3,7 @@ package kr.co.connect.boostcamp.livewhere.ui.detail
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView

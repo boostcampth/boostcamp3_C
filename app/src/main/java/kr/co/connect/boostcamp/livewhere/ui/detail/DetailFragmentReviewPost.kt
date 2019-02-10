@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import kr.co.connect.boostcamp.livewhere.databinding.FragmentDetailPostReviewBinding
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -31,6 +32,10 @@ class DetailFragmentReviewPost : Fragment() {
             viewModel = this@DetailFragmentReviewPost.viewModel
             setLifecycleOwner(this@DetailFragmentReviewPost)
         }
+
+        viewModel.reviewPostClicked.observe(this, Observer {
+            viewModel.postComment()
+        })
 
         return binding.root
     }

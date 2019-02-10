@@ -34,22 +34,26 @@ class DetailActivity : AppCompatActivity() {
         }
 
 
-        viewModel.markerInfo.observe(this, Observer {
+        viewModel.markerInfo.observe(this, Observer { //지도 화면으로부터 전체 데이터 넘겨 받은 시점
             viewModel.getCoordinateFromInfo()
             viewModel.getRecentPriceFromInfo()
             viewModel.getPastTransactionFromList()
         })
 
-        viewModel.transactionMoreClicked.observe(this, Observer {
+        viewModel.transactionMoreClicked.observe(this, Observer {//과거 거래내역 더보기 클릭 시
             addDetailMore()
         })
 
-        viewModel.reviewMoreClicked.observe(this, Observer {
+        viewModel.reviewMoreClicked.observe(this, Observer {//거주 후기 더보기 클릭시
             addReviewMore()
         })
 
-        viewModel.reviewPostOpenClicked.observe(this, Observer {
+        viewModel.reviewPostOpenClicked.observe(this, Observer {// 작성하기 클릭시
             addReviewPost()
+        })
+
+        viewModel.reviewPostSuccess.observe(this, Observer {//리뷰 작성 완료시
+            onBackPressed()
         })
     }
 
