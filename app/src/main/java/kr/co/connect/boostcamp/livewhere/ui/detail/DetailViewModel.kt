@@ -1,6 +1,7 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
 import android.view.View
+import android.widget.Toast
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,7 +14,8 @@ import kr.co.connect.boostcamp.livewhere.repository.ReviewRepository
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 import kr.co.connect.boostcamp.livewhere.util.*
 
-class DetailViewModel(private val detailRepository: DetailRepository,private val reviewRepository: ReviewRepository) : BaseViewModel() {
+class DetailViewModel(private val detailRepository: DetailRepository, private val reviewRepository: ReviewRepository) :
+    BaseViewModel() {
 
     private val _markerInfo = MutableLiveData<MarkerInfo>() // 전체 데이터 리스트
     val markerInfo: LiveData<MarkerInfo>
@@ -68,8 +70,12 @@ class DetailViewModel(private val detailRepository: DetailRepository,private val
     val reviewPostClicked: LiveData<Any>
         get() = _reviewPostClicked
 
+    private val _reviewPostSuccess = SingleLiveEvent<Any>()
+    val reviewPostSuccess: LiveData<Any>
+        get() = _reviewPostSuccess
+
     private val _commentsList = MutableLiveData<List<Review>>()
-    fun getComments():LiveData<List<Review>> {
+    fun getComments(): LiveData<List<Review>> {
         if (_commentsList.value == null) {
             loadComments("1234567890123456789") // TODO: markerInfo 에서 현재 페이지 pnu코드 인자로 넘기기.
         }
@@ -100,8 +106,21 @@ class DetailViewModel(private val detailRepository: DetailRepository,private val
         _reviewPostOpenClicked.call()
     }
 
-    fun onClickedReviewPost(){
-        _reviewPostClicked.call()
+    fun onClickedReviewPost(view: View) {
+        when {
+            postReviewContents.get() == null -> Toast.makeText(
+                view.context,
+                view.context.getString(R.string.empty_contents),
+                Toast.LENGTH_SHORT
+            ).show()
+            postReviewNickname.get() == null -> Toast.makeText(
+                view.context,
+                view.context.getString(R.string.empty_nickname),
+                Toast.LENGTH_SHORT
+            ).show()
+            else -> _reviewPostClicked.call()
+        }
+
     }
 
     fun onClickedAvgPriceType(view: View) {
@@ -136,17 +155,17 @@ class DetailViewModel(private val detailRepository: DetailRepository,private val
                 addAll(_markerInfo.value!!.houseList.filter { it.rentCase == "월세" })// 전체데이터의 월세 데이터만 추가
                 sortedWith(CompareByContractYM) // 계약년월(최근순)순으로 정렬
             }
-            val recentPrice:RecentPrice
-            when {
-                charterList.isEmpty() -> recentPrice = RecentPrice(
+            val recentPrice: RecentPrice
+            recentPrice = when {
+                charterList.isEmpty() -> RecentPrice(
                     "정보 없음",
                     monthlyList[0].fee
                 )
-                monthlyList.isEmpty() -> recentPrice = RecentPrice(
+                monthlyList.isEmpty() -> RecentPrice(
                     charterList[0].deposite,
                     "정보 없음"
                 )
-                else -> recentPrice = RecentPrice(
+                else -> RecentPrice(
                     charterList[0].deposite,
                     monthlyList[0].fee
                 )
@@ -244,22 +263,25 @@ class DetailViewModel(private val detailRepository: DetailRepository,private val
         }
     }
 
-    fun loadComments(pnu:String){
-        reviewRepository.addListener(pnu,object : FirebaseDatabaseRepository.FirebaseDatabaseRepositoryCallback<Review> {
+    fun loadComments(pnu: String) {
+        reviewRepository.addListener(pnu,
+            object : FirebaseDatabaseRepository.FirebaseDatabaseRepositoryCallback<Review> {
 
-            override fun onSuccess(result: List<Review>) {
-                _commentsList.postValue(result)
-            }
+                override fun onSuccess(result: List<Review>) {
+                    _commentsList.postValue(result)
+                }
 
-            override fun onError(e: Exception) {
-                //TODO : 후기 가져오기 실패 예외 처리
-            }
-        })
+                override fun onError(e: Exception) {
+                    //TODO : 후기 가져오기 실패 예외 처리
+                }
+            })
     }
 
-    fun postComment(review:ReviewEntity){
+    fun postComment() {
+        val review = ReviewEntity(postReviewNickname.get(),"12345",postReviewContents.get(),"1234567890123456789")
+        // TODO : MarkerInfo 구조를 변경하여 PNU코드를 _markerinfo에 담을수 있도록 수정
         reviewRepository.postReview(review).addOnCompleteListener {
-            // TODO : 게시 성공 처리
+            _reviewPostSuccess.call()
         }.addOnFailureListener {
             // TODO : 게시 실패 처리
         }
