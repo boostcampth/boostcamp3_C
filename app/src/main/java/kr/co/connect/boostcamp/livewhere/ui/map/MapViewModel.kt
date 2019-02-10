@@ -10,6 +10,7 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.CircleOverlay
 import com.naver.maps.map.overlay.Marker
+import io.reactivex.Single
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.repository.MapRepositoryImpl
@@ -17,8 +18,11 @@ import kr.co.connect.boostcamp.livewhere.util.MapUtilImpl
 import kr.co.connect.boostcamp.livewhere.util.RADIUS
 import kr.co.connect.boostcamp.livewhere.util.StatusCode
 
+interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, OnMapReadyCallback, View.OnClickListener,
+    OnMapHistoryListener, OnSearchTrigger
+
 class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositoryImpl) : ViewModel(),
-    NaverMap.OnMapLongClickListener, OnMapReadyCallback, View.OnClickListener, OnMapHistoryListener, OnSearchTrigger {
+    OnMapViewModelInterface {
     private val _markerLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
     //현재 검색하려는 house의 좌표 livedata
     val markerLiveData: LiveData<MarkerInfo>
@@ -65,8 +69,7 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
         get() = _currentOverlayLiveData
 
     override fun onSaveCircleOverlay(circleOverlay: CircleOverlay) {
-        if(circleOverlay!=_currentOverlayLiveData.value)
-        {
+        if (circleOverlay != _currentOverlayLiveData.value) {
             _currentOverlayLiveData.postValue(circleOverlay)
         }
     }
@@ -154,46 +157,42 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
 
     private fun loadHousePrice(latLng: LatLng) = mapRepository
         .getAddress(latLng.latitude.toString(), latLng.longitude.toString(), "WGS84")
+        .flatMap { address ->
+            if (address.isSuccessful && address.body()?.metaData?.total_count!! >= 1) {
+                mapRepository.getHouseDetail(address.body()?.documentData!![0].addressMeta.addressName)
+                    .map { response -> Pair(response, address.body()?.documentData!![0].addressMeta.addressName) }
+            } else {
+                mapRepository.getHouseDetail(address.body()?.metaData?.total_count.toString())
+                    .map { response -> Pair(response, address.body()?.documentData!![0].addressMeta.addressName) }
+            }
+        }
+        .flatMap { pair ->
+            val response = pair.first
+            val address = pair.second
+            val houseResponse = response.body()
+            if (houseResponse?.addrStatusCode == StatusCode.RESULT_200.response
+                && houseResponse.houseStatusCode == StatusCode.RESULT_200.response)
+            {
+                Single.just(Pair(address,houseResponse))
+            } else
+            {
+                Single.just(Pair(address,null))
+            }
+        }
         .subscribe({ result ->
-            val addressData = result.body()
-            if (addressData?.metaData?.total_count!! > 0) {
-                val addressName = addressData.documentData[0].addressMeta.addressName
-                mapRepository.getHouseDetail(addressName)
-                    .subscribe({ houseInfo ->
-                        val houseResponse = houseInfo.body()
-                        if (houseResponse?.addrStatusCode == StatusCode.RESULT_200.response
-                            && houseResponse.houseStatusCode == StatusCode.RESULT_200.response
-                        ) {
-                            _markerLiveData.postValue(
-                                MarkerInfo(
-                                    latLng,
-                                    houseResponse.houseList,
-                                    StatusCode.RESULT_200
-                                )
-                            )
-                            _userStatusLiveData.postValue(
-                                UserStatus(StatusCode.SUCCESS_SEARCH_HOUSE, houseResponse.houseList[0].name)
-                            )
-                            val houseLastItemList = listOf(
-                                HouseInfo(
-                                    houseResponse.houseList[houseResponse.houseList.size - 1],
-                                    addressName
-                                )
-                            )
-                            _searchListLiveData.postValue(houseLastItemList)
-
-                        } else {
-                            _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_HOUSE, ""))
-                            _searchListLiveData.postValue(listOf(EmptyInfo(addressName)))
-                            _markerLiveData.postValue(MarkerInfo(latLng, emptyList(), StatusCode.RESULT_204))
-                        }
-                    }, {
-                        //TODO: timeout 시간이 너무 길어서 의견 조율이 필요함.
-                        _userStatusLiveData.postValue(
-                            UserStatus(StatusCode.FAILURE_SEARCH_HOUSE, "")
-                        )
-                        _markerLiveData.postValue(MarkerInfo(latLng, emptyList(), StatusCode.RESULT_204))
-                    })
+            val address = result.first
+            val response = result.second
+            if (response!=null) {
+                val houseList = response.houseList
+                val currentMarkerInfo = MarkerInfo(latLng, houseList, StatusCode.RESULT_200)
+                _markerLiveData.postValue(currentMarkerInfo)
+                _userStatusLiveData.postValue(UserStatus(StatusCode.SUCCESS_SEARCH_HOUSE, houseList[0].name))
+                _searchListLiveData.postValue(houseList)
+            } else {
+                val currentMarkerInfo = MarkerInfo(latLng, emptyList(), StatusCode.RESULT_204)
+                _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_HOUSE, ""))
+                _searchListLiveData.postValue(listOf(EmptyInfo(address)))
+                _markerLiveData.postValue(currentMarkerInfo)
             }
         }, {
             _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_HOUSE, ""))
