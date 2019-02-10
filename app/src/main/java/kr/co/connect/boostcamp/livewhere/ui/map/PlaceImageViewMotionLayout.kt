@@ -14,18 +14,20 @@ class PlaceImageViewMotionLayout (context: Context, attributeSet: AttributeSet? 
     private val viewToDetectTouch by lazy {
         findViewById<View>(R.id.iv_place_image)
     }
+
     private val viewRect = Rect()
     private var touchStarted = false
-
     init {
         setTransitionListener(object : MotionLayout.TransitionListener {
             override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}
 
             override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {}
 
-            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {}
+            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, progress: Float) {
 
-            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
+            }
+
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, motionId: Int) {
                 touchStarted = false
             }
         })
