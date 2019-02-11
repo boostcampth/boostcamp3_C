@@ -9,6 +9,7 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.CircleOverlay
+import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import io.reactivex.Single
 import kr.co.connect.boostcamp.livewhere.R
@@ -24,10 +25,15 @@ interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, OnMapReadyC
 class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositoryImpl) : ViewModel(),
     OnMapViewModelInterface {
 
+
     //현재 검색하려는 매물의 좌표 livedata
     private val _markerLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
     val markerLiveData: LiveData<MarkerInfo>
         get() = _markerLiveData
+
+    private val _markerImageLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
+    val markerImageLiveData: LiveData<MarkerInfo>
+        get() = _markerImageLiveData
 
     private val _filterMarkerLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
     //현재 검색하려는 house의 좌표 livedata
@@ -78,22 +84,31 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
     val currentOverlayLiveData: LiveData<CircleOverlay>
         get() = _currentOverlayLiveData
 
+    private val _tempInfoWindowLiveData: MutableLiveData<InfoWindow> = MutableLiveData()
+    val tempInfoWindowLiveData: LiveData<InfoWindow>
+        get() = _tempInfoWindowLiveData
+
+    private val _currentInfoWindowLiveData: MutableLiveData<InfoWindow> = MutableLiveData()
+    val currentInfoWindowLiveData: LiveData<InfoWindow>
+        get() = _currentInfoWindowLiveData
+
+    override fun onRemoveInfoWindow() {
+        _tempInfoWindowLiveData.postValue(currentInfoWindowLiveData.value)
+
+    }
+
+    override fun onSaveInfoWindow(infoWindow: InfoWindow) {
+        _currentInfoWindowLiveData.postValue(infoWindow)
+    }
+
     override fun onSaveCircleOverlay(circleOverlay: CircleOverlay) {
-        if (circleOverlay != _currentOverlayLiveData.value) {
-            _currentOverlayLiveData.postValue(circleOverlay)
-        }
+        _currentOverlayLiveData.postValue(circleOverlay)
     }
 
     override fun onRemoveCircleOverlay() {
         _tempOverlayLiveData.postValue(currentOverlayLiveData.value)
     }
 
-
-    override fun onDrawCircleOverlay(currentOverlay: CircleOverlay) {
-        _tempOverlayLiveData.postValue(_tempOverlayLiveData.value)
-        _tempOverlayLiveData.postValue(currentOverlay)
-        _currentOverlayLiveData.postValue(currentOverlay)
-    }
 
     override fun onSaveFilterMarker(markerList: MutableList<Marker>) {
         _savePlaceMarkersLiveData.postValue(markerList)
@@ -114,7 +129,7 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
     }
 
     override fun onClickMarkerHouse(house: MarkerInfo) {
-        _markerLiveData.postValue(house)
+        _markerImageLiveData.postValue(house)
     }
 
     override fun onClick(view: View?) {
@@ -190,12 +205,17 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
             if (response != null) {
                 val houseList = response.houseList
                 val currentMarkerInfo = MarkerInfo(latLng, houseList, StatusCode.RESULT_200)
-                _markerLiveData.postValue(currentMarkerInfo)
-                _userStatusLiveData.postValue(UserStatus(StatusCode.SUCCESS_SEARCH_HOUSE, houseList[0].name))
+                _userStatusLiveData.postValue(
+                    UserStatus(
+                        StatusCode.SUCCESS_SEARCH_HOUSE,
+                        address + "\n" + houseList[0].name
+                    )
+                )
                 _searchListLiveData.postValue(houseList)
+                _markerLiveData.postValue(currentMarkerInfo)
             } else {
                 val currentMarkerInfo = MarkerInfo(latLng, emptyList(), StatusCode.RESULT_204)
-                _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_HOUSE, ""))
+                _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_HOUSE, address))
                 _searchListLiveData.postValue(listOf(EmptyInfo(address)))
                 _markerLiveData.postValue(currentMarkerInfo)
             }
