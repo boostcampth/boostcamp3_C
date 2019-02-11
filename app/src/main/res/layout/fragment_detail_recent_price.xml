@@ -21,6 +21,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/black"
                 style="@style/BasicTv.BodyL"
         />
         <androidx.appcompat.widget.AppCompatTextView
@@ -28,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/recent_price_unit"
                 style="@style/BasicTv.BodyM"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toEndOf="@id/detail_fragment_tv_recent_price"
                 app:layout_constraintTop_toTopOf="@id/detail_fragment_tv_recent_price"
                 app:layout_constraintBottom_toBottomOf="@id/detail_fragment_tv_recent_price"
@@ -53,6 +55,7 @@
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_tv_recent_price"
                 app:layout_constraintStart_toEndOf="@id/detail_fragment_tv_charter"
                 style="@style/BasicTv.HeadlineM"
+                android:textColor="@color/black"
         />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
