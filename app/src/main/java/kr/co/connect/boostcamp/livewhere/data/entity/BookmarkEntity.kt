@@ -1,4 +1,4 @@
-package kr.co.connect.boostcamp.livewhere.model.entity
+package kr.co.connect.boostcamp.livewhere.data.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
