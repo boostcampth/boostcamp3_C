@@ -21,7 +21,6 @@ data class House(
 ) : Parcelable
 
 class CompareByContractYM {
-
     companion object : Comparator<House> {
 
         override fun compare(a: House , b: House): Int = when {
