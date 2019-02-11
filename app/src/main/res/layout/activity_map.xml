@@ -111,7 +111,7 @@
                     android:layout_height="0dp"
                     android:id="@+id/ll_search_map"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_backdrop_toggle"
+                    app:layout_constraintTop_toBottomOf="@+id/guideline_backdrop_content_height"
                     app:layout_constraintBottom_toBottomOf="parent">
                 <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
@@ -126,10 +126,8 @@
                     android:id="@+id/iv_backdrop_toggle"
                     android:layout_marginEnd="@dimen/backdrop_toggle_left_margin"
                     android:src="@drawable/ic_arrow_up_black_24dp"
-                    app:layout_constraintStart_toStartOf="@+id/ll_place_detail"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintTop_toTopOf="@+id/ll_place_detail"/>
+                    app:layout_constraintHorizontal_bias="0.0"/>
 
             <androidx.constraintlayout.motion.widget.MotionLayout
                     android:layout_width="@dimen/ml_float_btn_width"
@@ -277,6 +275,18 @@
                         android:orientation="horizontal"/>
 
             </kr.co.connect.boostcamp.livewhere.ui.map.PlaceImageViewMotionLayout>
+            <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline_toggle_button_ml_height"
+                    app:layout_constraintGuide_percent="0.83"
+                    android:orientation="horizontal"/>
+            <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline_backdrop_content_height"
+                    app:layout_constraintGuide_percent="0.83"
+                    android:orientation="horizontal"/>
             <androidx.constraintlayout.widget.Guideline
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
