@@ -1,5 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.ui.main
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityHomeBinding
+import kr.co.connect.boostcamp.livewhere.ui.map.MapActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeActivity : AppCompatActivity() {
@@ -37,12 +39,20 @@ class HomeActivity : AppCompatActivity() {
             setLifecycleOwner(this@HomeActivity)
         }
 
+        observeValues()
+    }
+
+    private fun observeValues() {
         homeViewModel.searchBtnClicked.observe(this, Observer {
             startSearchFragment()
         })
 
         searchViewModel.backBtnClicked.observe(this, Observer {
             startHomeFragment()
+        })
+
+        searchViewModel.mapBtnClicked.observe(this, Observer {
+            startMapActivity()
         })
     }
 
@@ -60,5 +70,11 @@ class HomeActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(HOME_CONTAINER_ID, currentFragment)
             .commit()
+    }
+
+    private fun startMapActivity() {
+        intent = Intent(this, MapActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
