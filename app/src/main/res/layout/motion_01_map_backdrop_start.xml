@@ -17,33 +17,15 @@
             app:layout_constraintVertical_bias="1.0"
             app:layout_constraintVertical_weight="0.3"
             app:layout_constraintTop_toTopOf="@+id/guideline_backdrop_ml_height">
-        <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/space_small"
-                    android:visibility="invisible"
-                    android:src="@drawable/ic_search_white_24dp"/>
-            <TextView
-                    style="@style/BasicTv.BodyL"
-                    android:textColor="@color/black"
-                    android:layout_gravity="top"
-                    android:text="@string/home_bookmark"
-                    android:id="@+id/tv_backdrop_title"/>
-        </LinearLayout>
 
     </LinearLayout>
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="0dp"
-                  android:id="@+id/ll_search_map"
-                  app:layout_constraintTop_toBottomOf="@+id/iv_backdrop_toggle"
-                  app:layout_constraintBottom_toBottomOf="parent">
-        <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/rv_search_map"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/ll_search_map"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="@+id/guideline_backdrop_content_height"
+            app:layout_constraintBottom_toBottomOf="parent">
     </LinearLayout>
     <ImageView
             android:layout_width="wrap_content"
@@ -51,10 +33,9 @@
             android:padding="@dimen/space_small"
             android:src="@drawable/ic_arrow_up_black_24dp"
             android:id="@+id/iv_backdrop_toggle"
-            app:layout_constraintStart_toStartOf="@+id/ll_place_detail"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintTop_toTopOf="@+id/ll_place_detail"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline_toggle_button_ml_height"
+            app:layout_constraintHorizontal_bias="0.0"/>
     <androidx.constraintlayout.motion.widget.MotionLayout
             android:layout_width="@dimen/ml_float_btn_width"
             android:layout_height="0dp"
@@ -83,6 +64,18 @@
             android:orientation="horizontal"/>
 
     <!-- 해당 가이드 라인을 통해서 각종 뷰의 크기 조절-->
+    <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline_toggle_button_ml_height"
+            app:layout_constraintGuide_percent="0.75"
+            android:orientation="horizontal"/>
+    <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline_backdrop_content_height"
+            app:layout_constraintGuide_percent="0.83"
+            android:orientation="horizontal"/>
     <androidx.constraintlayout.widget.Guideline
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
