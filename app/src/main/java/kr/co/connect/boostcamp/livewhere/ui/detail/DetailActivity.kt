@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityDetailBinding
+import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -22,6 +23,7 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val markerInfo = intent.getParcelableExtra<MarkerInfo>("markerInfo")
         binding = DataBindingUtil.setContentView(this, kr.co.connect.boostcamp.livewhere.R.layout.activity_detail)
 
         if (savedInstanceState == null) {
