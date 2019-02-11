@@ -14,8 +14,6 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            app:layout_constraintVertical_weight="0.3"
             app:layout_constraintTop_toTopOf="@+id/guideline_backdrop_ml_height">
         <LinearLayout
                 android:layout_width="wrap_content"
@@ -35,16 +33,14 @@
         </LinearLayout>
 
     </LinearLayout>
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="0dp"
-                  android:id="@+id/ll_search_map"
-                  app:layout_constraintTop_toBottomOf="@+id/iv_backdrop_toggle"
-                  app:layout_constraintBottom_toBottomOf="parent"
-                  android:scaleY="0">
-        <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/rv_search_map"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/ll_search_map"
+            app:layout_constraintTop_toBottomOf="@+id/guideline_backdrop_content_height"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:scaleY="0"
+            android:orientation="horizontal">
     </LinearLayout>
     <ImageView
             android:layout_width="wrap_content"
@@ -84,6 +80,12 @@
             android:orientation="horizontal"/>
 
     <!-- 해당 가이드 라인을 통해서 각종 뷰의 크기 조절-->
+    <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline_backdrop_content_height"
+            app:layout_constraintGuide_percent="1.0"
+            android:orientation="horizontal"/>
     <androidx.constraintlayout.widget.Guideline
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

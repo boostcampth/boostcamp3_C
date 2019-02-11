@@ -15,4 +15,5 @@ interface OnMapHistoryListener{
     fun onRemoveCircleOverlay()
     fun onRemoveInfoWindow()
     fun onSaveInfoWindow(infoWindow: InfoWindow)
+    fun onLoadBuildingList(anyList:List<Any>)
 }
