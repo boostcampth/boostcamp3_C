@@ -4,10 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Single
 import kr.co.connect.boostcamp.livewhere.model.RecentSearch
+import kr.co.connect.boostcamp.livewhere.repository.RecentSearchRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 import kr.co.connect.boostcamp.livewhere.util.SingleLiveEvent
 
-class SearchViewModel() : BaseViewModel() {
+class SearchViewModel(val recentSearchRepositoryImpl: RecentSearchRepositoryImpl) : BaseViewModel() {
 
     private val _recentSearch = MutableLiveData<ArrayList<RecentSearch>>()
     val recentSearch: LiveData<ArrayList<RecentSearch>>

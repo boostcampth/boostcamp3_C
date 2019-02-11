@@ -9,4 +9,6 @@ val appModules = arrayListOf(
     , recentSearchModule
     , reverseGeoApiModule
     , homeModule
+    , bookmarkDatabaseModule
+    , recentSearchDatabaseModule
 )
