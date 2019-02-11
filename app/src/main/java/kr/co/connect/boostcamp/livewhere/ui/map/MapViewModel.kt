@@ -211,7 +211,7 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
                         address + "\n" + houseList[0].name
                     )
                 )
-                _searchListLiveData.postValue(houseList)
+                _searchListLiveData.postValue(listOf(currentMarkerInfo))
                 _markerLiveData.postValue(currentMarkerInfo)
             } else {
                 val currentMarkerInfo = MarkerInfo(latLng, emptyList(), StatusCode.RESULT_204)

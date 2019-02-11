@@ -3,8 +3,11 @@ package kr.co.connect.boostcamp.livewhere.ui.map
 import android.content.Intent
 import android.net.Uri
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.databinding.BindingAdapter
+import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
+import kr.co.connect.boostcamp.livewhere.ui.detail.DetailActivity
 
 @BindingAdapter(value = ["onWebClickListener"])
 fun LinearLayout.setOnWebClickListener(placeUrl: String) {
@@ -21,4 +24,18 @@ fun LinearLayout.setOnCallListener(phone: String) {
     setOnClickListener {
         context.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))
     }
+}
+
+@BindingAdapter(value =["onText"])
+fun TextView.onTextView(content:String){
+    text = content
+}
+
+@BindingAdapter(value=["onIntent"])
+fun LinearLayout.startActivityWithIntent(markerInfo:MarkerInfo){
+    setOnClickListener {
+        val intent = Intent(context, DetailActivity::class.java)
+        context.startActivity(intent)
+    }
+
 }
