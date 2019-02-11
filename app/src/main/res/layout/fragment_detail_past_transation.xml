@@ -9,8 +9,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/detail_contents_bottom_padding"
-            android:paddingHorizontal="@dimen/detail_contents_horizontal_padding">
+            android:paddingBottom="@dimen/space_small"
+            android:paddingTop="@dimen/space_small"
+            android:paddingStart="@dimen/detail_contents_horizontal_padding"
+            android:paddingEnd="@dimen/detail_contents_horizontal_padding">
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/detail_fragment_tv_past_transaction"
@@ -20,7 +22,11 @@
                 android:textColor="@color/black"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                style="@style/BasicTv.BodyL"/>
+                style="@style/BasicTv.BodyL"
+                android:paddingStart="@dimen/space_small"
+                android:paddingEnd="@dimen/space_small"
+                android:paddingBottom="@dimen/space_small"
+        />
 
         <include
                 android:id="@+id/detail_fragment_past_transaction_header"
@@ -49,7 +55,8 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/detail_more_btn_height"
                 android:onClick="@{()->viewModel.onClickedTransactionMore()}"
-                android:background="@color/black"
+                android:background="@color/main_color_variation"
+                android:text="@string/btn_more_text"
                 app:layout_constraintStart_toStartOf="@id/detail_fragment_rv_past_transation"
                 app:layout_constraintEnd_toEndOf="@id/detail_fragment_rv_past_transation"
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_rv_past_transation"/>
