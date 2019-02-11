@@ -1,7 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.data.database
 
 import android.content.Context
-import android.telecom.Call
 import androidx.annotation.NonNull
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
@@ -12,6 +11,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import kr.co.connect.boostcamp.livewhere.data.dao.BookmarkDAO
 import kr.co.connect.boostcamp.livewhere.data.entity.BookmarkEntity
+/*
 
 @Database(entities = [BookmarkEntity::class], version = 1)
 abstract class BookmarkDB : RoomDatabase() {
@@ -64,8 +64,6 @@ abstract class BookmarkDB : RoomDatabase() {
     abstract fun BookmarkDAO(): BookmarkDAO
     private val isDatabaseCreated: MutableLiveData<Boolean> = MutableLiveData()
 
-
-
     private fun updateDatabaseCreated(context: Context) {
         if (context.getDatabasePath(DATABASE_NAME).exists()) {
             setDatabaseCreated()
@@ -83,4 +81,4 @@ abstract class BookmarkDB : RoomDatabase() {
     fun destoryInstance() {
         instance = null
     }
-}
+}*/

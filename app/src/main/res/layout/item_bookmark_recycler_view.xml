@@ -4,7 +4,7 @@
     <data>
         <variable
                 name="bookmark"
-                type="kr.co.connect.boostcamp.livewhere.model.Bookmark"/>
+                type="kr.co.connect.boostcamp.livewhere.data.entity.BookmarkEntity"/>
     </data>
 
     <androidx.cardview.widget.CardView
@@ -45,7 +45,7 @@
                     android:id="@+id/tv_bookmark_building_contents"
                     style="@style/BasicTv.BodyS"
                     android:textColor="@color/black"
-                    android:text="@{bookmark.buildingName}"
+                    android:text="@{bookmark.building_name}"
                     app:layout_constraintLeft_toRightOf="@id/image_guideline"
                     app:layout_constraintTop_toBottomOf="@id/tv_bookmark_building_title"
                     app:layout_constraintBottom_toTopOf="@+id/tv_bookmark_location_title"

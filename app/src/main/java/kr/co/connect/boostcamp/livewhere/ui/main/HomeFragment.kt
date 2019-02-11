@@ -6,15 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_home_backdrop.*
 import kotlinx.android.synthetic.main.fragment_home_backdrop.view.*
 import kr.co.connect.boostcamp.livewhere.databinding.FragmentHomeBinding
-import kr.co.connect.boostcamp.livewhere.model.Bookmark
 import kr.co.connect.boostcamp.livewhere.ui.main.adapter.BookmarkRecyclerViewAdapter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class HomeFragment : Fragment() {
-
     companion object {
         fun newInstance(): HomeFragment {
             val args = Bundle()
@@ -24,7 +21,8 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private val viewModel: HomeViewModel by sharedViewModel()
+    private val homeViewModel: HomeViewModel by sharedViewModel()
+    private val bookmarkViewModel: BookmarkViewModel by sharedViewModel()
     private lateinit var binding : FragmentHomeBinding
     private lateinit var bookmarkRecyclerViewAdapter: BookmarkRecyclerViewAdapter
     private lateinit var recyclerViewLayoutManager: LinearLayoutManager
@@ -37,7 +35,8 @@ class HomeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentHomeBinding.inflate(inflater,container,false).apply {
-            viewModel = this@HomeFragment.viewModel
+            homeViewModel = this@HomeFragment.homeViewModel
+            bookmarkViewModel = this@HomeFragment.bookmarkViewModel
             setLifecycleOwner(this@HomeFragment)
         }
 

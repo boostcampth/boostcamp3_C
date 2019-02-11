@@ -17,7 +17,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityHomeBinding
-    private val viewModel: HomeViewModel by viewModel()
+    private val homeViewModel: HomeViewModel by viewModel()
+    private val bookmarkViewModel: BookmarkViewModel by viewModel()
     private val searchViewModel: SearchViewModel by viewModel()
     private lateinit var currentFragment: Fragment
 
@@ -30,12 +31,13 @@ class HomeActivity : AppCompatActivity() {
         }
 
         binding.apply {
-            viewModel = this@HomeActivity.viewModel
+            homeViewModel = this@HomeActivity.homeViewModel
+            bookmarkViewModel = this@HomeActivity.bookmarkViewModel
             searchViewModel = this@HomeActivity.searchViewModel
             setLifecycleOwner(this@HomeActivity)
         }
 
-        viewModel.searchBtnClicked.observe(this, Observer {
+        homeViewModel.searchBtnClicked.observe(this, Observer {
             startSearchFragment()
         })
 
@@ -45,7 +47,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun startHomeFragment(){
-        Log.d("starthome", "started")
         currentFragment = HomeFragment.newInstance()
         supportFragmentManager
             .beginTransaction()
@@ -54,12 +55,10 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun startSearchFragment() {
-        Log.d("startsearch", "started")
         currentFragment = SearchFragment.newInstance()
         supportFragmentManager
             .beginTransaction()
             .replace(HOME_CONTAINER_ID, currentFragment)
             .commit()
     }
-
 }
