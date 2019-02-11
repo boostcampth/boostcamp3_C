@@ -29,6 +29,9 @@ import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
 import kr.co.connect.boostcamp.livewhere.model.Place
 import kr.co.connect.boostcamp.livewhere.model.PlaceResponse
 import kr.co.connect.boostcamp.livewhere.model.UserStatus
+import kr.co.connect.boostcamp.livewhere.ui.map.adapter.MapMarkerAdapter
+import kr.co.connect.boostcamp.livewhere.ui.map.adapter.MapSearchRVAdapter
+import kr.co.connect.boostcamp.livewhere.ui.map.view.BackdropMotionLayout
 import kr.co.connect.boostcamp.livewhere.util.RADIUS
 import kr.co.connect.boostcamp.livewhere.util.StatusCode
 
@@ -166,7 +169,10 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
                 map = naverMap
             }
             val mInfoWindow = InfoWindow()
-            mInfoWindow.adapter = MapMarkerAdapter(context, mapViewModel.userStatusLiveData.value?.content!!)
+            mInfoWindow.adapter = MapMarkerAdapter(
+                context,
+                mapViewModel.userStatusLiveData.value?.content!!
+            )
             mInfoWindow.open(marker)
             tag = marker //해당 마커를 닫기 위해서 tag에 marker 값을 저장
             val cameraUpdate = CameraUpdate.toCameraPosition(CameraPosition(latLang, 14.0))
@@ -209,7 +215,8 @@ fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, ma
                         mapViewModel.onClickMarkerPlace(place)//현재 상권의 이미지를 출력
                         mapViewModel.onRemoveInfoWindow()
                         val mInfoWindow = InfoWindow()
-                        mInfoWindow.adapter = MapMarkerAdapter(context, place.placeName)
+                        mInfoWindow.adapter =
+                            MapMarkerAdapter(context, place.placeName)
                         mInfoWindow.open(marker)
                         mapViewModel.onSaveInfoWindow(mInfoWindow)
                         true
@@ -360,5 +367,13 @@ fun TextView.setStatusTextView(userStatusLiveData: LiveData<UserStatus>) {
         StatusCode.SUCCESS_SEARCH_PLACE -> userStatusLiveData.value?.content
         StatusCode.SUCCESS_SEARCH_HOUSE -> userStatusLiveData.value?.content
         else -> ""
+    }
+}
+
+@BindingAdapter(value =["onFinish"])
+fun ImageView.onFinish(finishLiveData:LiveData<Boolean>){
+    if(finishLiveData.value == true)
+    {
+        (context as MapActivity).finish()
     }
 }

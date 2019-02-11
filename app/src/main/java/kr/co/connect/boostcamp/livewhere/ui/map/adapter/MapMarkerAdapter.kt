@@ -1,4 +1,4 @@
-package kr.co.connect.boostcamp.livewhere.ui.map
+package kr.co.connect.boostcamp.livewhere.ui.map.adapter
 
 import android.content.Context
 import android.view.View

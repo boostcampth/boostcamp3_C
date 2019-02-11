@@ -25,6 +25,14 @@
                 onRemovePlaceOverlay="@{mapViewModel.tempOverlayLiveData}"
                 onRemovePlaceMarker="@{mapViewModel.tempInfoWindowLiveData}"/>
 
+        <ImageView
+                android:layout_width="@dimen/arrow_size_map_activity"
+                android:layout_height="@dimen/arrow_size_map_activity"
+                android:src="@drawable/ic_arrow_back_white_24dp"
+                android:layout_margin="@dimen/table_narrow"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                onFinish="@{}"/>
         <com.naver.maps.map.widget.LocationButtonView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,7 +74,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.98"/>
 
-        <kr.co.connect.boostcamp.livewhere.ui.map.BackdropMotionLayout
+        <kr.co.connect.boostcamp.livewhere.ui.map.view.BackdropMotionLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/ml_backdrop"
@@ -240,7 +248,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"/>
             </androidx.constraintlayout.motion.widget.MotionLayout>
-            <kr.co.connect.boostcamp.livewhere.ui.map.PlaceImageViewMotionLayout
+            <kr.co.connect.boostcamp.livewhere.ui.map.view.PlaceImageViewMotionLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:id="@+id/ml_place_image"
@@ -274,7 +282,7 @@
                         app:layout_constraintGuide_percent="0.85"
                         android:orientation="horizontal"/>
 
-            </kr.co.connect.boostcamp.livewhere.ui.map.PlaceImageViewMotionLayout>
+            </kr.co.connect.boostcamp.livewhere.ui.map.view.PlaceImageViewMotionLayout>
             <androidx.constraintlayout.widget.Guideline
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -312,7 +320,7 @@
                     android:id="@+id/guideline_filter_ml_width"
                     app:layout_constraintGuide_percent="0.4"
                     android:orientation="vertical"/>
-        </kr.co.connect.boostcamp.livewhere.ui.map.BackdropMotionLayout>
+        </kr.co.connect.boostcamp.livewhere.ui.map.view.BackdropMotionLayout>
         <androidx.constraintlayout.widget.Guideline
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
