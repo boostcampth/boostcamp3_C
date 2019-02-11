@@ -9,7 +9,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/detail_contents_horizontal_padding">
+            android:paddingTop="@dimen/space_small"
+            android:paddingBottom="@dimen/space_small"
+            android:paddingStart="@dimen/detail_contents_horizontal_padding"
+            android:paddingEnd="@dimen/detail_contents_horizontal_padding">
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/detail_fragment_tv_trend_price"
@@ -19,7 +22,9 @@
                 android:textColor="@color/black"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                style="@style/BasicTv.BodyL"/>
+                style="@style/BasicTv.BodyL"
+                android:paddingStart="@dimen/space_small"
+                android:paddingEnd="@dimen/space_small"/>
 
         <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/detail_fragment_btn_trend_price_charter"
@@ -43,10 +48,11 @@
                 android:id="@+id/detail_fragment_chart"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/detail_bar_chart_height"
-                app:layout_constraintTop_toBottomOf="@id/detail_fragment_tv_trend_price"
+                app:layout_constraintTop_toBottomOf="@id/detail_fragment_btn_trend_price_charter"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginHorizontal="@dimen/detail_rv_horizontal_margin"
+                android:layout_marginStart="@dimen/detail_rv_horizontal_margin"
+                android:layout_marginEnd="@dimen/detail_rv_horizontal_margin"
                 app:setBarChart="@{viewModel.getAvgPriceList()}">
 
         </com.github.mikephil.charting.charts.BarChart>

@@ -1,6 +1,7 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -25,7 +26,6 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val markerInfo = intent.getParcelableExtra<MarkerInfo>("markerInfo")
         binding = DataBindingUtil.setContentView(this, kr.co.connect.boostcamp.livewhere.R.layout.activity_detail)
-
         if (savedInstanceState == null) {
             addDetailFragment()
         }
@@ -35,6 +35,7 @@ class DetailActivity : AppCompatActivity() {
             lifecycleOwner = this@DetailActivity
         }
 
+        viewModel.setMarkerInfoFromActivity(markerInfo)
 
         viewModel.markerInfo.observe(this, Observer { //지도 화면으로부터 전체 데이터 넘겨 받은 시점
             viewModel.getCoordinateFromInfo()
@@ -55,6 +56,10 @@ class DetailActivity : AppCompatActivity() {
         })
 
         viewModel.reviewPostSuccess.observe(this, Observer {//리뷰 작성 완료시
+            onBackPressed()
+        })
+
+        viewModel.onPressedBackBtn.observe(this, Observer {
             onBackPressed()
         })
     }

@@ -2,12 +2,9 @@ package kr.co.connect.boostcamp.livewhere.ui.detail
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
@@ -17,15 +14,12 @@ import com.bumptech.glide.Glide
 import com.github.mikephil.charting.charts.BarChart
 import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.R
-import kr.co.connect.boostcamp.livewhere.model.HouseAvgPrice
-import kr.co.connect.boostcamp.livewhere.model.PastTransaction
-import kr.co.connect.boostcamp.livewhere.model.RecentPrice
-import kr.co.connect.boostcamp.livewhere.model.Review
+import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailReviewRvAdapter
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailTransactionRvAdapter
 import kr.co.connect.boostcamp.livewhere.util.BarChartUtil
-import kr.co.connect.boostcamp.livewhere.util.No_Review_Text
-import kr.co.connect.boostcamp.livewhere.util.No_barChart_text
+import kr.co.connect.boostcamp.livewhere.util.EMPTY_REVIEW_TEXT
+import kr.co.connect.boostcamp.livewhere.util.EMPTY_BARCHART_TEXT
 
 
 @BindingAdapter("setBarChart")
@@ -35,7 +29,7 @@ fun setBarChart(barChart: BarChart, list: LiveData<ArrayList<HouseAvgPrice>>) {
         BarChartUtil.showChart(barChart)
         barChart.notifyDataSetChanged()
     } catch (e: KotlinNullPointerException) {
-        barChart.setNoDataText(No_barChart_text)
+        barChart.setNoDataText(EMPTY_BARCHART_TEXT)
     }
 }
 
@@ -103,18 +97,18 @@ fun setPreReview(textView: TextView, review: List<Review>?) {
         }
     } catch (e: KotlinNullPointerException) {
         when (textView.id) {
-            R.id.detail_fragment_tv_review_contents -> textView.text = No_Review_Text
+            R.id.detail_fragment_tv_review_contents -> textView.text = EMPTY_REVIEW_TEXT
         }
     }
 }
 
 
-@BindingAdapter("android:text")
+@BindingAdapter("setVmText")
 fun setText( view:TextView, text:CharSequence? ) {
 //    view.text = text
 }
 
-@InverseBindingAdapter(attribute = "android:text", event = "android:textAttrChanged")
+@InverseBindingAdapter(attribute = "setVmText", event = "android:textAttrChanged")
 fun getTextString(textView: TextView): String {
     return textView.text.toString()
 }
@@ -129,4 +123,9 @@ fun setTextWatcher(view: TextView, textAttrChanged: InverseBindingListener) {
         }
 
     })
+}
+
+@BindingAdapter("setBuildingTitle")
+fun setBuildingTitle(view:TextView,addr:Address){
+
 }

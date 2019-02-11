@@ -17,7 +17,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/BasicTv.BodyL.Hint"
-                android:text="@={viewModel.postReviewNickname}"
+                setVmText="@={viewModel.postReviewNickname}"
                 android:hint="@string/post_review_hint_nickname"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
@@ -26,7 +26,7 @@
                 android:id="@+id/post_review_contents"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/detail_post_review_contents_height"
-                android:text="@={viewModel.postReviewContents}"
+                setVmText="@={viewModel.postReviewContents}"
                 style="@style/BasicTv.BodyL.Hint"
                 android:hint="@string/post_review_hint_contents"
                 app:layout_constraintTop_toBottomOf="@id/post_review_nickname"

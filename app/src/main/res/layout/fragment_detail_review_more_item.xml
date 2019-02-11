@@ -12,6 +12,8 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/space_small"
+            android:paddingBottom="@dimen/space_small"
             android:background="@drawable/rv_header_border">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -22,8 +24,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 style="@style/BasicTv.BodyL"
                 android:text="@{review.nickname}"
+                android:paddingStart="@dimen/space_small"
+                android:paddingEnd="@dimen/space_small"
+                android:paddingBottom="@dimen/space_small"
                 android:textColor="@color/colorPrimaryDark"
                 tools:text="asdasd"/>
+
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/review_more_id"
                 android:layout_width="wrap_content"
@@ -32,6 +38,7 @@
                 app:layout_constraintTop_toTopOf="@id/review_more_nickname"
                 app:layout_constraintBottom_toBottomOf="@id/review_more_nickname"
                 style="@style/BasicTv.BodyM"
+                android:paddingBottom="@dimen/space_small"
                 android:text="@{review.id}"
                 tools:text="010-****-****"
                 android:textColor="@color/colorPrimaryDark"/>
@@ -43,6 +50,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/review_more_nickname"
                 style="@style/BasicTv.BodyM"
+                android:paddingStart="@dimen/space_small"
+                android:paddingEnd="@dimen/space_small"
                 android:text="@{review.contents}"
                 android:textColor="@color/colorPrimaryDark"
                 tools:text="어릴 적 살았었는데 정말 조용하고 교통도 편리하고 좋은 동네였다고 생각해요 다시 이사가고 싶은 동네입니다."/>

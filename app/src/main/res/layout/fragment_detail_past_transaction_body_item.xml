@@ -12,13 +12,14 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rv_header_border"
+            android:background="@drawable/rv_body_border"
     >
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/past_transaction_header_building_name"
                 style="@style/RvText"
                 android:text="@{pastTransaction.buildingName}"
+                android:textColor="@color/black"
                 android:layout_width="0dp"
                 app:layout_constraintHorizontal_weight="0.3"
                 android:layout_height="wrap_content"
