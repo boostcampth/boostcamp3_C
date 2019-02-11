@@ -147,9 +147,9 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
             mapViewModel.onClickMarkerHouse(markerInfo)//매물 이미지 추가
             val marker = Marker()
             if (statusCode == StatusCode.RESULT_200) {
-                marker.tag = houseList[0].name
+                marker.tag = markerInfo
             } else if (statusCode == StatusCode.RESULT_204) {
-                marker.tag = ""
+                marker.tag = markerInfo
             }
             if (tag != null) {
                 val tempMarker = tag as Marker
@@ -159,6 +159,7 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
             marker.apply {
                 position = latLang
                 setOnClickListener {
+                    mapViewModel.onLoadBuildingList(listOf(markerInfo))//현재 매물 리스트에 반영
                     mapViewModel.onClickMarkerHouse(markerInfo)//매물 이미지 추가
                     true
                 }
@@ -168,7 +169,7 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
             mInfoWindow.adapter = MapMarkerAdapter(context, mapViewModel.userStatusLiveData.value?.content!!)
             mInfoWindow.open(marker)
             tag = marker //해당 마커를 닫기 위해서 tag에 marker 값을 저장
-            val cameraUpdate = CameraUpdate.toCameraPosition(CameraPosition(latLang,14.0))
+            val cameraUpdate = CameraUpdate.toCameraPosition(CameraPosition(latLang, 14.0))
                 .animate(CameraAnimation.Linear, 1000)
             naverMap.moveCamera(cameraUpdate)
         }
@@ -199,6 +200,12 @@ fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, ma
                         else -> BLUE
                     }
                     setOnClickListener {
+                        val placeIndex = placeResponse.placeList.indexOf(place)
+                        val tempPlace = placeResponse.placeList[placeIndex]
+                        val mutablePlaceList = placeResponse.placeList.toMutableList()
+                        mutablePlaceList[placeIndex] = mutablePlaceList[0]
+                        mutablePlaceList[0] = tempPlace
+                        mapViewModel.onLoadBuildingList(mutablePlaceList)//현재 장소 리스트에 반영
                         mapViewModel.onClickMarkerPlace(place)//현재 상권의 이미지를 출력
                         mapViewModel.onRemoveInfoWindow()
                         val mInfoWindow = InfoWindow()
@@ -213,7 +220,10 @@ fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, ma
             }
             val overlay = CircleOverlay()
             overlay.apply {
-                center = LatLng(mapViewModel.markerLiveData.value?.latLng?.latitude!!, mapViewModel.markerLiveData.value?.latLng?.longitude!!)//중앙 위치
+                center = LatLng(
+                    mapViewModel.markerLiveData.value?.latLng?.latitude!!,
+                    mapViewModel.markerLiveData.value?.latLng?.longitude!!
+                )//중앙 위치
                 radius = RADIUS.toDouble()//반경
                 color = 0x5000FF00.toInt()//색깔
                 map = naverMap//맵셋팅
@@ -308,7 +318,7 @@ fun MotionLayout.setTriggerFB(filterML: MotionLayout) {
 fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
     if (bindPlaceLiveData.value != null) {
         val bindList = bindPlaceLiveData.value
-    if (adapter == null) {
+        if (adapter == null) {
             apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = MapSearchRVAdapter(bindList)

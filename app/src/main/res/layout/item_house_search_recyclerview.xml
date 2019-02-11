@@ -14,12 +14,11 @@
                 android:gravity="center"
                 android:orientation="vertical">
             <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="@dimen/search_item_imageview_size"
+                    android:layout_height="@dimen/search_item_imageview_size"
                     android:background="@drawable/ic_map_marker_24dp"/>
             <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/BasicTv.HeadlineXS"
                     android:textColor="@android:color/darker_gray"
                     android:textAlignment="center"
                     onText="@{markerInfo.houseList.get(0).accYear}"/>
@@ -30,23 +29,18 @@
                 android:layout_weight="6"
                 android:layout_height="128dp">
             <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/BasicTv.HeadlineM"
                     onText="@{markerInfo.houseList.get(0).name}"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
                     android:textStyle="bold"/>
             <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/BasicTv.HeadlineS"
                     onText="@{markerInfo.houseList.get(0).name}"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/darker_gray"/>
+                    android:textColor="@android:color/darker_gray"
+                    android:layout_marginEnd="@dimen/item_place_widget_margin_end"/>
             <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    style="@style/BasicTv.HeadlineXS"
                     android:gravity="center_vertical"
-                    android:textSize="12sp"
                     android:textColor="@android:color/darker_gray"/>
         </LinearLayout>
         <LinearLayout

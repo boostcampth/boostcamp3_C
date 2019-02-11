@@ -7,6 +7,7 @@ import kr.co.connect.boostcamp.livewhere.util.StatusCode
 
 @Parcelize
 data class MarkerInfo(
+    val address: Address,
     val latLng: LatLng,
     val houseList: List<House>,
     val statusCode: StatusCode) : Parcelable
