@@ -60,4 +60,6 @@
     <dimen name="ml_float_btn_width">256dp</dimen>
     <dimen name="ml_float_btn_padding_end">24dp</dimen>
     <dimen name="item_search_recyclerview_height">120dp</dimen>
+    <dimen name="item_place_widget_margin_end">6dp</dimen>
+    <dimen name="empty_item_imageview_size">86dp</dimen>
 </resources>

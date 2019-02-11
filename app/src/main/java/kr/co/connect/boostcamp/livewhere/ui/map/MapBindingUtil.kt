@@ -1,7 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.ui.map
 
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.TextView
@@ -309,18 +308,17 @@ fun MotionLayout.setTriggerFB(filterML: MotionLayout) {
 fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
     if (bindPlaceLiveData.value != null) {
         val bindList = bindPlaceLiveData.value
-        if (adapter == null) {
-            Log.d("first", bindList?.size.toString())
+    if (adapter == null) {
             apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = MapSearchRVAdapter(bindList)
                 adapter?.notifyItemRangeInserted(0, bindList?.size!!)
             }
         } else {
-            Log.d("second", bindList?.size.toString())
             apply {
                 adapter?.notifyItemRangeRemoved(0, adapter?.itemCount!!)
                 adapter = MapSearchRVAdapter(bindList)
+                adapter?.notifyItemRangeInserted(0, bindList?.size!!)
             }
         }
     } else {

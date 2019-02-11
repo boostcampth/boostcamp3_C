@@ -10,7 +10,7 @@ import kr.co.connect.boostcamp.livewhere.databinding.ItemHouseSearchRecyclerview
 import kr.co.connect.boostcamp.livewhere.databinding.ItemPlaceSearchRecyclerviewBinding
 import kr.co.connect.boostcamp.livewhere.model.Category
 import kr.co.connect.boostcamp.livewhere.model.EmptyInfo
-import kr.co.connect.boostcamp.livewhere.model.House
+import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
 import kr.co.connect.boostcamp.livewhere.model.Place
 import java.util.*
 
@@ -57,8 +57,8 @@ class MapSearchRVAdapter(private val itemList: List<Any>?) : RecyclerView.Adapte
         when {
             holder.itemViewType == Category.HOUSE.type -> {
                 val houseViewHolder = holder as HouseViewHolder
-                val houseItem = itemList?.get(position) as House
-                houseViewHolder.binding.houseInfo = houseItem
+                val markerInfo = itemList?.get(position) as MarkerInfo
+                houseViewHolder.binding.markerInfo = markerInfo
             }
             holder.itemViewType == Category.PLACE.type -> {
                 val placeViewHolder = holder as PlaceViewHolder
@@ -76,7 +76,7 @@ class MapSearchRVAdapter(private val itemList: List<Any>?) : RecyclerView.Adapte
     override fun getItemViewType(position: Int): Int {
         if (itemList?.size!! > 0) {
             when {
-                itemList[0] is House -> return Category.HOUSE.type
+                itemList[0] is MarkerInfo -> return Category.HOUSE.type
                 itemList[0] is Place -> {
                     //올림차순
                     Collections.sort(itemList as List<Place>) { o1, o2 -> o1.distance.toInt() - o2.distance.toInt() }
