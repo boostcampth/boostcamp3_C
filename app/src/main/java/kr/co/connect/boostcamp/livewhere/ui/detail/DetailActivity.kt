@@ -32,7 +32,7 @@ class DetailActivity : AppCompatActivity() {
 
         binding.apply {
             viewModel = this@DetailActivity.viewModel
-            setLifecycleOwner(this@DetailActivity)
+            lifecycleOwner = this@DetailActivity
         }
 
 
