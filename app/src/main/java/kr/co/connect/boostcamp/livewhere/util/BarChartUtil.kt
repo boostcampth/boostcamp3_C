@@ -20,7 +20,7 @@ object BarChartUtil {
             val entry = BarEntry(it.year, it.avgPrice)
             entryList.add(entry)
         }
-        val barDataSet = BarDataSet(entryList, charterAvg)
+        val barDataSet = BarDataSet(entryList, AVG_PRICE)
         val barData = BarData(barDataSet)
 
         barChart.data = barData
