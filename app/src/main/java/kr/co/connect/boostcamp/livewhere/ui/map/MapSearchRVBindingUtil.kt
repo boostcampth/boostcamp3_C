@@ -35,6 +35,7 @@ fun TextView.onTextView(content:String){
 fun LinearLayout.startActivityWithIntent(markerInfo:MarkerInfo){
     setOnClickListener {
         val intent = Intent(context, DetailActivity::class.java)
+        intent.putExtra("markerInfo",markerInfo)
         context.startActivity(intent)
     }
 
