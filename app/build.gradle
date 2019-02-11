@@ -93,6 +93,7 @@ dependencies {
 
     //firebase Auth
     implementation "com.google.firebase:firebase-auth:$firebase_auth_version"
+    implementation "com.google.android.gms:play-services-auth:$play_services_auth_version"
 
     //rxjava
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
