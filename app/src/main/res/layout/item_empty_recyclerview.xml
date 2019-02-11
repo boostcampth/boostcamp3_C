@@ -6,11 +6,11 @@
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/item_search_recyclerview_height">
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@{emptyInfo.addressName}"
-                android:textColor="@color/black"/>
+            android:layout_height="@dimen/item_search_recyclerview_height"
+            android:gravity="center">
+        <ImageView
+                android:layout_width="@dimen/empty_item_imageview_size"
+                android:layout_height="@dimen/empty_item_imageview_size"
+                android:background="@drawable/ic_park"/>
     </LinearLayout>
 </layout>

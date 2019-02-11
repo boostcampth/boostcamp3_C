@@ -28,27 +28,42 @@
                 android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_weight="6"
-                android:layout_height="128dp">
+                android:layout_height="match_parent">
             <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{place.placeName}"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    onText="@{place.placeName}"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:textStyle="bold"/>
-            <TextView
+            <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{place.category}"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/darker_gray"/>
-            <TextView
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/item_place_widget_margin_end"
+                        onText="@{place.category}"
+                        android:gravity="center_vertical"
+                        android:textSize="14sp"
+                        android:textColor="@color/black_opacity_87"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        onText="@{place.addrName}"
+                        android:gravity="center_vertical"
+                        android:textSize="12sp"
+                        android:textColor="@color/black"/>
+            </LinearLayout>
+
+            <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@{place.addrName}"
-                    android:gravity="center_vertical"
-                    android:textSize="12sp"
-                    android:textColor="@android:color/darker_gray"/>
+                    android:layout_height="0dp"
+                    android:layout_weight="2"/>
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
