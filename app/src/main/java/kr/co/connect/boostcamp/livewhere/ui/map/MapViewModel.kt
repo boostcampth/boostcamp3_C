@@ -16,7 +16,9 @@ import io.reactivex.Single
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.repository.MapRepositoryImpl
-import kr.co.connect.boostcamp.livewhere.util.MapUtilImpl
+import kr.co.connect.boostcamp.livewhere.ui.map.interfaces.OnMapHistoryListener
+import kr.co.connect.boostcamp.livewhere.ui.map.interfaces.OnSearchTrigger
+import kr.co.connect.boostcamp.livewhere.ui.map.view.BackdropMotionLayout
 import kr.co.connect.boostcamp.livewhere.util.RADIUS
 import kr.co.connect.boostcamp.livewhere.util.StatusCode
 import java.util.*
@@ -24,9 +26,8 @@ import java.util.*
 interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, OnMapReadyCallback, View.OnClickListener,
     OnMapHistoryListener, OnSearchTrigger
 
-class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositoryImpl) : ViewModel(),
+class MapViewModel(val mapActivityManager: MapActivityManagerImpl, val mapRepository: MapRepositoryImpl) : ViewModel(),
     OnMapViewModelInterface {
-
     //현재 검색하려는 매물의 좌표 livedata
     private val _markerLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
     val markerLiveData: LiveData<MarkerInfo>
@@ -92,6 +93,10 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
     private val _currentInfoWindowLiveData: MutableLiveData<InfoWindow> = MutableLiveData()
     val currentInfoWindowLiveData: LiveData<InfoWindow>
         get() = _currentInfoWindowLiveData
+
+    private val _finishLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    val finishLiveData: LiveData<Boolean>
+        get() = _finishLiveData
 
     override fun onRemoveInfoWindow() {
         _tempInfoWindowLiveData.postValue(currentInfoWindowLiveData.value)
@@ -222,7 +227,7 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
                 _searchListLiveData.postValue(listOf(currentMarkerInfo))
                 _markerLiveData.postValue(currentMarkerInfo)
             } else {
-                Log.d("response",response.toString())
+                Log.d("response", response.toString())
                 val currentMarkerInfo = MarkerInfo(response?.addr!!, latLng, emptyList(), StatusCode.RESULT_204)
                 _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_HOUSE, address))
                 _searchListLiveData.postValue(listOf(EmptyInfo(address)))
@@ -231,4 +236,6 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
         }, {
             _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_HOUSE, ""))
         })
+
+
 }

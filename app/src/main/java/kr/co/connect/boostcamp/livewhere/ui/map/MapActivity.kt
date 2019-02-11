@@ -1,6 +1,7 @@
 package kr.co.connect.boostcamp.livewhere.ui.map
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.naver.maps.map.util.FusedLocationSource
@@ -32,6 +33,13 @@ class MapActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         activityMapBinding.mvMainNaver.onStart()//naverMap객체는 라이프사이클에 종속되어야 합니다.
+        mapViewModel.mapActivityManager.getBackPressedDisposable()
+            .subscribe ({ isFinish->
+                if(isFinish) {finish()}
+                else {mapViewModel.mapActivityManager.showToast(this)}
+            },{
+                Log.d("errorit",it.message)
+            })
     }
 
     override fun onResume() {
@@ -59,6 +67,11 @@ class MapActivity : AppCompatActivity() {
         activityMapBinding.mvMainNaver.onLowMemory()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        activityMapBinding.mvMainNaver.onDestroy()
+    }
+
     //자신의 위치 관련한 permission 함수
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>,
@@ -70,5 +83,7 @@ class MapActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-
+    override fun onBackPressed() {
+        mapViewModel.mapActivityManager.backEvent()
+    }
 }
