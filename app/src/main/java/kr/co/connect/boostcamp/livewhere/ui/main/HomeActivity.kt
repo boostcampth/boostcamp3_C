@@ -18,6 +18,8 @@ class HomeActivity : AppCompatActivity() {
         private const val HOME_CONTAINER_ID = R.id.fl_home_frame
     }
 
+    private val SEARCH_TAG = "SEARCH_RESULT"
+
     private lateinit var binding: ActivityHomeBinding
     private val homeViewModel: HomeViewModel by viewModel()
     private val bookmarkViewModel: BookmarkViewModel by viewModel()
@@ -59,6 +61,14 @@ class HomeActivity : AppCompatActivity() {
         searchViewModel.mapBtnClicked.observe(this, Observer {
             startMapActivity()
         })
+
+        searchViewModel.searchText.observe(this, Observer {
+            startMapActivity(searchViewModel.searchText.value)
+        })
+
+        searchViewModel.recentSearch.observe(this, Observer {
+
+        })
     }
 
     private fun startHomeFragment(){
@@ -81,5 +91,16 @@ class HomeActivity : AppCompatActivity() {
         intent = Intent(this, MapActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    private fun startMapActivity(text: String?) {
+        if(text != null) {
+            intent = Intent(this, MapActivity::class.java)
+            intent.putExtra(SEARCH_TAG, text)
+            startActivity(intent)
+            finish()
+        } else {
+            startMapActivity()
+        }
     }
 }

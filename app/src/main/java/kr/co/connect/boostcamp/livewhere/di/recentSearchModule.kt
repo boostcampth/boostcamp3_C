@@ -6,7 +6,7 @@ import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 
 val recentSearchModule = module {
-    factory("recentSearchRepository") { RecentSearchRepositoryImpl(get("databaseModule")) }
+    factory("recentSearchRepository") { RecentSearchRepositoryImpl(get("recentSearchDAO")) }
     
     viewModel { SearchViewModel(get("recentSearchRepository")) }
 }

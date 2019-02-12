@@ -44,12 +44,6 @@ class SearchFragment : Fragment() {
             adapter = recentSearchRecyclerViewAdapter
         }
 
-        initRecentSearch()
-
         return binding.root
-    }
-
-    private fun initRecentSearch() {
-        searchViewModel.getRecentSearch()
     }
 }

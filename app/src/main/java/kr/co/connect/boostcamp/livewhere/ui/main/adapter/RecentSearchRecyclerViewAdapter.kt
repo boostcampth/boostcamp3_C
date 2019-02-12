@@ -37,6 +37,8 @@ class RecentSearchRecyclerViewAdapter(
 
         fun bind(lifecycleOwner: LifecycleOwner, recentSearch: RecentSearchEntity) {
             itemBinding.setLifecycleOwner(lifecycleOwner)
+            //TODO: Binding Error 알아보기
+            itemBinding.tvRecentSearch.text = recentSearch.text
             itemBinding.recentSearch = recentSearch
         }
     }

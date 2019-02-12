@@ -6,7 +6,7 @@ import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 
 val bookmarkModule = module {
-    factory("bookmarkRepository") { BookmarkRepositoryImpl(get("databaseModule")) }
+    factory("bookmarkRepository") { BookmarkRepositoryImpl(get("bookmarkDAO")) }
 
     viewModel { BookmarkViewModel(get("bookmarkRepository")) }
 }

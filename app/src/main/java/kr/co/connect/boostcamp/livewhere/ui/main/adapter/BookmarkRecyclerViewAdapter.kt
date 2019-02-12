@@ -38,6 +38,8 @@ class BookmarkRecyclerViewAdapter(
 
         fun bind(lifecycleOwner: LifecycleOwner, bookmark: BookmarkEntity) {
             itemBinding.setLifecycleOwner(lifecycleOwner)
+            //TODO: Databinding error
+            itemBinding.tvBookmarkLocationContents.text = bookmark.address
             itemBinding.bookmark = bookmark
 
             if (itemBinding.ivBookmarkImage != null) {
