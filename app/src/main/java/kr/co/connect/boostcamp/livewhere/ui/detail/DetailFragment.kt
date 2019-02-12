@@ -43,6 +43,10 @@ class DetailFragment : Fragment() {
             setBarChart(binding.detailFragmentCl.detail_fragment_chart,viewModel.getAvgPriceList())
         })
 
+        viewModel.getBookmarks().observe(this, Observer {
+
+        })
+
 
         return binding.root
     }

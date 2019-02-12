@@ -3,6 +3,7 @@ package kr.co.connect.boostcamp.livewhere.ui.detail
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
@@ -127,6 +128,12 @@ fun setTextWatcher(view: TextView, textAttrChanged: InverseBindingListener) {
 @BindingAdapter("setBuildingTitle")
 fun setBuildingTitle(view: TextView, name: String?) {
     view.text = name
+}
+
+
+@BindingAdapter("setImageMessage")
+fun setImageMessage(view: TextView, name: Int?) {
+    view.text = view.context.getString(R.string.detail_image_message, name)
 }
 
 @BindingAdapter("setSortImage")

@@ -4,14 +4,13 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kr.co.connect.boostcamp.livewhere.model.entity.ReviewEntity
+import kr.co.connect.boostcamp.livewhere.model.entity.BookmarkUserEntity
 
-
-abstract class FirebaseDatabaseRepository<Entity,Model>(private val mapper:FirebaseMapper<Entity,Model>) {
+abstract class BookmarkUserDatabaseRepository<Entity,Model>(private val mapper:FirebaseMapper<Entity,Model>) {
 
     protected var databaseReference: DatabaseReference
     protected lateinit var firebaseCallback: FirebaseDatabaseRepositoryCallback<Model>
-    private var listener: BaseValueEventListener<Model,Entity>? = null
+    private var listener: BookmarkUserEventListener<Model,Entity>? = null
 
     protected abstract val rootNode: String
 
@@ -19,17 +18,17 @@ abstract class FirebaseDatabaseRepository<Entity,Model>(private val mapper:Fireb
         databaseReference = FirebaseDatabase.getInstance().getReference(rootNode)
     }
 
-    fun postReview(reviewEntity: ReviewEntity):Task<Void>{
-        val key = databaseReference.child(reviewEntity.land_code!!).push().key
-        val postValues = reviewEntity.toMap()
+    fun addBookmark(pnu:String,bookmarkUserEntity: BookmarkUserEntity): Task<Void> {
+//        val key = databaseReference.child(pnu).key
+        val postValues = bookmarkUserEntity.toMap()
         val childUpdates = HashMap<String, Any>()
-        childUpdates["/" + reviewEntity.land_code!! + "/" + key] = postValues
+        childUpdates["/" + pnu + "/"+bookmarkUserEntity.uuid] = postValues
         return databaseReference.updateChildren(childUpdates)
     }
 
     fun addListener(pnu:String, firebaseCallback: FirebaseDatabaseRepositoryCallback<Model>) {
         this.firebaseCallback = firebaseCallback
-        listener = BaseValueEventListener(mapper, firebaseCallback,pnu)
+        listener = BookmarkUserEventListener(mapper, firebaseCallback,pnu)
         databaseReference.addValueEventListener(listener!!)
     }
 

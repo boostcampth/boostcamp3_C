@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@id/detail_fragment_iv"
                 app:layout_constraintEnd_toEndOf="@id/detail_fragment_iv"
-                android:text="@string/warning"
+                setImageMessage="@{viewModel.getBookmarks()}"
                 style="@style/BasicTv.BodyM"
         />
 

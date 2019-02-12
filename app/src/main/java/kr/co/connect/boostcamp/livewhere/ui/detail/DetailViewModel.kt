@@ -1,20 +1,28 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kr.co.connect.boostcamp.livewhere.R
-import kr.co.connect.boostcamp.livewhere.firebase.FirebaseDatabaseRepository
+import kr.co.connect.boostcamp.livewhere.data.SharedPreferenceStorage
+import kr.co.connect.boostcamp.livewhere.firebase.BookmarkUserDatabaseRepository
+import kr.co.connect.boostcamp.livewhere.firebase.ReviewDatabaseRepository
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.model.entity.ReviewEntity
+import kr.co.connect.boostcamp.livewhere.repository.BookmarkUserRepository
 import kr.co.connect.boostcamp.livewhere.repository.DetailRepository
 import kr.co.connect.boostcamp.livewhere.repository.ReviewRepository
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 import kr.co.connect.boostcamp.livewhere.util.*
 
-class DetailViewModel(private val detailRepository: DetailRepository, private val reviewRepository: ReviewRepository) :
+class DetailViewModel(
+    private val detailRepository: DetailRepository
+    , private val reviewRepository: ReviewRepository
+    , private val bookmarkUserRepository: BookmarkUserRepository
+    , private val pref: SharedPreferenceStorage) :
     BaseViewModel() {
 
     private val _markerInfo = MutableLiveData<MarkerInfo>() // 전체 데이터 리스트
@@ -78,12 +86,24 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
     val onPressedBackBtn: LiveData<Any>
         get() = _onPressedBackBtn
 
+    private val _onPressedBookmarkBtn = SingleLiveEvent<Any>()
+    val onPressedBookmarkBtn: LiveData<Any>
+        get() = _onPressedBookmarkBtn
+
     private val _commentsList = MutableLiveData<List<Review>>()
     fun getComments(): LiveData<List<Review>> {
         if (_commentsList.value == null) {
             loadComments(pnuCode.get()!!) // TODO: markerInfo 에서 현재 페이지 pnu코드 인자로 넘기기.
         }
         return _commentsList
+    }
+
+    private val _bookmarksList = MutableLiveData<Int>()
+    fun getBookmarks(): LiveData<Int> {
+        if (_commentsList.value == null) {
+            loadBookmarks(pnuCode.get()!!) // TODO: markerInfo 에서 현재 페이지 pnu코드 인자로 넘기기.
+        }
+        return _bookmarksList
     }
 
     val buildingName = ObservableField<String>()
@@ -103,6 +123,10 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
 
     fun onPressedBackButton() {
         _onPressedBackBtn.call()
+    }
+
+    fun onPressedBookmarkButton(){
+        _onPressedBookmarkBtn.call()
     }
 
     fun onClickedTransactionMore() { //과거 거래 내역 더보기 클릭
@@ -135,7 +159,6 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
                 postReviewContents.set(null)
             }
         }
-
     }
 
     fun onClickedAvgPriceType(view: View) {
@@ -325,7 +348,7 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
 
     fun loadComments(pnu: String) {
         reviewRepository.addListener(pnu,
-            object : FirebaseDatabaseRepository.FirebaseDatabaseRepositoryCallback<Review> {
+            object : ReviewDatabaseRepository.FirebaseDatabaseRepositoryCallback<Review> {
 
                 override fun onSuccess(result: List<Review>) {
                     _commentsList.postValue(result)
@@ -337,6 +360,21 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
             })
     }
 
+    fun loadBookmarks(pnu:String){
+        bookmarkUserRepository.addListener(pnu,
+            object : BookmarkUserDatabaseRepository.FirebaseDatabaseRepositoryCallback<BookmarkUser>{
+                override fun onSuccess(result: List<BookmarkUser>) {
+                    Log.d("@@@","result:"+result.size)
+                    _bookmarksList.postValue(result.size)
+                }
+
+                override fun onError(e: Exception) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+            })
+    }
+
     fun postComment() {
         val review = ReviewEntity(postReviewNickname.get(), "test_id", postReviewContents.get(), pnuCode.get())
         // TODO : MarkerInfo 구조를 변경하여 PNU코드를 _markerinfo에 담을수 있도록 수정
@@ -344,6 +382,12 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
             _reviewPostSuccess.call()
         }.addOnFailureListener {
             // TODO : 게시 실패 처리
+        }
+    }
+
+    fun setUuid(uuid:String?){
+        if(pref.uuid.isNullOrEmpty()) {
+            pref.uuid = uuid
         }
     }
 

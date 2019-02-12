@@ -1,5 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.di
 
+import kr.co.connect.boostcamp.livewhere.repository.BookmarkUserRepository
 import kr.co.connect.boostcamp.livewhere.repository.DetailRepository
 import kr.co.connect.boostcamp.livewhere.repository.DetailRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.repository.ReviewRepository
@@ -12,7 +13,8 @@ val detailModule = module {
 
     factory("detailRepository") { DetailRepositoryImpl(get("api")) as DetailRepository }
     factory("reviewRepository"){ ReviewRepository() }
+    factory("bookmarkRepository") {BookmarkUserRepository()}
 
-    viewModel { DetailViewModel(get("detailRepository"),get("reviewRepository")) }
+    viewModel { DetailViewModel(get("detailRepository"),get("reviewRepository"),get("bookmarkRepository"),get()) }
 
 }

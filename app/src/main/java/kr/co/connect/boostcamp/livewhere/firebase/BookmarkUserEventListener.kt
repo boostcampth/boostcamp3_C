@@ -4,10 +4,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
-
-class BaseValueEventListener<Model, Entity>(
+class BookmarkUserEventListener<Model, Entity>(
     private val mapper: FirebaseMapper<Entity, Model>,
-    private val callback: ReviewDatabaseRepository.FirebaseDatabaseRepositoryCallback<Model>,
+    private val callback: BookmarkUserDatabaseRepository.FirebaseDatabaseRepositoryCallback<Model>,
     private val pnu: String
 ) : ValueEventListener {
 

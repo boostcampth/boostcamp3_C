@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityDetailBinding
 import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
+import kr.co.connect.boostcamp.livewhere.util.generateUuid
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -36,6 +37,7 @@ class DetailActivity : AppCompatActivity() {
             lifecycleOwner = this@DetailActivity
         }
 
+        viewModel.setUuid(generateUuid(this))
         viewModel.setMarkerInfoFromActivity(markerInfo)
 
         viewModel.markerInfo.observe(this, Observer { //지도 화면으로부터 전체 데이터 넘겨 받은 시점
