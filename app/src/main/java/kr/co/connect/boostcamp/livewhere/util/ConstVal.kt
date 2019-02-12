@@ -13,4 +13,5 @@ const val SORT_BY_TYPE = 2
 const val SORT_BY_TYPE_REV = -2
 const val SORT_BY_YEAR = 3
 const val SORT_BY_YEAR_REV = -3
-const val ROOT_NODE_NAME = "comments"
+const val ROOT_COMMENTS_NAME = "comments"
+const val ROOT_BOOKMARK_NAME = "bookmarks"
