@@ -64,4 +64,5 @@
     <dimen name="empty_item_imageview_size">86dp</dimen>
     <dimen name="search_item_imageview_size">64dp</dimen>
     <dimen name="arrow_size_map_activity">32dp</dimen>
+    <dimen name="map_place_image_view_expand_height">256dp</dimen>
 </resources>

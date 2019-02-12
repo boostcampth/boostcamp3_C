@@ -98,6 +98,10 @@ class MapViewModel(val mapActivityManager: MapActivityManagerImpl, val mapReposi
     val finishLiveData: LiveData<Boolean>
         get() = _finishLiveData
 
+    private val _guidelinePlaceImageHeightLiveData : MutableLiveData<Float> = MutableLiveData()
+    val guidelinePlaceImageHeightLiveData : LiveData<Float>
+    get() = _guidelinePlaceImageHeightLiveData
+
     override fun onRemoveInfoWindow() {
         _tempInfoWindowLiveData.postValue(currentInfoWindowLiveData.value)
 
