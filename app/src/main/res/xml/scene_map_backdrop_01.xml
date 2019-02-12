@@ -2,37 +2,7 @@
 <MotionScene
         xmlns:motion="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android">
-    <Transition
-            motion:constraintSetStart="@layout/motion_01_map_backdrop_start"
-            motion:constraintSetEnd="@layout/motion_01_map_backdrop_end">
-        <!-- recyclerview 중첩 이벤트 제거 moveWhenScrollAtTop = true-->
-        <OnSwipe
-                motion:touchAnchorId="@id/ll_search_map"
-                motion:moveWhenScrollAtTop="true"
-                motion:dragDirection="dragUp"/>
-        <!-- 20 frame 까지 버튼을 보여줬다가
-        40 프레임 때 버튼을 감춤-->
-    </Transition>
-    <Transition
-            motion:constraintSetStart="@layout/motion_01_map_backdrop_start"
-            motion:constraintSetEnd="@layout/motion_02_map_backdrop_end"
-            motion:duration="400">
-        <OnSwipe
-                motion:touchAnchorId="@id/ll_search_map"
-                motion:moveWhenScrollAtTop="true"
-                motion:dragDirection="dragDown"/>
 
-    </Transition>
-    <Transition
-            motion:constraintSetStart="@layout/motion_01_map_backdrop_start"
-            motion:constraintSetEnd="@layout/motion_02_map_backdrop_end"
-            motion:duration="400">
-        <OnSwipe
-                motion:touchAnchorId="@id/ll_search_map"
-                motion:moveWhenScrollAtTop="true"
-                motion:dragDirection="dragDown"/>
-
-    </Transition>
     <Transition
             motion:constraintSetStart="@layout/motion_02_map_backdrop_end"
             motion:constraintSetEnd="@layout/motion_01_map_backdrop_start"
@@ -40,6 +10,37 @@
         <OnSwipe
                 motion:touchAnchorId="@id/ll_place_detail"
                 motion:moveWhenScrollAtTop="true"
-                motion:dragDirection="dragDown"/>
+                motion:dragDirection="dragUp"/>
+
     </Transition>
+    <Transition
+            motion:constraintSetStart="@layout/motion_01_map_backdrop_start"
+            motion:constraintSetEnd="@layout/motion_01_map_backdrop_end">
+        <!-- recyclerview 중첩 이벤트 제거 moveWhenScrollAtTop = true-->
+        <OnSwipe
+                motion:touchAnchorId="@id/ll_place_detail"
+                motion:moveWhenScrollAtTop="true"
+                motion:dragDirection="dragUp"/>
+        <!-- 20 frame 까지 버튼을 보여줬다가
+        40 프레임 때 버튼을 감춤-->
+    </Transition><!--
+    <Transition
+    motion:constraintSetStart="@+id/collapsed_image_view"
+    motion:constraintSetEnd="@+id/expand_image_view">
+        <OnClick
+                motion:target="@id/ml_place_image"
+                motion:clickAction="toggle"/>
+    </Transition>
+    <ConstraintSet android:id="@+id/collapsed_image_view">
+        <Constraint
+                android:id="@id/guideline_place_image_ml_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </ConstraintSet>
+    <ConstraintSet android:id="@+id/expand_image_view">
+        <Constraint
+                android:id="@id/guideline_place_image_ml_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+    </ConstraintSet>-->
 </MotionScene>

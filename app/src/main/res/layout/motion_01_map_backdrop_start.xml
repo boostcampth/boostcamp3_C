@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/guideline_place_image_ml_bottom"
-            app:layout_constraintGuide_percent="1.0"
+            app:layout_constraintGuide_percent="0.75"
             android:orientation="horizontal"/>
 
     <!-- 해당 가이드 라인을 통해서 각종 뷰의 크기 조절-->

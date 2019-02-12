@@ -50,7 +50,7 @@
     </androidx.constraintlayout.motion.widget.MotionLayout>
     <kr.co.connect.boostcamp.livewhere.ui.map.view.PlaceImageViewMotionLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:id="@+id/ml_place_image"
             app:layoutDescription="@xml/scene_map_place_image_view"
             app:layout_constraintTop_toTopOf="parent"

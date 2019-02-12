@@ -3,14 +3,11 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        app:layoutDescription="@xml/scene_map_place_image_view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/guideline_place_image_ml_bottom"
         android:id="@+id/ml_place_image">
-    <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:id="@+id/view_background_ml_place"
-            android:alpha="0"/>
     <ImageView
             android:layout_width="@dimen/place_image_view_width"
             android:layout_height="@dimen/place_image_view_height"
@@ -31,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/guideline_place_image_bottom"
-            app:layout_constraintGuide_percent="0.75"
+            app:layout_constraintGuide_percent="1.0"
             android:orientation="horizontal"/>
 
     <androidx.constraintlayout.widget.Guideline

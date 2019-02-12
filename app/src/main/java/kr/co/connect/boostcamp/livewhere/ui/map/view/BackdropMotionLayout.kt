@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.MotionEvent
-import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
 import kotlinx.android.synthetic.main.activity_map.view.*
 
@@ -45,9 +44,6 @@ class BackdropMotionLayout(context: Context, attributeSet: AttributeSet? = null)
         if (!touchStarted) {
             ll_place_detail.getHitRect(viewRect)
             touchStarted = viewRect.contains(event.x.toInt(), event.y.toInt())
-            if(touchStarted){
-                ml_place_image.iv_place_image.visibility = View.GONE
-            }
         }
         return touchStarted && super.onTouchEvent(event)
     }
