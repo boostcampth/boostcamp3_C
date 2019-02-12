@@ -21,26 +21,39 @@
                 motion:touchAnchorId="@id/ll_place_detail"
                 motion:moveWhenScrollAtTop="true"
                 motion:dragDirection="dragUp"/>
-        <!-- 20 frame 까지 버튼을 보여줬다가
-        40 프레임 때 버튼을 감춤-->
-    </Transition><!--
+        <KeyFrameSet>
+            <KeyAttribute motion:target="@id/iv_place_image"
+                          motion:framePosition="0"
+                          android:alpha="0"/>
+            <KeyAttribute motion:target="@id/scaleBarView"
+                          motion:framePosition="0"
+                          android:alpha="0"/>
+            <KeyAttribute motion:target="@id/logoView"
+                          motion:framePosition="0"
+                          android:alpha="0"/>
+        </KeyFrameSet>
+    </Transition>
     <Transition
-    motion:constraintSetStart="@+id/collapsed_image_view"
-    motion:constraintSetEnd="@+id/expand_image_view">
+            motion:constraintSetStart="@+id/collapsed_image_view"
+            motion:constraintSetEnd="@+id/expand_image_view">
         <OnClick
-                motion:target="@id/ml_place_image"
+                motion:target="@id/iv_place_image"
                 motion:clickAction="toggle"/>
+        <OnSwipe
+            motion:touchAnchorId="@id/iv_place_image"
+            motion:dragDirection="dragUp"/>
+
     </Transition>
     <ConstraintSet android:id="@+id/collapsed_image_view">
         <Constraint
-                android:id="@id/guideline_place_image_ml_bottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:id="@id/iv_place_image"
+                android:layout_width="@dimen/place_image_view_width"
+                android:layout_height="@dimen/place_image_view_width"/>
     </ConstraintSet>
     <ConstraintSet android:id="@+id/expand_image_view">
         <Constraint
-                android:id="@id/guideline_place_image_ml_bottom"
+                android:id="@id/iv_place_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-    </ConstraintSet>-->
+    </ConstraintSet>
 </MotionScene>
