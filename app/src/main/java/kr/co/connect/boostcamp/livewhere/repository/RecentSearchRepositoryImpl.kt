@@ -15,8 +15,19 @@ class RecentSearchRepositoryImpl(private val recentSearchDAO: RecentSearchDAO) :
     }
 
     override fun setRecentSearch(recentSearch: RecentSearchEntity): Boolean {
+        //TODO: Thread Handle
         val runnable = Runnable {
             recentSearchDAO.insertRecentSearch(recentSearch)
+        }
+        val thread = Thread(runnable)
+        thread.start()
+        return true
+    }
+
+    override fun deleteRecentSearch(): Boolean {
+        //TODO: Thread Handle
+        val runnable = Runnable {
+            recentSearchDAO.deleteAll()
         }
         val thread = Thread(runnable)
         thread.start()

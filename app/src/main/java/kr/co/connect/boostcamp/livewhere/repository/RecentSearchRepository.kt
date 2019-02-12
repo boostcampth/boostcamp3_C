@@ -6,4 +6,5 @@ import kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity
 interface RecentSearchRepository {
     fun getRecentSearch(): Observable<List<RecentSearchEntity>>
     fun setRecentSearch(recentSearch: RecentSearchEntity): Boolean
+    fun deleteRecentSearch(): Boolean
 }

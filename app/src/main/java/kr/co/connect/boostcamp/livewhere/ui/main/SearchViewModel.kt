@@ -62,4 +62,9 @@ class SearchViewModel(val recentSearchRepositoryImpl: RecentSearchRepositoryImpl
     fun onClickedBack() {
         _backBtnClicked.call()
     }
+
+    fun deleteAll() {
+        recentSearchRepositoryImpl.deleteRecentSearch()
+        getRecentSearch()
+    }
 }

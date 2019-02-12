@@ -32,6 +32,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                         style="@style/BasicTv.BodyM"
                         android:textColor="@color/black_opacity_60"
+                        android:onClick="@{()->searchViewModel.deleteAll()}"
                         android:text="@string/delete_all"/>
             </LinearLayout>
         </LinearLayout>

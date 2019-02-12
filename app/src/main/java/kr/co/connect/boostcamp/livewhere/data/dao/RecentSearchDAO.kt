@@ -15,4 +15,7 @@ interface RecentSearchDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRecentSearch(recentSearch:RecentSearchEntity)
+
+    @Query("DELETE FROM recent_search")
+    fun deleteAll()
 }

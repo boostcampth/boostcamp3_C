@@ -16,6 +16,7 @@ class BookmarkRepositoryImpl(private val bookmarkDAO: BookmarkDAO) : BookmarkRep
     }
 
     override fun setBookmark(bookmarkEntity: BookmarkEntity): Boolean {
+        //TODO: Thread Handle
         var runnable = Runnable {
             bookmarkDAO.insertBookmark(bookmarkEntity)
         }
