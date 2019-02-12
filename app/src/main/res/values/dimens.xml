@@ -49,7 +49,7 @@
     <dimen name="backdrop_toggle_left_margin">8dp</dimen>
     <dimen name="detail_more_vertical_padding">20dp</dimen>
     <dimen name="guideline_map_bottom_margin">650dp</dimen>
-    <dimen name="map_widget_size">64dp</dimen>
+    <dimen name="map_widget_size">48dp</dimen>
     <dimen name="place_image_view_width">96dp</dimen>
     <dimen name="place_image_view_height">64dp</dimen>
     <dimen name="map_place_image_view_margin">8dp</dimen>
@@ -68,4 +68,6 @@
     <dimen name="sort_by_year_img_margin">16dp</dimen>
     <dimen name="sort_img_size">15dp</dimen>
     <dimen name="arrow_size_map_activity">32dp</dimen>
+    <dimen name="map_place_image_view_expand_height">256dp</dimen>
+    <dimen name="logo_view_margin_start">8dp</dimen>
 </resources>
