@@ -2,11 +2,11 @@ package kr.co.connect.boostcamp.livewhere.ui.main
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kr.co.connect.boostcamp.livewhere.model.RecentSearch
+import kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity
 import kr.co.connect.boostcamp.livewhere.ui.main.adapter.RecentSearchRecyclerViewAdapter
 
 @BindingAdapter("setRecentRecyclerViewItems")
-fun setRecentRecyclerViewItems(recyclerView: RecyclerView, itemList:List<RecentSearch>?){
+fun setRecentRecyclerViewItems(recyclerView: RecyclerView, itemList:List<RecentSearchEntity>?){
     if(itemList!=null){
         (recyclerView.adapter as RecentSearchRecyclerViewAdapter).setData(itemList)
     }else{

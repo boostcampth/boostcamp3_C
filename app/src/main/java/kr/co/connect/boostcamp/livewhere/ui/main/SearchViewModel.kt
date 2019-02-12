@@ -1,17 +1,17 @@
 package kr.co.connect.boostcamp.livewhere.ui.main
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.reactivex.Single
-import kr.co.connect.boostcamp.livewhere.model.RecentSearch
+import kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity
 import kr.co.connect.boostcamp.livewhere.repository.RecentSearchRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 import kr.co.connect.boostcamp.livewhere.util.SingleLiveEvent
 
 class SearchViewModel(val recentSearchRepositoryImpl: RecentSearchRepositoryImpl) : BaseViewModel() {
 
-    private val _recentSearch = MutableLiveData<ArrayList<RecentSearch>>()
-    val recentSearch: LiveData<ArrayList<RecentSearch>>
+    private val _recentSearch = MutableLiveData<List<RecentSearchEntity>>()
+    val recentSearch: LiveData<List<RecentSearchEntity>>
         get() = _recentSearch
 
     private var _mapBtnClicked = SingleLiveEvent<Any>()
@@ -22,11 +22,17 @@ class SearchViewModel(val recentSearchRepositoryImpl: RecentSearchRepositoryImpl
     val backBtnClicked: LiveData<Any>
         get() = _backBtnClicked
 
-    init {
-        val temprecentsearchvalue = arrayListOf<RecentSearch>(
-            RecentSearch("서울특별시 동대문구 제기동 133")
-        )
-        _recentSearch.postValue(temprecentsearchvalue)
+    init { }
+
+    @SuppressLint("CheckResult")
+    fun getRecentSearch() {
+        val run = Runnable {
+            recentSearchRepositoryImpl.getRecentSearch().subscribe {
+                _recentSearch.postValue(it)
+            }
+        }
+        val thread = Thread(run)
+        thread.start()
     }
 
     fun onClickedMap() {

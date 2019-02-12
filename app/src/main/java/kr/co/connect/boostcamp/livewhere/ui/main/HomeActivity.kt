@@ -40,6 +40,11 @@ class HomeActivity : AppCompatActivity() {
         }
 
         observeValues()
+        initBookmark()
+    }
+
+    private fun initBookmark() {
+        bookmarkViewModel.getBookmark()
     }
 
     private fun observeValues() {

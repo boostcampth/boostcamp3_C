@@ -1,12 +1,13 @@
 package kr.co.connect.boostcamp.livewhere.data.dao
 
 import androidx.room.*
+import io.reactivex.Single
 import kr.co.connect.boostcamp.livewhere.data.entity.BookmarkEntity
 
 @Dao
 interface BookmarkDAO {
     @Query("SELECT * FROM bookmark")
-    fun getAll(): List<BookmarkEntity>
+    fun getAll(): Single<List<BookmarkEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBookmark(bookmark: BookmarkEntity)

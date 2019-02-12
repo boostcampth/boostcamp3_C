@@ -3,7 +3,7 @@
     <data>
         <variable
                 name="recentSearch"
-                type="kr.co.connect.boostcamp.livewhere.model.RecentSearch"/>
+                type="kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity"/>
     </data>
     <LinearLayout
             style="@style/Table.Double"
