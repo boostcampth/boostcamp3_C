@@ -65,7 +65,7 @@
             android:background="@color/white"
             android:id="@+id/view_place_image_background"
             android:alpha="0"/>
-    
+
     <com.naver.maps.map.widget.LogoView
             android:layout_width="wrap_content"
             android:layout_height="@dimen/map_widget_size"
@@ -73,7 +73,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/ll_place_detail"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/logo_view_margin_start"
             app:layout_constraintVertical_bias="1.0"
             android:alpha="0"/>
 
