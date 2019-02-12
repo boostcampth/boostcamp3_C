@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="houseInfo" type="kr.co.connect.boostcamp.livewhere.model.House"/>
+        <variable name="markerInfo" type="kr.co.connect.boostcamp.livewhere.model.MarkerInfo"/>
     </data>
     <LinearLayout
             android:layout_width="match_parent"
@@ -14,15 +14,14 @@
                 android:gravity="center"
                 android:orientation="vertical">
             <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="@dimen/search_item_imageview_size"
+                    android:layout_height="@dimen/search_item_imageview_size"
                     android:background="@drawable/ic_map_marker_24dp"/>
             <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/BasicTv.HeadlineXS"
                     android:textColor="@android:color/darker_gray"
                     android:textAlignment="center"
-                    android:text="@{houseInfo.accYear}"/>
+                    onText="@{markerInfo.houseList.get(0).accYear}"/>
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
@@ -30,23 +29,18 @@
                 android:layout_weight="6"
                 android:layout_height="128dp">
             <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{houseInfo.name}"
+                    style="@style/BasicTv.HeadlineM"
+                    onText="@{markerInfo.houseList.get(0).name}"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
                     android:textStyle="bold"/>
             <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{houseInfo.name}"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/darker_gray"/>
+                    style="@style/BasicTv.HeadlineS"
+                    onText="@{markerInfo.houseList.get(0).name}"
+                    android:textColor="@android:color/darker_gray"
+                    android:layout_marginEnd="@dimen/item_place_widget_margin_end"/>
             <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    style="@style/BasicTv.HeadlineXS"
                     android:gravity="center_vertical"
-                    android:textSize="12sp"
                     android:textColor="@android:color/darker_gray"/>
         </LinearLayout>
         <LinearLayout
@@ -61,24 +55,13 @@
                     android:layout_height="36dp"
                     android:layout_margin="8dp"
                     android:gravity="center"
-                    android:background="@drawable/drawable_circle_view_design">
+                    android:background="@drawable/drawable_circle_view_design"
+                    onIntent="@{markerInfo}">
                 <ImageView
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_search_call_answer"/>
-            </LinearLayout>
-            <LinearLayout
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_margin="8dp"
-                    android:gravity="center"
-                    android:background="@drawable/drawable_circle_view_design">
-                <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_search_site_24dp"/>
+                        android:src="@drawable/ic_search_navigation_24dp"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

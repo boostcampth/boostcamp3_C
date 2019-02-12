@@ -31,7 +31,7 @@ class DetailFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentDetailBinding.inflate(inflater,container,false).apply {
             viewModel = this@DetailFragment.viewModel
-            setLifecycleOwner(this@DetailFragment)
+            lifecycleOwner = this@DetailFragment
         }
 
         binding.detailFragmentCl.detail_fragment_rv_past_transation.apply {

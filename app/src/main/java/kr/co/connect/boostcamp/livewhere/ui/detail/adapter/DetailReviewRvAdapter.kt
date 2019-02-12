@@ -15,7 +15,8 @@ class DetailReviewRvAdapter(
 
     fun setData(list: List<Review>){
         this.list = list
-        this.notifyDataSetChanged()
+        this.notifyItemRangeRemoved(0,list.size)
+        this.notifyItemRangeInserted(0,list.size)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailReviewViewHolder {

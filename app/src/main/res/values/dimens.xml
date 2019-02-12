@@ -49,7 +49,7 @@
     <dimen name="backdrop_toggle_left_margin">8dp</dimen>
     <dimen name="detail_more_vertical_padding">20dp</dimen>
     <dimen name="guideline_map_bottom_margin">650dp</dimen>
-    <dimen name="map_widget_size">64dp</dimen>
+    <dimen name="map_widget_size">48dp</dimen>
     <dimen name="place_image_view_width">96dp</dimen>
     <dimen name="place_image_view_height">64dp</dimen>
     <dimen name="map_place_image_view_margin">8dp</dimen>
@@ -60,4 +60,14 @@
     <dimen name="ml_float_btn_width">256dp</dimen>
     <dimen name="ml_float_btn_padding_end">24dp</dimen>
     <dimen name="item_search_recyclerview_height">120dp</dimen>
+    <dimen name="item_place_widget_margin_end">6dp</dimen>
+    <dimen name="empty_item_imageview_size">86dp</dimen>
+    <dimen name="search_item_imageview_size">64dp</dimen>
+    <dimen name="sort_by_area_img_margin">24dp</dimen>
+    <dimen name="sort_by_type_text_margin">14dp</dimen>
+    <dimen name="sort_by_year_img_margin">16dp</dimen>
+    <dimen name="sort_img_size">15dp</dimen>
+    <dimen name="arrow_size_map_activity">32dp</dimen>
+    <dimen name="map_place_image_view_expand_height">256dp</dimen>
+    <dimen name="logo_view_margin_start">8dp</dimen>
 </resources>

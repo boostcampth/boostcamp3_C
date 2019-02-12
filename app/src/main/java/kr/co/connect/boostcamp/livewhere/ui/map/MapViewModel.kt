@@ -1,6 +1,7 @@
 package kr.co.connect.boostcamp.livewhere.ui.map
 
 import android.graphics.PointF
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,17 +16,18 @@ import io.reactivex.Single
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.repository.MapRepositoryImpl
-import kr.co.connect.boostcamp.livewhere.util.MapUtilImpl
+import kr.co.connect.boostcamp.livewhere.ui.map.interfaces.OnMapHistoryListener
+import kr.co.connect.boostcamp.livewhere.ui.map.interfaces.OnSearchTrigger
+import kr.co.connect.boostcamp.livewhere.ui.map.view.BackdropMotionLayout
 import kr.co.connect.boostcamp.livewhere.util.RADIUS
 import kr.co.connect.boostcamp.livewhere.util.StatusCode
+import java.util.*
 
 interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, OnMapReadyCallback, View.OnClickListener,
     OnMapHistoryListener, OnSearchTrigger
 
-class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositoryImpl) : ViewModel(),
+class MapViewModel(val mapActivityManager: MapActivityManagerImpl, val mapRepository: MapRepositoryImpl) : ViewModel(),
     OnMapViewModelInterface {
-
-
     //현재 검색하려는 매물의 좌표 livedata
     private val _markerLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
     val markerLiveData: LiveData<MarkerInfo>
@@ -92,6 +94,14 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
     val currentInfoWindowLiveData: LiveData<InfoWindow>
         get() = _currentInfoWindowLiveData
 
+    private val _finishLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    val finishLiveData: LiveData<Boolean>
+        get() = _finishLiveData
+
+    private val _guidelinePlaceImageHeightLiveData: MutableLiveData<Float> = MutableLiveData()
+    val guidelinePlaceImageHeightLiveData: LiveData<Float>
+        get() = _guidelinePlaceImageHeightLiveData
+
     override fun onRemoveInfoWindow() {
         _tempInfoWindowLiveData.postValue(currentInfoWindowLiveData.value)
 
@@ -149,13 +159,15 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
             mapRepository.getPlace(latLng.latitude, latLng.longitude, RADIUS, category).subscribe({ response ->
                 val placeResponse = response.body()
                 val placeList = placeResponse?.placeList
+                Collections.sort(placeList as List<Place>) { o1, o2 -> o1.distance.toInt() - o2.distance.toInt() }
                 _placeResponseLiveData.postValue(placeResponse)
                 _searchListLiveData.postValue(placeList)
                 _userStatusLiveData.postValue(
                     UserStatus(
-                        StatusCode.SUCCESS_SEARCH_PLACE, String.format(
+                        StatusCode.SUCCESS_SEARCH_PLACE,
+                        String.format(
                             view?.context!!.getString(R.string.info_success_search_place_text),
-                            placeList!![0].category,
+                            placeList[0].category,
                             placeList.size
                         )
                     )
@@ -165,6 +177,20 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
             })
         }
     }
+
+    override fun onLoadBuildingList(anyList: List<Any>, view: View) {
+        if (anyList.size == 1 && anyList[0] is MarkerInfo) {
+            val markerInfo = anyList[0] as MarkerInfo
+            _searchListLiveData.postValue(listOf(EmptyInfo(markerInfo.address.addr)))
+            _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_HOUSE, ""))
+        } else if (anyList.isEmpty()) {
+            _searchListLiveData.postValue(listOf(EmptyInfo("")))
+            _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_PLACE, ""))
+        }else{
+            _searchListLiveData.postValue(anyList)
+        }
+    }
+
 
     override fun onMapLongClick(point: PointF, latLng: LatLng) {
         _userStatusLiveData.postValue(UserStatus(StatusCode.SEARCH_HOUSE, "${latLng.latitude}, ${latLng.longitude}"))
@@ -196,25 +222,26 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
             ) {
                 Single.just(Pair(address, houseResponse))
             } else {
-                Single.just(Pair(address, null))
+                Single.just(Pair(address, houseResponse))
             }
         }
         .subscribe({ result ->
             val address = result.first
             val response = result.second
-            if (response != null) {
+            if (response?.houseStatusCode == 200 && response.addrStatusCode == 200) {
                 val houseList = response.houseList
-                val currentMarkerInfo = MarkerInfo(latLng, houseList, StatusCode.RESULT_200)
+                val currentMarkerInfo = MarkerInfo(response.addr, latLng, houseList, StatusCode.RESULT_200)
                 _userStatusLiveData.postValue(
                     UserStatus(
                         StatusCode.SUCCESS_SEARCH_HOUSE,
                         address + "\n" + houseList[0].name
                     )
                 )
-                _searchListLiveData.postValue(houseList)
+                _searchListLiveData.postValue(listOf(currentMarkerInfo))
                 _markerLiveData.postValue(currentMarkerInfo)
             } else {
-                val currentMarkerInfo = MarkerInfo(latLng, emptyList(), StatusCode.RESULT_204)
+                Log.d("response", response.toString())
+                val currentMarkerInfo = MarkerInfo(response?.addr!!, latLng, emptyList(), StatusCode.RESULT_204)
                 _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_HOUSE, address))
                 _searchListLiveData.postValue(listOf(EmptyInfo(address)))
                 _markerLiveData.postValue(currentMarkerInfo)
@@ -222,4 +249,6 @@ class MapViewModel(val mapUtilImpl: MapUtilImpl, val mapRepository: MapRepositor
         }, {
             _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_HOUSE, ""))
         })
+
+
 }

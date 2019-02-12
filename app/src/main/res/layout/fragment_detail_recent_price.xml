@@ -11,8 +11,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:paddingHorizontal="@dimen/detail_contents_horizontal_padding">
+            android:paddingEnd="@dimen/detail_contents_horizontal_padding"
+            android:paddingStart="@dimen/detail_contents_horizontal_padding"
+            android:paddingTop="@dimen/space_small"
+            android:paddingBottom="@dimen/space_small">
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/detail_fragment_tv_recent_price"
@@ -21,6 +23,10 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/black"
+                android:paddingStart="@dimen/space_small"
+                android:paddingEnd="@dimen/space_small"
+                android:paddingBottom="@dimen/space_small"
                 style="@style/BasicTv.BodyL"
         />
         <androidx.appcompat.widget.AppCompatTextView
@@ -28,6 +34,10 @@
                 android:layout_height="wrap_content"
                 android:text="@string/recent_price_unit"
                 style="@style/BasicTv.BodyM"
+                android:paddingStart="@dimen/space_small"
+                android:paddingEnd="@dimen/space_small"
+                android:paddingBottom="@dimen/space_small"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toEndOf="@id/detail_fragment_tv_recent_price"
                 app:layout_constraintTop_toTopOf="@id/detail_fragment_tv_recent_price"
                 app:layout_constraintBottom_toBottomOf="@id/detail_fragment_tv_recent_price"
@@ -36,12 +46,15 @@
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/detail_fragment_tv_charter"
                 android:text="@string/charter"
+                android:textColor="@color/black"
                 setRecentPrice="@{viewModel.recentPrice}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_tv_recent_price"
                 app:layout_constraintStart_toStartOf="parent"
                 style="@style/BasicTv.HeadlineM"
+                android:paddingStart="@dimen/space_small"
+                android:paddingEnd="@dimen/space_small"
         />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -53,6 +66,9 @@
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_tv_recent_price"
                 app:layout_constraintStart_toEndOf="@id/detail_fragment_tv_charter"
                 style="@style/BasicTv.HeadlineM"
+                android:paddingStart="@dimen/space_small"
+                android:paddingEnd="@dimen/space_small"
+                android:textColor="@color/black"
         />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

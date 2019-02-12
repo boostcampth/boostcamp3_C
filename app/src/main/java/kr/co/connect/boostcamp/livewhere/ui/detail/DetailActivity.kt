@@ -1,12 +1,14 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityDetailBinding
+import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -22,22 +24,26 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val markerInfo = intent.getParcelableExtra<MarkerInfo>("markerInfo")
+        Log.d("@@@",""+markerInfo.address)
         binding = DataBindingUtil.setContentView(this, kr.co.connect.boostcamp.livewhere.R.layout.activity_detail)
-
         if (savedInstanceState == null) {
             addDetailFragment()
         }
 
         binding.apply {
             viewModel = this@DetailActivity.viewModel
-            setLifecycleOwner(this@DetailActivity)
+            lifecycleOwner = this@DetailActivity
         }
 
+        viewModel.setMarkerInfoFromActivity(markerInfo)
 
         viewModel.markerInfo.observe(this, Observer { //지도 화면으로부터 전체 데이터 넘겨 받은 시점
+            setBuildingTitle(binding.detailActivityTvAddress,viewModel.buildingName.get())
             viewModel.getCoordinateFromInfo()
             viewModel.getRecentPriceFromInfo()
             viewModel.getPastTransactionFromList()
+
         })
 
         viewModel.transactionMoreClicked.observe(this, Observer {//과거 거래내역 더보기 클릭 시
@@ -53,6 +59,10 @@ class DetailActivity : AppCompatActivity() {
         })
 
         viewModel.reviewPostSuccess.observe(this, Observer {//리뷰 작성 완료시
+            onBackPressed()
+        })
+
+        viewModel.onPressedBackBtn.observe(this, Observer {
             onBackPressed()
         })
     }

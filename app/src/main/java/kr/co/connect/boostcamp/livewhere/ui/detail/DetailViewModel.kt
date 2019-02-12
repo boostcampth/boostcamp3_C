@@ -42,7 +42,7 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
     val listMonthlyHouseAvgPrice: LiveData<ArrayList<HouseAvgPrice>>
         get() = _listMonthlyHouseAvgPrice
 
-    private val _pastTransactionSort = MutableLiveData<Int>() //detail page 의 5개 미리보기 리스트
+    private val _pastTransactionSort = MutableLiveData<Int>()  // 정렬 종류 상태
     val pastTransactionSort: LiveData<Int>
         get() = _pastTransactionSort
 
@@ -74,16 +74,23 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
     val reviewPostSuccess: LiveData<Any>
         get() = _reviewPostSuccess
 
+    private val _onPressedBackBtn = SingleLiveEvent<Any>()
+    val onPressedBackBtn: LiveData<Any>
+        get() = _onPressedBackBtn
+
     private val _commentsList = MutableLiveData<List<Review>>()
     fun getComments(): LiveData<List<Review>> {
         if (_commentsList.value == null) {
-            loadComments("1234567890123456789") // TODO: markerInfo 에서 현재 페이지 pnu코드 인자로 넘기기.
+            loadComments(pnuCode.get()!!) // TODO: markerInfo 에서 현재 페이지 pnu코드 인자로 넘기기.
         }
         return _commentsList
     }
 
+    val buildingName = ObservableField<String>()
+    val pnuCode = ObservableField<String>()
     val postReviewNickname = ObservableField<String>()
     val postReviewContents = ObservableField<String>()
+
 
     init {
 
@@ -92,6 +99,10 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
     override fun onCleared() {
         super.onCleared()
         reviewRepository.removeListener()
+    }
+
+    fun onPressedBackButton() {
+        _onPressedBackBtn.call()
     }
 
     fun onClickedTransactionMore() { //과거 거래 내역 더보기 클릭
@@ -108,17 +119,21 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
 
     fun onClickedReviewPost(view: View) {
         when {
-            postReviewContents.get() == null -> Toast.makeText(
+            postReviewContents.get().isNullOrEmpty() -> Toast.makeText(
                 view.context,
                 view.context.getString(R.string.empty_contents),
                 Toast.LENGTH_SHORT
             ).show()
-            postReviewNickname.get() == null -> Toast.makeText(
+            postReviewNickname.get().isNullOrEmpty() -> Toast.makeText(
                 view.context,
                 view.context.getString(R.string.empty_nickname),
                 Toast.LENGTH_SHORT
             ).show()
-            else -> _reviewPostClicked.call()
+            else -> {
+                _reviewPostClicked.call()
+                postReviewNickname.set(null)
+                postReviewContents.set(null)
+            }
         }
 
     }
@@ -128,6 +143,15 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
             R.id.detail_fragment_btn_trend_price_charter -> _avgPriceType.postValue(TYPE_CHARTER)
             R.id.detail_fragment_btn_trend_price_monthly -> _avgPriceType.postValue(TYPE_MONTHLY)
         }
+    }
+
+    fun setMarkerInfoFromActivity(markerInfo: MarkerInfo) { //markerInfo 데이터 수신
+        if (markerInfo.address.name.isEmpty()) {
+            buildingName.set("건물명 없음")
+        } else
+            buildingName.set(markerInfo.address.name)
+        pnuCode.set(markerInfo.address.pnuCode)
+        _markerInfo.postValue(markerInfo)
     }
 
     fun getCoordinateFromInfo() {
@@ -152,7 +176,7 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
                 sortedWith(CompareByContractYM) // 계약년월(최근순)순으로 정렬 }
             }
             val monthlyList = ArrayList<House>().apply {
-                addAll(_markerInfo.value!!.houseList.filter { it.rentCase == "월세" })// 전체데이터의 월세 데이터만 추가
+                addAll(_markerInfo.value!!.houseList.filter { it.rentCase == "월세" || it.rentCase == "준월세" })// 전체데이터의 월세 데이터만 추가
                 sortedWith(CompareByContractYM) // 계약년월(최근순)순으로 정렬
             }
             val recentPrice: RecentPrice
@@ -220,11 +244,23 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
             val transactionList = ArrayList<PastTransaction>()
             _markerInfo.value!!.houseList.forEach {
                 if (it.rentCase == "전세") {
-                    val item = PastTransaction(it.name, it.deposite, it.area, it.rentCase, it.contractYear)
+                    val item = PastTransaction(
+                        buildingName.get() + " " + it.dong,
+                        it.deposite,
+                        it.area,
+                        it.rentCase,
+                        it.contractYear
+                    )
                     transactionList.add(item)
-                } else if (it.rentCase == "월세") {
+                } else if (it.rentCase == "월세" || it.rentCase == "준월세") {
                     val item =
-                        PastTransaction(it.name, it.deposite + "/" + it.fee, it.area, it.rentCase, it.contractYear)
+                        PastTransaction(
+                            buildingName.get() + " " + it.dong,
+                            it.deposite + "/" + it.fee,
+                            it.area,
+                            "월세",
+                            it.contractYear
+                        )
                     transactionList.add(item)
                 }
             }
@@ -241,9 +277,24 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
 
     fun setPastTransactionSort(view: View) {
         when (view.id) {
-            R.id.past_transaction_more_sort_by_area -> _pastTransactionSort.postValue(SORT_BY_AREA)
-            R.id.past_transaction_more_sort_by_type -> _pastTransactionSort.postValue(SORT_BY_TYPE)
-            R.id.past_transaction_more_sort_by_contract_year -> _pastTransactionSort.postValue(SORT_BY_YEAR)
+            R.id.past_transaction_more_sort_by_area -> {
+                if (_pastTransactionSort.value == SORT_BY_AREA)
+                    _pastTransactionSort.postValue(SORT_BY_AREA_REV)
+                else
+                    _pastTransactionSort.postValue(SORT_BY_AREA)
+            }
+            R.id.past_transaction_more_sort_by_type -> {
+                if (_pastTransactionSort.value == SORT_BY_TYPE)
+                    _pastTransactionSort.postValue(SORT_BY_TYPE_REV)
+                else
+                    _pastTransactionSort.postValue(SORT_BY_TYPE)
+            }
+            R.id.past_transaction_more_sort_by_contract_year -> {
+                if (_pastTransactionSort.value == SORT_BY_YEAR)
+                    _pastTransactionSort.postValue(SORT_BY_YEAR_REV)
+                else
+                    _pastTransactionSort.postValue(SORT_BY_YEAR)
+            }
         }
     }
 
@@ -253,12 +304,21 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
                 SORT_BY_AREA -> {
                     _pastTransactionMore.value!!.sortWith(CompareByArea)
                 }
+                SORT_BY_AREA_REV -> {
+                    _pastTransactionMore.value!!.sortWith(CompareByAreaRev)
+                }
                 SORT_BY_TYPE -> {
                     _pastTransactionMore.value!!.sortWith(CompareByType)
                 }
+                SORT_BY_TYPE_REV -> {
+                    _pastTransactionMore.value!!.sortWith(CompareByTypeRev)
+                }
                 SORT_BY_YEAR -> {
                     _pastTransactionMore.value!!.sortWith(CompareByYear)
-                } // TODO 역순으로 정렬 기능 구현.
+                }
+                SORT_BY_YEAR_REV -> {
+                    _pastTransactionMore.value!!.sortWith(CompareByYearRev)
+                }
             }
         }
     }
@@ -278,7 +338,7 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
     }
 
     fun postComment() {
-        val review = ReviewEntity(postReviewNickname.get(),"12345",postReviewContents.get(),"1234567890123456789")
+        val review = ReviewEntity(postReviewNickname.get(), "test_id", postReviewContents.get(), pnuCode.get())
         // TODO : MarkerInfo 구조를 변경하여 PNU코드를 _markerinfo에 담을수 있도록 수정
         reviewRepository.postReview(review).addOnCompleteListener {
             _reviewPostSuccess.call()

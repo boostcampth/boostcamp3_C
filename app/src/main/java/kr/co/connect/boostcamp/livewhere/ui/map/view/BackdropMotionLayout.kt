@@ -1,32 +1,34 @@
-package kr.co.connect.boostcamp.livewhere.ui.map
-
+package kr.co.connect.boostcamp.livewhere.ui.map.view
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.MotionEvent
-import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
-import kr.co.connect.boostcamp.livewhere.R
+import kotlinx.android.synthetic.main.activity_map.view.*
 
-class PlaceImageViewMotionLayout (context: Context, attributeSet: AttributeSet? = null) : MotionLayout(context, attributeSet) {
-    private val viewToDetectTouch by lazy {
-        findViewById<View>(R.id.iv_place_image)
-    }
-
+class BackdropMotionLayout(context: Context, attributeSet: AttributeSet? = null) : MotionLayout(context, attributeSet) {
     private val viewRect = Rect()
     private var touchStarted = false
+
     init {
         setTransitionListener(object : MotionLayout.TransitionListener {
-            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}
+            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
 
-            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {}
+            }
 
-            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, progress: Float) {}
+            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
 
-            override fun onTransitionCompleted(motionLayout: MotionLayout?, motionId: Int) {
+            }
+
+            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
+
+            }
+
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
                 touchStarted = false
+
             }
         })
     }
@@ -40,7 +42,7 @@ class PlaceImageViewMotionLayout (context: Context, attributeSet: AttributeSet? 
             }
         }
         if (!touchStarted) {
-            viewToDetectTouch.getHitRect(viewRect)
+            ll_place_detail.getHitRect(viewRect)
             touchStarted = viewRect.contains(event.x.toInt(), event.y.toInt())
         }
         return touchStarted && super.onTouchEvent(event)

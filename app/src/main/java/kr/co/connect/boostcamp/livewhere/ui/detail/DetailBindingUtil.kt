@@ -2,12 +2,10 @@ package kr.co.connect.boostcamp.livewhere.ui.detail
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.widget.Button
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
@@ -17,15 +15,10 @@ import com.bumptech.glide.Glide
 import com.github.mikephil.charting.charts.BarChart
 import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.R
-import kr.co.connect.boostcamp.livewhere.model.HouseAvgPrice
-import kr.co.connect.boostcamp.livewhere.model.PastTransaction
-import kr.co.connect.boostcamp.livewhere.model.RecentPrice
-import kr.co.connect.boostcamp.livewhere.model.Review
+import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailReviewRvAdapter
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailTransactionRvAdapter
-import kr.co.connect.boostcamp.livewhere.util.BarChartUtil
-import kr.co.connect.boostcamp.livewhere.util.No_Review_Text
-import kr.co.connect.boostcamp.livewhere.util.No_barChart_text
+import kr.co.connect.boostcamp.livewhere.util.*
 
 
 @BindingAdapter("setBarChart")
@@ -35,7 +28,7 @@ fun setBarChart(barChart: BarChart, list: LiveData<ArrayList<HouseAvgPrice>>) {
         BarChartUtil.showChart(barChart)
         barChart.notifyDataSetChanged()
     } catch (e: KotlinNullPointerException) {
-        barChart.setNoDataText(No_barChart_text)
+        barChart.setNoDataText(EMPTY_BARCHART_TEXT)
     }
 }
 
@@ -95,26 +88,26 @@ fun setReviews(recyclerView: RecyclerView, reviewList: List<Review>?) {
 
 @BindingAdapter("setPreReview")
 fun setPreReview(textView: TextView, review: List<Review>?) {
-    try {
+    if (!review.isNullOrEmpty()) {
         when (textView.id) {
-            R.id.detail_fragment_tv_review_id -> textView.text = review!![0].id
-            R.id.detail_fragment_tv_review_nickname -> textView.text = review!![0].nickname
-            R.id.detail_fragment_tv_review_contents -> textView.text = review!![0].contents
+            R.id.detail_fragment_tv_review_id -> textView.text = review[0].id
+            R.id.detail_fragment_tv_review_nickname -> textView.text = review[0].nickname
+            R.id.detail_fragment_tv_review_contents -> textView.text = review[0].contents
         }
-    } catch (e: KotlinNullPointerException) {
+    } else {
         when (textView.id) {
-            R.id.detail_fragment_tv_review_contents -> textView.text = No_Review_Text
+            R.id.detail_fragment_tv_review_contents -> textView.text = EMPTY_REVIEW_TEXT
         }
     }
 }
 
 
-@BindingAdapter("android:text")
-fun setText( view:TextView, text:CharSequence? ) {
+@BindingAdapter("setVmText")
+fun setText(view: TextView, text: CharSequence?) {
 //    view.text = text
 }
 
-@InverseBindingAdapter(attribute = "android:text", event = "android:textAttrChanged")
+@InverseBindingAdapter(attribute = "setVmText", event = "android:textAttrChanged")
 fun getTextString(textView: TextView): String {
     return textView.text.toString()
 }
@@ -129,4 +122,52 @@ fun setTextWatcher(view: TextView, textAttrChanged: InverseBindingListener) {
         }
 
     })
+}
+
+@BindingAdapter("setBuildingTitle")
+fun setBuildingTitle(view: TextView, name: String?) {
+    view.text = name
+}
+
+@BindingAdapter("setSortImage")
+fun setSortImage(view: View, sortType: Int) = when (sortType) {
+    SORT_BY_AREA -> {
+        if (view.id == R.id.past_transaction_more_sort_by_area_img) {
+            view.setBackgroundResource(R.drawable.ic_arrow_downward_black_24dp)
+            view.visibility = View.VISIBLE
+        } else view.visibility = View.GONE
+    }
+    SORT_BY_AREA_REV -> {
+        if (view.id == R.id.past_transaction_more_sort_by_area_img) {
+            view.setBackgroundResource(R.drawable.ic_arrow_upward_black_24dp)
+            view.visibility = View.VISIBLE
+        } else view.visibility = View.GONE
+    }
+    SORT_BY_TYPE -> {
+        if (view.id == R.id.past_transaction_more_sort_by_type_text) {
+            (view as TextView).text = view.context.getString(R.string.charter)
+            view.visibility = View.VISIBLE
+        } else view.visibility = View.GONE
+    }
+    SORT_BY_TYPE_REV -> {
+        if (view.id == R.id.past_transaction_more_sort_by_type_text) {
+            (view as TextView).text = view.context.getString(R.string.monthly_rent)
+            view.visibility = View.VISIBLE
+        } else view.visibility = View.GONE
+    }
+    SORT_BY_YEAR -> {
+        if (view.id == R.id.past_transaction_more_sort_by_contrat_year_img) {
+            view.setBackgroundResource(R.drawable.ic_arrow_downward_black_24dp)
+            view.visibility = View.VISIBLE
+        } else view.visibility = View.GONE
+    }
+    SORT_BY_YEAR_REV -> {
+        if (view.id == R.id.past_transaction_more_sort_by_contrat_year_img) {
+            view.setBackgroundResource(R.drawable.ic_arrow_upward_black_24dp)
+            view.visibility = View.VISIBLE
+        } else view.visibility = View.GONE
+    }
+    else -> {
+        view.visibility = View.GONE
+    }
 }
