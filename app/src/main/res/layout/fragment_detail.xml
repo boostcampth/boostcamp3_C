@@ -13,8 +13,7 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-        >
+                android:background="@color/white">
 
             <include
                     android:id="@+id/include_fragment_detail_image"
@@ -23,8 +22,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     bind:layout_constraintTop_toTopOf="parent"
-                    bind:layout_constraintStart_toStartOf="parent"
-            />
+                    bind:layout_constraintStart_toStartOf="parent"/>
 
             <include
                     android:id="@+id/include_fragment_detail_recent_price"
@@ -33,8 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     bind:layout_constraintTop_toBottomOf="@id/include_fragment_detail_image"
-                    bind:layout_constraintStart_toStartOf="parent"
-            />
+                    bind:layout_constraintStart_toStartOf="parent" />
 
             <include
                     android:id="@+id/include_fragment_detail_trend_price"
@@ -43,8 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     bind:layout_constraintTop_toBottomOf="@id/include_fragment_detail_recent_price"
-                    bind:layout_constraintStart_toStartOf="parent"
-            />
+                    bind:layout_constraintStart_toStartOf="parent"/>
 
             <include
                     android:id="@+id/include_fragment_detail_past_transation"
@@ -53,8 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     bind:layout_constraintTop_toBottomOf="@id/include_fragment_detail_trend_price"
-                    bind:layout_constraintStart_toStartOf="parent"
-            />
+                    bind:layout_constraintStart_toStartOf="parent"/>
 
             <include
                     android:id="@+id/include_fragment_detail_review"
@@ -63,8 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     bind:layout_constraintTop_toBottomOf="@id/include_fragment_detail_past_transation"
-                    bind:layout_constraintStart_toStartOf="parent"
-            />
+                    bind:layout_constraintStart_toStartOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -5,11 +5,14 @@
         tools:context=".ui.main.HomeActivity">
     <data>
         <variable
-                name="viewModel"
-                type="kr.co.connect.boostcamp.livewhere.ui.main.HomeViewModel"/>
+                name="bookmarkViewModel"
+                type="kr.co.connect.boostcamp.livewhere.ui.main.BookmarkViewModel"/>
         <variable
-            name="searchViewModel"
-            type="kr.co.connect.boostcamp.livewhere.ui.main.SearchViewModel"/>
+                name="searchViewModel"
+                type="kr.co.connect.boostcamp.livewhere.ui.main.SearchViewModel"/>
+        <variable
+                name="homeViewModel"
+                type="kr.co.connect.boostcamp.livewhere.ui.main.HomeViewModel"/>
     </data>
     <FrameLayout
             android:id="@+id/fl_home_frame"

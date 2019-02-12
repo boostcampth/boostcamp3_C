@@ -125,4 +125,9 @@ dependencies {
     implementation "com.google.android.gms:play-services-location:$play_service_location_version"
     implementation "androidx.multidex:multidex:$multidex_version"
 
+    //room
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    kapt "android.arch.persistence.room:compiler:$room_version"
+    kaptTest "android.arch.persistence.room:testing:$room_version"
+    implementation "android.arch.persistence.room:rxjava2:$room_version"
 }

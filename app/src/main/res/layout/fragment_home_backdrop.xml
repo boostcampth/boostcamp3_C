@@ -2,8 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="viewModel"
-                  type="kr.co.connect.boostcamp.livewhere.ui.main.HomeViewModel"/>
+        <variable name="bookmarkViewModel"
+                  type="kr.co.connect.boostcamp.livewhere.ui.main.BookmarkViewModel"/>
     </data>
     <LinearLayout
             style="@style/BackDrop.White"
@@ -26,7 +26,7 @@
                 android:id="@+id/rv_bookmark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:setRecyclerViewItems="@{viewModel.bookmark}"
+                app:setBookmarkItems="@{bookmarkViewModel.bookmarkEntity}"
                 android:background="@color/white"/>
     </LinearLayout>
 </layout>

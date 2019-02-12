@@ -24,6 +24,7 @@ buildscript {
         multidex_version = "2.0.1"
         browser_version = "1.0.0"
         tedpermission_version="2.2.2"
+        room_version="1.1.1"
     }
     repositories {
         google()

@@ -6,16 +6,16 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import kr.co.connect.boostcamp.livewhere.data.entity.BookmarkEntity
 import kr.co.connect.boostcamp.livewhere.databinding.ItemBookmarkRecyclerViewBinding
-import kr.co.connect.boostcamp.livewhere.model.Bookmark
 
 class BookmarkRecyclerViewAdapter(
-    private val lifecycleOwner: LifecycleOwner)
-    : RecyclerView.Adapter<BookmarkRecyclerViewAdapter.BookmarkViewHolder>() {
+    private val lifecycleOwner: LifecycleOwner
+) : RecyclerView.Adapter<BookmarkRecyclerViewAdapter.BookmarkViewHolder>() {
 
-    private var list = listOf<Bookmark>()
+    private var list = listOf<BookmarkEntity>()
 
-    fun setData(list: List<Bookmark>) {
+    fun setData(list: List<BookmarkEntity>) {
         this.list = list
         this.notifyDataSetChanged()
     }
@@ -36,13 +36,15 @@ class BookmarkRecyclerViewAdapter(
         private val itemBinding: ItemBookmarkRecyclerViewBinding
     ) : RecyclerView.ViewHolder(itemBinding.root) {
 
-        fun bind(lifecycleOwner: LifecycleOwner, bookmark: Bookmark) {
+        fun bind(lifecycleOwner: LifecycleOwner, bookmark: BookmarkEntity) {
             itemBinding.setLifecycleOwner(lifecycleOwner)
+            //TODO: Databinding error
+            itemBinding.tvBookmarkLocationContents.text = bookmark.address
             itemBinding.bookmark = bookmark
 
             if (itemBinding.ivBookmarkImage != null) {
                 Glide.with(itemBinding.root)
-                    .load(bookmark.imgUrl)
+                    .load(bookmark.img_url)
                     .apply { RequestOptions.fitCenterTransform() }
                     .into(itemBinding.ivBookmarkImage)
             }

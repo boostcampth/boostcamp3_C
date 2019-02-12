@@ -1,7 +1,27 @@
 package kr.co.connect.boostcamp.livewhere.repository
 
-class BookmarkRepositoryImpl : BookmarkRepository {
-    override fun get() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+import android.util.Log
+import io.reactivex.Observable
+import kr.co.connect.boostcamp.livewhere.data.dao.BookmarkDAO
+import kr.co.connect.boostcamp.livewhere.data.entity.BookmarkEntity
+import java.util.concurrent.Callable
+
+class BookmarkRepositoryImpl(private val bookmarkDAO: BookmarkDAO) : BookmarkRepository {
+    override fun getBookmark():Observable<List<BookmarkEntity>> {
+        return Observable.fromCallable(object: Callable<List<BookmarkEntity>> {
+            override fun call():List<BookmarkEntity> {
+                return bookmarkDAO.getAll()
+            }
+        })
+    }
+
+    override fun setBookmark(bookmarkEntity: BookmarkEntity): Boolean {
+        //TODO: Thread Handle
+        var runnable = Runnable {
+            bookmarkDAO.insertBookmark(bookmarkEntity)
+        }
+        val thread = Thread(runnable)
+        thread.start()
+        return true
     }
 }
