@@ -5,9 +5,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
 
-class BaseValueEventListener<Model, Entity>(
+class ReviewValueEventListener<Model, Entity>(
     private val mapper: FirebaseMapper<Entity, Model>,
-    private val callback: FirebaseDatabaseRepository.FirebaseDatabaseRepositoryCallback<Model>,
+    private val callback: ReviewDatabaseRepository.FirebaseDatabaseRepositoryCallback<Model>,
     private val pnu: String
 ) : ValueEventListener {
 
