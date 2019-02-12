@@ -98,9 +98,9 @@ class MapViewModel(val mapActivityManager: MapActivityManagerImpl, val mapReposi
     val finishLiveData: LiveData<Boolean>
         get() = _finishLiveData
 
-    private val _guidelinePlaceImageHeightLiveData : MutableLiveData<Float> = MutableLiveData()
-    val guidelinePlaceImageHeightLiveData : LiveData<Float>
-    get() = _guidelinePlaceImageHeightLiveData
+    private val _guidelinePlaceImageHeightLiveData: MutableLiveData<Float> = MutableLiveData()
+    val guidelinePlaceImageHeightLiveData: LiveData<Float>
+        get() = _guidelinePlaceImageHeightLiveData
 
     override fun onRemoveInfoWindow() {
         _tempInfoWindowLiveData.postValue(currentInfoWindowLiveData.value)
@@ -167,7 +167,7 @@ class MapViewModel(val mapActivityManager: MapActivityManagerImpl, val mapReposi
                         StatusCode.SUCCESS_SEARCH_PLACE,
                         String.format(
                             view?.context!!.getString(R.string.info_success_search_place_text),
-                            placeList!![0].category,
+                            placeList[0].category,
                             placeList.size
                         )
                     )
@@ -178,8 +178,17 @@ class MapViewModel(val mapActivityManager: MapActivityManagerImpl, val mapReposi
         }
     }
 
-    override fun onLoadBuildingList(anyList: List<Any>) {
-        _searchListLiveData.postValue(anyList)
+    override fun onLoadBuildingList(anyList: List<Any>, view: View) {
+        if (anyList.size == 1 && anyList[0] is MarkerInfo) {
+            val markerInfo = anyList[0] as MarkerInfo
+            _searchListLiveData.postValue(listOf(EmptyInfo(markerInfo.address.addr)))
+            _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_HOUSE, ""))
+        } else if (anyList.isEmpty()) {
+            _searchListLiveData.postValue(listOf(EmptyInfo("")))
+            _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_PLACE, ""))
+        }else{
+            _searchListLiveData.postValue(anyList)
+        }
     }
 
 
