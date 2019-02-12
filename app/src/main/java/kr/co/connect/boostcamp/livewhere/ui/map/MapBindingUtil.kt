@@ -5,8 +5,10 @@ import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.constraintlayout.widget.Guideline
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -162,7 +164,7 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
             marker.apply {
                 position = latLang
                 setOnClickListener {
-                    mapViewModel.onLoadBuildingList(listOf(markerInfo))//현재 매물 리스트에 반영
+                    mapViewModel.onLoadBuildingList(listOf(markerInfo),rootView)//현재 매물 리스트에 반영
                     mapViewModel.onClickMarkerHouse(markerInfo)//매물 이미지 추가
                     true
                 }
@@ -211,7 +213,7 @@ fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, ma
                         val mutablePlaceList = placeResponse.placeList.toMutableList()
                         mutablePlaceList[placeIndex] = mutablePlaceList[0]
                         mutablePlaceList[0] = tempPlace
-                        mapViewModel.onLoadBuildingList(mutablePlaceList)//현재 장소 리스트에 반영
+                        mapViewModel.onLoadBuildingList(mutablePlaceList,rootView)//현재 장소 리스트에 반영
                         mapViewModel.onClickMarkerPlace(place)//현재 상권의 이미지를 출력
                         mapViewModel.onRemoveInfoWindow()
                         val mInfoWindow = InfoWindow()
@@ -328,14 +330,14 @@ fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
         if (adapter == null) {
             apply {
                 layoutManager = LinearLayoutManager(context)
-                adapter = MapSearchRVAdapter(bindList)
-                adapter?.notifyItemRangeInserted(0, bindList?.size!!)
+                adapter = MapSearchRVAdapter(bindList!!)
+                adapter?.notifyItemRangeInserted(0, bindList.size)
             }
         } else {
             apply {
                 adapter?.notifyItemRangeRemoved(0, adapter?.itemCount!!)
-                adapter = MapSearchRVAdapter(bindList)
-                adapter?.notifyItemRangeInserted(0, bindList?.size!!)
+                (adapter as MapSearchRVAdapter).setItemChange(bindList!!)
+                adapter?.notifyItemRangeInserted(0, bindList.size)
             }
         }
     } else {
@@ -362,6 +364,7 @@ fun TextView.setStatusTextView(userStatusLiveData: LiveData<UserStatus>) {
         StatusCode.SEARCH_PLACE -> userStatusLiveData.value?.content
         StatusCode.SEARCH_HOUSE -> userStatusLiveData.value?.content
         StatusCode.EMPTY_SEARCH_HOUSE -> context.getString(R.string.info_empty_search_house_text)
+        StatusCode.EMPTY_SEARCH_PLACE -> context.getString(R.string.info_empty_search_place_text)
         StatusCode.FAILURE_SEARCH_PLACE -> context.getString(R.string.info_failure_search)
         StatusCode.FAILURE_SEARCH_HOUSE -> context.getString(R.string.info_failure_search)
         StatusCode.SUCCESS_SEARCH_PLACE -> userStatusLiveData.value?.content
@@ -370,10 +373,14 @@ fun TextView.setStatusTextView(userStatusLiveData: LiveData<UserStatus>) {
     }
 }
 
-@BindingAdapter(value =["onFinish"])
-fun ImageView.onFinish(finishLiveData:LiveData<Boolean>){
-    if(finishLiveData.value == true)
-    {
+@BindingAdapter(value = ["onFinish"])
+fun ImageView.onFinish(finishLiveData: LiveData<Boolean>) {
+    if (finishLiveData.value == true) {
         (context as MapActivity).finish()
     }
+}
+
+@BindingAdapter(value = ["onChangeHeight"])
+fun Guideline.onChangeHeight(guidelinePlaceImageHeightLiveData: MutableLiveData<Float>) {
+
 }
