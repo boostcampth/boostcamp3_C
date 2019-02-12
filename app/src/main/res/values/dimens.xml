@@ -63,9 +63,8 @@
     <dimen name="item_place_widget_margin_end">6dp</dimen>
     <dimen name="empty_item_imageview_size">86dp</dimen>
     <dimen name="search_item_imageview_size">64dp</dimen>
-
     <dimen name="sort_by_area_img_margin">24dp</dimen>
     <dimen name="sort_by_type_text_margin">14dp</dimen>
     <dimen name="sort_by_year_img_margin">16dp</dimen>
-
+    <dimen name="arrow_size_map_activity">32dp</dimen>
 </resources>
