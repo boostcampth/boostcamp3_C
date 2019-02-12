@@ -42,7 +42,7 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
     val listMonthlyHouseAvgPrice: LiveData<ArrayList<HouseAvgPrice>>
         get() = _listMonthlyHouseAvgPrice
 
-    private val _pastTransactionSort = MutableLiveData<Int>() //detail page 의 5개 미리보기 리스트
+    private val _pastTransactionSort = MutableLiveData<Int>()  // 정렬 종류 상태
     val pastTransactionSort: LiveData<Int>
         get() = _pastTransactionSort
 
@@ -81,13 +81,16 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
     private val _commentsList = MutableLiveData<List<Review>>()
     fun getComments(): LiveData<List<Review>> {
         if (_commentsList.value == null) {
-            loadComments("1234567890123456789") // TODO: markerInfo 에서 현재 페이지 pnu코드 인자로 넘기기.
+            loadComments(pnuCode.get()!!) // TODO: markerInfo 에서 현재 페이지 pnu코드 인자로 넘기기.
         }
         return _commentsList
     }
 
+    val buildingName = ObservableField<String>()
+    val pnuCode = ObservableField<String>()
     val postReviewNickname = ObservableField<String>()
     val postReviewContents = ObservableField<String>()
+
 
     init {
 
@@ -116,17 +119,21 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
 
     fun onClickedReviewPost(view: View) {
         when {
-            postReviewContents.get() == null -> Toast.makeText(
+            postReviewContents.get().isNullOrEmpty() -> Toast.makeText(
                 view.context,
                 view.context.getString(R.string.empty_contents),
                 Toast.LENGTH_SHORT
             ).show()
-            postReviewNickname.get() == null -> Toast.makeText(
+            postReviewNickname.get().isNullOrEmpty() -> Toast.makeText(
                 view.context,
                 view.context.getString(R.string.empty_nickname),
                 Toast.LENGTH_SHORT
             ).show()
-            else -> _reviewPostClicked.call()
+            else -> {
+                _reviewPostClicked.call()
+                postReviewNickname.set(null)
+                postReviewContents.set(null)
+            }
         }
 
     }
@@ -138,7 +145,12 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
         }
     }
 
-    fun setMarkerInfoFromActivity(markerInfo: MarkerInfo) {
+    fun setMarkerInfoFromActivity(markerInfo: MarkerInfo) { //markerInfo 데이터 수신
+        if (markerInfo.address.name.isEmpty()) {
+            buildingName.set("건물명 없음")
+        } else
+            buildingName.set(markerInfo.address.name)
+        pnuCode.set(markerInfo.address.pnuCode)
         _markerInfo.postValue(markerInfo)
     }
 
@@ -164,7 +176,7 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
                 sortedWith(CompareByContractYM) // 계약년월(최근순)순으로 정렬 }
             }
             val monthlyList = ArrayList<House>().apply {
-                addAll(_markerInfo.value!!.houseList.filter { it.rentCase == "월세" })// 전체데이터의 월세 데이터만 추가
+                addAll(_markerInfo.value!!.houseList.filter { it.rentCase == "월세" || it.rentCase == "준월세" })// 전체데이터의 월세 데이터만 추가
                 sortedWith(CompareByContractYM) // 계약년월(최근순)순으로 정렬
             }
             val recentPrice: RecentPrice
@@ -232,11 +244,23 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
             val transactionList = ArrayList<PastTransaction>()
             _markerInfo.value!!.houseList.forEach {
                 if (it.rentCase == "전세") {
-                    val item = PastTransaction(it.name, it.deposite, it.area, it.rentCase, it.contractYear)
+                    val item = PastTransaction(
+                        buildingName.get() + " " + it.dong,
+                        it.deposite,
+                        it.area,
+                        it.rentCase,
+                        it.contractYear
+                    )
                     transactionList.add(item)
-                } else if (it.rentCase == "월세") {
+                } else if (it.rentCase == "월세" || it.rentCase == "준월세") {
                     val item =
-                        PastTransaction(it.name, it.deposite + "/" + it.fee, it.area, it.rentCase, it.contractYear)
+                        PastTransaction(
+                            buildingName.get() + " " + it.dong,
+                            it.deposite + "/" + it.fee,
+                            it.area,
+                            "월세",
+                            it.contractYear
+                        )
                     transactionList.add(item)
                 }
             }
@@ -314,7 +338,7 @@ class DetailViewModel(private val detailRepository: DetailRepository, private va
     }
 
     fun postComment() {
-        val review = ReviewEntity(postReviewNickname.get(), "12345", postReviewContents.get(), "1234567890123456789")
+        val review = ReviewEntity(postReviewNickname.get(), "test_id", postReviewContents.get(), pnuCode.get())
         // TODO : MarkerInfo 구조를 변경하여 PNU코드를 _markerinfo에 담을수 있도록 수정
         reviewRepository.postReview(review).addOnCompleteListener {
             _reviewPostSuccess.call()
