@@ -25,6 +25,7 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val markerInfo = intent.getParcelableExtra<MarkerInfo>("markerInfo")
+        Log.d("@@@",""+markerInfo.address)
         binding = DataBindingUtil.setContentView(this, kr.co.connect.boostcamp.livewhere.R.layout.activity_detail)
         if (savedInstanceState == null) {
             addDetailFragment()
@@ -38,9 +39,11 @@ class DetailActivity : AppCompatActivity() {
         viewModel.setMarkerInfoFromActivity(markerInfo)
 
         viewModel.markerInfo.observe(this, Observer { //지도 화면으로부터 전체 데이터 넘겨 받은 시점
+            setBuildingTitle(binding.detailActivityTvAddress,viewModel.buildingName.get())
             viewModel.getCoordinateFromInfo()
             viewModel.getRecentPriceFromInfo()
             viewModel.getPastTransactionFromList()
+
         })
 
         viewModel.transactionMoreClicked.observe(this, Observer {//과거 거래내역 더보기 클릭 시
