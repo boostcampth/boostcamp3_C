@@ -126,6 +126,10 @@
         <item name="android:textSize">10sp</item>
     </style>
 
+    <style name="BasicTv.BodyXS">
+        <item name="android:textSize">8sp</item>
+    </style>
+
     <style name="BasicTv.BodyM.Transparent">
         <item name="android:background">@color/main_color_variation</item>
         <item name="android:textColor">@color/white</item>

@@ -67,5 +67,6 @@
     <dimen name="sort_by_area_img_margin">24dp</dimen>
     <dimen name="sort_by_type_text_margin">14dp</dimen>
     <dimen name="sort_by_year_img_margin">16dp</dimen>
+    <dimen name="sort_img_size">15dp</dimen>
 
 </resources>
