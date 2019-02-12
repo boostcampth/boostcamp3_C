@@ -13,7 +13,7 @@ import kr.co.connect.boostcamp.livewhere.model.EmptyInfo
 import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
 import kr.co.connect.boostcamp.livewhere.model.Place
 
-class MapSearchRVAdapter(private val itemList: List<Any>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MapSearchRVAdapter(private var itemList: List<Any>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {
             Category.HOUSE.type -> {
@@ -54,32 +54,36 @@ class MapSearchRVAdapter(private val itemList: List<Any>?) : RecyclerView.Adapte
         }
     }
 
+    fun setItemChange(itemList: List<Any>) {
+        this.itemList = itemList
+    }
+
     override fun getItemCount(): Int {
-        return itemList?.size!!
+        return itemList.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when {
             holder.itemViewType == Category.HOUSE.type -> {
                 val houseViewHolder = holder as HouseViewHolder
-                val markerInfo = itemList?.get(position) as MarkerInfo
+                val markerInfo = itemList.get(position) as MarkerInfo
                 houseViewHolder.binding.markerInfo = markerInfo
             }
             holder.itemViewType == Category.PLACE.type -> {
                 val placeViewHolder = holder as PlaceViewHolder
-                val placeItem = itemList?.get(position) as Place
+                val placeItem = itemList.get(position) as Place
                 placeViewHolder.binding.place = placeItem
             }
             holder.itemViewType == Category.EMPTY.type -> {
                 val placeViewHolder = holder as EmptyViewHolder
-                val emptyItem = itemList?.get(position) as EmptyInfo
+                val emptyItem = itemList.get(position) as EmptyInfo
                 placeViewHolder.binding.emptyInfo = emptyItem
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (itemList?.size!! > 0) {
+        if (itemList.size > 0) {
             when {
                 itemList[0] is MarkerInfo -> return Category.HOUSE.type
                 itemList[0] is Place -> {

@@ -46,21 +46,46 @@
             app:layout_constraintBottom_toTopOf="@+id/guideline_filter_ml_height">
     </androidx.constraintlayout.motion.widget.MotionLayout>
 
-    <kr.co.connect.boostcamp.livewhere.ui.map.view.PlaceImageViewMotionLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/ml_place_image"
-            app:layoutDescription="@xml/scene_map_place_image_view"
+    <ImageView
+            android:layout_width="@dimen/place_image_view_width"
+            android:layout_height="@dimen/place_image_view_height"
+            android:id="@+id/iv_place_image"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_place_image_ml_bottom"
+            app:layout_constraintBottom_toTopOf="@+id/logoView"
+            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.02"
+            android:layout_marginStart="@dimen/map_place_image_view_margin"
+            app:layout_constraintStart_toStartOf="parent"/>
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:id="@+id/view_place_image_background"
+            android:alpha="0"/>
+    <com.naver.maps.map.widget.LogoView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/map_widget_size"
+            android:id="@+id/logoView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-    </kr.co.connect.boostcamp.livewhere.ui.map.view.PlaceImageViewMotionLayout>
+            app:layout_constraintBottom_toTopOf="@+id/ll_place_detail"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="@dimen/logo_view_margin_start"
+            app:layout_constraintVertical_bias="0.98"/>
+
+    <com.naver.maps.map.widget.ScaleBarView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/map_widget_size"
+            android:id="@+id/scaleBarView"
+            app:layout_constraintStart_toEndOf="@+id/logoView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.74"/>
+
     <androidx.constraintlayout.widget.Guideline
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/guideline_place_image_ml_bottom"
-            app:layout_constraintGuide_percent="1.0"
+            app:layout_constraintGuide_percent="0.75"
             android:orientation="horizontal"/>
 
     <!-- 해당 가이드 라인을 통해서 각종 뷰의 크기 조절-->
@@ -93,5 +118,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/guideline_filter_ml_width"
             app:layout_constraintGuide_percent="0.4"
+            android:orientation="vertical"/>
+    <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline_buiding_image"
+            app:layout_constraintGuide_percent="1.0"
             android:orientation="vertical"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

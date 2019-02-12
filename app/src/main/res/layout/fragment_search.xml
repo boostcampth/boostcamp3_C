@@ -4,7 +4,7 @@
         xmlns:bind="http://schemas.android.com/tools">
     <data>
         <variable
-                name="viewModel"
+                name="searchViewModel"
                 type="kr.co.connect.boostcamp.livewhere.ui.main.SearchViewModel"/>
     </data>
     <LinearLayout
@@ -19,9 +19,9 @@
                 android:background="@color/main_color">
             <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_search_back"
-                    style="@style/BasicBtn"
+                    style="@style/ImageBtn"
                     android:src="@drawable/ic_arrow_back_white_24dp"
-                    android:onClick="@{()->viewModel.onClickedBack()}"
+                    android:onClick="@{()->searchViewModel.onClickedBack()}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/et_search_bar"/>
@@ -38,15 +38,21 @@
                     android:id="@+id/et_search_bar"
                     style="@style/BasicEt"
                     android:layout_marginBottom="@dimen/space_small"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    app:searchDone="@{searchViewModel}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_search_title"
                     app:layout_constraintBottom_toBottomOf="parent"/>
             <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_search_map"
-                    style="@style/BasicBtn"
+                    style="@style/ImageBtn"
                     android:src="@drawable/ic_outline_map_white_24px"
+                    android:onClick="@{()->searchViewModel.onClickedMap()}"
                     app:layout_constraintLeft_toRightOf="@id/et_search_bar"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_search_title"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -59,13 +65,13 @@
                 app:layout_constraintBottom_toBottomOf="parent">
             <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
                 <View android:id="@+id/v_recommend"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"/>
                 <include
-                        bind:viewModel="@{viewModel}"
+                        bind:searchViewModel="@{searchViewModel}"
                         layout="@layout/fragment_recent_search"/>
             </LinearLayout>
         </ScrollView>

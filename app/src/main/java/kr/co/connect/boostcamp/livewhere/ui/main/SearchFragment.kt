@@ -22,7 +22,7 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private val viewModel: SearchViewModel by sharedViewModel()
+    private val searchViewModel: SearchViewModel by sharedViewModel()
     private lateinit var binding: FragmentSearchBinding
     private lateinit var recentSearchRecyclerViewAdapter: RecentSearchRecyclerViewAdapter
     private lateinit var recyclerViewLayoutManager: LinearLayoutManager
@@ -35,7 +35,7 @@ class SearchFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false).apply {
-            viewModel = this@SearchFragment.viewModel
+            searchViewModel = this@SearchFragment.searchViewModel
             setLifecycleOwner(this@SearchFragment)
         }
 
