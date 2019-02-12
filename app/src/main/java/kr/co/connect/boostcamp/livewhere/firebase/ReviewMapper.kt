@@ -13,4 +13,6 @@ class ReviewMapper : FirebaseMapper<ReviewEntity, Review>() {
         review.land_code = reviewEntity.land_code
         return review
     }
+
+
 }

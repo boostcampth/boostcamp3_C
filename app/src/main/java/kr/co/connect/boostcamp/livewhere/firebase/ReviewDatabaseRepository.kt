@@ -7,7 +7,7 @@ import com.google.firebase.database.ValueEventListener
 import kr.co.connect.boostcamp.livewhere.model.entity.ReviewEntity
 
 
-abstract class FirebaseDatabaseRepository<Entity,Model>(private val mapper:FirebaseMapper<Entity,Model>) {
+abstract class ReviewDatabaseRepository<Entity,Model>(private val mapper:FirebaseMapper<Entity,Model>) {
 
     protected var databaseReference: DatabaseReference
     protected lateinit var firebaseCallback: FirebaseDatabaseRepositoryCallback<Model>
