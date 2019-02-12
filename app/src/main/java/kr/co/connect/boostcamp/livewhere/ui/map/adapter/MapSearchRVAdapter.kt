@@ -1,4 +1,4 @@
-package kr.co.connect.boostcamp.livewhere.ui.map
+package kr.co.connect.boostcamp.livewhere.ui.map.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -24,7 +24,9 @@ class MapSearchRVAdapter(private val itemList: List<Any>?) : RecyclerView.Adapte
                         parent,
                         false
                     )
-                return HouseViewHolder(itemHouseSearchRecyclerviewBinding)
+                return HouseViewHolder(
+                    itemHouseSearchRecyclerviewBinding
+                )
             }
             Category.PLACE.type -> {
                 val itemPlaceSearchRecyclerviewBinding: ItemPlaceSearchRecyclerviewBinding =
@@ -34,7 +36,9 @@ class MapSearchRVAdapter(private val itemList: List<Any>?) : RecyclerView.Adapte
                         parent,
                         false
                     )
-                return PlaceViewHolder(itemPlaceSearchRecyclerviewBinding)
+                return PlaceViewHolder(
+                    itemPlaceSearchRecyclerviewBinding
+                )
             }
             else -> {
                 val itemEmptyRecyclerviewBinding: ItemEmptyRecyclerviewBinding = DataBindingUtil.inflate(
@@ -43,7 +47,9 @@ class MapSearchRVAdapter(private val itemList: List<Any>?) : RecyclerView.Adapte
                     parent,
                     false
                 )
-                return EmptyViewHolder(itemEmptyRecyclerviewBinding)
+                return EmptyViewHolder(
+                    itemEmptyRecyclerviewBinding
+                )
             }
         }
     }

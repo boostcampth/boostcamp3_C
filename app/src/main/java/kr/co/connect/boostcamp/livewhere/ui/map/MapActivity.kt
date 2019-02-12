@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.naver.maps.map.util.FusedLocationSource
+import io.reactivex.disposables.Disposable
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityMapBinding
 import kr.co.connect.boostcamp.livewhere.util.MapUtilImpl.Companion.LOCATION_PERMISSION_REQUEST_CODE
@@ -14,6 +15,7 @@ class MapActivity : AppCompatActivity() {
     private val mapViewModel: MapViewModel by viewModel()
     private lateinit var activityMapBinding: ActivityMapBinding
     private lateinit var locationSource: FusedLocationSource
+    private lateinit var backPressedDisposable: Disposable
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +29,14 @@ class MapActivity : AppCompatActivity() {
         activityMapBinding.setMlBackdrop(activityMapBinding.mlBackdrop)
         activityMapBinding.mvMainNaver.onCreate(savedInstanceState)
         activityMapBinding.mvMainNaver.getMapAsync(mapViewModel)
+        backPressedDisposable =
+            activityMapBinding.mapViewModel?.mapActivityManager?.getBackPressedDisposable()?.subscribe { isFinish ->
+                if (isFinish) {
+                    finish()
+                } else {
+                    activityMapBinding.mapViewModel?.mapActivityManager?.showToast(this)
+                }
+            }!!
     }
 
     override fun onStart() {
@@ -59,6 +69,12 @@ class MapActivity : AppCompatActivity() {
         activityMapBinding.mvMainNaver.onLowMemory()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        activityMapBinding.mvMainNaver.onDestroy()
+        backPressedDisposable.dispose()
+    }
+
     //자신의 위치 관련한 permission 함수
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>,
@@ -70,5 +86,7 @@ class MapActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-
+    override fun onBackPressed() {
+        mapViewModel.mapActivityManager.backEvent()
+    }
 }

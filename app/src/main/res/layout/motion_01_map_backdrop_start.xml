@@ -46,7 +46,7 @@
             app:layout_constraintBottom_toTopOf="@+id/guideline_filter_ml_height">
     </androidx.constraintlayout.motion.widget.MotionLayout>
 
-    <kr.co.connect.boostcamp.livewhere.ui.map.PlaceImageViewMotionLayout
+    <kr.co.connect.boostcamp.livewhere.ui.map.view.PlaceImageViewMotionLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:id="@+id/ml_place_image"
@@ -55,7 +55,7 @@
             app:layout_constraintBottom_toTopOf="@+id/guideline_place_image_ml_bottom"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
-    </kr.co.connect.boostcamp.livewhere.ui.map.PlaceImageViewMotionLayout>
+    </kr.co.connect.boostcamp.livewhere.ui.map.view.PlaceImageViewMotionLayout>
     <androidx.constraintlayout.widget.Guideline
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
