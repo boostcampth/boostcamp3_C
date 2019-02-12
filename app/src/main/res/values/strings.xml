@@ -45,6 +45,7 @@
     <string name="info_success_search_place_text">%s가 %s개 검색되었습니다.</string>
     <string name="info_before_search_place_text">주변 상권을 검색하고 있습니다.</string>
     <string name="info_empty_search_house_text">건물의 거래내역이 존재하지 않습니다.</string>
+    <string name="info_empty_search_place_text">주변의 상권이 존재하지 않습니다.</string>
     <string name="info_failure_search">네트워크나 서버의 상태가 불안정합니다.</string>
     <string name="all_text_empty">EMPTY</string>
     <string name="message_toast_back_btn">뒤로 가기를 한 번 더 누르시면 종료됩니다.</string>
