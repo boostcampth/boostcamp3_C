@@ -183,10 +183,32 @@ class MapViewModel(val mapActivityManager: MapActivityManagerImpl, val mapReposi
             val markerInfo = anyList[0] as MarkerInfo
             _searchListLiveData.postValue(listOf(EmptyInfo(markerInfo.address.addr)))
             _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_HOUSE, ""))
+        } else if (anyList.size > 1 && anyList[0] is MarkerInfo) {
+            val markerInfo = anyList[0] as MarkerInfo
+            _searchListLiveData.postValue(anyList)
+            _userStatusLiveData.postValue(
+                UserStatus(
+                    StatusCode.SUCCESS_SEARCH_HOUSE,
+                    markerInfo.address.addr + "\n" + markerInfo.houseList[0].name
+                )
+            )
+        } else if (anyList.size > 1 && anyList[0] is Place) {
+            val placeInfo = anyList[0] as Place
+            _searchListLiveData.postValue(anyList)
+            _userStatusLiveData.postValue(
+                UserStatus(
+                    StatusCode.SUCCESS_SEARCH_PLACE,
+                    String.format(
+                        view.context!!.getString(R.string.info_success_search_place_text),
+                        placeInfo.category,
+                        anyList.size
+                    )
+                )
+            )
         } else if (anyList.isEmpty()) {
             _searchListLiveData.postValue(listOf(EmptyInfo("")))
             _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_PLACE, ""))
-        }else{
+        } else {
             _searchListLiveData.postValue(anyList)
         }
     }
