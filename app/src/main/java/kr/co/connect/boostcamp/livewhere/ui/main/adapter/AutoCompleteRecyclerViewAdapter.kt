@@ -1,12 +1,14 @@
 package kr.co.connect.boostcamp.livewhere.ui.main.adapter
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
+import kr.co.connect.boostcamp.livewhere.databinding.ItemAutoCompleteRecyclerViewBinding
 
 class AutoCompleteRecyclerViewAdapter(
     private val lifecycleOwner: LifecycleOwner
-): RecyclerView.Adapter<AutoCompleteRecyclerViewAdapter.AutoCompleteViewHolder>() {
+) : RecyclerView.Adapter<AutoCompleteRecyclerViewAdapter.AutoCompleteViewHolder>() {
     private var list = listOf<String>()
 
     fun setData(list: List<String>) {
@@ -18,7 +20,9 @@ class AutoCompleteRecyclerViewAdapter(
         parent: ViewGroup,
         viewType: Int
     ): AutoCompleteViewHolder {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val binding = ItemAutoCompleteRecyclerViewBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
+        return AutoCompleteViewHolder(binding)
     }
 
     override fun getItemCount() = list.size
@@ -29,11 +33,11 @@ class AutoCompleteRecyclerViewAdapter(
 
     inner class AutoCompleteViewHolder(
         private val itemBinding: ItemAutoCompleteRecyclerViewBinding
-    ): RecyclerView.ViewHolder(itemBinding.root) {
+    ) : RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bind(lifecycleOwner: LifecycleOwner, text: String) {
             itemBinding.setLifecycleOwner(lifecycleOwner)
-            itemBinding.autoComplete = text
+            itemBinding.tvAutoComplete.text = text
         }
     }
 }

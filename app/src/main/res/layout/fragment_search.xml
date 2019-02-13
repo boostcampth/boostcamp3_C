@@ -64,11 +64,6 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_auto_complete"
-                    app:setAutoCompleteRecyclerViewItems="@{searchViewModel.autoCompleteList}"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -76,6 +71,11 @@
                 <View android:id="@+id/v_recommend"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"/>
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_auto_complete"
+                        app:setAutoCompleteRecyclerViewItems="@{searchViewModel.autoCompleteList}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
                 <include
                         bind:searchViewModel="@{searchViewModel}"
                         layout="@layout/fragment_recent_search"/>

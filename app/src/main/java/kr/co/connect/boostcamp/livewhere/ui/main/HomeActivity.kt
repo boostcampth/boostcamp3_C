@@ -98,7 +98,6 @@ class HomeActivity : AppCompatActivity() {
     private fun startMapActivity() {
         intent = Intent(this, MapActivity::class.java)
         startActivity(intent)
-        finish()
     }
 
     private fun startMapActivity(text: String?) {
@@ -106,7 +105,6 @@ class HomeActivity : AppCompatActivity() {
             intent = Intent(this, MapActivity::class.java)
             intent.putExtra(SEARCH_TAG, text)
             startActivity(intent)
-            finish()
         } else {
             startMapActivity()
         }

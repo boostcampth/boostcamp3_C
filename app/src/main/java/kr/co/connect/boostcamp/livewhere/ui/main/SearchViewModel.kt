@@ -74,27 +74,27 @@ class SearchViewModel(
     fun startAutoComplete(text: String) {
         val request = FindAutocompletePredictionsRequest.builder()
             .setCountry(COUNTY_CODE)
-            .setTypeFilter(TypeFilter.ADDRESS)
             .setTypeFilter(TypeFilter.GEOCODE)
-            .setQuery(text)
             .setSessionToken(token)
+            .setQuery(text)
             .build()
-
-        Log.d("TAG", "Query: " + text)
 
         val textList = ArrayList<String>()
         placesClient.findAutocompletePredictions(request)
             .addOnSuccessListener { response ->
                 for (prediction in response.autocompletePredictions) {
+                    Log.d(TAG, "결과: "+prediction.getPrimaryText(null).toString())
+                    Log.d(TAG, "결과2: "+prediction.getFullText(null).toString())
+                    Log.d(TAG, "결과3: "+prediction.getSecondaryText(null).toString())
                     textList.add(prediction.getPrimaryText(null).toString())
                 }
+                _autoCompleteLIst.postValue(textList.toList())
             }
             .addOnFailureListener { exception ->
                 if (exception is ApiException) {
                     Log.e(TAG, "Place not found: " + exception.statusCode)
                 }
             }
-        _autoCompleteLIst.postValue(textList.toList())
     }
 
     fun onFinishSearch(text: String) {

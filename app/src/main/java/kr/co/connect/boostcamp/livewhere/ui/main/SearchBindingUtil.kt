@@ -1,5 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.ui.main
 
+import android.util.Log
 import android.view.KeyEvent
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
