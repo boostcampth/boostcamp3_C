@@ -24,7 +24,8 @@
                 onRemovePlaceDrawMarker="@{mapViewModel.removePlaceMarkersLiveData}"
                 onRemovePlaceOverlay="@{mapViewModel.tempOverlayLiveData}"
                 onRemovePlaceMarker="@{mapViewModel.tempInfoWindowLiveData}"
-                />
+                onCameraUpdate="@{mapViewModel.cameraPositionLatLngLiveData}"
+        />
 
         <ImageView
                 android:layout_width="@dimen/arrow_size_map_activity"
