@@ -42,6 +42,7 @@ fun MapView.onMakeNaverMap(mapStatusLiveData: LiveData<NaverMap>, mapViewModel: 
     if (mapStatusLiveData.value != null) {
         val naverMap: NaverMap = mapStatusLiveData.value!!
         naverMap.apply {
+            symbolScale = 0.5f
             onMapLongClickListener = mapViewModel //맵롱클릭
             isIndoorEnabled = true//실내모드
             setLayerGroupEnabled(NaverMap.LAYER_GROUP_BUILDING, true)//building
@@ -54,8 +55,8 @@ fun MapView.onMakeNaverMap(mapStatusLiveData: LiveData<NaverMap>, mapViewModel: 
                 isCompassEnabled = true // 나침반
                 isLogoClickEnabled = false//로고 클릭 이벤트
                 isLocationButtonEnabled = false//위치찾기 버튼 이벤트
-                isScaleBarEnabled = false
-                isIndoorLevelPickerEnabled = true
+                isScaleBarEnabled = false//스케일바 사용
+                isIndoorLevelPickerEnabled = false//층수
                 isZoomControlEnabled = false//줌 버튼 이벤트
             }
         }
@@ -227,7 +228,7 @@ fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, ma
                         mapViewModel.onClickMarkerPlace(place)//현재 상권의 이미지를 출력
                         mapViewModel.onRemoveInfoWindow()
                         val mInfoWindow = InfoWindow()
-                        val latLng = LatLng(place.x.toDouble(),place.y.toDouble())
+                        val latLng = LatLng(place.y.toDouble(),place.x.toDouble())
                         mInfoWindow.adapter =
                             MapMarkerAdapter(context, place.placeName)
                         mInfoWindow.open(marker)
