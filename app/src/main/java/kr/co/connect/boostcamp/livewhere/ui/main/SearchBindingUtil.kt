@@ -6,6 +6,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity
+import kr.co.connect.boostcamp.livewhere.ui.main.adapter.AutoCompleteRecyclerViewAdapter
 import kr.co.connect.boostcamp.livewhere.ui.main.adapter.RecentSearchRecyclerViewAdapter
 
 @BindingAdapter("setRecentRecyclerViewItems")
@@ -20,7 +21,7 @@ fun setRecentRecyclerViewItems(recyclerView: RecyclerView, itemList: List<Recent
 @BindingAdapter("setAutoCompleteRecyclerViewItems")
 fun setAutoCompleteRecyclerViewItems(recyclerView: RecyclerView, itemList: List<String>?) {
     if(itemList != null) {
-        (recyclerView.adapter as AutoCompleteRecyclerViewAdapter).setData(ItemList)
+        (recyclerView.adapter as AutoCompleteRecyclerViewAdapter).setData(itemList)
     } else {
         //TODO: 데이터 정보 없음 처리.
     }

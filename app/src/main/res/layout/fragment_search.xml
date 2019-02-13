@@ -65,8 +65,8 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
             <androidx.recyclerview.widget.RecyclerView
-                    android:Id="@+id/rv_auto_complete"
-
+                    android:id="@+id/rv_auto_complete"
+                    app:setAutoCompleteRecyclerViewItems="@{searchViewModel.autoCompleteList}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             <LinearLayout
