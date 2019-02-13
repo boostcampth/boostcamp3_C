@@ -235,7 +235,9 @@ fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, ma
                     mapViewModel.markerLiveData.value?.latLng?.longitude!!
                 )//중앙 위치
                 radius = RADIUS.toDouble()//반경
-                color = 0x5000FF00.toInt()//색깔
+                color = 0x4000FF00.toInt()//색깔
+                outlineColor = 0xC000FF00.toInt()
+                outlineWidth = 20
                 map = naverMap//맵셋팅
             }
             mapViewModel.onSaveCircleOverlay(overlay)
