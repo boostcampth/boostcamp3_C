@@ -4,8 +4,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Transition
-            motion:constraintSetStart="@layout/motion_02_map_backdrop_end"
-            motion:constraintSetEnd="@layout/motion_01_map_backdrop_start"
+            motion:constraintSetStart="@layout/motion_01_map_backdrop_start"
+            motion:constraintSetEnd="@layout/motion_01_map_backdrop_middle"
             motion:duration="400">
         <OnSwipe
                 motion:touchAnchorId="@id/ll_place_detail"
@@ -14,7 +14,7 @@
 
     </Transition>
     <Transition
-            motion:constraintSetStart="@layout/motion_01_map_backdrop_start"
+            motion:constraintSetStart="@layout/motion_01_map_backdrop_middle"
             motion:constraintSetEnd="@layout/motion_01_map_backdrop_end">
         <!-- recyclerview 중첩 이벤트 제거 moveWhenScrollAtTop = true-->
         <OnSwipe
