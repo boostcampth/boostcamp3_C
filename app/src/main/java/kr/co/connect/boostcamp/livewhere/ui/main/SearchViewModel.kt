@@ -27,6 +27,10 @@ class SearchViewModel(
     private val COUNTY_CODE = "kr"
     private var token = AutocompleteSessionToken.newInstance()
 
+    private val _isRecentSearchVisible = MutableLiveData<Boolean>()
+    val isRecentSearchVisible: LiveData<Boolean>
+        get() = _isRecentSearchVisible
+
     private val _autoCompleteLIst = MutableLiveData<List<String>>()
     val autoCompleteList: LiveData<List<String>>
         get() = _autoCompleteLIst
@@ -83,12 +87,17 @@ class SearchViewModel(
         placesClient.findAutocompletePredictions(request)
             .addOnSuccessListener { response ->
                 for (prediction in response.autocompletePredictions) {
-                    Log.d(TAG, "결과: "+prediction.getPrimaryText(null).toString())
-                    Log.d(TAG, "결과2: "+prediction.getFullText(null).toString())
-                    Log.d(TAG, "결과3: "+prediction.getSecondaryText(null).toString())
-                    textList.add(prediction.getPrimaryText(null).toString())
+                    Log.d(TAG, "결과: " + prediction.getPrimaryText(null).toString())
+                    Log.d(TAG, "결과2: " + prediction.getFullText(null).toString())
+                    Log.d(TAG, "결과3: " + prediction.getSecondaryText(null).toString())
+                    textList.add(prediction.getFullText(null).toString())
                 }
                 _autoCompleteLIst.postValue(textList.toList())
+                if (!textList.isEmpty()) {
+                    _isRecentSearchVisible.postValue(false)
+                } else {
+                    _isRecentSearchVisible.postValue(true)
+                }
             }
             .addOnFailureListener { exception ->
                 if (exception is ApiException) {
