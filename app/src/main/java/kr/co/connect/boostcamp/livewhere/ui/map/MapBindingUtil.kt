@@ -1,6 +1,7 @@
 package kr.co.connect.boostcamp.livewhere.ui.map
 
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.TextView
@@ -176,7 +177,7 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
             )
             mInfoWindow.open(marker)
             tag = marker //해당 마커를 닫기 위해서 tag에 marker 값을 저장
-            mapViewModel.onMoveCameraPosition(latLang,17.0)//cameraposition 이동
+            mapViewModel.onMoveCameraPosition(latLang, 17.0)//cameraposition 이동
         }
     }
 }
@@ -228,12 +229,12 @@ fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, ma
                         mapViewModel.onClickMarkerPlace(place)//현재 상권의 이미지를 출력
                         mapViewModel.onRemoveInfoWindow()
                         val mInfoWindow = InfoWindow()
-                        val latLng = LatLng(place.y.toDouble(),place.x.toDouble())
+                        val latLng = LatLng(place.y.toDouble(), place.x.toDouble())
                         mInfoWindow.adapter =
                             MapMarkerAdapter(context, place.placeName)
                         mInfoWindow.open(marker)
                         mapViewModel.onSaveInfoWindow(mInfoWindow)
-                        mapViewModel.onMoveCameraPosition(latLng,17.0)
+                        mapViewModel.onMoveCameraPosition(latLng, 17.0)
                         true
                     }
                     map = naverMap
@@ -319,8 +320,7 @@ fun FloatingActionButton.setTriggerBackdrop(
 ) {
     setOnClickListener { view ->
         val latLng = mapViewModel.markerLiveData.value?.latLng
-        if(latLng!=null)
-        {
+        if (latLng != null) {
             mapViewModel.onMoveCameraPosition(latLng, 14.0)
         }
         mapViewModel.onClick(view)//필터 버튼 클릭시에 일어나는 행위
@@ -404,7 +404,16 @@ fun ImageView.onFinish(finishLiveData: LiveData<Boolean>) {
     }
 }
 
-@BindingAdapter(value = ["onChangeHeight"])
-fun Guideline.onChangeHeight(guidelinePlaceImageHeightLiveData: MutableLiveData<Float>) {
-
+@BindingAdapter(value = ["onClickTriggerBackDrop"])
+fun ImageView.onClickTriggerBackDrop(backdropML: MotionLayout) {
+    setOnClickListener {
+        when {
+            backdropML.currentState == R.layout.motion_01_map_backdrop_start -> backdropML.transitionToEnd()
+            backdropML.currentState == R.layout.motion_01_map_backdrop_middle -> {
+                backdropML.transitionToState(R.layout.motion_01_map_backdrop_end)
+                backdropML.transitionToStart()
+            }
+            backdropML.currentState == R.layout.motion_01_map_backdrop_end -> backdropML.transitionToStart()
+        }
+    }
 }

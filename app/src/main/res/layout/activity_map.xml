@@ -123,7 +123,8 @@
                     android:layout_marginEnd="@dimen/backdrop_toggle_left_margin"
                     android:src="@drawable/ic_arrow_up_black_24dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"/>
+                    app:layout_constraintHorizontal_bias="0.0"
+                    onClickTriggerBackDrop="@{mlBackdrop}"/>
 
             <androidx.constraintlayout.motion.widget.MotionLayout
                     android:layout_width="@dimen/ml_float_btn_width"
