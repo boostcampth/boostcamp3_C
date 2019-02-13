@@ -15,7 +15,7 @@
     <dimen name="table_narrow">32dp</dimen>
     <dimen name="table_normal">48dp</dimen>
     <dimen name="table_double">56dp</dimen>
-    <dimen name="table_image">148dp</dimen>
+    <dimen name="table_image">108dp</dimen>
 
     <dimen name="search_et">288dp</dimen>
     <dimen name="searchbar_height">92dp</dimen>

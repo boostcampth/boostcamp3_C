@@ -4,6 +4,14 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.common.api.ApiException
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.AutocompletePrediction
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
+import com.google.android.libraries.places.api.net.PlacesClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity
@@ -11,8 +19,17 @@ import kr.co.connect.boostcamp.livewhere.repository.RecentSearchRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 import kr.co.connect.boostcamp.livewhere.util.SingleLiveEvent
 
-class SearchViewModel(val recentSearchRepositoryImpl: RecentSearchRepositoryImpl) : BaseViewModel() {
+class SearchViewModel(
+    private val recentSearchRepositoryImpl: RecentSearchRepositoryImpl
+) : BaseViewModel() {
+    private lateinit var placesClient: PlacesClient
     private val TAG = "SEARCH_VIEW_MODEL"
+    private val COUNTY_CODE = "kr"
+    private var token = AutocompleteSessionToken.newInstance()
+
+    private val _autoCompleteLIst = MutableLiveData<List<String>>()
+    val autoCompleteList: LiveData<List<String>>
+        get() = _autoCompleteLIst
 
     private val _searchText = MutableLiveData<String>()
     val searchText: LiveData<String>
@@ -48,6 +65,36 @@ class SearchViewModel(val recentSearchRepositoryImpl: RecentSearchRepositoryImpl
 
                 })
         )
+    }
+
+    fun setClient(placesClient: PlacesClient) {
+        this.placesClient = placesClient
+    }
+
+    fun startAutoComplete(text: String) {
+        val request = FindAutocompletePredictionsRequest.builder()
+            .setCountry(COUNTY_CODE)
+            .setTypeFilter(TypeFilter.ADDRESS)
+            .setTypeFilter(TypeFilter.GEOCODE)
+            .setQuery(text)
+            .setSessionToken(token)
+            .build()
+
+        Log.d("TAG", "Query: " + text)
+
+        val textList = ArrayList<String>()
+        placesClient.findAutocompletePredictions(request)
+            .addOnSuccessListener { response ->
+                for (prediction in response.autocompletePredictions) {
+                    textList.add(prediction.getPrimaryText(null).toString())
+                }
+            }
+            .addOnFailureListener { exception ->
+                if (exception is ApiException) {
+                    Log.e(TAG, "Place not found: " + exception.statusCode)
+                }
+            }
+        _autoCompleteLIst.postValue(textList.toList())
     }
 
     fun onFinishSearch(text: String) {

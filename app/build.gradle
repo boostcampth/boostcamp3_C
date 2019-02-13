@@ -30,6 +30,7 @@ android {
             buildConfigField "String", "NaverClientId", keystoreProperties.getProperty("naverClientId")
             buildConfigField "String", "KakaoLocalUrl", keystoreProperties.getProperty("kakaoLocalUrl")
             buildConfigField "String", "KakaoServiceKey", keystoreProperties.getProperty("kakaoServiceKey")
+            buildConfigField "String", "GooglePlacesApiKey", keystoreProperties.getProperty("googlePlacesApiKey")
             buildConfigField "boolean", "isDebug", "true"
         }
         release {
@@ -42,6 +43,7 @@ android {
             buildConfigField "String", "NaverClientId", keystoreProperties.getProperty("naverClientId")
             buildConfigField "String", "KakaoLocalUrl", keystoreProperties.getProperty("kakaoLocalUrl")
             buildConfigField "String", "KakaoServiceKey", keystoreProperties.getProperty("kakaoServiceKey")
+            buildConfigField "String", "GooglePlacesApiKey", keystoreProperties.getProperty("googlePlacesApiKey")
             buildConfigField "boolean", "isDebug", "false"
         }
     }

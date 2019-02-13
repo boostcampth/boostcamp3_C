@@ -1,8 +1,8 @@
 package kr.co.connect.boostcamp.livewhere.ui.main
 
-import android.util.Log
 import android.view.KeyEvent
 import android.widget.EditText
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity
@@ -17,6 +17,15 @@ fun setRecentRecyclerViewItems(recyclerView: RecyclerView, itemList: List<Recent
     }
 }
 
+@BindingAdapter("setAutoCompleteRecyclerViewItems")
+fun setAutoCompleteRecyclerViewItems(recyclerView: RecyclerView, itemList: List<String>?) {
+    if(itemList != null) {
+        (recyclerView.adapter as AutoCompleteRecyclerViewAdapter).setData(ItemList)
+    } else {
+        //TODO: 데이터 정보 없음 처리.
+    }
+}
+
 @BindingAdapter("searchDone")
 fun finishEntering(editText: EditText, viewModel: SearchViewModel) {
     editText.setOnKeyListener { v, keyCode, event ->
@@ -27,5 +36,12 @@ fun finishEntering(editText: EditText, viewModel: SearchViewModel) {
         } else {
             return@setOnKeyListener false
         }
+    }
+}
+
+@BindingAdapter("autoComplete")
+fun autoComplete (editText: EditText, viewModel: SearchViewModel) {
+    editText.doOnTextChanged { text, start, count, after ->
+        viewModel.startAutoComplete(text.toString())
     }
 }

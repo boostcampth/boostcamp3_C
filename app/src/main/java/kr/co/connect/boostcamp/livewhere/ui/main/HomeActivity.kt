@@ -7,6 +7,9 @@ import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.net.PlacesClient
+import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityHomeBinding
 import kr.co.connect.boostcamp.livewhere.ui.map.MapActivity
@@ -21,6 +24,7 @@ class HomeActivity : AppCompatActivity() {
     private val SEARCH_TAG = "SEARCH_RESULT"
 
     private lateinit var binding: ActivityHomeBinding
+    private lateinit var placesClient: PlacesClient
     private val homeViewModel: HomeViewModel by viewModel()
     private val bookmarkViewModel: BookmarkViewModel by viewModel()
     private val searchViewModel: SearchViewModel by viewModel()
@@ -29,6 +33,9 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
+
+        Places.initialize(applicationContext, BuildConfig.GooglePlacesApiKey)
+        placesClient = Places.createClient(this)
 
         if (savedInstanceState == null) {
             startHomeFragment()
@@ -41,8 +48,13 @@ class HomeActivity : AppCompatActivity() {
             setLifecycleOwner(this@HomeActivity)
         }
 
+        setGoogleClient()
         observeValues()
         initBookmark()
+    }
+
+    private fun setGoogleClient() {
+        searchViewModel.setClient(placesClient)
     }
 
     private fun initBookmark() {
@@ -64,10 +76,6 @@ class HomeActivity : AppCompatActivity() {
 
         searchViewModel.searchText.observe(this, Observer {
             startMapActivity(searchViewModel.searchText.value)
-        })
-
-        searchViewModel.recentSearch.observe(this, Observer {
-
         })
     }
 
