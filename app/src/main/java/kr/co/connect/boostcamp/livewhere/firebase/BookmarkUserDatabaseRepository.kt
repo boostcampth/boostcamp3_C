@@ -26,6 +26,10 @@ abstract class BookmarkUserDatabaseRepository<Entity,Model>(private val mapper:F
         return databaseReference.updateChildren(childUpdates)
     }
 
+    fun deleteBookmark(pnu:String,uuid:String):Task<Void>{
+        return databaseReference.child(pnu).child(uuid).removeValue()
+    }
+
     fun addListener(pnu:String, firebaseCallback: FirebaseDatabaseRepositoryCallback<Model>) {
         this.firebaseCallback = firebaseCallback
         listener = BookmarkUserEventListener(mapper, firebaseCallback,pnu)

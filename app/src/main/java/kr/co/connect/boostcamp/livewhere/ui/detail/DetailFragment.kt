@@ -44,7 +44,7 @@ class DetailFragment : Fragment() {
         })
 
         viewModel.getBookmarks().observe(this, Observer {
-
+            viewModel.checkBookmarkId()
         })
 
 

@@ -11,6 +11,7 @@ import kr.co.connect.boostcamp.livewhere.data.SharedPreferenceStorage
 import kr.co.connect.boostcamp.livewhere.firebase.BookmarkUserDatabaseRepository
 import kr.co.connect.boostcamp.livewhere.firebase.ReviewDatabaseRepository
 import kr.co.connect.boostcamp.livewhere.model.*
+import kr.co.connect.boostcamp.livewhere.model.entity.BookmarkUserEntity
 import kr.co.connect.boostcamp.livewhere.model.entity.ReviewEntity
 import kr.co.connect.boostcamp.livewhere.repository.BookmarkUserRepository
 import kr.co.connect.boostcamp.livewhere.repository.DetailRepository
@@ -22,7 +23,8 @@ class DetailViewModel(
     private val detailRepository: DetailRepository
     , private val reviewRepository: ReviewRepository
     , private val bookmarkUserRepository: BookmarkUserRepository
-    , private val pref: SharedPreferenceStorage) :
+    , private val pref: SharedPreferenceStorage
+) :
     BaseViewModel() {
 
     private val _markerInfo = MutableLiveData<MarkerInfo>() // 전체 데이터 리스트
@@ -98,13 +100,17 @@ class DetailViewModel(
         return _commentsList
     }
 
-    private val _bookmarksList = MutableLiveData<Int>()
-    fun getBookmarks(): LiveData<Int> {
+    private val _bookmarksList = MutableLiveData<List<BookmarkUser>>()
+    fun getBookmarks(): LiveData<List<BookmarkUser>> {
         if (_commentsList.value == null) {
             loadBookmarks(pnuCode.get()!!) // TODO: markerInfo 에서 현재 페이지 pnu코드 인자로 넘기기.
         }
         return _bookmarksList
     }
+
+    private val _isBookmarked = MutableLiveData<Boolean>()
+    val isBookmarked: LiveData<Boolean>
+        get() = _isBookmarked
 
     val buildingName = ObservableField<String>()
     val pnuCode = ObservableField<String>()
@@ -113,7 +119,7 @@ class DetailViewModel(
 
 
     init {
-
+        _isBookmarked.value = false
     }
 
     override fun onCleared() {
@@ -125,8 +131,12 @@ class DetailViewModel(
         _onPressedBackBtn.call()
     }
 
-    fun onPressedBookmarkButton(){
+    fun onPressedBookmarkButton() {
         _onPressedBookmarkBtn.call()
+        when (_isBookmarked.value) {
+            false -> postBookmark()
+            true -> deleteBookmark()
+        }
     }
 
     fun onClickedTransactionMore() { //과거 거래 내역 더보기 클릭
@@ -360,12 +370,21 @@ class DetailViewModel(
             })
     }
 
-    fun loadBookmarks(pnu:String){
+    fun postComment() {
+        val review = ReviewEntity(postReviewNickname.get(), "test_id", postReviewContents.get(), pnuCode.get())
+        // TODO : MarkerInfo 구조를 변경하여 PNU코드를 _markerinfo에 담을수 있도록 수정
+        reviewRepository.postReview(review).addOnSuccessListener {
+            _reviewPostSuccess.call()
+        }.addOnFailureListener {
+            // TODO : 게시 실패 처리
+        }
+    }
+
+    fun loadBookmarks(pnu: String) {
         bookmarkUserRepository.addListener(pnu,
-            object : BookmarkUserDatabaseRepository.FirebaseDatabaseRepositoryCallback<BookmarkUser>{
+            object : BookmarkUserDatabaseRepository.FirebaseDatabaseRepositoryCallback<BookmarkUser> {
                 override fun onSuccess(result: List<BookmarkUser>) {
-                    Log.d("@@@","result:"+result.size)
-                    _bookmarksList.postValue(result.size)
+                    _bookmarksList.postValue(result)
                 }
 
                 override fun onError(e: Exception) {
@@ -375,18 +394,40 @@ class DetailViewModel(
             })
     }
 
-    fun postComment() {
-        val review = ReviewEntity(postReviewNickname.get(), "test_id", postReviewContents.get(), pnuCode.get())
-        // TODO : MarkerInfo 구조를 변경하여 PNU코드를 _markerinfo에 담을수 있도록 수정
-        reviewRepository.postReview(review).addOnCompleteListener {
-            _reviewPostSuccess.call()
-        }.addOnFailureListener {
-            // TODO : 게시 실패 처리
+    fun postBookmark() {
+        val bookmarkUser = BookmarkUserEntity(pref.uuid)
+        bookmarkUserRepository.addBookmark(pnuCode.get()!!, bookmarkUser)
+            .addOnSuccessListener {
+                loadBookmarks(pnuCode.get()!!)
+            }.addOnFailureListener {
+                Log.e("Error:", "북마크 추가 실패 ")
+                //TODO : 북마크 추가 실패시 처리
+            }
+    }
+
+    fun deleteBookmark() {
+        bookmarkUserRepository.deleteBookmark(pnuCode.get()!!, pref.uuid!!)
+            .addOnSuccessListener {
+                loadBookmarks(pnuCode.get()!!)
+            }.addOnFailureListener {
+                //TODO : 북마크 추가 실패시 처리
+            }
+
+    }
+
+    fun checkBookmarkId() {
+        if (_bookmarksList.value.isNullOrEmpty()) return
+        _bookmarksList.value!!.forEach {
+            if (it.uuid.equals(pref.uuid)) {
+                _isBookmarked.postValue(true)
+                return
+            }
+            _isBookmarked.postValue(false)
         }
     }
 
-    fun setUuid(uuid:String?){
-        if(pref.uuid.isNullOrEmpty()) {
+    fun setUuid(uuid: String?) {
+        if (pref.uuid.isNullOrEmpty()) {
             pref.uuid = uuid
         }
     }
