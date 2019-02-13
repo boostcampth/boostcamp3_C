@@ -3,9 +3,7 @@ package kr.co.connect.boostcamp.livewhere.ui.detail
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
@@ -16,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.github.mikephil.charting.charts.BarChart
 import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.R
+import kr.co.connect.boostcamp.livewhere.data.SharedPreferenceStorage
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailReviewRvAdapter
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailTransactionRvAdapter
@@ -130,10 +129,20 @@ fun setBuildingTitle(view: TextView, name: String?) {
     view.text = name
 }
 
+@BindingAdapter("setBookmarkImage")
+fun setBookmarkImage(button: ImageButton, boolean: Boolean) = when {
+    boolean -> button.setImageResource(R.drawable.ic_bookmark_white_24dp)
+    else -> button.setImageResource(R.drawable.ic_bookmark_border_white_24dp)
+}
+
 
 @BindingAdapter("setImageMessage")
-fun setImageMessage(view: TextView, name: Int?) {
-    view.text = view.context.getString(R.string.detail_image_message, name)
+fun setImageMessage(view: TextView, list: List<BookmarkUser>?) {
+    if (!list.isNullOrEmpty()) {
+        view.text = view.context.getString(R.string.detail_image_message, list.size)
+    } else {
+        view.text = view.context.getString(R.string.detail_image_message_empty)
+    }
 }
 
 @BindingAdapter("setSortImage")
