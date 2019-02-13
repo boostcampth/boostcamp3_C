@@ -98,9 +98,14 @@ class MapViewModel(val mapActivityManager: MapActivityManagerImpl, val mapReposi
     val finishLiveData: LiveData<Boolean>
         get() = _finishLiveData
 
-    private val _guidelinePlaceImageHeightLiveData: MutableLiveData<Float> = MutableLiveData()
-    val guidelinePlaceImageHeightLiveData: LiveData<Float>
-        get() = _guidelinePlaceImageHeightLiveData
+    private val _cameraPositionLatLngLiveData: MutableLiveData<CameraPositionInfo> = MutableLiveData()
+    val cameraPositionLatLngLiveData: LiveData<CameraPositionInfo>
+        get() = _cameraPositionLatLngLiveData
+
+    override fun onMoveCameraPosition(latLng:LatLng, zoom:Double) {
+        val cameraPositionInfo = CameraPositionInfo(latLng, zoom)
+        _cameraPositionLatLngLiveData.postValue(cameraPositionInfo)
+    }
 
     override fun onRemoveInfoWindow() {
         _tempInfoWindowLiveData.postValue(currentInfoWindowLiveData.value)

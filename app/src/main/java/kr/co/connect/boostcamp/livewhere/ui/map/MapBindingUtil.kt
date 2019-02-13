@@ -28,10 +28,7 @@ import com.naver.maps.map.widget.ScaleBarView
 import com.naver.maps.map.widget.ZoomControlView
 import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.R
-import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
-import kr.co.connect.boostcamp.livewhere.model.Place
-import kr.co.connect.boostcamp.livewhere.model.PlaceResponse
-import kr.co.connect.boostcamp.livewhere.model.UserStatus
+import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.ui.map.adapter.MapMarkerAdapter
 import kr.co.connect.boostcamp.livewhere.ui.map.adapter.MapSearchRVAdapter
 import kr.co.connect.boostcamp.livewhere.ui.map.view.BackdropMotionLayout
@@ -165,7 +162,7 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
             marker.apply {
                 position = latLang
                 setOnClickListener {
-                    mapViewModel.onLoadBuildingList(listOf(markerInfo),rootView)//현재 매물 리스트에 반영
+                    mapViewModel.onLoadBuildingList(listOf(markerInfo), rootView)//현재 매물 리스트에 반영
                     mapViewModel.onClickMarkerHouse(markerInfo)//매물 이미지 추가
                     true
                 }
@@ -178,7 +175,19 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
             )
             mInfoWindow.open(marker)
             tag = marker //해당 마커를 닫기 위해서 tag에 marker 값을 저장
-            val cameraUpdate = CameraUpdate.toCameraPosition(CameraPosition(latLang, 14.0))
+            mapViewModel.onMoveCameraPosition(latLang,17.0)//cameraposition 이동
+        }
+    }
+}
+
+@BindingAdapter(value = ["onCameraUpdate"])
+fun MapView.moveCameraPosition(cameraPositionLatLngLiveData: LiveData<CameraPositionInfo>) {
+    getMapAsync { naverMap ->
+        val cameraPositionInfo = cameraPositionLatLngLiveData.value
+        if (cameraPositionInfo != null) {
+            val latLng = cameraPositionInfo.latLng
+            val zoom = cameraPositionInfo.zoom
+            val cameraUpdate = CameraUpdate.toCameraPosition(CameraPosition(latLng, zoom))
                 .animate(CameraAnimation.Linear, 1000)
             naverMap.moveCamera(cameraUpdate)
         }
@@ -214,14 +223,16 @@ fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, ma
                         val mutablePlaceList = placeResponse.placeList.toMutableList()
                         mutablePlaceList[placeIndex] = mutablePlaceList[0]
                         mutablePlaceList[0] = tempPlace
-                        mapViewModel.onLoadBuildingList(mutablePlaceList,rootView)//현재 장소 리스트에 반영
+                        mapViewModel.onLoadBuildingList(mutablePlaceList, rootView)//현재 장소 리스트에 반영
                         mapViewModel.onClickMarkerPlace(place)//현재 상권의 이미지를 출력
                         mapViewModel.onRemoveInfoWindow()
                         val mInfoWindow = InfoWindow()
+                        val latLng = LatLng(place.x.toDouble(),place.y.toDouble())
                         mInfoWindow.adapter =
                             MapMarkerAdapter(context, place.placeName)
                         mInfoWindow.open(marker)
                         mapViewModel.onSaveInfoWindow(mInfoWindow)
+                        mapViewModel.onMoveCameraPosition(latLng,17.0)
                         true
                     }
                     map = naverMap
@@ -281,10 +292,10 @@ fun ZoomControlView.setOnClick(mapStatusLiveData: LiveData<NaverMap>) {
     }
 }
 
-@BindingAdapter(value =["onMakeNaverMapData"])
-fun ScaleBarView.onStartScale(mapStatusLiveData: LiveData<NaverMap>){
+@BindingAdapter(value = ["onMakeNaverMapData"])
+fun ScaleBarView.onStartScale(mapStatusLiveData: LiveData<NaverMap>) {
     map = mapStatusLiveData.value
-    if(map!=null){
+    if (map != null) {
         map!!.uiSettings.isScaleBarEnabled = true
     }
 }
@@ -306,12 +317,13 @@ fun FloatingActionButton.setTriggerBackdrop(
     mapViewModel: MapViewModel
 ) {
     setOnClickListener { view ->
-        if (backdropML.currentState == R.layout.motion_01_map_backdrop_end) {
-            backdropML.transitionToStart()
-        } else {
-            filterML.transitionToStart()
+        val latLng = mapViewModel.markerLiveData.value?.latLng
+        if(latLng!=null)
+        {
+            mapViewModel.onMoveCameraPosition(latLng, 14.0)
         }
-        mapViewModel.onClick(view)
+        mapViewModel.onClick(view)//필터 버튼 클릭시에 일어나는 행위
+        filterML.transitionToStart()//필터를 닫음
     }
 }
 
@@ -325,7 +337,7 @@ fun MotionLayout.setTriggerFB(filterML: MotionLayout) {
         override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {}
 
         override fun onTransitionCompleted(p0: MotionLayout?, currentId: Int) {
-            if (currentId == R.layout.motion_01_map_backdrop_start) {
+            if (currentId == R.layout.motion_01_map_backdrop_middle) {
                 filterML.transitionToStart()
             } else if (currentId == R.layout.motion_01_map_backdrop_end) {
                 filterML.transitionToStart()
@@ -340,7 +352,7 @@ fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
         val bindList = bindPlaceLiveData.value
         if (adapter == null) {
             apply {
-                layoutManager = LinearLayoutManager(context , RecyclerView.VERTICAL, false)
+                layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                 adapter = MapSearchRVAdapter(bindList!!)
                 adapter?.notifyItemRangeInserted(0, bindList.size)
             }
@@ -353,7 +365,7 @@ fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
         }
     } else {
         val emptyList = arrayListOf<Any>()
-        layoutManager = LinearLayoutManager(context , RecyclerView.VERTICAL, false)
+        layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         adapter = MapSearchRVAdapter(emptyList)
         adapter?.notifyItemRangeInserted(0, emptyList.size)
     }
