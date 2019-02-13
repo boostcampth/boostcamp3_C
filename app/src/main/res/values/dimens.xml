@@ -38,10 +38,10 @@
     <dimen name="detail_more_btn_height">28dp</dimen>
 
     <dimen name="detail_review_more_btn_height">28dp</dimen>
+    <dimen name="detail_bar_chart_height">200dp</dimen>
+
     <dimen name="margin_start_backdrop">8dp</dimen>
     <dimen name="margin_end_backdrop">8dp</dimen>
-
-    <dimen name="detail_bar_chart_height">200dp</dimen>
     <dimen name="margin_map_widget_default">12dp</dimen>
     <dimen name="margin_map_widget_zoom_control_view_bottom">128dp</dimen>
 
@@ -70,4 +70,9 @@
     <dimen name="arrow_size_map_activity">32dp</dimen>
     <dimen name="map_place_image_view_expand_height">256dp</dimen>
     <dimen name="logo_view_margin_start">8dp</dimen>
+
+    <dimen name="item_search_circle_view_size">36dp</dimen>
+    <dimen name="item_search_circle_view_margin">8dp</dimen>
+    <dimen name="item_search_circle_image_view_size">18dp</dimen>
+    <dimen name="item_search_function_view_margin">8dp</dimen>
 </resources>
