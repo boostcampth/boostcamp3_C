@@ -48,6 +48,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/detail_activity_guideline_appbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="10dp"
+                setClickable="@{viewModel.hasLoaded}"
         />
 
         <androidx.constraintlayout.widget.Guideline
@@ -66,6 +67,17 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp">
         </FrameLayout>
+
+        <ProgressBar
+                android:id="@+id/detail_activity_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                setProgress="@{viewModel.hasLoaded}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+        />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

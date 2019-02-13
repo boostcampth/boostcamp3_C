@@ -64,6 +64,14 @@ class DetailViewModel(
     val pastTransactionMore: LiveData<ArrayList<PastTransaction>>
         get() = _pastTransactionMore
 
+    private val _isBookmarked = MutableLiveData<Boolean>()
+    val isBookmarked: LiveData<Boolean>
+        get() = _isBookmarked
+
+    private val _hasLoaded = MutableLiveData<Boolean>()
+    val hasLoaded: LiveData<Boolean>
+        get() = _hasLoaded
+
     private val _transactionMoreClicked = SingleLiveEvent<Any>() // 뒤로가기 버튼
     val transactionMoreClicked: LiveData<Any>
         get() = _transactionMoreClicked
@@ -108,9 +116,7 @@ class DetailViewModel(
         return _bookmarksList
     }
 
-    private val _isBookmarked = MutableLiveData<Boolean>()
-    val isBookmarked: LiveData<Boolean>
-        get() = _isBookmarked
+
 
     val buildingName = ObservableField<String>()
     val pnuCode = ObservableField<String>()
@@ -120,6 +126,7 @@ class DetailViewModel(
 
     init {
         _isBookmarked.value = false
+        _hasLoaded.value = false
     }
 
     override fun onCleared() {
@@ -385,9 +392,11 @@ class DetailViewModel(
             object : BookmarkUserDatabaseRepository.FirebaseDatabaseRepositoryCallback<BookmarkUser> {
                 override fun onSuccess(result: List<BookmarkUser>) {
                     _bookmarksList.postValue(result)
+                    _hasLoaded.postValue(true)
                 }
 
                 override fun onError(e: Exception) {
+                    _hasLoaded.postValue(true)
                     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
 
@@ -395,34 +404,42 @@ class DetailViewModel(
     }
 
     fun postBookmark() {
+        _hasLoaded.postValue(false)
         val bookmarkUser = BookmarkUserEntity(pref.uuid)
         bookmarkUserRepository.addBookmark(pnuCode.get()!!, bookmarkUser)
             .addOnSuccessListener {
                 loadBookmarks(pnuCode.get()!!)
+                _hasLoaded.postValue(true)
             }.addOnFailureListener {
                 Log.e("Error:", "북마크 추가 실패 ")
                 //TODO : 북마크 추가 실패시 처리
+                _hasLoaded.postValue(true)
             }
     }
 
     fun deleteBookmark() {
+        _hasLoaded.postValue(false)
         bookmarkUserRepository.deleteBookmark(pnuCode.get()!!, pref.uuid!!)
             .addOnSuccessListener {
                 loadBookmarks(pnuCode.get()!!)
+                _hasLoaded.postValue(true)
             }.addOnFailureListener {
                 //TODO : 북마크 추가 실패시 처리
+                _hasLoaded.postValue(true)
             }
-
     }
 
     fun checkBookmarkId() {
-        if (_bookmarksList.value.isNullOrEmpty()) return
-        _bookmarksList.value!!.forEach {
-            if (it.uuid.equals(pref.uuid)) {
-                _isBookmarked.postValue(true)
-                return
-            }
+        if (_bookmarksList.value.isNullOrEmpty()) {
             _isBookmarked.postValue(false)
+        }else {
+            _bookmarksList.value!!.forEach {
+                if (it.uuid.equals(pref.uuid)) {
+                    _isBookmarked.postValue(true)
+                    return
+                }
+                _isBookmarked.postValue(false)
+            }
         }
     }
 
