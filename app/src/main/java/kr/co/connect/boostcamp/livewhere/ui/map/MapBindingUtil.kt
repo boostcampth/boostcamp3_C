@@ -1,15 +1,13 @@
 package kr.co.connect.boostcamp.livewhere.ui.map
 
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.constraintlayout.widget.Guideline
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -399,13 +397,6 @@ fun TextView.setStatusTextView(userStatusLiveData: LiveData<UserStatus>) {
     }
 }
 
-@BindingAdapter(value = ["onFinish"])
-fun ImageView.onFinish(finishLiveData: LiveData<Boolean>) {
-    if (finishLiveData.value == true) {
-        (context as MapActivity).finish()
-    }
-}
-
 @BindingAdapter(value = ["onClickTriggerBackDrop"])
 fun ImageView.onClickTriggerBackDrop(backdropML: MotionLayout) {
     setOnClickListener {
@@ -416,6 +407,15 @@ fun ImageView.onClickTriggerBackDrop(backdropML: MotionLayout) {
                 backdropML.transitionToStart()
             }
             backdropML.currentState == R.layout.motion_01_map_backdrop_end -> backdropML.transitionToStart()
+        }
+    }
+}
+
+@BindingAdapter(value = ["isHomeClick"])
+fun Toolbar.onInitToolbar(isHomeClick: Boolean) {
+    setOnClickListener {
+        if (isHomeClick) {
+            (context as MapActivity).finish()
         }
     }
 }

@@ -74,5 +74,4 @@ class MapActivity : AppCompatActivity() {
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
-
 }
