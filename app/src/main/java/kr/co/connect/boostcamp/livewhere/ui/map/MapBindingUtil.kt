@@ -10,6 +10,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -201,7 +202,7 @@ fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, ma
                     subCaptionText = place.placeName
                     icon = when (place.category) {
                         "대형마트", "편의점" -> BLUE
-                        "어린이집", "유치원", "학교" -> YELLOW
+                        "어린이집,유치원", "학교" -> YELLOW
                         "음식점" -> LIGHTBLUE
                         "카페" -> PINK
                         "병원" -> GREEN
@@ -345,6 +346,14 @@ fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
         layoutManager = LinearLayoutManager(context)
         adapter = MapSearchRVAdapter(emptyList)
         adapter?.notifyItemRangeInserted(0, emptyList.size)
+    }
+}
+
+@BindingAdapter(value = ["setSnapHelper"])
+fun RecyclerView.setsetSnapHelper(isSnapHelper:Boolean){
+    if(isSnapHelper){
+        val snapHelper =  LinearSnapHelper()
+        snapHelper.attachToRecyclerView(this)
     }
 }
 

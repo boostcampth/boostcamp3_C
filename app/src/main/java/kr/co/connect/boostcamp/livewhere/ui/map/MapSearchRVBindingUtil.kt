@@ -46,9 +46,9 @@ fun LinearLayout.startActivityWithIntent(markerInfo:MarkerInfo){
 fun ImageView.setOnDrawCategory(category:String){
     when(category){
         "학교","어린이집,유치원"-> setBackgroundResource(R.drawable.ic_school)
-        "편의점","대형마트"-> setBackgroundColor(R.drawable.ic_mall)
-        "음식점"->setBackgroundColor(R.drawable.ic_signboard)
-        "카페"->setBackgroundColor(R.drawable.ic_cafe)
-        "병원"->setBackgroundColor(R.drawable.ic_hospital)
+        "편의점","대형마트"-> setBackgroundResource(R.drawable.ic_mall)
+        "음식점"->setBackgroundResource(R.drawable.ic_signboard)
+        "카페"->setBackgroundResource(R.drawable.ic_cafe)
+        "병원"->setBackgroundResource(R.drawable.ic_hospital)
     }
 }

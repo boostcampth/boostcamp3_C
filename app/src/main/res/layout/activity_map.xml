@@ -110,7 +110,8 @@
                         android:id="@+id/rv_search_map"
                         android:nestedScrollingEnabled="false"
                         android:overScrollMode="never"
-                        bindData="@{mapViewModel.searchListLiveData}"/>
+                        bindData="@{mapViewModel.searchListLiveData}"
+                        setSnapHelper="@{true}"/>
             </LinearLayout>
             <ImageView
                     android:layout_width="wrap_content"
