@@ -47,8 +47,8 @@
     </style>
 
     <style name="TableImage">
-        <item name="android:layout_width">108dp</item>
-        <item name="android:layout_height">108dp</item>
+        <item name="android:layout_width">@dimen/table_image</item>
+        <item name="android:layout_height">@dimen/table_image</item>
     </style>
 
     <style name="BackDrop">

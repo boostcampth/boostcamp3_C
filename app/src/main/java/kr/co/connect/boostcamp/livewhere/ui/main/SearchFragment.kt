@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_recent_search.view.*
 import kr.co.connect.boostcamp.livewhere.databinding.FragmentSearchBinding
+import kr.co.connect.boostcamp.livewhere.ui.main.adapter.AutoCompleteRecyclerViewAdapter
 import kr.co.connect.boostcamp.livewhere.ui.main.adapter.RecentSearchRecyclerViewAdapter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -25,12 +28,24 @@ class SearchFragment : Fragment() {
     private val searchViewModel: SearchViewModel by sharedViewModel()
     private lateinit var binding: FragmentSearchBinding
     private lateinit var recentSearchRecyclerViewAdapter: RecentSearchRecyclerViewAdapter
+    private lateinit var autoCompleteRecyclerViewAdapter: AutoCompleteRecyclerViewAdapter
     private lateinit var recyclerViewLayoutManager: LinearLayoutManager
+    private lateinit var autoCompleteLayoutManager: LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         recentSearchRecyclerViewAdapter = RecentSearchRecyclerViewAdapter(this@SearchFragment)
+        autoCompleteRecyclerViewAdapter = AutoCompleteRecyclerViewAdapter(this@SearchFragment)
+        autoCompleteLayoutManager = LinearLayoutManager(context)
         recyclerViewLayoutManager = LinearLayoutManager(context)
+
+        searchViewModel.isRecentSearchVisible.observe(this, Observer {
+            if(it) {
+                binding.svSearch.ll_recent_search.visibility = View.VISIBLE
+            } else {
+                binding.svSearch.ll_recent_search.visibility = View.GONE
+            }
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -42,6 +57,11 @@ class SearchFragment : Fragment() {
         binding.svSearch.rv_recent_search.apply {
             layoutManager = recyclerViewLayoutManager
             adapter = recentSearchRecyclerViewAdapter
+        }
+
+        binding.rvAutoComplete.apply {
+            layoutManager = autoCompleteLayoutManager
+            adapter = autoCompleteRecyclerViewAdapter
         }
 
         return binding.root
