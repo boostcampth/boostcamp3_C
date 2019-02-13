@@ -21,6 +21,22 @@ import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailTransactionRvAd
 import kr.co.connect.boostcamp.livewhere.util.*
 
 
+@BindingAdapter("setProgress")
+fun setProgress(view: View, isVisible: Boolean?) {
+    if (isVisible != null) {
+        if (!isVisible) view.visibility = View.VISIBLE
+        else view.visibility = View.GONE
+    }
+}
+
+@BindingAdapter("setClickable")
+fun setClickable(view:View, isClickable:Boolean?){
+    if (isClickable != null) {
+        if (isClickable) view.isClickable = isClickable
+        else view.isClickable = !isClickable
+    }
+}
+
 @BindingAdapter("setBarChart")
 fun setBarChart(barChart: BarChart, list: LiveData<ArrayList<HouseAvgPrice>>) {
     try {
