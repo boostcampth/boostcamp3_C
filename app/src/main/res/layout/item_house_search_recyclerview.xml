@@ -16,7 +16,7 @@
             <ImageView
                     android:layout_width="@dimen/search_item_imageview_size"
                     android:layout_height="@dimen/search_item_imageview_size"
-                    android:background="@drawable/ic_map_marker_24dp"/>
+                    android:src="@drawable/ic_house"/>
             <TextView
                     style="@style/BasicTv.HeadlineXS"
                     android:textColor="@android:color/darker_gray"

@@ -4,8 +4,7 @@
         <variable name="place" type="kr.co.connect.boostcamp.livewhere.model.Place"/>
     </data>
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_search_recyclerview_height"
+            style="@style/Table.Double"
             android:orientation="horizontal">
         <LinearLayout
                 android:layout_width="0dp"
@@ -16,7 +15,7 @@
             <ImageView
                     android:layout_width="@dimen/search_item_imageview_size"
                     android:layout_height="@dimen/search_item_imageview_size"
-                    android:background="@drawable/ic_map_marker_24dp"/>
+                    onDrawCategory="place.category"/>
             <TextView
                     style="@style/BasicTv.HeadlineXS"
                     android:textColor="@android:color/darker_gray"
@@ -36,25 +35,22 @@
                     onText="@{place.placeName}"
                     android:textColor="@color/black"
                     android:textStyle="bold"/>
-            <LinearLayout
-                    android:layout_width="match_parent"
+
+            <TextView
+                    style="@style/BasicTv.HeadlineS"
+                    onText="@{place.category}"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
-                <TextView
-                        style="@style/BasicTv.HeadlineS"
-                        onText="@{place.category}"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/black_opacity_87"/>
-                <TextView
-                        style="@style/BasicTv.HeadlineS"
-                        android:layout_weight="1"
-                        onText="@{place.addrName}"
-                        android:gravity="center_vertical"
-                        android:textSize="12sp"
-                        android:textColor="@color/black"/>
-            </LinearLayout>
-
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black_opacity_87"/>
+            <TextView
+                    style="@style/BasicTv.HeadlineS"
+                    onText="@{place.addrName}"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"/>
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -67,19 +63,6 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:layout_margin="8dp">
-            <LinearLayout
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_margin="8dp"
-                    android:gravity="center"
-                    android:background="@drawable/drawable_circle_view_design"
-                    onCallClickListener="@{place.phone}">
-                <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_search_call_answer"/>
-            </LinearLayout>
             <LinearLayout
                     android:layout_width="36dp"
                     android:layout_height="36dp"
