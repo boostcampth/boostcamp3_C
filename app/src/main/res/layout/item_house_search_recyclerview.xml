@@ -16,7 +16,7 @@
             <ImageView
                     android:layout_width="@dimen/search_item_imageview_size"
                     android:layout_height="@dimen/search_item_imageview_size"
-                    android:background="@drawable/ic_map_marker_24dp"/>
+                    android:src="@drawable/ic_house"/>
             <TextView
                     style="@style/BasicTv.HeadlineXS"
                     android:textColor="@android:color/darker_gray"
@@ -27,7 +27,7 @@
                 android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_weight="6"
-                android:layout_height="128dp">
+                android:layout_height="@dimen/item_search_recyclerview_height">
             <TextView
                     style="@style/BasicTv.HeadlineM"
                     onText="@{markerInfo.houseList.get(0).name}"
@@ -51,15 +51,15 @@
                 android:gravity="center"
                 android:layout_margin="8dp">
             <LinearLayout
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_margin="8dp"
+                    android:layout_width="@dimen/item_search_circle_view_size"
+                    android:layout_height="@dimen/item_search_circle_view_size"
+                    android:layout_margin="@dimen/item_search_circle_view_margin"
                     android:gravity="center"
                     android:background="@drawable/drawable_circle_view_design"
                     onIntent="@{markerInfo}">
                 <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/item_search_circle_image_view_size"
+                        android:layout_height="@dimen/item_search_circle_image_view_size"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_search_navigation_24dp"/>
             </LinearLayout>

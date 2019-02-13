@@ -17,16 +17,14 @@ import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.repository.MapRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.ui.map.interfaces.OnMapHistoryListener
-import kr.co.connect.boostcamp.livewhere.ui.map.interfaces.OnSearchTrigger
-import kr.co.connect.boostcamp.livewhere.ui.map.view.BackdropMotionLayout
 import kr.co.connect.boostcamp.livewhere.util.RADIUS
 import kr.co.connect.boostcamp.livewhere.util.StatusCode
 import java.util.*
 
 interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, OnMapReadyCallback, View.OnClickListener,
-    OnMapHistoryListener, OnSearchTrigger
+    OnMapHistoryListener
 
-class MapViewModel(val mapActivityManager: MapActivityManagerImpl, val mapRepository: MapRepositoryImpl) : ViewModel(),
+class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
     OnMapViewModelInterface {
     //현재 검색하려는 매물의 좌표 livedata
     private val _markerLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
@@ -94,13 +92,14 @@ class MapViewModel(val mapActivityManager: MapActivityManagerImpl, val mapReposi
     val currentInfoWindowLiveData: LiveData<InfoWindow>
         get() = _currentInfoWindowLiveData
 
-    private val _finishLiveData: MutableLiveData<Boolean> = MutableLiveData()
-    val finishLiveData: LiveData<Boolean>
-        get() = _finishLiveData
+    private val _cameraPositionLatLngLiveData: MutableLiveData<CameraPositionInfo> = MutableLiveData()
+    val cameraPositionLatLngLiveData: LiveData<CameraPositionInfo>
+        get() = _cameraPositionLatLngLiveData
 
-    private val _guidelinePlaceImageHeightLiveData: MutableLiveData<Float> = MutableLiveData()
-    val guidelinePlaceImageHeightLiveData: LiveData<Float>
-        get() = _guidelinePlaceImageHeightLiveData
+    override fun onMoveCameraPosition(latLng:LatLng, zoom:Double) {
+        val cameraPositionInfo = CameraPositionInfo(latLng, zoom)
+        _cameraPositionLatLngLiveData.postValue(cameraPositionInfo)
+    }
 
     override fun onRemoveInfoWindow() {
         _tempInfoWindowLiveData.postValue(currentInfoWindowLiveData.value)
@@ -126,12 +125,6 @@ class MapViewModel(val mapActivityManager: MapActivityManagerImpl, val mapReposi
 
     override fun onRemoveFilterMarker() {
         _removePlaceMarkersLiveData.postValue(_savePlaceMarkersLiveData.value)
-    }
-
-    override fun searchTrigger(view: View) {
-        if (view is BackdropMotionLayout) {
-
-        }
     }
 
     override fun onClickMarkerPlace(place: Place) {
@@ -271,6 +264,4 @@ class MapViewModel(val mapActivityManager: MapActivityManagerImpl, val mapReposi
         }, {
             _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_HOUSE, ""))
         })
-
-
 }

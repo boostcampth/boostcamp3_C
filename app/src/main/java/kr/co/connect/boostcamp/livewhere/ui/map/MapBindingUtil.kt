@@ -4,11 +4,10 @@ import android.graphics.drawable.Drawable
 import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.constraintlayout.widget.Guideline
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -24,13 +23,11 @@ import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.MarkerIcons.*
 import com.naver.maps.map.widget.LocationButtonView
+import com.naver.maps.map.widget.ScaleBarView
 import com.naver.maps.map.widget.ZoomControlView
 import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.R
-import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
-import kr.co.connect.boostcamp.livewhere.model.Place
-import kr.co.connect.boostcamp.livewhere.model.PlaceResponse
-import kr.co.connect.boostcamp.livewhere.model.UserStatus
+import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.ui.map.adapter.MapMarkerAdapter
 import kr.co.connect.boostcamp.livewhere.ui.map.adapter.MapSearchRVAdapter
 import kr.co.connect.boostcamp.livewhere.ui.map.view.BackdropMotionLayout
@@ -44,6 +41,7 @@ fun MapView.onMakeNaverMap(mapStatusLiveData: LiveData<NaverMap>, mapViewModel: 
     if (mapStatusLiveData.value != null) {
         val naverMap: NaverMap = mapStatusLiveData.value!!
         naverMap.apply {
+            symbolScale = 0.5f
             onMapLongClickListener = mapViewModel //맵롱클릭
             isIndoorEnabled = true//실내모드
             setLayerGroupEnabled(NaverMap.LAYER_GROUP_BUILDING, true)//building
@@ -56,8 +54,8 @@ fun MapView.onMakeNaverMap(mapStatusLiveData: LiveData<NaverMap>, mapViewModel: 
                 isCompassEnabled = true // 나침반
                 isLogoClickEnabled = false//로고 클릭 이벤트
                 isLocationButtonEnabled = false//위치찾기 버튼 이벤트
-                isScaleBarEnabled = false
-                isIndoorLevelPickerEnabled = true
+                isScaleBarEnabled = false//스케일바 사용
+                isIndoorLevelPickerEnabled = false//층수
                 isZoomControlEnabled = false//줌 버튼 이벤트
             }
         }
@@ -164,7 +162,7 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
             marker.apply {
                 position = latLang
                 setOnClickListener {
-                    mapViewModel.onLoadBuildingList(listOf(markerInfo),rootView)//현재 매물 리스트에 반영
+                    mapViewModel.onLoadBuildingList(listOf(markerInfo), rootView)//현재 매물 리스트에 반영
                     mapViewModel.onClickMarkerHouse(markerInfo)//매물 이미지 추가
                     true
                 }
@@ -177,7 +175,19 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
             )
             mInfoWindow.open(marker)
             tag = marker //해당 마커를 닫기 위해서 tag에 marker 값을 저장
-            val cameraUpdate = CameraUpdate.toCameraPosition(CameraPosition(latLang, 14.0))
+            mapViewModel.onMoveCameraPosition(latLang, 17.0)//cameraposition 이동
+        }
+    }
+}
+
+@BindingAdapter(value = ["onCameraUpdate"])
+fun MapView.moveCameraPosition(cameraPositionLatLngLiveData: LiveData<CameraPositionInfo>) {
+    getMapAsync { naverMap ->
+        val cameraPositionInfo = cameraPositionLatLngLiveData.value
+        if (cameraPositionInfo != null) {
+            val latLng = cameraPositionInfo.latLng
+            val zoom = cameraPositionInfo.zoom
+            val cameraUpdate = CameraUpdate.toCameraPosition(CameraPosition(latLng, zoom))
                 .animate(CameraAnimation.Linear, 1000)
             naverMap.moveCamera(cameraUpdate)
         }
@@ -201,7 +211,7 @@ fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, ma
                     subCaptionText = place.placeName
                     icon = when (place.category) {
                         "대형마트", "편의점" -> BLUE
-                        "어린이집", "유치원", "학교" -> YELLOW
+                        "어린이집,유치원", "학교" -> YELLOW
                         "음식점" -> LIGHTBLUE
                         "카페" -> PINK
                         "병원" -> GREEN
@@ -213,14 +223,16 @@ fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, ma
                         val mutablePlaceList = placeResponse.placeList.toMutableList()
                         mutablePlaceList[placeIndex] = mutablePlaceList[0]
                         mutablePlaceList[0] = tempPlace
-                        mapViewModel.onLoadBuildingList(mutablePlaceList,rootView)//현재 장소 리스트에 반영
+                        mapViewModel.onLoadBuildingList(mutablePlaceList, rootView)//현재 장소 리스트에 반영
                         mapViewModel.onClickMarkerPlace(place)//현재 상권의 이미지를 출력
                         mapViewModel.onRemoveInfoWindow()
                         val mInfoWindow = InfoWindow()
+                        val latLng = LatLng(place.y.toDouble(), place.x.toDouble())
                         mInfoWindow.adapter =
                             MapMarkerAdapter(context, place.placeName)
                         mInfoWindow.open(marker)
                         mapViewModel.onSaveInfoWindow(mInfoWindow)
+                        mapViewModel.onMoveCameraPosition(latLng, 17.0)
                         true
                     }
                     map = naverMap
@@ -234,7 +246,9 @@ fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, ma
                     mapViewModel.markerLiveData.value?.latLng?.longitude!!
                 )//중앙 위치
                 radius = RADIUS.toDouble()//반경
-                color = 0x5000FF00.toInt()//색깔
+                color = 0x4000FF00.toInt()//색깔
+                outlineColor = 0xC000FF00.toInt()
+                outlineWidth = 20
                 map = naverMap//맵셋팅
             }
             mapViewModel.onSaveCircleOverlay(overlay)
@@ -278,6 +292,14 @@ fun ZoomControlView.setOnClick(mapStatusLiveData: LiveData<NaverMap>) {
     }
 }
 
+@BindingAdapter(value = ["onMakeNaverMapData"])
+fun ScaleBarView.onStartScale(mapStatusLiveData: LiveData<NaverMap>) {
+    map = mapStatusLiveData.value
+    if (map != null) {
+        map!!.uiSettings.isScaleBarEnabled = true
+    }
+}
+
 //위치 찾기 관련 onMakeNaverMapData
 @BindingAdapter(value = ["onMakeNaverMapData", "onLocationSource"])
 fun LocationButtonView.setOnClick(mapStatusLiveData: LiveData<NaverMap>, locationSource: LocationSource) {
@@ -295,12 +317,12 @@ fun FloatingActionButton.setTriggerBackdrop(
     mapViewModel: MapViewModel
 ) {
     setOnClickListener { view ->
-        if (backdropML.currentState == R.layout.motion_01_map_backdrop_end) {
-            backdropML.transitionToStart()
-        } else {
-            filterML.transitionToStart()
+        val latLng = mapViewModel.markerLiveData.value?.latLng
+        if (latLng != null) {
+            mapViewModel.onMoveCameraPosition(latLng, 14.0)
         }
-        mapViewModel.onClick(view)
+        mapViewModel.onClick(view)//필터 버튼 클릭시에 일어나는 행위
+        filterML.transitionToStart()//필터를 닫음
     }
 }
 
@@ -314,7 +336,7 @@ fun MotionLayout.setTriggerFB(filterML: MotionLayout) {
         override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {}
 
         override fun onTransitionCompleted(p0: MotionLayout?, currentId: Int) {
-            if (currentId == R.layout.motion_01_map_backdrop_start) {
+            if (currentId == R.layout.motion_01_map_backdrop_middle) {
                 filterML.transitionToStart()
             } else if (currentId == R.layout.motion_01_map_backdrop_end) {
                 filterML.transitionToStart()
@@ -329,7 +351,7 @@ fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
         val bindList = bindPlaceLiveData.value
         if (adapter == null) {
             apply {
-                layoutManager = LinearLayoutManager(context)
+                layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                 adapter = MapSearchRVAdapter(bindList!!)
                 adapter?.notifyItemRangeInserted(0, bindList.size)
             }
@@ -342,16 +364,18 @@ fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
         }
     } else {
         val emptyList = arrayListOf<Any>()
-        layoutManager = LinearLayoutManager(context)
+        layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         adapter = MapSearchRVAdapter(emptyList)
         adapter?.notifyItemRangeInserted(0, emptyList.size)
     }
 }
 
-@BindingAdapter(value = ["triggerSearchHeight", "searchLiveData"])
-fun BackdropMotionLayout.changeSearchHeight(mapViewModel: MapViewModel, searchListLiveData: LiveData<List<Any>>) {
+@BindingAdapter(value = ["searchLiveData"])
+fun BackdropMotionLayout.changeSearchHeight(searchListLiveData: LiveData<List<Any>>) {
     if (searchListLiveData.value != null) {
-        mapViewModel.searchTrigger(this)
+        if (currentState == R.layout.motion_01_map_backdrop_start) {
+            transitionToEnd()
+        }
     }
 }
 
@@ -373,14 +397,25 @@ fun TextView.setStatusTextView(userStatusLiveData: LiveData<UserStatus>) {
     }
 }
 
-@BindingAdapter(value = ["onFinish"])
-fun ImageView.onFinish(finishLiveData: LiveData<Boolean>) {
-    if (finishLiveData.value == true) {
-        (context as MapActivity).finish()
+@BindingAdapter(value = ["onClickTriggerBackDrop"])
+fun ImageView.onClickTriggerBackDrop(backdropML: MotionLayout) {
+    setOnClickListener {
+        when {
+            backdropML.currentState == R.layout.motion_01_map_backdrop_start -> backdropML.transitionToEnd()
+            backdropML.currentState == R.layout.motion_01_map_backdrop_middle -> {
+                backdropML.transitionToState(R.layout.motion_01_map_backdrop_end)
+                backdropML.transitionToStart()
+            }
+            backdropML.currentState == R.layout.motion_01_map_backdrop_end -> backdropML.transitionToStart()
+        }
     }
 }
 
-@BindingAdapter(value = ["onChangeHeight"])
-fun Guideline.onChangeHeight(guidelinePlaceImageHeightLiveData: MutableLiveData<Float>) {
-
+@BindingAdapter(value = ["isHomeClick"])
+fun Toolbar.onInitToolbar(isHomeClick: Boolean) {
+    setOnClickListener {
+        if (isHomeClick) {
+            (context as MapActivity).finish()
+        }
+    }
 }

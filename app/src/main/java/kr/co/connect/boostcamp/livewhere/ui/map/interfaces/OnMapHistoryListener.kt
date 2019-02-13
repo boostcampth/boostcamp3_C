@@ -1,6 +1,7 @@
 package kr.co.connect.boostcamp.livewhere.ui.map.interfaces
 
 import android.view.View
+import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.overlay.CircleOverlay
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
@@ -17,4 +18,5 @@ interface OnMapHistoryListener{
     fun onRemoveInfoWindow()
     fun onSaveInfoWindow(infoWindow: InfoWindow)
     fun onLoadBuildingList(anyList:List<Any>, view: View)
+    fun onMoveCameraPosition(latLng: LatLng, zoom:Double)
 }
