@@ -10,7 +10,6 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -330,7 +329,7 @@ fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
         val bindList = bindPlaceLiveData.value
         if (adapter == null) {
             apply {
-                layoutManager = LinearLayoutManager(context)
+                layoutManager = LinearLayoutManager(context , RecyclerView.VERTICAL, false)
                 adapter = MapSearchRVAdapter(bindList!!)
                 adapter?.notifyItemRangeInserted(0, bindList.size)
             }
@@ -343,17 +342,9 @@ fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
         }
     } else {
         val emptyList = arrayListOf<Any>()
-        layoutManager = LinearLayoutManager(context)
+        layoutManager = LinearLayoutManager(context , RecyclerView.VERTICAL, false)
         adapter = MapSearchRVAdapter(emptyList)
         adapter?.notifyItemRangeInserted(0, emptyList.size)
-    }
-}
-
-@BindingAdapter(value = ["setSnapHelper"])
-fun RecyclerView.setsetSnapHelper(isSnapHelper:Boolean){
-    if(isSnapHelper){
-        val snapHelper =  LinearSnapHelper()
-        snapHelper.attachToRecyclerView(this)
     }
 }
 
