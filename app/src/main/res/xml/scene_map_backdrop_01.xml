@@ -5,12 +5,12 @@
 
     <Transition
             motion:constraintSetStart="@layout/motion_01_map_backdrop_start"
-            motion:constraintSetEnd="@layout/motion_01_map_backdrop_middle"
-            motion:duration="400">
+            motion:constraintSetEnd="@layout/motion_01_map_backdrop_middle">
         <OnSwipe
                 motion:touchAnchorId="@id/ll_place_detail"
                 motion:moveWhenScrollAtTop="true"
-                motion:dragDirection="dragUp"/>
+                motion:dragDirection="dragUp"
+                motion:touchAnchorSide="top"/>
     </Transition>
     <Transition
             motion:constraintSetStart="@layout/motion_01_map_backdrop_middle"
@@ -19,7 +19,8 @@
         <OnSwipe
                 motion:touchAnchorId="@id/ll_place_detail"
                 motion:moveWhenScrollAtTop="true"
-                motion:dragDirection="dragUp"/>
+                motion:dragDirection="dragUp"
+                motion:touchAnchorSide="top"/>
         <KeyFrameSet>
             <KeyAttribute motion:target="@id/iv_place_image"
                           motion:framePosition="0"
