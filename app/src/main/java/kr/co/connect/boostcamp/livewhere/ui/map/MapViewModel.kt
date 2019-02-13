@@ -17,14 +17,12 @@ import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.repository.MapRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.ui.map.interfaces.OnMapHistoryListener
-import kr.co.connect.boostcamp.livewhere.ui.map.interfaces.OnSearchTrigger
-import kr.co.connect.boostcamp.livewhere.ui.map.view.BackdropMotionLayout
 import kr.co.connect.boostcamp.livewhere.util.RADIUS
 import kr.co.connect.boostcamp.livewhere.util.StatusCode
 import java.util.*
 
 interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, OnMapReadyCallback, View.OnClickListener,
-    OnMapHistoryListener, OnSearchTrigger
+    OnMapHistoryListener
 
 class MapViewModel(val mapActivityManager: MapActivityManagerImpl, val mapRepository: MapRepositoryImpl) : ViewModel(),
     OnMapViewModelInterface {
@@ -131,12 +129,6 @@ class MapViewModel(val mapActivityManager: MapActivityManagerImpl, val mapReposi
 
     override fun onRemoveFilterMarker() {
         _removePlaceMarkersLiveData.postValue(_savePlaceMarkersLiveData.value)
-    }
-
-    override fun searchTrigger(view: View) {
-        if (view is BackdropMotionLayout) {
-
-        }
     }
 
     override fun onClickMarkerPlace(place: Place) {

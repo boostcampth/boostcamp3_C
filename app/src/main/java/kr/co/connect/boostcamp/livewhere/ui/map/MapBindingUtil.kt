@@ -372,10 +372,12 @@ fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
     }
 }
 
-@BindingAdapter(value = ["triggerSearchHeight", "searchLiveData"])
-fun BackdropMotionLayout.changeSearchHeight(mapViewModel: MapViewModel, searchListLiveData: LiveData<List<Any>>) {
+@BindingAdapter(value = ["searchLiveData"])
+fun BackdropMotionLayout.changeSearchHeight(searchListLiveData: LiveData<List<Any>>) {
     if (searchListLiveData.value != null) {
-        mapViewModel.searchTrigger(this)
+        if (currentState == R.layout.motion_01_map_backdrop_start) {
+            transitionToEnd()
+        }
     }
 }
 
