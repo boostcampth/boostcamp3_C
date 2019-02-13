@@ -23,7 +23,8 @@
                 onClickHouseMarker="@{mapViewModel}"
                 onRemovePlaceDrawMarker="@{mapViewModel.removePlaceMarkersLiveData}"
                 onRemovePlaceOverlay="@{mapViewModel.tempOverlayLiveData}"
-                onRemovePlaceMarker="@{mapViewModel.tempInfoWindowLiveData}"/>
+                onRemovePlaceMarker="@{mapViewModel.tempInfoWindowLiveData}"
+                />
 
         <ImageView
                 android:layout_width="@dimen/arrow_size_map_activity"
@@ -261,7 +262,8 @@
                     app:layout_constraintStart_toEndOf="@+id/logoView"
                     app:layout_constraintBottom_toBottomOf="@+id/guideline_backdrop_content_height"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0"/>
+                    app:layout_constraintVertical_bias="1.0"
+                    onMakeNaverMapData="@{mapViewModel.mapStatusLiveData}"/>
 
             <androidx.constraintlayout.widget.Guideline
                     android:layout_width="wrap_content"

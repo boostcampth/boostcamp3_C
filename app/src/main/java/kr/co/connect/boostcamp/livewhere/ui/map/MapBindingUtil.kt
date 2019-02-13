@@ -24,6 +24,7 @@ import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.MarkerIcons.*
 import com.naver.maps.map.widget.LocationButtonView
+import com.naver.maps.map.widget.ScaleBarView
 import com.naver.maps.map.widget.ZoomControlView
 import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.R
@@ -275,6 +276,14 @@ fun ZoomControlView.setOnClick(mapStatusLiveData: LiveData<NaverMap>) {
     map = mapStatusLiveData.value
     if (map != null) {
         map!!.uiSettings.isZoomControlEnabled = true
+    }
+}
+
+@BindingAdapter(value =["onMakeNaverMapData"])
+fun ScaleBarView.onStartScale(mapStatusLiveData: LiveData<NaverMap>){
+    map = mapStatusLiveData.value
+    if(map!=null){
+        map!!.uiSettings.isScaleBarEnabled = true
     }
 }
 
