@@ -24,7 +24,7 @@ import java.util.*
 interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, OnMapReadyCallback, View.OnClickListener,
     OnMapHistoryListener
 
-class MapViewModel(val mapActivityManager: MapActivityManagerImpl, val mapRepository: MapRepositoryImpl) : ViewModel(),
+class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
     OnMapViewModelInterface {
     //현재 검색하려는 매물의 좌표 livedata
     private val _markerLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
@@ -91,10 +91,6 @@ class MapViewModel(val mapActivityManager: MapActivityManagerImpl, val mapReposi
     private val _currentInfoWindowLiveData: MutableLiveData<InfoWindow> = MutableLiveData()
     val currentInfoWindowLiveData: LiveData<InfoWindow>
         get() = _currentInfoWindowLiveData
-
-    private val _finishLiveData: MutableLiveData<Boolean> = MutableLiveData()
-    val finishLiveData: LiveData<Boolean>
-        get() = _finishLiveData
 
     private val _cameraPositionLatLngLiveData: MutableLiveData<CameraPositionInfo> = MutableLiveData()
     val cameraPositionLatLngLiveData: LiveData<CameraPositionInfo>
@@ -268,6 +264,4 @@ class MapViewModel(val mapActivityManager: MapActivityManagerImpl, val mapReposi
         }, {
             _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_HOUSE, ""))
         })
-
-
 }
