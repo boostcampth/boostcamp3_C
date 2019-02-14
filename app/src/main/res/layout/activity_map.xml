@@ -15,15 +15,15 @@
         <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <androidx.appcompat.widget.Toolbar
-                        android:id="@+id/toolbar_map"
-                        android:layout_width="match_parent"
-                        android:layout_height="?android:attr/actionBarSize"
-                        android:background="@color/colorPrimary"
-                        app:titleTextColor="@color/white"
-                        app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
-                        isHomeClick="@{true}"
-                        onTitleToolbar="@{mapViewModel.markerLiveData}"/>
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar_map"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:background="@color/colorPrimary"
+                    app:titleTextColor="@color/white"
+                    app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+                    isHomeClick="@{true}"
+                    onTitleToolbar="@{mapViewModel.markerLiveData}"/>
         </com.google.android.material.appbar.AppBarLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -261,7 +261,7 @@
                         android:layout_height="@dimen/map_widget_size"
                         android:id="@+id/logoView"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toTopOf="@+id/ll_place_detail"
+                        app:layout_constraintBottom_toTopOf="@+id/guideline_place_image_ml_bottom"
                         app:layout_constraintTop_toTopOf="parent"
                         android:layout_marginStart="@dimen/logo_view_margin_start"
                         app:layout_constraintVertical_bias="1.0"/>
