@@ -58,11 +58,11 @@ class HomeFragment : Fragment() {
             val bottomSheetBehavior = BottomSheetBehavior.from(binding.clHomeBackdrop.ll_main_backdrop)
             if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
                 binding.clHomeBackdrop.ll_main_backdrop
-                    .iv_backdrop_btn.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp)
+                    .iv_backdrop_btn.setImageResource(R.drawable.ic_arrow_up_black_24dp)
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             } else {
                 binding.clHomeBackdrop.ll_main_backdrop
-                    .iv_backdrop_btn.setImageResource(R.drawable.ic_arrow_up_black_24dp)
+                    .iv_backdrop_btn.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp)
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             }
         })
