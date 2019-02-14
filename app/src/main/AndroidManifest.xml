@@ -8,8 +8,8 @@
     <application
             android:name=".LiveApplication"
             android:allowBackup="false"
-            android:icon="@drawable/img_home_logo"
-            android:roundIcon="@drawable/img_home_logo"
+            android:icon="@drawable/icon_logo"
+            android:roundIcon="@drawable/icon_logo"
             android:label="@string/app_name"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">

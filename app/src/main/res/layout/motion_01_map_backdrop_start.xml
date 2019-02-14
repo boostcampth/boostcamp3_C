@@ -32,12 +32,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline_toggle_button_ml_height"
             app:layout_constraintHorizontal_bias="0.0"/>
-    <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:id="@+id/view_place_image_background"
-            android:alpha="0"/>
+
     <androidx.constraintlayout.motion.widget.MotionLayout
             android:layout_width="@dimen/ml_float_btn_width"
             android:layout_height="0dp"
@@ -45,7 +40,8 @@
             android:paddingEnd="@dimen/ml_float_btn_padding_end"
             app:layout_constraintStart_toEndOf="@+id/guideline_filter_ml_width"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_filter_ml_height">
+            app:layout_constraintBottom_toTopOf="@+id/guideline_filter_ml_height"
+            android:elevation="@dimen/filter_ml_elevation">
     </androidx.constraintlayout.motion.widget.MotionLayout>
 
     <ImageView
@@ -63,7 +59,7 @@
             android:layout_height="@dimen/map_widget_size"
             android:id="@+id/logoView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/ll_place_detail"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_place_image_ml_bottom"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="@dimen/logo_view_margin_start"
             app:layout_constraintVertical_bias="1.0"/>
@@ -115,4 +111,5 @@
             android:id="@+id/guideline_filter_ml_width"
             app:layout_constraintGuide_percent="0.4"
             android:orientation="vertical"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

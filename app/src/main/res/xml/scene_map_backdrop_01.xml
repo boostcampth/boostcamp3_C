@@ -24,13 +24,13 @@
         <KeyFrameSet>
             <KeyAttribute motion:target="@id/iv_place_image"
                           motion:framePosition="0"
-                          android:alpha="0"/>
+                          android:elevation="0dp"/>
             <KeyAttribute motion:target="@id/scaleBarView"
                           motion:framePosition="0"
-                          android:alpha="0"/>
+                          android:elevation="0dp"/>
             <KeyAttribute motion:target="@id/logoView"
                           motion:framePosition="0"
-                          android:alpha="0"/>
+                          android:elevation="0dp"/>
         </KeyFrameSet>
     </Transition>
 </MotionScene>

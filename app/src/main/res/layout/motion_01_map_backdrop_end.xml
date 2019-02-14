@@ -13,7 +13,8 @@
             android:orientation="vertical"
             style="@style/BackDrop.White"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline_backdrop_ml_height">
+            app:layout_constraintTop_toTopOf="@+id/guideline_backdrop_ml_height"
+            android:elevation="@dimen/filter_ml_elevation">
 
     </LinearLayout>
     <LinearLayout
@@ -22,7 +23,8 @@
             android:id="@+id/ll_search_map"
             app:layout_constraintTop_toTopOf="@+id/guideline_backdrop_content_height"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:elevation="@dimen/filter_ml_elevation">
     </LinearLayout>
     <ImageView
             android:layout_width="wrap_content"
@@ -31,6 +33,7 @@
             android:src="@drawable/ic_arrow_up_black_24dp"
             android:id="@+id/iv_backdrop_toggle"
             android:rotation="180"
+            android:elevation="@dimen/filter_ml_elevation"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline_toggle_button_ml_height"
             app:layout_constraintHorizontal_bias="0.0"/>
@@ -40,7 +43,8 @@
             android:id="@+id/ml_float_btn"
             app:layout_constraintStart_toEndOf="@+id/guideline_filter_ml_width"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_filter_ml_height">
+            app:layout_constraintBottom_toTopOf="@+id/guideline_filter_ml_height"
+            android:elevation="@dimen/filter_ml_elevation">
     </androidx.constraintlayout.motion.widget.MotionLayout>
     <ImageView
             android:layout_width="@dimen/place_image_view_width"
@@ -52,24 +56,19 @@
             app:layout_constraintHorizontal_bias="0.02"
             android:layout_marginStart="@dimen/map_place_image_view_margin"
             app:layout_constraintStart_toStartOf="parent"
-            android:alpha="0"/>
-    <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:id="@+id/view_place_image_background"
-            android:alpha="0"/>
+            android:elevation="0dp"/>
+
 
     <com.naver.maps.map.widget.LogoView
             android:layout_width="wrap_content"
             android:layout_height="@dimen/map_widget_size"
             android:id="@+id/logoView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/ll_place_detail"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_place_image_ml_bottom"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="@dimen/logo_view_margin_start"
             app:layout_constraintVertical_bias="1.0"
-            android:alpha="0"/>
+            android:elevation="0dp"/>
 
     <com.naver.maps.map.widget.ScaleBarView
             android:layout_width="wrap_content"
@@ -79,7 +78,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintVertical_bias="0.74"
-            android:alpha="0"/>
+            android:elevation="0dp"/>
 
     <androidx.constraintlayout.widget.Guideline
             android:layout_width="wrap_content"
