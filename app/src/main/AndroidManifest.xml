@@ -34,19 +34,16 @@
         <activity android:name=".ui.detail.DetailActivity">
 
         </activity>
-        <activity android:name=".ui.map.MapActivity">
+        <activity android:name=".ui.map.MapActivity"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.map.StreetMapActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+        <activity android:name=".ui.map.StreetMapActivity"
+                  android:screenOrientation="portrait">
         </activity>
 
     </application>
