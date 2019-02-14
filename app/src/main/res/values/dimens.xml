@@ -75,4 +75,5 @@
     <dimen name="item_search_circle_view_margin">8dp</dimen>
     <dimen name="item_search_circle_image_view_size">18dp</dimen>
     <dimen name="item_search_function_view_margin">8dp</dimen>
+    <dimen name="filter_ml_elevation">4dp</dimen>
 </resources>
