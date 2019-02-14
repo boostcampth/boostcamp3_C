@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-
+        <variable name="streetMapViewModel" type="kr.co.connect.boostcamp.livewhere.ui.map.StreetMapViewModel"/>
     </data>
     <FrameLayout
             android:layout_width="match_parent" android:layout_height="match_parent">
@@ -18,6 +18,9 @@
                 android:layout_height="?android:attr/actionBarSize"
                 android:background="@drawable/gradient_black_to_transparent"
                 app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
-                onClickFinish="@{true}"/>
+                app:titleTextColor="@color/white"
+                onClickFinish="@{true}"
+                onTitleText="@{streetMapViewModel.addressLiveData}"
+                />
     </FrameLayout>
 </layout>
