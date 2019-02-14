@@ -415,9 +415,24 @@ fun ImageView.onClickTriggerBackDrop(backdropML: MotionLayout) {
 
 @BindingAdapter(value = ["isHomeClick"])
 fun Toolbar.onInitToolbar(isHomeClick: Boolean) {
-    setOnClickListener {
+    setNavigationOnClickListener {
         if (isHomeClick) {
             (context as MapActivity).finish()
         }
+    }
+}
+
+@BindingAdapter(value = ["onClickFinish"])
+fun Toolbar.onClickFinish(isHomeClick: Boolean) {
+    setNavigationOnClickListener {
+        (context as StreetMapActivity).finish()
+    }
+}
+
+
+@BindingAdapter(value =["onTitleToolbar"])
+fun Toolbar.onTitleToolbar(markerLiveData: LiveData<MarkerInfo>){
+    if(markerLiveData.value != null){
+        title = markerLiveData.value!!.address.addr
     }
 }
