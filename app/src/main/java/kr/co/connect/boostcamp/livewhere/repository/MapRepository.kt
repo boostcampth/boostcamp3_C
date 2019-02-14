@@ -10,4 +10,5 @@ interface MapRepository{
     fun getPlace(lat: Any, lng: Any, radius: Any, category: Any) : Single<Response<PlaceResponse>>
     fun getHouseDetail(address:String): Single<Response<HouseResponse>>
     fun getAddress(latitude:String, longitude:String, inputCoord:String) : Single<Response<ReverseGeo>>
+    fun getHouseDetailWithNotCompletedAddress(address:String) : Single<Response<HouseResponse>>
 }
