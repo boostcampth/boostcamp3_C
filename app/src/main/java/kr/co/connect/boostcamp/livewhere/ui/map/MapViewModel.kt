@@ -1,5 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.ui.map
 
+import android.content.Intent
 import android.graphics.PointF
 import android.util.Log
 import android.view.View
@@ -22,10 +23,14 @@ import kr.co.connect.boostcamp.livewhere.util.StatusCode
 import java.util.*
 
 interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, OnMapReadyCallback, View.OnClickListener,
-    OnMapHistoryListener
+    OnMapHistoryListener {
+    fun onClickMapImageView(view: View, liveData: LiveData<*>)
+}
 
 class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
     OnMapViewModelInterface {
+
+
     //현재 검색하려는 매물의 좌표 livedata
     private val _markerLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
     val markerLiveData: LiveData<MarkerInfo>
@@ -96,7 +101,7 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
     val cameraPositionLatLngLiveData: LiveData<CameraPositionInfo>
         get() = _cameraPositionLatLngLiveData
 
-    override fun onMoveCameraPosition(latLng:LatLng, zoom:Double) {
+    override fun onMoveCameraPosition(latLng: LatLng, zoom: Double) {
         val cameraPositionInfo = CameraPositionInfo(latLng, zoom)
         _cameraPositionLatLngLiveData.postValue(cameraPositionInfo)
     }
@@ -264,4 +269,24 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
         }, {
             _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_HOUSE, ""))
         })
+
+    override fun onClickMapImageView(view: View, liveData: LiveData<*>) {
+        var lat: String = ""
+        var lng: String = ""
+        if (liveData.value is MarkerInfo) {
+            val markerInfo = liveData.value as MarkerInfo
+            lat = markerInfo.latLng.latitude.toString()
+            lng = markerInfo.latLng.longitude.toString()
+        } else if (liveData.value is Place) {
+            val placeInfo = liveData.value as Place
+            lat = placeInfo.y
+            lng = placeInfo.x
+        }
+        view.setOnClickListener {
+            val intent = Intent(view.context, StreetMapActivity::class.java)
+            intent.putExtra("lat",lat)
+            intent.putExtra("lng",lng)
+            view.context.startActivity(intent)
+        }
+    }
 }
