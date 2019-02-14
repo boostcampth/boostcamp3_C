@@ -6,6 +6,7 @@
                   type="kr.co.connect.boostcamp.livewhere.ui.main.SearchViewModel"/>
     </data>
     <LinearLayout
+            android:id="@+id/ll_recent_search"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:orientation="vertical">

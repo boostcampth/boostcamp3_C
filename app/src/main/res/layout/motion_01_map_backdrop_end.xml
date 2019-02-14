@@ -8,19 +8,13 @@
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:id="@+id/ll_place_detail"
             android:orientation="vertical"
             style="@style/BackDrop.White"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline_backdrop_ml_height">
 
-        <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-        </LinearLayout>
     </LinearLayout>
     <LinearLayout
             android:layout_width="match_parent"
@@ -110,12 +104,6 @@
     <androidx.constraintlayout.widget.Guideline
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/guideline_backdrop_ml_height"
-            app:layout_constraintGuide_percent="0.93"
-            android:orientation="horizontal"/>
-    <androidx.constraintlayout.widget.Guideline
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/guideline_filter_ml_height"
             app:layout_constraintGuide_percent="0.83"
             android:orientation="horizontal"/>
@@ -125,4 +113,10 @@
             android:id="@+id/guideline_filter_ml_width"
             app:layout_constraintGuide_percent="1.0"
             android:orientation="vertical"/>
+    <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/guideline_backdrop_ml_height"
+            app:layout_constraintGuide_percent="0.0"
+            android:orientation="horizontal"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
