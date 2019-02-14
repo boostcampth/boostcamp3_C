@@ -20,6 +20,7 @@ import kr.co.connect.boostcamp.livewhere.repository.MapRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.ui.map.interfaces.OnMapHistoryListener
 import kr.co.connect.boostcamp.livewhere.util.RADIUS
 import kr.co.connect.boostcamp.livewhere.util.StatusCode
+import retrofit2.Response
 import java.util.*
 
 interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, OnMapReadyCallback, View.OnClickListener,
@@ -29,7 +30,6 @@ interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, OnMapReadyC
 
 class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
     OnMapViewModelInterface {
-
 
     //현재 검색하려는 매물의 좌표 livedata
     private val _markerLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
@@ -277,20 +277,81 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
     override fun onClickMapImageView(view: View, liveData: LiveData<*>) {
         var lat: String = ""
         var lng: String = ""
+        var address: String = ""
         if (liveData.value is MarkerInfo) {
             val markerInfo = liveData.value as MarkerInfo
             lat = markerInfo.latLng.latitude.toString()
             lng = markerInfo.latLng.longitude.toString()
+            address = markerInfo.address.name
         } else if (liveData.value is Place) {
             val placeInfo = liveData.value as Place
             lat = placeInfo.y
             lng = placeInfo.x
+            address = placeInfo.addrName
         }
         view.setOnClickListener {
             val intent = Intent(view.context, StreetMapActivity::class.java)
             intent.putExtra("lat", lat)
             intent.putExtra("lng", lng)
+            intent.putExtra("address", address)
             view.context.startActivity(intent)
         }
+    }
+
+    override fun onSearchHouseWithAddress(notCompletedAddress: String) {
+        mapRepository.getHouseDetailWithNotCompletedAddress(notCompletedAddress)
+            .flatMap { response: Response<HouseResponse> ->
+                val houseResponse = response.body()
+                if (houseResponse?.addrStatusCode == StatusCode.RESULT_200.response
+                    && houseResponse.houseStatusCode == StatusCode.RESULT_200.response
+                ) {
+                    Single.just(Pair(houseResponse.addr.name, houseResponse))
+                } else if (houseResponse?.addrStatusCode == StatusCode.RESULT_200.response
+                    && houseResponse.houseStatusCode == StatusCode.RESULT_204.response
+                ) {
+                    Single.just(Pair(houseResponse.addr.name, houseResponse))
+                } else {
+                    Single.just(Pair(notCompletedAddress, houseResponse))
+                }
+            }.flatMap { pair ->
+                val address = pair.first
+                val houseResponse = pair.second
+                if (houseResponse?.addrStatusCode == StatusCode.RESULT_200.response
+                    && houseResponse.houseStatusCode == StatusCode.RESULT_200.response
+                ) {
+                    Single.just(Pair(address, houseResponse))
+                } else {
+                    Single.just(Pair(address, houseResponse))
+                }
+            }.subscribe({ result ->
+                val address = result.first
+                val response = result.second
+
+                if (response?.houseStatusCode == 200 && response.addrStatusCode == 200) {
+                    val latLng = LatLng(response?.addr?.y?.toDouble()!!, response?.addr?.x.toDouble())
+                    val houseList = response.houseList
+                    val currentMarkerInfo = MarkerInfo(response.addr, latLng, houseList, StatusCode.RESULT_200)
+                    _userStatusLiveData.postValue(
+                        UserStatus(
+                            StatusCode.SUCCESS_SEARCH_HOUSE,
+                            address + "\n" + houseList[0].name
+                        )
+                    )
+                    _searchListLiveData.postValue(listOf(currentMarkerInfo))
+                    _markerLiveData.postValue(currentMarkerInfo)
+                } else if(response?.houseStatusCode == 204 && response.addrStatusCode == 200){
+                    Log.d("response", response.toString())
+                    val latLng = LatLng(response.addr.y.toDouble(), response.addr.x.toDouble())
+                    val currentMarkerInfo = MarkerInfo(response?.addr!!, latLng, emptyList(), StatusCode.RESULT_204)
+                    _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_HOUSE, address))
+                    _searchListLiveData.postValue(listOf(EmptyInfo(address)))
+                    _markerLiveData.postValue(currentMarkerInfo)
+                }else{
+                    _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_HOUSE, address))
+                    _searchListLiveData.postValue(listOf(EmptyInfo(address)))
+                }
+            }, {
+                _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_HOUSE, ""))
+            })
     }
 }

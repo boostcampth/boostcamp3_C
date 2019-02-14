@@ -19,4 +19,5 @@ interface OnMapHistoryListener{
     fun onSaveInfoWindow(infoWindow: InfoWindow)
     fun onLoadBuildingList(anyList:List<Any>, view: View)
     fun onMoveCameraPosition(latLng: LatLng, zoom:Double)
+    fun onSearchHouseWithAddress(notCompletedAddress:String)
 }
