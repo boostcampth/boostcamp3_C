@@ -7,6 +7,7 @@ import com.naver.maps.map.util.FusedLocationSource
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityMapBinding
 import kr.co.connect.boostcamp.livewhere.util.MapUtilImpl.Companion.LOCATION_PERMISSION_REQUEST_CODE
+import kr.co.connect.boostcamp.livewhere.util.SEARCH_TAG
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -32,6 +33,10 @@ class MapActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         activityMapBinding.mvMainNaver.onStart()//naverMap객체는 라이프사이클에 종속되어야 합니다.
+        val address = intent.getStringExtra(SEARCH_TAG)
+        if(address!=null){
+            mapViewModel.onSearchHouseWithAddress(address)
+        }
     }
 
     override fun onResume() {
