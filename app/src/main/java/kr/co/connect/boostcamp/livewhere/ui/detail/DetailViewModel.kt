@@ -43,13 +43,13 @@ class DetailViewModel(
     val avgPriceType: LiveData<Int>
         get() = _avgPriceType
 
-    private val _listCharterHouseAvgPrice = MutableLiveData<ArrayList<HouseAvgPrice>>() //년도별 가격 평균 리스트 (전세)
-    val listCharterHouseAvgPrice: LiveData<ArrayList<HouseAvgPrice>>
+    private val _listCharterHouseAvgPrice = MutableLiveData<List<HouseAvgPrice>>() //년도별 가격 평균 리스트 (전세)
+    val listCharterHouseAvgPrice: LiveData<List<HouseAvgPrice>>
         get() = _listCharterHouseAvgPrice
 
     //TODO : 전세,월세 버튼 클릭시 포커싱할 데이터에 대한 조건 처리
-    private val _listMonthlyHouseAvgPrice = MutableLiveData<ArrayList<HouseAvgPrice>>() //년도별 가격 평균 리스트 (월세)
-    val listMonthlyHouseAvgPrice: LiveData<ArrayList<HouseAvgPrice>>
+    private val _listMonthlyHouseAvgPrice = MutableLiveData<List<HouseAvgPrice>>() //년도별 가격 평균 리스트 (월세)
+    val listMonthlyHouseAvgPrice: LiveData<List<HouseAvgPrice>>
         get() = _listMonthlyHouseAvgPrice
 
     private val _pastTransactionSort = MutableLiveData<Int>()  // 정렬 종류 상태
@@ -198,7 +198,7 @@ class DetailViewModel(
         _coordinate.postValue(_markerInfo.value!!.latLng.latitude.toString() + "," + _markerInfo.value!!.latLng.longitude.toString())
     }
 
-    fun getAvgPriceList(): LiveData<ArrayList<HouseAvgPrice>> {
+    fun getAvgPriceList(): LiveData<List<HouseAvgPrice>> {
         return when (_avgPriceType.value) {
             TYPE_CHARTER -> listCharterHouseAvgPrice
             TYPE_MONTHLY -> listMonthlyHouseAvgPrice
@@ -233,7 +233,7 @@ class DetailViewModel(
                     charterList[0].deposite,
                     monthlyList[0].fee
                 )
-            }//가장 최근 전,월세 데이터 반영 //TODO : 전세 or 월세 정보 없을 경우 예외처리
+            }
             _recentPrice.postValue(recentPrice)
 
             getAvgPriceFromList(charterList, monthlyList)
@@ -258,6 +258,7 @@ class DetailViewModel(
             it.value.forEach { sum += it }
             it.value[0] = sum / it.value.size.toFloat()
             cList.add(HouseAvgPrice(it.key, it.value[0]))
+            cList.sortWith(SortByYear)
         }
         _listCharterHouseAvgPrice.postValue(cList)
 
@@ -272,6 +273,7 @@ class DetailViewModel(
             it.value.forEach { sum += it }
             it.value[0] = sum / it.value.size.toFloat()
             mList.add(HouseAvgPrice(it.key, it.value[0]))
+            mList.sortWith(SortByYear)
         }
         _listMonthlyHouseAvgPrice.postValue(mList)
         //TODO : 코드 양 정리..
