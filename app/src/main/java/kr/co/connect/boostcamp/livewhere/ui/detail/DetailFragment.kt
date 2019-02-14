@@ -39,12 +39,10 @@ class DetailFragment : Fragment() {
                     adapter = DetailTransactionRvAdapter(this@DetailFragment)
         }
 
+        binding.detailFragmentCl.detail_fragment_chart.setTouchEnabled(false)
+
         viewModel.avgPriceType.observe(this, Observer { //전세 월세별 시세추이
             setBarChart(binding.detailFragmentCl.detail_fragment_chart,viewModel.getAvgPriceList())
-        })
-
-        viewModel.getBookmarks().observe(this, Observer {
-            viewModel.checkBookmarkId()
         })
 
 
