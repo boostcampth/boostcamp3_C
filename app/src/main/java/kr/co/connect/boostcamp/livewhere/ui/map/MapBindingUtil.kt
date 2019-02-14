@@ -62,8 +62,8 @@ fun MapView.onMakeNaverMap(mapStatusLiveData: LiveData<NaverMap>, mapViewModel: 
     }
 }
 
-@BindingAdapter(value = ["onDrawHouse"])
-fun ImageView.onDrawHouse(markerInfoLiveData: LiveData<MarkerInfo>) {
+@BindingAdapter(value = ["onDrawHouse", "onClickHouseStreetView"])
+fun ImageView.onDrawHouse(markerInfoLiveData: LiveData<MarkerInfo>, mapViewModel: MapViewModel) {
     val markerInfo = markerInfoLiveData.value
     if (markerInfo != null) {
         val latLang = markerInfo.latLng
@@ -92,6 +92,7 @@ fun ImageView.onDrawHouse(markerInfoLiveData: LiveData<MarkerInfo>) {
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
+                    mapViewModel.onClickMapImageView(this@onDrawHouse, markerInfoLiveData)
                     visibility = VISIBLE
                     return false
                 }
@@ -100,8 +101,8 @@ fun ImageView.onDrawHouse(markerInfoLiveData: LiveData<MarkerInfo>) {
     }
 }
 
-@BindingAdapter(value = ["onDrawPlace"])
-fun ImageView.onDrawPlace(placeMarkerLiveData: LiveData<Place>) {
+@BindingAdapter(value = ["onDrawPlace", "onClickPlaceStreetView"])
+fun ImageView.onDrawPlace(placeMarkerLiveData: LiveData<Place>, mapViewModel: MapViewModel) {
     val placeLiveData = placeMarkerLiveData.value
     if (placeLiveData != null) {
         val streetImgUrl = String.format(
@@ -129,6 +130,7 @@ fun ImageView.onDrawPlace(placeMarkerLiveData: LiveData<Place>) {
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
+                    mapViewModel.onClickMapImageView(this@onDrawPlace, placeMarkerLiveData)
                     visibility = VISIBLE
                     return false
                 }
