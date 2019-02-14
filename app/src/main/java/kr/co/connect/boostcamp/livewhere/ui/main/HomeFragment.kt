@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.fragment_home_backdrop.view.*
+import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.FragmentHomeBinding
 import kr.co.connect.boostcamp.livewhere.ui.main.adapter.BookmarkRecyclerViewAdapter
 import org.checkerframework.framework.qual.Bottom
@@ -56,8 +57,12 @@ class HomeFragment : Fragment() {
         homeViewModel.btnClicked.observe(this, Observer {
             val bottomSheetBehavior = BottomSheetBehavior.from(binding.clHomeBackdrop.ll_main_backdrop)
             if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                binding.clHomeBackdrop.ll_main_backdrop
+                    .iv_backdrop_btn.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp)
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             } else {
+                binding.clHomeBackdrop.ll_main_backdrop
+                    .iv_backdrop_btn.setImageResource(R.drawable.ic_arrow_up_black_24dp)
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             }
         })
