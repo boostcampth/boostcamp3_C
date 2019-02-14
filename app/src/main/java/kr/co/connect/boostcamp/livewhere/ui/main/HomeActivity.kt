@@ -54,6 +54,10 @@ class HomeActivity : AppCompatActivity() {
             startSearchFragment()
         })
 
+        bookmarkViewModel.sendAddress.observe(this, Observer {
+            startMapActivity(bookmarkViewModel.sendAddress.value)
+        })
+
         searchViewModel.backBtnClicked.observe(this, Observer {
             startHomeFragment()
         })

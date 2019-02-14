@@ -14,11 +14,19 @@ import kr.co.connect.boostcamp.livewhere.repository.BookmarkRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.repository.RecentSearchRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 
-class BookmarkViewModel(private val bookmarkRepositoryImpl: BookmarkRepositoryImpl) : BaseViewModel() {
+class BookmarkViewModel(private val bookmarkRepositoryImpl: BookmarkRepositoryImpl) : BaseViewModel(),BookmarkInterface {
+    override fun openMap() {
+
+    }
+
     private val TAG = "BOOKMARK_VIEWMODEL"
     private val _bookmarkEntity = MutableLiveData<List<BookmarkEntity>>()
     val bookmarkEntity: LiveData<List<BookmarkEntity>>
         get() = _bookmarkEntity
+
+    private val _sendAddress = MutableLiveData<String>()
+    val sendAddress: LiveData<String>
+        get() = _sendAddress
 
     init {
         getBookmark()
@@ -39,4 +47,13 @@ class BookmarkViewModel(private val bookmarkRepositoryImpl: BookmarkRepositoryIm
                 })
         )
     }
+
+    fun setSendText(text: String) {
+        Log.d(TAG, "Data: "+text)
+        _sendAddress.postValue(text)
+    }
+}
+
+interface BookmarkInterface{
+    fun openMap()
 }
