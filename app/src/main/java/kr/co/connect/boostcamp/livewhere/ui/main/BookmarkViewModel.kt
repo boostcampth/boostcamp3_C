@@ -1,7 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.ui.main
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -11,7 +10,6 @@ import kr.co.connect.boostcamp.livewhere.repository.BookmarkRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 
 class BookmarkViewModel(private val bookmarkRepositoryImpl: BookmarkRepositoryImpl) : BaseViewModel() {
-    private val TAG = "BOOKMARK_VIEWMODEL"
     private val _bookmarkEntity = MutableLiveData<List<BookmarkEntity>>()
     val bookmarkEntity: LiveData<List<BookmarkEntity>>
         get() = _bookmarkEntity
@@ -41,7 +39,6 @@ class BookmarkViewModel(private val bookmarkRepositoryImpl: BookmarkRepositoryIm
     }
 
     fun setSendText(text: String) {
-        Log.d(TAG, "Data: " + text)
         _sendAddress.postValue(text)
     }
 }

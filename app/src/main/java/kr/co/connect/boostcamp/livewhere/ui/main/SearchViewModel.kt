@@ -26,8 +26,6 @@ class SearchViewModel(
     private val COUNTRYCODE = "kr"
     private var token = AutocompleteSessionToken.newInstance()
 
-    val TAG = "SEARCHVIEWMODEL"
-
     private val _isRecentSearchVisible = MutableLiveData<Boolean>()
     val isRecentSearchVisible: LiveData<Boolean>
         get() = _isRecentSearchVisible

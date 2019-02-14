@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bookmarkRecyclerViewAdapter = BookmarkRecyclerViewAdapter(this@HomeFragment)
+        bookmarkRecyclerViewAdapter = BookmarkRecyclerViewAdapter(this@HomeFragment, bookmarkViewModel)
         recyclerViewLayoutManager = LinearLayoutManager(context)
     }
 
