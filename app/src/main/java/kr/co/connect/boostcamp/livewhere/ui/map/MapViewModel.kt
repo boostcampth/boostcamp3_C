@@ -160,16 +160,20 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
                 Collections.sort(placeList as List<Place>) { o1, o2 -> o1.distance.toInt() - o2.distance.toInt() }
                 _placeResponseLiveData.postValue(placeResponse)
                 _searchListLiveData.postValue(placeList)
-                _userStatusLiveData.postValue(
-                    UserStatus(
-                        StatusCode.SUCCESS_SEARCH_PLACE,
-                        String.format(
-                            view?.context!!.getString(R.string.info_success_search_place_text),
-                            placeList[0].category,
-                            placeList.size
+                if (placeList.isEmpty()) {
+                    _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_PLACE, ""))
+                } else {
+                    _userStatusLiveData.postValue(
+                        UserStatus(
+                            StatusCode.SUCCESS_SEARCH_PLACE,
+                            String.format(
+                                view?.context!!.getString(R.string.info_success_search_place_text),
+                                placeList[0].category,
+                                placeList.size
+                            )
                         )
                     )
-                )
+                }
             }, {
                 _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_PLACE, ""))
             })
@@ -273,19 +277,23 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
     override fun onClickMapImageView(view: View, liveData: LiveData<*>) {
         var lat: String = ""
         var lng: String = ""
+        var address: String = ""
         if (liveData.value is MarkerInfo) {
             val markerInfo = liveData.value as MarkerInfo
+            address = markerInfo.address.addr
             lat = markerInfo.latLng.latitude.toString()
             lng = markerInfo.latLng.longitude.toString()
         } else if (liveData.value is Place) {
             val placeInfo = liveData.value as Place
+            address = placeInfo.addrName
             lat = placeInfo.y
             lng = placeInfo.x
         }
         view.setOnClickListener {
             val intent = Intent(view.context, StreetMapActivity::class.java)
-            intent.putExtra("lat",lat)
-            intent.putExtra("lng",lng)
+            intent.putExtra("lat", lat)
+            intent.putExtra("lng", lng)
+            intent.putExtra("address", address)
             view.context.startActivity(intent)
         }
     }
