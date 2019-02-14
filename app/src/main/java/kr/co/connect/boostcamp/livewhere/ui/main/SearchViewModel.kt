@@ -23,8 +23,7 @@ class SearchViewModel(
     private val recentSearchRepositoryImpl: RecentSearchRepositoryImpl
 ) : BaseViewModel() {
     private lateinit var placesClient: PlacesClient
-    private val TAG = "SEARCH_VIEW_MODEL"
-    private val COUNTY_CODE = "kr"
+    private val COUNTRYCODE = "kr"
     private var token = AutocompleteSessionToken.newInstance()
 
     private val _isRecentSearchVisible = MutableLiveData<Boolean>()
@@ -77,7 +76,7 @@ class SearchViewModel(
 
     fun startAutoComplete(text: String) {
         val request = FindAutocompletePredictionsRequest.builder()
-            .setCountry(COUNTY_CODE)
+            .setCountry(COUNTRYCODE)
             .setTypeFilter(TypeFilter.GEOCODE)
             .setSessionToken(token)
             .setQuery(text)
@@ -87,9 +86,6 @@ class SearchViewModel(
         placesClient.findAutocompletePredictions(request)
             .addOnSuccessListener { response ->
                 for (prediction in response.autocompletePredictions) {
-                    Log.d(TAG, "결과: " + prediction.getPrimaryText(null).toString())
-                    Log.d(TAG, "결과2: " + prediction.getFullText(null).toString())
-                    Log.d(TAG, "결과3: " + prediction.getSecondaryText(null).toString())
                     textList.add(prediction.getFullText(null).toString())
                 }
                 _autoCompleteLIst.postValue(textList.toList())
@@ -101,7 +97,7 @@ class SearchViewModel(
             }
             .addOnFailureListener { exception ->
                 if (exception is ApiException) {
-                    Log.e(TAG, "Place not found: " + exception.statusCode)
+                    Log.e("API Error", "Place not found: " + exception.statusCode)
                 }
             }
     }
