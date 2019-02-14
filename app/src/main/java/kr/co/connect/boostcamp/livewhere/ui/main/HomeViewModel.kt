@@ -13,13 +13,12 @@ class HomeViewModel : BaseViewModel() {
     val btnClicked: LiveData<Any>
         get() = _btnClicked
 
-    init {}
+    init {
+    }
 
     fun onSearchClicked() {
         _searchBtnClicked.call()
     }
-
-
 
     fun onClickBtn() {
         _btnClicked.call()

@@ -26,6 +26,8 @@ class SearchViewModel(
     private val COUNTRYCODE = "kr"
     private var token = AutocompleteSessionToken.newInstance()
 
+    val TAG = "SEARCHVIEWMODEL"
+
     private val _isRecentSearchVisible = MutableLiveData<Boolean>()
     val isRecentSearchVisible: LiveData<Boolean>
         get() = _isRecentSearchVisible
@@ -74,6 +76,10 @@ class SearchViewModel(
         this.placesClient = placesClient
     }
 
+    fun setVisibility() {
+        _isRecentSearchVisible.postValue(true)
+    }
+
     fun startAutoComplete(text: String) {
         val request = FindAutocompletePredictionsRequest.builder()
             .setCountry(COUNTRYCODE)
@@ -86,6 +92,7 @@ class SearchViewModel(
         placesClient.findAutocompletePredictions(request)
             .addOnSuccessListener { response ->
                 for (prediction in response.autocompletePredictions) {
+                    Log.d("QUERY", prediction.getFullText(null).toString())
                     textList.add(prediction.getFullText(null).toString())
                 }
                 _autoCompleteLIst.postValue(textList.toList())
@@ -102,11 +109,6 @@ class SearchViewModel(
             }
     }
 
-    fun onFinishSearch(text: String) {
-        recentSearchRepositoryImpl.setRecentSearch(RecentSearchEntity(text))
-        _searchText.postValue(text)
-    }
-
     fun onClickedMap() {
         _mapBtnClicked.call()
     }
@@ -118,5 +120,14 @@ class SearchViewModel(
     fun deleteAll() {
         recentSearchRepositoryImpl.deleteRecentSearch()
         getRecentSearch()
+    }
+
+    fun onClickAutoComplete(text: String) {
+        recentSearchRepositoryImpl.setRecentSearch(RecentSearchEntity(text))
+        _searchText.postValue(text)
+    }
+
+    fun onRecentSearchClicked(text: String) {
+        _searchText.postValue(text)
     }
 }

@@ -34,17 +34,13 @@ class SearchFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        recentSearchRecyclerViewAdapter = RecentSearchRecyclerViewAdapter(this@SearchFragment)
-        autoCompleteRecyclerViewAdapter = AutoCompleteRecyclerViewAdapter(this@SearchFragment)
+        recentSearchRecyclerViewAdapter = RecentSearchRecyclerViewAdapter(this@SearchFragment, searchViewModel)
+        autoCompleteRecyclerViewAdapter = AutoCompleteRecyclerViewAdapter(this@SearchFragment, searchViewModel)
         autoCompleteLayoutManager = LinearLayoutManager(context)
         recyclerViewLayoutManager = LinearLayoutManager(context)
 
         searchViewModel.isRecentSearchVisible.observe(this, Observer {
-            if(it) {
-                binding.svSearch.ll_recent_search.visibility = View.VISIBLE
-            } else {
-                binding.svSearch.ll_recent_search.visibility = View.GONE
-            }
+            changeSearchRv(it)
         })
     }
 
@@ -65,5 +61,15 @@ class SearchFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    fun changeSearchRv(set: Boolean) {
+        if (set) {
+            binding.rvAutoComplete.visibility = View.GONE
+            binding.svSearch.ll_recent_search.visibility = View.VISIBLE
+        } else {
+            binding.rvAutoComplete.visibility = View.VISIBLE
+            binding.svSearch.ll_recent_search.visibility = View.GONE
+        }
     }
 }

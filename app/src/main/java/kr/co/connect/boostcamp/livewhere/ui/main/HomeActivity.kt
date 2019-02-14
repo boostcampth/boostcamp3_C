@@ -87,13 +87,17 @@ class HomeActivity : AppCompatActivity() {
 
         searchViewModel.searchText.observe(this, Observer {
             if(searchViewModel.searchText.value.isNullOrEmpty()) {
+                Log.d("HA", searchViewModel.searchText.value.toString())
                 Toast.makeText(this, EMPTY_STRING_TEXT, Toast.LENGTH_LONG).show()
             } else {
                 if(currentFragment.et_search_bar.text.toString() == searchViewModel.searchText.toString()) {
+                    Log.d("HA", searchViewModel.searchText.value.toString())
                     if(searchViewModel.autoCompleteList.value.isNullOrEmpty()) {
+                        Log.d("HA", searchViewModel.searchText.value.toString())
                         startMapActivity(searchViewModel.autoCompleteList.value!![0])
                     }
                 } else {
+                    Log.d("HA", searchViewModel.searchText.value.toString())
                     startMapActivity(searchViewModel.searchText.value)
                 }
             }
@@ -120,6 +124,7 @@ class HomeActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(HOME_CONTAINER_ID, currentFragment)
             .commit()
+        searchViewModel.setVisibility()
     }
 
     private fun startMapActivity() {
@@ -135,5 +140,7 @@ class HomeActivity : AppCompatActivity() {
         } else {
             startMapActivity()
         }
+
+        Toast.makeText(this, text+"MapActivity로 전송됨.",Toast.LENGTH_LONG).show()
     }
 }
