@@ -49,20 +49,31 @@ class HomeFragment : Fragment() {
             adapter = bookmarkRecyclerViewAdapter
         }
 
-        observe()
+        observeBottomSheet()
         return binding.root
     }
 
-    private fun observe() {
+    private fun observeBottomSheet() {
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.clHomeBackdrop.ll_main_backdrop)
+        bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    binding.clHomeBackdrop.ll_main_backdrop
+                        .iv_backdrop_btn.setImageResource(R.drawable.ic_arrow_up_black_24dp)
+                } else {
+                    binding.clHomeBackdrop.ll_main_backdrop
+                        .iv_backdrop_btn.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp)
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
         homeViewModel.btnClicked.observe(this, Observer {
-            val bottomSheetBehavior = BottomSheetBehavior.from(binding.clHomeBackdrop.ll_main_backdrop)
             if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-                binding.clHomeBackdrop.ll_main_backdrop
-                    .iv_backdrop_btn.setImageResource(R.drawable.ic_arrow_up_black_24dp)
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             } else {
-                binding.clHomeBackdrop.ll_main_backdrop
-                    .iv_backdrop_btn.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp)
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             }
         })
