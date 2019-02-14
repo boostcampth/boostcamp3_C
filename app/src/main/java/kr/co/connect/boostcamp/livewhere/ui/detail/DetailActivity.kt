@@ -26,7 +26,6 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val markerInfo = intent.getParcelableExtra<MarkerInfo>("markerInfo")
-        Log.d("@@@",""+markerInfo.address)
         binding = DataBindingUtil.setContentView(this, kr.co.connect.boostcamp.livewhere.R.layout.activity_detail)
         if (savedInstanceState == null) {
             addDetailFragment()
@@ -67,6 +66,10 @@ class DetailActivity : AppCompatActivity() {
         viewModel.onPressedBackBtn.observe(this, Observer {
             onBackPressed()
         })
+
+        viewModel.getBookmarks().observe(this, Observer {
+            viewModel.checkBookmarkId()
+        })
     }
 
     private fun addDetailFragment() {
@@ -99,7 +102,6 @@ class DetailActivity : AppCompatActivity() {
         currentFragment = fragment
         supportFragmentManager
             .beginTransaction()
-//            .setCustomAnimations(R.anim.slide_in_left,R.anim.slide_out_left,R.anim.slide_in_right,R.anim.slide_out_right)
             .setCustomAnimations(
                 R.anim.slide_in_left,
                 R.anim.slide_out_left,

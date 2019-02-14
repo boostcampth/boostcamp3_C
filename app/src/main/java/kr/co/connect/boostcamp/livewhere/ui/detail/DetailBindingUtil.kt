@@ -38,10 +38,10 @@ fun setClickable(view:View, isClickable:Boolean?){
 }
 
 @BindingAdapter("setBarChart")
-fun setBarChart(barChart: BarChart, list: LiveData<ArrayList<HouseAvgPrice>>) {
+fun setBarChart(barChart: BarChart, list: LiveData<List<HouseAvgPrice>>) {
     try {
-        BarChartUtil.setChartData(barChart, list.value!!)
         BarChartUtil.showChart(barChart)
+        BarChartUtil.setChartData(barChart, list.value!!)
         barChart.notifyDataSetChanged()
     } catch (e: KotlinNullPointerException) {
         barChart.setNoDataText(EMPTY_BARCHART_TEXT)
