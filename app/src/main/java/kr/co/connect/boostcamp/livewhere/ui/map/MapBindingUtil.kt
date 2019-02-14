@@ -422,14 +422,6 @@ fun Toolbar.onInitToolbar(isHomeClick: Boolean) {
     }
 }
 
-@BindingAdapter(value = ["onClickFinish"])
-fun Toolbar.onClickFinish(isHomeClick: Boolean) {
-    setNavigationOnClickListener {
-        (context as StreetMapActivity).finish()
-    }
-}
-
-
 @BindingAdapter(value =["onTitleToolbar"])
 fun Toolbar.onTitleToolbar(markerLiveData: LiveData<MarkerInfo>){
     if(markerLiveData.value != null){

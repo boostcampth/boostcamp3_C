@@ -277,15 +277,12 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
     override fun onClickMapImageView(view: View, liveData: LiveData<*>) {
         var lat: String = ""
         var lng: String = ""
-        var address: String = ""
         if (liveData.value is MarkerInfo) {
             val markerInfo = liveData.value as MarkerInfo
-            address = markerInfo.address.addr
             lat = markerInfo.latLng.latitude.toString()
             lng = markerInfo.latLng.longitude.toString()
         } else if (liveData.value is Place) {
             val placeInfo = liveData.value as Place
-            address = placeInfo.addrName
             lat = placeInfo.y
             lng = placeInfo.x
         }
@@ -293,7 +290,6 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
             val intent = Intent(view.context, StreetMapActivity::class.java)
             intent.putExtra("lat", lat)
             intent.putExtra("lng", lng)
-            intent.putExtra("address", address)
             view.context.startActivity(intent)
         }
     }
