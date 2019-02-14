@@ -14,8 +14,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/cl_home_backdrop"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true">
+            android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_home"
@@ -42,6 +41,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_logo"
+                    android:padding="@dimen/space_small"
                     android:layout_margin="@dimen/home_between_logo_and_search_bar_margin"
                     android:onClick="@{()->homeViewModel.onSearchClicked()}"
                     android:src="@drawable/btn_home_search_bar"/>
@@ -64,6 +64,7 @@
                 app:behavior_peekHeight="@dimen/dropbar_header"
                 app:layout_behavior="@string/bottom_sheet_behavior"
                 bind:bookmarkViewModel="@{bookmarkViewModel}"
+                bind:homeViewModel="@{homeViewModel}"
                 app:behavior_hideable="false"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -1,9 +1,13 @@
 package kr.co.connect.boostcamp.livewhere.ui.main
 
+import android.content.Context
 import android.content.Intent
+import android.inputmethodservice.InputMethodService
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -14,6 +18,7 @@ import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityHomeBinding
 import kr.co.connect.boostcamp.livewhere.ui.map.MapActivity
+import kr.co.connect.boostcamp.livewhere.util.EMPTY_STRING_TEXT
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeActivity : AppCompatActivity() {
@@ -67,7 +72,12 @@ class HomeActivity : AppCompatActivity() {
             startSearchFragment()
         })
 
+        bookmarkViewModel.sendAddress.observe(this, Observer {
+            startMapActivity(bookmarkViewModel.sendAddress.value)
+        })
+
         searchViewModel.backBtnClicked.observe(this, Observer {
+            hideKeyboard()
             startHomeFragment()
         })
 
@@ -76,8 +86,28 @@ class HomeActivity : AppCompatActivity() {
         })
 
         searchViewModel.searchText.observe(this, Observer {
-            startMapActivity(searchViewModel.searchText.value)
+            if(searchViewModel.searchText.value.isNullOrEmpty()) {
+                Log.d("HA", searchViewModel.searchText.value.toString())
+                Toast.makeText(this, EMPTY_STRING_TEXT, Toast.LENGTH_LONG).show()
+            } else {
+                if(currentFragment.et_search_bar.text.toString() == searchViewModel.searchText.toString()) {
+                    Log.d("HA", searchViewModel.searchText.value.toString())
+                    if(searchViewModel.autoCompleteList.value.isNullOrEmpty()) {
+                        Log.d("HA", searchViewModel.searchText.value.toString())
+                        startMapActivity(searchViewModel.autoCompleteList.value!![0])
+                    }
+                } else {
+                    Log.d("HA", searchViewModel.searchText.value.toString())
+                    startMapActivity(searchViewModel.searchText.value)
+                }
+            }
         })
+    }
+
+    private fun hideKeyboard() {
+        currentFragment.et_search_bar.inputType = 0
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFragment.et_search_bar.windowToken, 0)
     }
 
     private fun startHomeFragment(){
@@ -94,6 +124,7 @@ class HomeActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(HOME_CONTAINER_ID, currentFragment)
             .commit()
+        searchViewModel.setVisibility()
     }
 
     private fun startMapActivity() {
@@ -109,5 +140,7 @@ class HomeActivity : AppCompatActivity() {
         } else {
             startMapActivity()
         }
+
+        Toast.makeText(this, text+"MapActivity로 전송됨.",Toast.LENGTH_LONG).show()
     }
 }

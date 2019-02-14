@@ -33,7 +33,7 @@ fun finishEntering(editText: EditText, viewModel: SearchViewModel) {
     editText.setOnKeyListener { v, keyCode, event ->
         if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
             //After Enter Key
-            viewModel.onFinishSearch(editText.text.toString())
+            viewModel.onClickAutoComplete(editText.text.toString())
             return@setOnKeyListener true
         } else {
             return@setOnKeyListener false

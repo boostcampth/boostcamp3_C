@@ -8,9 +8,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kr.co.connect.boostcamp.livewhere.data.entity.BookmarkEntity
 import kr.co.connect.boostcamp.livewhere.databinding.ItemBookmarkRecyclerViewBinding
+import kr.co.connect.boostcamp.livewhere.ui.main.BookmarkViewModel
 
 class BookmarkRecyclerViewAdapter(
-    private val lifecycleOwner: LifecycleOwner
+    private val lifecycleOwner: LifecycleOwner,
+    private val bookmarkViewModel: BookmarkViewModel
 ) : RecyclerView.Adapter<BookmarkRecyclerViewAdapter.BookmarkViewHolder>() {
 
     private var list = listOf<BookmarkEntity>()
@@ -29,18 +31,19 @@ class BookmarkRecyclerViewAdapter(
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
-        holder.bind(lifecycleOwner, list[position])
+        holder.bind(lifecycleOwner, list[position], bookmarkViewModel)
     }
 
     inner class BookmarkViewHolder(
         private val itemBinding: ItemBookmarkRecyclerViewBinding
     ) : RecyclerView.ViewHolder(itemBinding.root) {
 
-        fun bind(lifecycleOwner: LifecycleOwner, bookmark: BookmarkEntity) {
+        fun bind(lifecycleOwner: LifecycleOwner, bookmark: BookmarkEntity, bookmarkViewModel: BookmarkViewModel) {
             itemBinding.setLifecycleOwner(lifecycleOwner)
             //TODO: Databinding error
             itemBinding.tvBookmarkLocationContents.text = bookmark.address
             itemBinding.bookmark = bookmark
+            itemBinding.bookmarkViewModel = bookmarkViewModel
 
             if (itemBinding.ivBookmarkImage != null) {
                 Glide.with(itemBinding.root)

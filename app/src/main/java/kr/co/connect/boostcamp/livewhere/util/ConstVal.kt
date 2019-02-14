@@ -15,3 +15,4 @@ const val SORT_BY_YEAR = 3
 const val SORT_BY_YEAR_REV = -3
 const val ROOT_COMMENTS_NAME = "comments"
 const val ROOT_BOOKMARK_NAME = "bookmarks"
+const val EMPTY_STRING_TEXT = "검색어가 없습니다."
