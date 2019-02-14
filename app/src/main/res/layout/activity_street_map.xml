@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
-             android:layout_height="match_parent">
+             android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <fragment
             android:id="@+id/fragment_street_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             class="com.google.android.gms.maps.SupportStreetViewPanoramaFragment" />
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize">
+
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar_map"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:background="@color/map_toolbar_color"
+                    app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+                    isHomeClick="@{true}"/>
+        </FrameLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
 </FrameLayout>

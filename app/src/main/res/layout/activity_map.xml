@@ -256,6 +256,8 @@
                         android:id="@+id/iv_place_image"
                         onDrawHouse="@{mapViewModel.markerImageLiveData}"
                         onDrawPlace="@{mapViewModel.placeMarkerLiveData}"
+                        onClickHouseStreetView="@{mapViewModel}"
+                        onClickPlaceStreetView="@{mapViewModel}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="@+id/logoView"
