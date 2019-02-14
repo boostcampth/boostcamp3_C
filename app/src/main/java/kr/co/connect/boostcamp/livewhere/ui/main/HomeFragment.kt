@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.fragment_home_backdrop.view.*
 import kr.co.connect.boostcamp.livewhere.databinding.FragmentHomeBinding
 import kr.co.connect.boostcamp.livewhere.ui.main.adapter.BookmarkRecyclerViewAdapter
+import org.checkerframework.framework.qual.Bottom
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class HomeFragment : Fragment() {
@@ -23,7 +26,7 @@ class HomeFragment : Fragment() {
 
     private val homeViewModel: HomeViewModel by sharedViewModel()
     private val bookmarkViewModel: BookmarkViewModel by sharedViewModel()
-    private lateinit var binding : FragmentHomeBinding
+    private lateinit var binding: FragmentHomeBinding
     private lateinit var bookmarkRecyclerViewAdapter: BookmarkRecyclerViewAdapter
     private lateinit var recyclerViewLayoutManager: LinearLayoutManager
 
@@ -34,7 +37,7 @@ class HomeFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentHomeBinding.inflate(inflater,container,false).apply {
+        binding = FragmentHomeBinding.inflate(inflater, container, false).apply {
             homeViewModel = this@HomeFragment.homeViewModel
             bookmarkViewModel = this@HomeFragment.bookmarkViewModel
             setLifecycleOwner(this@HomeFragment)
@@ -45,6 +48,18 @@ class HomeFragment : Fragment() {
             adapter = bookmarkRecyclerViewAdapter
         }
 
+        observe()
         return binding.root
+    }
+
+    private fun observe() {
+        homeViewModel.btnClicked.observe(this, Observer {
+            val bottomSheetBehavior = BottomSheetBehavior.from(binding.clHomeBackdrop.ll_main_backdrop)
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            } else {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+        })
     }
 }
