@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:bind="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+>
     <data>
         <variable
                 name="viewModel"
@@ -13,52 +14,70 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white">
+                android:background="@color/light_gray">
 
-            <include
-                    android:id="@+id/include_fragment_detail_image"
-                    layout="@layout/fragment_detail_image"
-                    bind:viewModel="@{viewModel}"
-                    android:layout_width="match_parent"
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/fragment_detail_image_and_recent_price"
                     android:layout_height="wrap_content"
-                    bind:layout_constraintTop_toTopOf="parent"
-                    bind:layout_constraintStart_toStartOf="parent"/>
+                    android:layout_width="match_parent"
+                    app:cardUseCompatPadding="true"
+                    android:orientation="vertical"
+                    app:cardElevation="@dimen/elevation_s"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="-3dp"
+                >
+                    <include
+                            android:id="@+id/include_fragment_detail_image"
+                            layout="@layout/fragment_detail_image"
+                            app:viewModel="@{viewModel}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top"
+                    />
 
-            <include
-                    android:id="@+id/include_fragment_detail_recent_price"
-                    layout="@layout/fragment_detail_recent_price"
-                    bind:viewModel="@{viewModel}"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    bind:layout_constraintTop_toBottomOf="@id/include_fragment_detail_image"
-                    bind:layout_constraintStart_toStartOf="parent" />
+                    <include
+                            android:id="@+id/include_fragment_detail_recent_price"
+                            layout="@layout/fragment_detail_recent_price"
+                            app:viewModel="@{viewModel}"
+                            android:layout_marginTop="-3dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                    />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <include
                     android:id="@+id/include_fragment_detail_trend_price"
                     layout="@layout/fragment_detail_trend_price"
-                    bind:viewModel="@{viewModel}"
+                    app:viewModel="@{viewModel}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    bind:layout_constraintTop_toBottomOf="@id/include_fragment_detail_recent_price"
-                    bind:layout_constraintStart_toStartOf="parent"/>
-
+                    app:layout_constraintTop_toBottomOf="@id/fragment_detail_image_and_recent_price"
+                    app:layout_constraintStart_toStartOf="parent"
+            />
             <include
                     android:id="@+id/include_fragment_detail_past_transation"
                     layout="@layout/fragment_detail_past_transation"
-                    bind:viewModel="@{viewModel}"
+                    app:viewModel="@{viewModel}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    bind:layout_constraintTop_toBottomOf="@id/include_fragment_detail_trend_price"
-                    bind:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@id/include_fragment_detail_trend_price"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
             <include
                     android:id="@+id/include_fragment_detail_review"
                     layout="@layout/fragment_detail_review"
-                    bind:viewModel="@{viewModel}"
+                    app:viewModel="@{viewModel}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    bind:layout_constraintTop_toBottomOf="@id/include_fragment_detail_past_transation"
-                    bind:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@id/include_fragment_detail_past_transation"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -49,7 +49,7 @@ class HomeActivity : AppCompatActivity() {
             homeViewModel = this@HomeActivity.homeViewModel
             bookmarkViewModel = this@HomeActivity.bookmarkViewModel
             searchViewModel = this@HomeActivity.searchViewModel
-            setLifecycleOwner(this@HomeActivity)
+            lifecycleOwner = this@HomeActivity
         }
 
         setGoogleClient()

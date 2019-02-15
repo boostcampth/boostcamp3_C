@@ -117,7 +117,6 @@ class DetailViewModel(
     }
 
 
-
     val buildingName = ObservableField<String>()
     val pnuCode = ObservableField<String>()
     val postReviewNickname = ObservableField<String>()
@@ -154,8 +153,20 @@ class DetailViewModel(
         _reviewMoreClicked.call()
     }
 
-    fun onClickedReviewPostOpen() {
-        _reviewPostOpenClicked.call()
+    fun onClickedReviewPostOpen(view: View) {
+        if (_hasLoaded.value == true) {
+            var isPassed = true
+            _commentsList.value!!.forEach {
+                if (it.id.equals(pref.uuid)) {
+                    Toast.makeText(view.context, POST_CLICK_ERROR, Toast.LENGTH_SHORT).show()
+                    isPassed = false
+                    return
+                }
+            }
+            if (isPassed) {
+                _reviewPostOpenClicked.call()
+            }
+        }
     }
 
     fun onClickedReviewPost(view: View) {
@@ -319,19 +330,19 @@ class DetailViewModel(
 
     fun setPastTransactionSort(view: View) {
         when (view.id) {
-            R.id.past_transaction_more_sort_by_area -> {
+            R.id.past_transaction_header_area -> {
                 if (_pastTransactionSort.value == SORT_BY_AREA)
                     _pastTransactionSort.postValue(SORT_BY_AREA_REV)
                 else
                     _pastTransactionSort.postValue(SORT_BY_AREA)
             }
-            R.id.past_transaction_more_sort_by_type -> {
+            R.id.past_transaction_header_type -> {
                 if (_pastTransactionSort.value == SORT_BY_TYPE)
                     _pastTransactionSort.postValue(SORT_BY_TYPE_REV)
                 else
                     _pastTransactionSort.postValue(SORT_BY_TYPE)
             }
-            R.id.past_transaction_more_sort_by_contract_year -> {
+            R.id.past_transaction_header_contract_year -> {
                 if (_pastTransactionSort.value == SORT_BY_YEAR)
                     _pastTransactionSort.postValue(SORT_BY_YEAR_REV)
                 else
@@ -380,7 +391,13 @@ class DetailViewModel(
     }
 
     fun postComment() {
-        val review = ReviewEntity(postReviewNickname.get(), "test_id", postReviewContents.get(), pnuCode.get())
+        val review = ReviewEntity(
+            postReviewNickname.get(),
+            pref.uuid,
+            DateUtil.getCurrentDate(),
+            postReviewContents.get(),
+            pnuCode.get()
+        )
         // TODO : MarkerInfo 구조를 변경하여 PNU코드를 _markerinfo에 담을수 있도록 수정
         reviewRepository.postReview(review).addOnSuccessListener {
             _reviewPostSuccess.call()
@@ -434,7 +451,7 @@ class DetailViewModel(
     fun checkBookmarkId() {
         if (_bookmarksList.value.isNullOrEmpty()) {
             _isBookmarked.postValue(false)
-        }else {
+        } else {
             _bookmarksList.value!!.forEach {
                 if (it.uuid.equals(pref.uuid)) {
                     _isBookmarked.postValue(true)

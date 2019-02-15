@@ -1,5 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.util
 
+import android.graphics.Color
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis.XAxisPosition
 import com.github.mikephil.charting.data.BarData
@@ -25,6 +26,7 @@ object BarChartUtil {
             entryList.add(entry)
         }
         val barDataSet = BarDataSet(entryList, AVG_PRICE)
+        barDataSet.color = Color.parseColor(PRIMARY_COLOR)
         val barData = BarData(barDataSet)
         barChart.data = barData
 
@@ -34,6 +36,7 @@ object BarChartUtil {
         barChart.xAxis.valueFormatter = XAxisValueFormatter(values)
         barChart.xAxis.labelRotationAngle = 45f
         barChart.xAxis.textSize = 9f
+        barChart.description = null
 
     }
 }

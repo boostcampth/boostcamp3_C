@@ -1,9 +1,12 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
+import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.*
+import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
@@ -14,7 +17,6 @@ import com.bumptech.glide.Glide
 import com.github.mikephil.charting.charts.BarChart
 import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.R
-import kr.co.connect.boostcamp.livewhere.data.SharedPreferenceStorage
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailReviewRvAdapter
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailTransactionRvAdapter
@@ -30,7 +32,7 @@ fun setProgress(view: View, isVisible: Boolean?) {
 }
 
 @BindingAdapter("setClickable")
-fun setClickable(view:View, isClickable:Boolean?){
+fun setClickable(view: View, isClickable: Boolean?) {
     if (isClickable != null) {
         if (isClickable) view.isClickable = isClickable
         else view.isClickable = !isClickable
@@ -146,9 +148,9 @@ fun setBuildingTitle(view: TextView, name: String?) {
 }
 
 @BindingAdapter("setBookmarkImage")
-fun setBookmarkImage(button: ImageButton, boolean: Boolean) = when {
-    boolean -> button.setImageResource(R.drawable.ic_bookmark_white_24dp)
-    else -> button.setImageResource(R.drawable.ic_bookmark_border_white_24dp)
+fun setBookmarkImage(bookmark: ImageButton, boolean: Boolean) = when {
+    boolean -> bookmark.setImageResource(R.drawable.ic_bookmark_white_24dp)
+    else -> bookmark.setImageResource(R.drawable.ic_bookmark_border_white_24dp)
 }
 
 
@@ -161,45 +163,24 @@ fun setImageMessage(view: TextView, list: List<BookmarkUser>?) {
     }
 }
 
-@BindingAdapter("setSortImage")
-fun setSortImage(view: View, sortType: Int) = when (sortType) {
-    SORT_BY_AREA -> {
-        if (view.id == R.id.past_transaction_more_sort_by_area_img) {
-            view.setBackgroundResource(R.drawable.ic_arrow_downward_black_24dp)
-            view.visibility = View.VISIBLE
-        } else view.visibility = View.GONE
+@BindingAdapter("setSortColor")
+fun setSortColor(view: View, sortType: Int) = when (sortType) {
+    SORT_BY_AREA, SORT_BY_AREA_REV -> if (view.id == R.id.past_transaction_header_area) {
+        view.setBackgroundColor(Color.parseColor(PRIMARY_DARK_COLOR))
+    } else {
+        view.setBackgroundColor(Color.parseColor(PRIMARY_COLOR))
     }
-    SORT_BY_AREA_REV -> {
-        if (view.id == R.id.past_transaction_more_sort_by_area_img) {
-            view.setBackgroundResource(R.drawable.ic_arrow_upward_black_24dp)
-            view.visibility = View.VISIBLE
-        } else view.visibility = View.GONE
+    SORT_BY_TYPE, SORT_BY_TYPE_REV -> if (view.id == R.id.past_transaction_header_type) {
+        view.setBackgroundColor(Color.parseColor(PRIMARY_DARK_COLOR))
+    } else {
+        view.setBackgroundColor(Color.parseColor(PRIMARY_COLOR))
     }
-    SORT_BY_TYPE -> {
-        if (view.id == R.id.past_transaction_more_sort_by_type_text) {
-            (view as TextView).text = view.context.getString(R.string.charter)
-            view.visibility = View.VISIBLE
-        } else view.visibility = View.GONE
-    }
-    SORT_BY_TYPE_REV -> {
-        if (view.id == R.id.past_transaction_more_sort_by_type_text) {
-            (view as TextView).text = view.context.getString(R.string.monthly_rent)
-            view.visibility = View.VISIBLE
-        } else view.visibility = View.GONE
-    }
-    SORT_BY_YEAR -> {
-        if (view.id == R.id.past_transaction_more_sort_by_contrat_year_img) {
-            view.setBackgroundResource(R.drawable.ic_arrow_downward_black_24dp)
-            view.visibility = View.VISIBLE
-        } else view.visibility = View.GONE
-    }
-    SORT_BY_YEAR_REV -> {
-        if (view.id == R.id.past_transaction_more_sort_by_contrat_year_img) {
-            view.setBackgroundResource(R.drawable.ic_arrow_upward_black_24dp)
-            view.visibility = View.VISIBLE
-        } else view.visibility = View.GONE
+    SORT_BY_YEAR, SORT_BY_YEAR_REV -> if (view.id == R.id.past_transaction_header_contract_year) {
+        view.setBackgroundColor(Color.parseColor(PRIMARY_DARK_COLOR))
+    } else {
+        view.setBackgroundColor(Color.parseColor(PRIMARY_COLOR))
     }
     else -> {
-        view.visibility = View.GONE
+        view.setBackgroundColor(Color.parseColor(PRIMARY_COLOR))
     }
 }
