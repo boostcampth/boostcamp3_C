@@ -365,4 +365,8 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
                 _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_HOUSE, ""))
             })
     }
+
+    override fun onInitActivityStatus() {
+        _userStatusLiveData.postValue(UserStatus(StatusCode.DEFAULT_SEARCH, ""))
+    }
 }

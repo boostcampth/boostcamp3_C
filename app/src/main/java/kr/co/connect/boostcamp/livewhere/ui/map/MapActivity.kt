@@ -36,6 +36,8 @@ class MapActivity : AppCompatActivity() {
         val address = intent.getStringExtra(SEARCH_TAG)
         if(address!=null){
             mapViewModel.onSearchHouseWithAddress(address)
+        }else{
+            mapViewModel.onInitActivityStatus()
         }
     }
 
