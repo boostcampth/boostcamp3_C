@@ -41,7 +41,7 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false).apply {
             homeViewModel = this@HomeFragment.homeViewModel
             bookmarkViewModel = this@HomeFragment.bookmarkViewModel
-            setLifecycleOwner(this@HomeFragment)
+            lifecycleOwner = this@HomeFragment
         }
 
         binding.clHomeBackdrop.rv_bookmark.apply {

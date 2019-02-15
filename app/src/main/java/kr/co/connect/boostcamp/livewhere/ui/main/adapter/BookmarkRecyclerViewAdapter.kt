@@ -45,12 +45,11 @@ class BookmarkRecyclerViewAdapter(
             itemBinding.bookmark = bookmark
             itemBinding.bookmarkViewModel = bookmarkViewModel
 
-            if (itemBinding.ivBookmarkImage != null) {
-                Glide.with(itemBinding.root)
-                    .load(bookmark.img_url)
-                    .apply { RequestOptions.fitCenterTransform() }
-                    .into(itemBinding.ivBookmarkImage)
-            }
+            Glide.with(itemBinding.root)
+                .load(bookmark.img_url)
+                .apply { RequestOptions.fitCenterTransform() }
+                .into(itemBinding.ivBookmarkImage)
+
         }
     }
 }
