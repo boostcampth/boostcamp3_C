@@ -100,6 +100,10 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="BasicTv.HeadlineM.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="BasicTv.HeadlineS">
         <item name="android:textSize">14sp</item>
         <item name="android:lineSpacingExtra">2sp</item>
@@ -122,6 +126,11 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="BasicTv.BodyM.Bold">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="BasicTv.BodyS">
         <item name="android:textSize">10sp</item>
     </style>
@@ -141,8 +150,8 @@
     </style>
 
     <style name="FloatingButton.Filter">
-        <item name="android:colorAccent">@color/main_color_variation</item>
-        <item name="android:backgroundTint">@color/main_color_variation</item>
+        <item name="android:colorAccent">@color/main_color</item>
+        <item name="android:backgroundTint">@color/main_color</item>
         <item name="android:layout_marginBottom">12dp</item>
         <item name="android:layout_marginEnd">36dp</item>
     </style>
@@ -178,6 +187,11 @@
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
         <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="RvText.Header">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="Detail_Review_Comment">
