@@ -249,8 +249,8 @@ fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, ma
                 )//중앙 위치
                 radius = RADIUS.toDouble()//반경
                 color = 0x4000FF00.toInt()//색깔
-                outlineColor = 0xC000FF00.toInt()
-                outlineWidth = 20
+                outlineColor = 0xC000c148.toInt()
+                outlineWidth = 10
                 map = naverMap//맵셋팅
             }
             mapViewModel.onSaveCircleOverlay(overlay)
@@ -371,7 +371,7 @@ fun BackdropMotionLayout.changeSearchHeight(searchListLiveData: LiveData<List<An
 fun TextView.setStatusTextView(userStatusLiveData: LiveData<UserStatus>) {
     val statusCode = userStatusLiveData.value?.statusCode
     text = when (statusCode) {
-        StatusCode.DEFAULT_SEARCH -> context.getString(R.string.home_bookmark)
+        StatusCode.DEFAULT_SEARCH -> context.getString(R.string.map_init_message)
         StatusCode.BEFORE_SEARCH_PLACE -> context.getString(R.string.info_before_search_place_text)
         StatusCode.SEARCH_PLACE -> userStatusLiveData.value?.content
         StatusCode.SEARCH_HOUSE -> userStatusLiveData.value?.content

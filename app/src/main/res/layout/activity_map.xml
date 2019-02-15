@@ -22,6 +22,8 @@
                     android:background="@color/colorPrimary"
                     app:titleTextColor="@color/white"
                     app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+                    app:titleTextAppearance="@style/BasicTv.HeadlineM"
+                    app:title="@string/map_init_message"
                     isHomeClick="@{true}"
                     onTitleToolbar="@{mapViewModel.markerLiveData}"/>
         </com.google.android.material.appbar.AppBarLayout>
@@ -98,7 +100,7 @@
                                 android:gravity="center_vertical"
                                 android:textColor="@color/black"
                                 android:layout_gravity="top"
-                                android:text="@string/home_bookmark"
+                                android:text="@string/map_init_message"
                                 android:id="@+id/tv_backdrop_title"
                                 onStatusTitleEvent="@{mapViewModel.userStatusLiveData}"/>
                     </LinearLayout>
@@ -107,7 +109,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:id="@+id/rv_search_map"
-                            android:nestedScrollingEnabled="true"
+                            android:nestedScrollingEnabled="false"
                             android:overScrollMode="never"
                             bindData="@{mapViewModel.searchListLiveData}"
                     />

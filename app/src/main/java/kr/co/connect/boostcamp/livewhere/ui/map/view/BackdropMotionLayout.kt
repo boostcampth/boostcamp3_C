@@ -30,12 +30,15 @@ class BackdropMotionLayout(context: Context, attributeSet: AttributeSet? = null)
                 when (currentId) {
                     R.layout.motion_01_map_backdrop_start -> {
                         rv_search_map.setNotTouch(false)
+                        rv_search_map.isNestedScrollingEnabled = false
                     }
                     R.layout.motion_01_map_backdrop_middle -> {
                         rv_search_map.setNotTouch(false)
+                        rv_search_map.isNestedScrollingEnabled = false
                     }
                     R.layout.motion_01_map_backdrop_end -> {
                         rv_search_map.setNotTouch(true)
+                        rv_search_map.isNestedScrollingEnabled = true
                     }
                 }
             }

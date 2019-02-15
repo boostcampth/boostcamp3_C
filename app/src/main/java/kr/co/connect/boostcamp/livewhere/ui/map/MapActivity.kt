@@ -28,15 +28,19 @@ class MapActivity : AppCompatActivity() {
         activityMapBinding.setMlBackdrop(activityMapBinding.mlBackdrop)
         activityMapBinding.mvMainNaver.onCreate(savedInstanceState)
         activityMapBinding.mvMainNaver.getMapAsync(mapViewModel)
+        val address = intent.getStringExtra(SEARCH_TAG)
+        if(address!=null){
+            intent.extras.clear()
+            mapViewModel.onSearchHouseWithAddress(address)
+        }else{
+            mapViewModel.onInitActivityStatus()
+        }
     }
 
     override fun onStart() {
         super.onStart()
         activityMapBinding.mvMainNaver.onStart()//naverMap객체는 라이프사이클에 종속되어야 합니다.
-        val address = intent.getStringExtra(SEARCH_TAG)
-        if(address!=null){
-            mapViewModel.onSearchHouseWithAddress(address)
-        }
+
     }
 
     override fun onResume() {
