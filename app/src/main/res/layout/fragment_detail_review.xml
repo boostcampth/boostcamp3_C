@@ -7,9 +7,15 @@
                   type="kr.co.connect.boostcamp.livewhere.ui.detail.DetailViewModel"/>
     </data>
 
+    <androidx.cardview.widget.CardView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="@dimen/elevation_s">
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:paddingTop="@dimen/space_small"
             android:paddingBottom="@dimen/space_small"
             android:paddingStart="@dimen/detail_contents_horizontal_padding"
@@ -37,7 +43,7 @@
                 android:paddingEnd="@dimen/space_small"
 
                 android:textColor="@color/black"
-                android:onClick="@{()->viewModel.onClickedReviewPostOpen()}"
+                android:onClick="@{viewModel.onClickedReviewPostOpen}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 style="@style/BasicTv.BodyL"/>
@@ -47,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_post_black"
-                android:onClick="@{()->viewModel.onClickedReviewPostOpen()}"
+                android:onClick="@{viewModel.onClickedReviewPostOpen}"
                 app:layout_constraintTop_toTopOf="@id/detail_fragment_tv_review_create"
                 app:layout_constraintBottom_toBottomOf="@id/detail_fragment_tv_review_create"
                 app:layout_constraintEnd_toStartOf="@id/detail_fragment_tv_review_create"/>
@@ -95,7 +101,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/detail_more_btn_height"
                 android:text="@string/btn_more_text"
-                android:background="@color/main_color_variation"
+                android:background="@color/colorPrimaryDark"
                 android:onClick="@{()->viewModel.onClickedReviewMore()}"
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_tv_review_contents"
                 app:layout_constraintStart_toStartOf="@id/detail_fragment_tv_review_contents"
@@ -103,4 +109,5 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </layout>
