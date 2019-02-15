@@ -16,3 +16,6 @@ const val SORT_BY_YEAR_REV = -3
 const val ROOT_COMMENTS_NAME = "comments"
 const val ROOT_BOOKMARK_NAME = "bookmarks"
 const val EMPTY_STRING_TEXT = "검색어가 없습니다."
+const val PRIMARY_COLOR = "#7DA8F1"
+const val PRIMARY_DARK_COLOR = "#608DEE"
+const val POST_CLICK_ERROR = "이미 리뷰를 남기셨습니다."
