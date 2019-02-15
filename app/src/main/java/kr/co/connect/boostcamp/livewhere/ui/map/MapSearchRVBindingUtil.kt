@@ -28,13 +28,13 @@ fun LinearLayout.setOnCallListener(phone: String) {
     }
 }
 
-@BindingAdapter(value =["onText"])
-fun TextView.onTextView(content:String){
+@BindingAdapter(value = ["onText"])
+fun TextView.onTextView(content: String) {
     text = content
 }
 
-@BindingAdapter(value=["onIntent"])
-fun LinearLayout.startActivityWithIntent(markerInfo:MarkerInfo){
+@BindingAdapter(value = ["onIntent"])
+fun LinearLayout.startActivityWithIntent(markerInfo: MarkerInfo) {
     setOnClickListener {
         val intent = Intent(context, DetailActivity::class.java)
         intent.putExtra("markerInfo", markerInfo)
@@ -42,13 +42,13 @@ fun LinearLayout.startActivityWithIntent(markerInfo:MarkerInfo){
     }
 }
 
-@BindingAdapter(value=["onDrawCategory"])
-fun ImageView.setOnDrawCategory(category:String){
-    when(category){
-        "학교","어린이집,유치원"-> setBackgroundResource(R.drawable.ic_school)
-        "편의점","대형마트"-> setBackgroundResource(R.drawable.ic_mall)
-        "음식점"->setBackgroundResource(R.drawable.ic_signboard)
-        "카페"->setBackgroundResource(R.drawable.ic_cafe)
-        "병원"->setBackgroundResource(R.drawable.ic_hospital)
+@BindingAdapter(value = ["onDrawCategory"])
+fun ImageView.setOnDrawCategory(category: String) {
+    when (category) {
+        "학교", "어린이집,유치원" -> setBackgroundResource(R.drawable.ic_school)
+        "편의점", "대형마트" -> setBackgroundResource(R.drawable.ic_mall)
+        "음식점" -> setBackgroundResource(R.drawable.ic_signboard)
+        "카페" -> setBackgroundResource(R.drawable.ic_cafe)
+        "병원" -> setBackgroundResource(R.drawable.ic_hospital)
     }
 }
