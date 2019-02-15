@@ -29,20 +29,21 @@ class DetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentDetailBinding.inflate(inflater,container,false).apply {
+        binding = FragmentDetailBinding.inflate(inflater, container, false).apply {
             viewModel = this@DetailFragment.viewModel
             lifecycleOwner = this@DetailFragment
         }
 
         binding.detailFragmentCl.detail_fragment_rv_past_transation.apply {
             layoutManager = LinearLayoutManager(context)
-                    adapter = DetailTransactionRvAdapter(this@DetailFragment)
+            adapter = DetailTransactionRvAdapter(this@DetailFragment)
         }
 
         binding.detailFragmentCl.detail_fragment_chart.setTouchEnabled(false)
 
-        viewModel.avgPriceType.observe(this, Observer { //전세 월세별 시세추이
-            setBarChart(binding.detailFragmentCl.detail_fragment_chart,viewModel.getAvgPriceList())
+        viewModel.avgPriceType.observe(this, Observer {
+            //전세 월세별 시세추이
+            setBarChart(binding.detailFragmentCl.detail_fragment_chart, viewModel.getAvgPriceList())
         })
 
 

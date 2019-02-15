@@ -1,7 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -26,7 +25,7 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val markerInfo = intent.getParcelableExtra<MarkerInfo>("markerInfo")
-        binding = DataBindingUtil.setContentView(this, kr.co.connect.boostcamp.livewhere.R.layout.activity_detail)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
         if (savedInstanceState == null) {
             addDetailFragment()
         }
@@ -34,32 +33,38 @@ class DetailActivity : AppCompatActivity() {
         binding.apply {
             viewModel = this@DetailActivity.viewModel
             lifecycleOwner = this@DetailActivity
+
         }
 
         viewModel.setUuid(generateUuid(this))
         viewModel.setMarkerInfoFromActivity(markerInfo)
 
-        viewModel.markerInfo.observe(this, Observer { //지도 화면으로부터 전체 데이터 넘겨 받은 시점
-            setBuildingTitle(binding.detailActivityTvAddress,viewModel.buildingName.get())
+        viewModel.markerInfo.observe(this, Observer {
+            //지도 화면으로부터 전체 데이터 넘겨 받은 시점
+            setBuildingTitle(binding.detailActivityTvAddress, viewModel.buildingName.get())
             viewModel.getCoordinateFromInfo()
             viewModel.getRecentPriceFromInfo()
             viewModel.getPastTransactionFromList()
 
         })
 
-        viewModel.transactionMoreClicked.observe(this, Observer {//과거 거래내역 더보기 클릭 시
+        viewModel.transactionMoreClicked.observe(this, Observer {
+            //과거 거래내역 더보기 클릭 시
             addDetailMore()
         })
 
-        viewModel.reviewMoreClicked.observe(this, Observer {//거주 후기 더보기 클릭시
+        viewModel.reviewMoreClicked.observe(this, Observer {
+            //거주 후기 더보기 클릭시
             addReviewMore()
         })
 
-        viewModel.reviewPostOpenClicked.observe(this, Observer {// 작성하기 클릭시
+        viewModel.reviewPostOpenClicked.observe(this, Observer {
+            // 작성하기 클릭시
             addReviewPost()
         })
 
-        viewModel.reviewPostSuccess.observe(this, Observer {//리뷰 작성 완료시
+        viewModel.reviewPostSuccess.observe(this, Observer {
+            //리뷰 작성 완료시
             onBackPressed()
         })
 
@@ -129,12 +134,5 @@ class DetailActivity : AppCompatActivity() {
             .commit()
     }
 
-//    override fun onBackPressed() {
-//        when (currentFragment) {
-//            is DetailFragment -> super.onBackPressed()
-//            is DetailFragmentTransactionMore -> supportFragmentManager.popBackStack()
-//            is DetailFragmentReviewMore -> supportFragmentManager.popBackStack()
-//            is DetailFragmentReviewPost -> supportFragmentManager.popBackStack()
-//        }
-//    }
+
 }
