@@ -24,6 +24,5 @@ class StreetMapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(), On
             }, {
 
             })
-
     }
 }

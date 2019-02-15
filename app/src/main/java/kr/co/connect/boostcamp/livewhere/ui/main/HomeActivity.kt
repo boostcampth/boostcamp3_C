@@ -2,12 +2,11 @@ package kr.co.connect.boostcamp.livewhere.ui.main
 
 import android.content.Context
 import android.content.Intent
-import android.inputmethodservice.InputMethodService
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -19,6 +18,7 @@ import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityHomeBinding
 import kr.co.connect.boostcamp.livewhere.ui.map.MapActivity
 import kr.co.connect.boostcamp.livewhere.util.EMPTY_STRING_TEXT
+import kr.co.connect.boostcamp.livewhere.util.SEARCH_TAG
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeActivity : AppCompatActivity() {
@@ -26,8 +26,6 @@ class HomeActivity : AppCompatActivity() {
     companion object {
         private const val HOME_CONTAINER_ID = R.id.fl_home_frame
     }
-
-    private val SEARCH_TAG = "SEARCH_RESULT"
 
     private lateinit var binding: ActivityHomeBinding
     private lateinit var placesClient: PlacesClient

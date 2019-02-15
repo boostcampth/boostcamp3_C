@@ -9,6 +9,10 @@ import kr.co.connect.boostcamp.livewhere.model.ReverseGeo
 import retrofit2.Response
 
 class MapRepositoryImpl(private val api: Api, private val reverseGeoApiModule: ReverseGeoApi) : MapRepository {
+    override fun getHouseDetailWithNotCompletedAddress(address: String): Single<Response<HouseResponse>> {
+        return api.getDetailWithAddress(address)
+    }
+
     override fun getAddress(latitude: String, longitude: String, inputCoord: String): Single<Response<ReverseGeo>> {
         return reverseGeoApiModule.getAddress(latitude, longitude, inputCoord)
     }

@@ -330,21 +330,7 @@ fun FloatingActionButton.setTriggerBackdrop(
 
 @BindingAdapter(value = ["triggerFloatingButton"])
 fun MotionLayout.setTriggerFB(filterML: MotionLayout) {
-    setTransitionListener(object : MotionLayout.TransitionListener {
-        override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}
 
-        override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {}
-
-        override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {}
-
-        override fun onTransitionCompleted(p0: MotionLayout?, currentId: Int) {
-            if (currentId == R.layout.motion_01_map_backdrop_middle) {
-                filterML.transitionToStart()
-            } else if (currentId == R.layout.motion_01_map_backdrop_end) {
-                filterML.transitionToStart()
-            }
-        }
-    })
 }
 
 @BindingAdapter(value = ["bindData"])
@@ -353,7 +339,7 @@ fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
         val bindList = bindPlaceLiveData.value
         if (adapter == null) {
             apply {
-                layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+                layoutManager = LinearLayoutManager(context)
                 adapter = MapSearchRVAdapter(bindList!!)
                 adapter?.notifyItemRangeInserted(0, bindList.size)
             }
@@ -366,7 +352,7 @@ fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
         }
     } else {
         val emptyList = arrayListOf<Any>()
-        layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        layoutManager = LinearLayoutManager(context)
         adapter = MapSearchRVAdapter(emptyList)
         adapter?.notifyItemRangeInserted(0, emptyList.size)
     }
@@ -426,5 +412,13 @@ fun Toolbar.onInitToolbar(isHomeClick: Boolean) {
 fun Toolbar.onTitleToolbar(markerLiveData: LiveData<MarkerInfo>){
     if(markerLiveData.value != null){
         title = markerLiveData.value!!.address.addr
+    }
+}
+
+@BindingAdapter(value=["onTouchMapEvent"])
+fun MapView.onTouchMapEvent(backdropML: MotionLayout){
+    getMapAsync { naverMap->
+        naverMap.setOnMapClickListener { pointF, latLng ->
+        }
     }
 }
