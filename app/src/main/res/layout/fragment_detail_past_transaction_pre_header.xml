@@ -1,7 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<layout>
+    <data>
+        <variable
+                name="viewModel"
+                type="kr.co.connect.boostcamp.livewhere.ui.detail.DetailViewModel"/>
+    </data>
 
-</LinearLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/rv_header_border"
+    >
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/past_transaction_pre_header_building_name"
+                android:text="@string/building_name"
+                style="@style/RvText.Header"
+                android:layout_width="0dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintHorizontal_weight="0.25"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/past_transaction_pre_header_price"
+        />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/past_transaction_pre_header_price"
+                android:text="@string/price"
+                style="@style/RvText.Header"
+                android:layout_width="0dp"
+                app:layout_constraintHorizontal_weight="0.2"
+                android:background="@color/colorPrimary"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/past_transaction_pre_header_building_name"
+                app:layout_constraintEnd_toStartOf="@id/past_transaction_pre_header_area"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/past_transaction_pre_header_area"
+                android:text="@string/area"
+                style="@style/RvText.Header"
+                android:paddingEnd="@dimen/space_x_small"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                app:layout_constraintHorizontal_weight="0.15"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/past_transaction_pre_header_price"
+                app:layout_constraintEnd_toStartOf="@id/past_transaction_pre_header_type"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/past_transaction_pre_header_type"
+                android:text="@string/type"
+                style="@style/RvText.Header"
+                android:paddingEnd="@dimen/space_x_small"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                app:layout_constraintHorizontal_weight="0.15"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/past_transaction_pre_header_area"
+                app:layout_constraintEnd_toStartOf="@id/past_transaction_pre_header_contract_year"/>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/past_transaction_pre_header_contract_year"
+                android:text="@string/contract_year"
+                style="@style/RvText.Header"
+                android:paddingEnd="@dimen/space_x_small"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintHorizontal_weight="0.25"
+                android:background="@color/colorPrimary"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/past_transaction_pre_header_type"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

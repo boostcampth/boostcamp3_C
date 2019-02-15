@@ -16,21 +16,21 @@
     >
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/past_transaction_header_building_name"
+                android:id="@+id/past_transaction_item_building_name"
                 style="@style/RvText"
                 android:text="@{pastTransaction.buildingName}"
                 android:textColor="@color/black"
                 android:layout_width="0dp"
-                app:layout_constraintHorizontal_weight="0.3"
+                app:layout_constraintHorizontal_weight="0.25"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/past_transaction_header_price"
+                app:layout_constraintEnd_toStartOf="@id/past_transaction_item_price"
         />
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/past_transaction_header_price"
+                android:id="@+id/past_transaction_item_price"
                 android:text="@{pastTransaction.price}"
                 style="@style/RvText"
                 android:layout_width="0dp"
@@ -38,43 +38,43 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/past_transaction_header_building_name"
-                app:layout_constraintEnd_toStartOf="@id/past_transaction_header_area"/>
+                app:layout_constraintStart_toEndOf="@id/past_transaction_item_building_name"
+                app:layout_constraintEnd_toStartOf="@id/past_transaction_item_area"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/past_transaction_header_area"
+                android:id="@+id/past_transaction_item_area"
                 android:text="@{pastTransaction.area}"
                 style="@style/RvText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintHorizontal_weight="0.16"
+                app:layout_constraintHorizontal_weight="0.15"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/past_transaction_header_price"
-                app:layout_constraintEnd_toStartOf="@id/past_transaction_header_type"/>
+                app:layout_constraintStart_toEndOf="@id/past_transaction_item_price"
+                app:layout_constraintEnd_toStartOf="@id/past_transaction_item_type"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/past_transaction_header_type"
+                android:id="@+id/past_transaction_item_type"
                 android:text="@{pastTransaction.type}"
                 style="@style/RvText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintHorizontal_weight="0.16"
+                app:layout_constraintHorizontal_weight="0.15"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/past_transaction_header_area"
-                app:layout_constraintEnd_toStartOf="@id/past_transaction_header_contract_year"/>
+                app:layout_constraintStart_toEndOf="@id/past_transaction_item_area"
+                app:layout_constraintEnd_toStartOf="@id/past_transaction_item_contract_year"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/past_transaction_header_contract_year"
+                android:id="@+id/past_transaction_item_contract_year"
                 android:text="@{pastTransaction.contractYear}"
                 style="@style/RvText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintHorizontal_weight="0.16"
+                app:layout_constraintHorizontal_weight="0.25"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/past_transaction_header_type"
+                app:layout_constraintStart_toEndOf="@id/past_transaction_item_type"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

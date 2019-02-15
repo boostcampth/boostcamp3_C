@@ -6,61 +6,68 @@
                   type="kr.co.connect.boostcamp.livewhere.ui.detail.DetailViewModel"/>
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/space_small"
-            android:paddingTop="@dimen/space_small"
-            android:paddingStart="@dimen/detail_contents_horizontal_padding"
-            android:paddingEnd="@dimen/detail_contents_horizontal_padding">
-
-        <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/detail_fragment_tv_past_transaction"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/past_transation"
-                android:textColor="@color/black"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                style="@style/BasicTv.BodyL"
-                android:paddingStart="@dimen/space_small"
-                android:paddingEnd="@dimen/space_small"
-                android:paddingBottom="@dimen/space_small"
-        />
-
-        <include
-                android:id="@+id/detail_fragment_past_transaction_header"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                layout="@layout/fragment_detail_past_transaction_header_item"
-                app:layout_constraintStart_toStartOf="@id/detail_fragment_rv_past_transation"
-                app:layout_constraintEnd_toEndOf="@id/detail_fragment_rv_past_transation"
-                app:layout_constraintTop_toBottomOf="@id/detail_fragment_tv_past_transaction"
-
-        />
-
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/detail_fragment_rv_past_transation"
-                android:layout_marginHorizontal="@dimen/detail_rv_horizontal_margin"
+            android:layout_width="match_parent"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="@dimen/elevation_s">
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:overScrollMode="never"
-                app:setRvItems="@{viewModel.pastTransactionPre}"
-                app:layout_constraintTop_toBottomOf="@id/detail_fragment_past_transaction_header"
-                app:layout_constraintStart_toStartOf="parent"
-        />
+                android:background="@color/white"
+                android:paddingBottom="@dimen/space_small"
+                android:paddingTop="@dimen/space_small"
+                android:paddingStart="@dimen/detail_contents_horizontal_padding"
+                android:paddingEnd="@dimen/detail_contents_horizontal_padding">
 
-        <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/detail_foragment_btn_past_transaction_more"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/detail_more_btn_height"
-                android:onClick="@{()->viewModel.onClickedTransactionMore()}"
-                android:background="@color/main_color_variation"
-                android:text="@string/btn_more_text"
-                app:layout_constraintStart_toStartOf="@id/detail_fragment_rv_past_transation"
-                app:layout_constraintEnd_toEndOf="@id/detail_fragment_rv_past_transation"
-                app:layout_constraintTop_toBottomOf="@id/detail_fragment_rv_past_transation"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/detail_fragment_tv_past_transaction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/past_transation"
+                    android:textColor="@color/black"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    style="@style/BasicTv.BodyL"
+                    android:paddingStart="@dimen/space_small"
+                    android:paddingEnd="@dimen/space_small"
+                    android:paddingBottom="@dimen/space_small"
+            />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <include
+                    android:id="@+id/detail_fragment_past_transaction_header"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    layout="@layout/fragment_detail_past_transaction_pre_header"
+                    app:layout_constraintStart_toStartOf="@id/detail_fragment_rv_past_transation"
+                    app:layout_constraintEnd_toEndOf="@id/detail_fragment_rv_past_transation"
+                    app:layout_constraintTop_toBottomOf="@id/detail_fragment_tv_past_transaction"
+
+            />
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/detail_fragment_rv_past_transation"
+                    android:layout_marginHorizontal="@dimen/detail_rv_horizontal_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    app:setRvItems="@{viewModel.pastTransactionPre}"
+                    app:layout_constraintTop_toBottomOf="@id/detail_fragment_past_transaction_header"
+                    app:layout_constraintStart_toStartOf="parent"
+            />
+
+            <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/detail_foragment_btn_past_transaction_more"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/detail_more_btn_height"
+                    android:onClick="@{()->viewModel.onClickedTransactionMore()}"
+                    android:background="@color/colorPrimaryDark"
+                    android:text="@string/btn_more_text"
+                    app:layout_constraintStart_toStartOf="@id/detail_fragment_rv_past_transation"
+                    app:layout_constraintEnd_toEndOf="@id/detail_fragment_rv_past_transation"
+                    app:layout_constraintTop_toBottomOf="@id/detail_fragment_rv_past_transation"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
 </layout>
