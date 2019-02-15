@@ -17,15 +17,7 @@
             android:elevation="@dimen/filter_ml_elevation">
 
     </LinearLayout>
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/ll_search_map"
-            app:layout_constraintTop_toTopOf="@+id/guideline_backdrop_content_height"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:orientation="horizontal"
-            android:elevation="@dimen/filter_ml_elevation">
-    </LinearLayout>
+
     <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

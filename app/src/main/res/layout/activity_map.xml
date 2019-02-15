@@ -41,7 +41,8 @@
                     onRemovePlaceDrawMarker="@{mapViewModel.removePlaceMarkersLiveData}"
                     onRemovePlaceOverlay="@{mapViewModel.tempOverlayLiveData}"
                     onRemovePlaceMarker="@{mapViewModel.tempInfoWindowLiveData}"
-                    onCameraUpdate="@{mapViewModel.cameraPositionLatLngLiveData}"/>
+                    onCameraUpdate="@{mapViewModel.cameraPositionLatLngLiveData}"
+                    onTouchMapEvent="@{mlBackdrop}"/>
 
             <com.naver.maps.map.widget.LocationButtonView
                     android:layout_width="wrap_content"
@@ -102,20 +103,11 @@
                                 onStatusTitleEvent="@{mapViewModel.userStatusLiveData}"/>
                     </LinearLayout>
 
-                </LinearLayout>
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:id="@+id/ll_search_map"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/guideline_backdrop_content_height"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:orientation="horizontal">
-                    <androidx.recyclerview.widget.RecyclerView
+                    <kr.co.connect.boostcamp.livewhere.ui.map.PassTouchRecyclerView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:id="@+id/rv_search_map"
-                            android:nestedScrollingEnabled="false"
+                            android:nestedScrollingEnabled="true"
                             android:overScrollMode="never"
                             bindData="@{mapViewModel.searchListLiveData}"
                     />

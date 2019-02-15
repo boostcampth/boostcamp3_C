@@ -2,7 +2,6 @@
 <MotionScene
         xmlns:motion="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android">
-
     <Transition
             motion:constraintSetStart="@layout/motion_01_map_backdrop_start"
             motion:constraintSetEnd="@layout/motion_01_map_backdrop_middle">
@@ -10,7 +9,8 @@
                 motion:touchAnchorId="@id/ll_place_detail"
                 motion:moveWhenScrollAtTop="true"
                 motion:dragDirection="dragUp"
-                motion:touchAnchorSide="top"/>
+                motion:touchAnchorSide="top"
+                motion:maxAcceleration="0.3"/>
     </Transition>
     <Transition
             motion:constraintSetStart="@layout/motion_01_map_backdrop_middle"
@@ -20,7 +20,8 @@
                 motion:touchAnchorId="@id/ll_place_detail"
                 motion:moveWhenScrollAtTop="true"
                 motion:dragDirection="dragUp"
-                motion:touchAnchorSide="top"/>
+                motion:touchAnchorSide="top"
+                motion:maxAcceleration="0.3"/>
         <KeyFrameSet>
             <KeyAttribute motion:target="@id/iv_place_image"
                           motion:framePosition="0"

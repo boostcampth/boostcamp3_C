@@ -27,9 +27,14 @@ interface Api {
         @Query("category") category: String
     ): Single<Response<PlaceResponse>>
 
+    @GET("house/search/find/infos")
+    fun getDetailWithAddress(
+        @Query("address") address: String
+    ): Single<Response<HouseResponse>>
+
     @POST("")
     fun postReview(
         @Query("nickname") nickname: String, @Query("id") id: String, @Query("contents") contents: String
-    ) : Single<Response<Any>>
-        
+    ): Single<Response<Any>>
+
 }
