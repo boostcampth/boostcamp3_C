@@ -3,7 +3,6 @@ package kr.co.connect.boostcamp.livewhere.ui.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +16,7 @@ import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityHomeBinding
 import kr.co.connect.boostcamp.livewhere.ui.map.MapActivity
+import kr.co.connect.boostcamp.livewhere.util.APPLICATION_EXIT
 import kr.co.connect.boostcamp.livewhere.util.EMPTY_STRING_TEXT
 import kr.co.connect.boostcamp.livewhere.util.SEARCH_TAG
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -85,17 +85,13 @@ class HomeActivity : AppCompatActivity() {
 
         searchViewModel.searchText.observe(this, Observer {
             if(searchViewModel.searchText.value.isNullOrEmpty()) {
-                Log.d("HA", searchViewModel.searchText.value.toString())
                 Toast.makeText(this, EMPTY_STRING_TEXT, Toast.LENGTH_LONG).show()
             } else {
                 if(currentFragment.et_search_bar.text.toString() == searchViewModel.searchText.toString()) {
-                    Log.d("HA", searchViewModel.searchText.value.toString())
                     if(searchViewModel.autoCompleteList.value.isNullOrEmpty()) {
-                        Log.d("HA", searchViewModel.searchText.value.toString())
                         startMapActivity(searchViewModel.autoCompleteList.value!![0])
                     }
                 } else {
-                    Log.d("HA", searchViewModel.searchText.value.toString())
                     startMapActivity(searchViewModel.searchText.value)
                 }
             }
@@ -138,7 +134,19 @@ class HomeActivity : AppCompatActivity() {
         } else {
             startMapActivity()
         }
+    }
 
-        Toast.makeText(this, text+"MapActivity로 전송됨.",Toast.LENGTH_LONG).show()
+    override fun onBackPressed() {
+        val toast = Toast.makeText(this, APPLICATION_EXIT, Toast.LENGTH_LONG)
+        if(currentFragment is SearchFragment) {
+            startHomeFragment()
+        } else {
+            if(homeViewModel.onBackPressed()) {
+                toast.show()
+            } else {
+                finish()
+                toast.cancel()
+            }
+        }
     }
 }

@@ -13,6 +13,19 @@ class HomeViewModel : BaseViewModel() {
     val btnClicked: LiveData<Any>
         get() = _btnClicked
 
+    private var backKeyPressedTime: Long = 0
+    private val TIME_LIMIT = 2000
+
+    fun onBackPressed(): Boolean {
+        if(System.currentTimeMillis() > backKeyPressedTime + TIME_LIMIT) {
+            backKeyPressedTime = System.currentTimeMillis()
+            return true
+        }
+        else {
+            return false
+        }
+    }
+
     init {
     }
 
@@ -23,4 +36,6 @@ class HomeViewModel : BaseViewModel() {
     fun onClickBtn() {
         _btnClicked.call()
     }
+
+
 }
