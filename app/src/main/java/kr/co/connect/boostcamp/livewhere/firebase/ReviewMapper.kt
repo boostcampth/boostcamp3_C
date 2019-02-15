@@ -11,6 +11,7 @@ class ReviewMapper : FirebaseMapper<ReviewEntity, Review>() {
         review.nickname = reviewEntity.nickname
         review.contents = reviewEntity.contents
         review.land_code = reviewEntity.land_code
+        review.date = reviewEntity.date
         return review
     }
 
