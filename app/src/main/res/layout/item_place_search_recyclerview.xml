@@ -21,7 +21,8 @@
                     style="@style/BasicTv.HeadlineXS"
                     android:textColor="@android:color/darker_gray"
                     android:textAlignment="center"
-                    android:text="@{place.distance+'m'}"/>
+                    android:text="@{place.distance+'m'}"
+                    android:id="@+id/tv_search_place"/>
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
@@ -37,20 +38,19 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    onText="@{place.placeName}"
+                    android:text="@{place.placeName}"
                     android:textColor="@color/black"
                     android:textStyle="bold"/>
-
             <TextView
                     style="@style/BasicTv.HeadlineS"
-                    onText="@{place.category}"
+                    android:text="@{place.category}"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:textColor="@color/black_opacity_87"/>
             <TextView
                     style="@style/BasicTv.HeadlineS"
-                    onText="@{place.addrName}"
+                    android:text="@{place.addrName}"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
