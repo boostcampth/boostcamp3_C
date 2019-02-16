@@ -377,6 +377,7 @@ fun TextView.setStatusTextView(userStatusLiveData: LiveData<UserStatus>) {
         StatusCode.SEARCH_HOUSE -> userStatusLiveData.value?.content
         StatusCode.EMPTY_SEARCH_HOUSE -> context.getString(R.string.info_empty_search_house_text)
         StatusCode.EMPTY_SEARCH_PLACE -> context.getString(R.string.info_empty_search_place_text)
+        StatusCode.EMPTY_HOUSE_TARGET -> context.getString(R.string.info_empty_house_target)
         StatusCode.FAILURE_SEARCH_PLACE -> context.getString(R.string.info_failure_search)
         StatusCode.FAILURE_SEARCH_HOUSE -> context.getString(R.string.info_failure_search)
         StatusCode.SUCCESS_SEARCH_PLACE -> userStatusLiveData.value?.content
@@ -406,6 +407,7 @@ fun setStatusTextView(toolbar: Toolbar, userStatusLiveData: LiveData<UserStatus>
         StatusCode.BEFORE_SEARCH_PLACE -> context.getString(R.string.info_before_search_place_text)
         StatusCode.EMPTY_SEARCH_HOUSE -> context.getString(R.string.info_empty_search_house_text)
         StatusCode.EMPTY_SEARCH_PLACE -> context.getString(R.string.info_empty_search_place_text)
+        StatusCode.EMPTY_HOUSE_TARGET -> context.getString(R.string.info_empty_house_target)
         StatusCode.FAILURE_SEARCH_PLACE -> context.getString(R.string.info_failure_search)
         StatusCode.FAILURE_SEARCH_HOUSE -> context.getString(R.string.info_failure_search)
         StatusCode.SUCCESS_SEARCH_PLACE -> userStatusLiveData.value?.content

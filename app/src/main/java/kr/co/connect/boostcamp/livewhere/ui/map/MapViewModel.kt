@@ -15,6 +15,7 @@ import com.naver.maps.map.overlay.Marker
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.repository.MapRepositoryImpl
@@ -43,11 +44,6 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
     private val _markerImageLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
     val markerImageLiveData: LiveData<MarkerInfo>
         get() = _markerImageLiveData
-
-    private val _filterMarkerLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
-    //현재 검색하려는 house의 좌표 livedata
-    val filterMarkerLiveData: LiveData<MarkerInfo>
-        get() = _filterMarkerLiveData
 
     //현재 사용하고 있는 naverMap의 status livedata
     private val _mapStatusLiveData: MutableLiveData<NaverMap> = MutableLiveData()
@@ -104,26 +100,32 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
     private val _cameraPositionLatLngLiveData: MutableLiveData<CameraPositionInfo> = MutableLiveData()
     val cameraPositionLatLngLiveData: LiveData<CameraPositionInfo>
         get() = _cameraPositionLatLngLiveData
-    
+
+    private var timerObservable: Disposable? = null
     override fun startObservable(title: String, toolbar: Toolbar) {
-        val timerObservable =
+        timerObservable =
             Observable.interval(0, 1, TimeUnit.SECONDS)
                 .map { timer -> timer % 3 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { tick ->
-            val dotText = when (tick.toInt()) {
-                0 -> ""
-                1 -> "."
-                2 -> ".."
-                else -> ""
-            }
-            toolbar.title = title + dotText
-        }
-        addDisposable(timerObservable)
+                    val dotText = when (tick.toInt()) {
+                        0 -> ""
+                        1 -> "."
+                        2 -> ".."
+                        else -> ""
+                    }
+                    toolbar.title = title + dotText
+                }
+        addDisposable(timerObservable!!)
     }
 
     override fun stopObservable() {
         onCleared()
+        if (timerObservable != null) {
+            if (!timerObservable!!.isDisposed) {
+                getCompositeDisposable().remove(timerObservable!!)
+            }
+        }
     }
 
     override fun onMoveCameraPosition(latLng: LatLng, zoom: Double) {
@@ -202,6 +204,8 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
             }, {
                 _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_PLACE, ""))
             })
+        } else{
+            _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_HOUSE_TARGET, ""))
         }
     }
 
