@@ -29,7 +29,7 @@ fun setAutoCompleteRecyclerViewItems(recyclerView: RecyclerView, itemList: List<
 }
 
 @BindingAdapter("searchDone")
-fun finishEntering(editText: EditText, viewModel: SearchViewModel) {
+fun finishEntering(editText: EditText, viewModel: HomeViewModel) {
     editText.setOnKeyListener { _, keyCode, event ->
         if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
             //After Enter Key
@@ -42,7 +42,7 @@ fun finishEntering(editText: EditText, viewModel: SearchViewModel) {
 }
 
 @BindingAdapter("autoComplete")
-fun autoComplete (editText: EditText, viewModel: SearchViewModel) {
+fun autoComplete (editText: EditText, viewModel: HomeViewModel) {
     editText.doOnTextChanged { text, _, _, _ ->
         viewModel.startAutoComplete(text.toString())
     }

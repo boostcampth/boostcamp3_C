@@ -3,8 +3,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-                name="searchViewModel"
-                type="kr.co.connect.boostcamp.livewhere.ui.main.SearchViewModel"/>
+                name="homeViewModel"
+                type="kr.co.connect.boostcamp.livewhere.ui.main.HomeViewModel"/>
         <variable
                 name="recentSearch"
                 type="kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity"/>
@@ -17,7 +17,7 @@
                 style="@style/Table.Double"
                 android:id="@+id/ll_recent_search_table"
                 android:gravity="center|left"
-                android:onClick="@{()->searchViewModel.onRecentSearchClicked(recentSearch.text)}"
+                android:onClick="@{()->homeViewModel.onRecentSearchClicked(recentSearch.text)}"
                 android:orientation="horizontal">
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_recent_search"

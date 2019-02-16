@@ -34,7 +34,7 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private val searchViewModel: SearchViewModel by sharedViewModel()
+    private val homeViewModel: HomeViewModel by sharedViewModel()
     private lateinit var binding: FragmentSearchBinding
     private lateinit var recentSearchRecyclerViewAdapter: RecentSearchRecyclerViewAdapter
     private lateinit var autoCompleteRecyclerViewAdapter: AutoCompleteRecyclerViewAdapter
@@ -43,15 +43,15 @@ class SearchFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        recentSearchRecyclerViewAdapter = RecentSearchRecyclerViewAdapter(this@SearchFragment, searchViewModel)
-        autoCompleteRecyclerViewAdapter = AutoCompleteRecyclerViewAdapter(this@SearchFragment, searchViewModel)
+        recentSearchRecyclerViewAdapter = RecentSearchRecyclerViewAdapter(this@SearchFragment, homeViewModel)
+        autoCompleteRecyclerViewAdapter = AutoCompleteRecyclerViewAdapter(this@SearchFragment, homeViewModel)
         autoCompleteLayoutManager = LinearLayoutManager(context)
         recyclerViewLayoutManager = LinearLayoutManager(context)
 
-        searchViewModel.isRecentSearchVisible.observe(this, Observer {
+        homeViewModel.isRecentSearchVisible.observe(this, Observer {
             changeSearchRv(it)
         })
-        searchViewModel.recentSearch.observe(this, Observer {
+        homeViewModel.recentSearch.observe(this, Observer {
             if(!it.isNullOrEmpty()) {
                 binding.llSearchFragment.tv_recent_search_empty.visibility = View.GONE
                 binding.llSearchFragment.rv_recent_search.visibility = View.VISIBLE
@@ -65,7 +65,7 @@ class SearchFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false).apply {
-            searchViewModel = this@SearchFragment.searchViewModel
+            homeViewModel = this@SearchFragment.homeViewModel
             lifecycleOwner = this@SearchFragment
         }
 
@@ -79,58 +79,7 @@ class SearchFragment : Fragment() {
             adapter = autoCompleteRecyclerViewAdapter
         }
 
-        setClient()
-
         return binding.root
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        searchViewModel.setVisibility()
-
-        startObserve()
-    }
-
-    private fun startObserve() {
-        searchViewModel.backBtnClicked.observe(this, Observer {
-            hideKeyboard()
-            (activity as HomeActivity).startHomeFragment()
-        })
-
-        searchViewModel.mapBtnClicked.observe(this, Observer {
-            (activity as HomeActivity).startMapActivity()
-        })
-
-        searchViewModel.searchText.observe(this, Observer {
-            if(searchViewModel.searchText.value.isNullOrEmpty()) {
-                Toast.makeText(activity as HomeActivity, EMPTY_STRING_TEXT, Toast.LENGTH_LONG).show()
-            } else {
-                if(binding.etSearchBar.text.toString() == searchViewModel.searchText.toString()) {
-                    if(searchViewModel.autoCompleteList.value.isNullOrEmpty()) {
-                        (activity as HomeActivity).startMapActivity(searchViewModel.autoCompleteList.value!![0])
-                    }
-                } else {
-                    (activity as HomeActivity).startMapActivity(searchViewModel.searchText.value)
-                }
-            }
-        })
-
-        searchViewModel.showToast.observe(this, Observer {
-            if(it) {
-                Toast.makeText(activity as HomeActivity, DELETE_RECENT_SEARCH, Toast.LENGTH_LONG).show()
-                searchViewModel.setToastDone()
-            }
-        })
-    }
-
-    private fun hideKeyboard() {
-        binding.etSearchBar.inputType = 0
-        val imm = (activity as HomeActivity).getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(binding.etSearchBar.windowToken, 0)
-    }
-
-    private fun setClient() {
-        searchViewModel.setClient((activity as HomeActivity).placesClient)
     }
 
     private fun changeSearchRv(set: Boolean) {

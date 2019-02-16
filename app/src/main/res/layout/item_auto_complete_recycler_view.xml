@@ -4,8 +4,8 @@
         <variable name="autoComplete"
                   type="java.lang.String"/>
         <variable
-                name="searchViewModel"
-                type="kr.co.connect.boostcamp.livewhere.ui.main.SearchViewModel"/>
+                name="homeViewModel"
+                type="kr.co.connect.boostcamp.livewhere.ui.main.HomeViewModel"/>
     </data>
     <LinearLayout
             android:layout_width="match_parent"
@@ -13,7 +13,7 @@
             android:orientation="vertical">
         <LinearLayout
                 style="@style/Table.Double"
-                android:onClick="@{()->searchViewModel.onClickAutoComplete(autoComplete)}"
+                android:onClick="@{()->homeViewModel.onClickAutoComplete(autoComplete)}"
                 android:gravity="center|left"
                 android:orientation="horizontal">
             <androidx.appcompat.widget.AppCompatTextView
