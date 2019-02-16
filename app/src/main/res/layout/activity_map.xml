@@ -25,7 +25,9 @@
                     app:titleTextAppearance="@style/BasicTv.HeadlineM"
                     app:title="@string/map_init_message"
                     isHomeClick="@{true}"
-                    onTitleToolbar="@{mapViewModel.markerLiveData}"/>
+                    onTitleToolbar="@{mapViewModel.markerLiveData}"
+                    onStatusTitleEvent="@{mapViewModel.userStatusLiveData}"
+                    onBehavior="@{mapViewModel}"/>
         </com.google.android.material.appbar.AppBarLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -44,7 +46,7 @@
                     onRemovePlaceOverlay="@{mapViewModel.tempOverlayLiveData}"
                     onRemovePlaceMarker="@{mapViewModel.tempInfoWindowLiveData}"
                     onCameraUpdate="@{mapViewModel.cameraPositionLatLngLiveData}"
-                    onTouchMapEvent="@{mlBackdrop}"/>
+                    onTouchMapEvent="@{mapViewModel}"/>
 
             <com.naver.maps.map.widget.LocationButtonView
                     android:layout_width="wrap_content"
@@ -109,7 +111,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:id="@+id/rv_search_map"
-                            android:nestedScrollingEnabled="false"
                             android:overScrollMode="never"
                             bindData="@{mapViewModel.searchListLiveData}"
                     />

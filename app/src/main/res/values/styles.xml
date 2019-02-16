@@ -195,7 +195,9 @@
         <item name="android:layout_marginEnd">36dp</item>
     </style>
 
-    <style name="FilterTextView" parent="BasicTv.BodyM.Transparent"/>
+    <style name="FilterTextView" parent="BasicTv.BodyM.Transparent">
+        <item name="android:background">@color/main_color</item>
+    </style>
 
     <style name="FilterTextView.OpenMode">
         <item name="android:layout_width">wrap_content</item>
