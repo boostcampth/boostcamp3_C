@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
                 name="searchViewModel"
@@ -9,16 +10,22 @@
                 type="kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity"/>
     </data>
     <LinearLayout
-            style="@style/Table.Double"
-            android:id="@+id/ll_recent_search_table"
-            android:gravity="center|left"
-            android:orientation="horizontal">
-        <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_recent_search"
-                style="@style/BasicTv.BodyL"
-                android:layout_margin="@dimen/space_small"
-                android:text="@{recentSearch.text}"
-                android:textColor="@color/black"
-                android:onClick="@{()->searchViewModel.onRecentSearchClicked(recentSearch.text)}"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <LinearLayout
+                style="@style/Table.Double"
+                android:id="@+id/ll_recent_search_table"
+                android:gravity="center|left"
+                android:onClick="@{()->searchViewModel.onRecentSearchClicked(recentSearch.text)}"
+                android:orientation="horizontal">
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_recent_search"
+                    style="@style/BasicTv.BodyL"
+                    android:layout_margin="@dimen/space_small"
+                    android:text="@{recentSearch.text}"
+                    android:textColor="@color/black"/>
+        </LinearLayout>
+        <view style="@style/Horizontal_line"/>
     </LinearLayout>
 </layout>
