@@ -3,34 +3,37 @@ package kr.co.connect.boostcamp.livewhere.ui.map
 import android.content.Intent
 import android.graphics.PointF
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.CircleOverlay
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
+import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.repository.MapRepositoryImpl
+import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 import kr.co.connect.boostcamp.livewhere.ui.map.interfaces.OnMapHistoryListener
+import kr.co.connect.boostcamp.livewhere.ui.map.interfaces.OnViewHistoryListener
 import kr.co.connect.boostcamp.livewhere.util.RADIUS
 import kr.co.connect.boostcamp.livewhere.util.StatusCode
 import retrofit2.Response
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, NaverMap.OnMapClickListener, OnMapReadyCallback,
-    View.OnClickListener,
-    OnMapHistoryListener {
+    View.OnClickListener, OnMapHistoryListener, OnViewHistoryListener {
     fun onClickMapImageView(view: View, liveData: LiveData<*>)
 }
 
-class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
+class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
     OnMapViewModelInterface {
-
 
     //현재 검색하려는 매물의 좌표 livedata
     private val _markerLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
@@ -101,6 +104,27 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
     private val _cameraPositionLatLngLiveData: MutableLiveData<CameraPositionInfo> = MutableLiveData()
     val cameraPositionLatLngLiveData: LiveData<CameraPositionInfo>
         get() = _cameraPositionLatLngLiveData
+    
+    override fun startObservable(title: String, toolbar: Toolbar) {
+        val timerObservable =
+            Observable.interval(0, 1, TimeUnit.SECONDS)
+                .map { timer -> timer % 3 }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { tick ->
+            val dotText = when (tick.toInt()) {
+                0 -> ""
+                1 -> "."
+                2 -> ".."
+                else -> ""
+            }
+            toolbar.title = title + dotText
+        }
+        addDisposable(timerObservable)
+    }
+
+    override fun stopObservable() {
+        onCleared()
+    }
 
     override fun onMoveCameraPosition(latLng: LatLng, zoom: Double) {
         val cameraPositionInfo = CameraPositionInfo(latLng, zoom)
@@ -231,14 +255,19 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
         _userStatusLiveData.postValue(
             UserStatus(
                 StatusCode.SEARCH_HOUSE,
-                "${latLng.latitude.toString().substring(0, 6)}, ${latLng.longitude.toString().substring(0, 10)}"
+                "${latLng.latitude.toString().substring(0, 10)}, ${latLng.longitude.toString().substring(0, 10)}"
             )
         )
         loadHousePrice(latLng)
     }
 
     override fun onMapClick(p0: PointF, latLng: LatLng) {
-        _userStatusLiveData.postValue(UserStatus(StatusCode.SEARCH_HOUSE, "${latLng.latitude.toString().substring(0,10)}, ${latLng.longitude.toString().substring(0,10)}"))
+        _userStatusLiveData.postValue(
+            UserStatus(
+                StatusCode.SEARCH_HOUSE,
+                "${latLng.latitude.toString().substring(0, 10)}, ${latLng.longitude.toString().substring(0, 10)}"
+            )
+        )
         loadHousePrice(latLng)
     }
 

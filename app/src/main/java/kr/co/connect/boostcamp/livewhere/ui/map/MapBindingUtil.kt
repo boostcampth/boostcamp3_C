@@ -385,14 +385,25 @@ fun TextView.setStatusTextView(userStatusLiveData: LiveData<UserStatus>) {
     }
 }
 
-@BindingAdapter(value = ["onStatusTitleEvent"])
-fun Toolbar.setStatusTextView(userStatusLiveData: LiveData<UserStatus>) {
+@BindingAdapter(value = ["onStatusTitleEvent", "onBehavior"])
+fun setStatusTextView(toolbar: Toolbar, userStatusLiveData: LiveData<UserStatus>, mapViewModel: MapViewModel) {
     val statusCode = userStatusLiveData.value?.statusCode
-    title = when (statusCode) {
+    val context = toolbar.context
+    when (statusCode) {
+        StatusCode.SEARCH_PLACE -> mapViewModel.startObservable(
+            context.getString(R.string.info_before_search_place_text),
+            toolbar
+        )
+        StatusCode.SEARCH_HOUSE -> mapViewModel.startObservable(
+            context.getString(R.string.info_before_search_place_text),
+            toolbar
+        )
+        else -> mapViewModel.stopObservable()
+    }
+
+    toolbar.title = when (statusCode) {
         StatusCode.DEFAULT_SEARCH -> context.getString(R.string.map_init_message)
         StatusCode.BEFORE_SEARCH_PLACE -> context.getString(R.string.info_before_search_place_text)
-        StatusCode.SEARCH_PLACE -> userStatusLiveData.value?.content
-        StatusCode.SEARCH_HOUSE -> userStatusLiveData.value?.content
         StatusCode.EMPTY_SEARCH_HOUSE -> context.getString(R.string.info_empty_search_house_text)
         StatusCode.EMPTY_SEARCH_PLACE -> context.getString(R.string.info_empty_search_place_text)
         StatusCode.FAILURE_SEARCH_PLACE -> context.getString(R.string.info_failure_search)
@@ -401,6 +412,8 @@ fun Toolbar.setStatusTextView(userStatusLiveData: LiveData<UserStatus>) {
         StatusCode.SUCCESS_SEARCH_HOUSE -> userStatusLiveData.value?.content
         else -> ""
     }
+
+
 }
 
 @BindingAdapter(value = ["onClickTriggerBackDrop"])
@@ -426,16 +439,16 @@ fun Toolbar.onInitToolbar(isHomeClick: Boolean) {
     }
 }
 
-@BindingAdapter(value =["onTitleToolbar"])
-fun Toolbar.onTitleToolbar(markerLiveData: LiveData<MarkerInfo>){
-    if(markerLiveData.value != null){
+@BindingAdapter(value = ["onTitleToolbar"])
+fun Toolbar.onTitleToolbar(markerLiveData: LiveData<MarkerInfo>) {
+    if (markerLiveData.value != null) {
         title = markerLiveData.value!!.address.addr
     }
 }
 
-@BindingAdapter(value=["onTouchMapEvent"])
-fun MapView.onTouchMapEvent(mapViewModel: MapViewModel){
-    getMapAsync { naverMap->
+@BindingAdapter(value = ["onTouchMapEvent"])
+fun MapView.onTouchMapEvent(mapViewModel: MapViewModel) {
+    getMapAsync { naverMap ->
         naverMap.onMapClickListener = mapViewModel
     }
 }

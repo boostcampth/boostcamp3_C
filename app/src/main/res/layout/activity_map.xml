@@ -26,7 +26,8 @@
                     app:title="@string/map_init_message"
                     isHomeClick="@{true}"
                     onTitleToolbar="@{mapViewModel.markerLiveData}"
-                    onStatusTitleEvent="@{mapViewModel.userStatusLiveData}"/>
+                    onStatusTitleEvent="@{mapViewModel.userStatusLiveData}"
+                    onBehavior="@{mapViewModel}"/>
         </com.google.android.material.appbar.AppBarLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

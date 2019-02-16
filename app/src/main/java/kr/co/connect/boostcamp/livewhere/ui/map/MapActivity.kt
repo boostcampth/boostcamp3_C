@@ -54,6 +54,7 @@ class MapActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         activityMapBinding.mvMainNaver.onPause()
+        mapViewModel.stopObservable()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
