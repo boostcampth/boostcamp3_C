@@ -45,6 +45,7 @@
     <string name="detail_image_message_empty">해당 건물을 즐겨찾기에 추가해보세요</string>\
     <string name="bookmark_empty">즐겨찾기가 비어있습니다.</string>
     <string name="recent_search_empty">최근 검색어가 없습니다.</string>
+    <string name="search_hint">주소를 입력하세요.</string>
 
     <!-- user status 관련 resource-->
     <string name="info_success_search_place_text">%s가 %s개 검색되었습니다.</string>
