@@ -2,7 +2,6 @@ package kr.co.connect.boostcamp.livewhere.ui.map
 
 import android.content.Intent
 import android.graphics.PointF
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,7 +22,8 @@ import kr.co.connect.boostcamp.livewhere.util.StatusCode
 import retrofit2.Response
 import java.util.*
 
-interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, NaverMap.OnMapClickListener,OnMapReadyCallback, View.OnClickListener,
+interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, NaverMap.OnMapClickListener, OnMapReadyCallback,
+    View.OnClickListener,
     OnMapHistoryListener {
     fun onClickMapImageView(view: View, liveData: LiveData<*>)
 }
@@ -228,12 +228,17 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
 
 
     override fun onMapLongClick(point: PointF, latLng: LatLng) {
-        _userStatusLiveData.postValue(UserStatus(StatusCode.SEARCH_HOUSE, "${latLng.latitude}, ${latLng.longitude}"))
+        _userStatusLiveData.postValue(
+            UserStatus(
+                StatusCode.SEARCH_HOUSE,
+                "${latLng.latitude.toString().substring(0, 6)}, ${latLng.longitude.toString().substring(0, 10)}"
+            )
+        )
         loadHousePrice(latLng)
     }
 
     override fun onMapClick(p0: PointF, latLng: LatLng) {
-        _userStatusLiveData.postValue(UserStatus(StatusCode.SEARCH_HOUSE, "${latLng.latitude}, ${latLng.longitude}"))
+        _userStatusLiveData.postValue(UserStatus(StatusCode.SEARCH_HOUSE, "${latLng.latitude.toString().substring(0,10)}, ${latLng.longitude.toString().substring(0,10)}"))
         loadHousePrice(latLng)
     }
 
