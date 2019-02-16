@@ -1,6 +1,7 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -9,6 +10,8 @@ import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityDetailBinding
 import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
 import kr.co.connect.boostcamp.livewhere.util.generateUuid
+import kr.co.connect.boostcamp.livewhere.util.keyboardHide
+import kr.co.connect.boostcamp.livewhere.util.keyboardShow
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -60,15 +63,18 @@ class DetailActivity : AppCompatActivity() {
 
         viewModel.reviewPostOpenClicked.observe(this, Observer {
             // 작성하기 클릭시
+            keyboardShow()
             addReviewPost()
         })
 
         viewModel.reviewPostSuccess.observe(this, Observer {
             //리뷰 작성 완료시
+            keyboardHide()
             onBackPressed()
         })
 
         viewModel.onPressedBackBtn.observe(this, Observer {
+            keyboardHide()
             onBackPressed()
         })
 
@@ -133,6 +139,5 @@ class DetailActivity : AppCompatActivity() {
             .addToBackStack(null)
             .commit()
     }
-
 
 }
