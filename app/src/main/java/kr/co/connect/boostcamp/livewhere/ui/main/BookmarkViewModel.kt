@@ -1,6 +1,7 @@
 package kr.co.connect.boostcamp.livewhere.ui.main
 
 import android.annotation.SuppressLint
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -10,6 +11,8 @@ import kr.co.connect.boostcamp.livewhere.repository.BookmarkRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 
 class BookmarkViewModel(private val bookmarkRepositoryImpl: BookmarkRepositoryImpl) : BaseViewModel() {
+    var isEmptyBookmark: Int = View.VISIBLE
+
     private val _bookmarkEntity = MutableLiveData<List<BookmarkEntity>>()
     val bookmarkEntity: LiveData<List<BookmarkEntity>>
         get() = _bookmarkEntity
@@ -29,13 +32,16 @@ class BookmarkViewModel(private val bookmarkRepositoryImpl: BookmarkRepositoryIm
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    if (it != null) {
-                        _bookmarkEntity.postValue(it)
-                    }
+                    _bookmarkEntity.postValue(it)
                 }, {
 
                 })
         )
+        if(bookmarkEntity.value.isNullOrEmpty()) {
+            isEmptyBookmark = View.VISIBLE
+        } else {
+            isEmptyBookmark = View.GONE
+        }
     }
 
     fun setSendText(text: String) {

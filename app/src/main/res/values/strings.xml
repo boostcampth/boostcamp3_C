@@ -42,7 +42,8 @@
     <string name="btn_more_text">더보기</string>
     <string name="btn_post_review">작성하기</string>
     <string name="detail_image_message">현재 이 건물을 %1$d명의 유저가 보고있습니다</string>
-    <string name="detail_image_message_empty">해당 건물을 즐겨찾기에 추가해보세요</string>
+    <string name="detail_image_message_empty">해당 건물을 즐겨찾기에 추가해보세요</string>\
+    <string name="bookmark_empty">즐겨찾기가 비어있습니다.</string>
 
     <!-- user status 관련 resource-->
     <string name="info_success_search_place_text">%s가 %s개 검색되었습니다.</string>

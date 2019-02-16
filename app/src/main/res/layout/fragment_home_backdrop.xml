@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="android.view.View"/>
         <variable name="homeViewModel"
                   type="kr.co.connect.boostcamp.livewhere.ui.main.HomeViewModel"/>
         <variable name="bookmarkViewModel"
@@ -26,6 +27,14 @@
                     android:textColor="@color/black"
                     android:text="@string/home_bookmark"/>
         </LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_bookmark_empty"
+                android:layout_gravity="center"
+                style="@style/BasicTv.BodyL"
+                android:layout_marginTop="@dimen/space_small"
+                android:textColor="@color/black_opacity_60"
+                android:visibility="@{bookmarkViewModel.isEmptyBookmark}"
+                android:text="@string/bookmark_empty"/>
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_bookmark"
                 android:layout_width="match_parent"
