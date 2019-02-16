@@ -14,7 +14,6 @@ class PassTouchRecyclerView(context: Context, attributeSet: AttributeSet? = null
         {
             super.onTouchEvent(event)
         }
-
         return isNotPassTouch
     }
 
