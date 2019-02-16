@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
@@ -161,6 +162,25 @@ fun setImageMessage(view: TextView, list: List<BookmarkUser>?) {
     } else {
         view.text = view.context.getString(R.string.detail_image_message_empty)
     }
+}
+
+@BindingAdapter("setButtonColor") //시세추이 버튼 색상
+fun setButtonColor(view:Button,type:Int) = when(type){
+    TYPE_CHARTER -> if(view.id==R.id.detail_fragment_btn_trend_price_charter){
+        view.setBackgroundResource(R.drawable.background_detail_trend_price_button_active)
+        view.setTextColor(Color.parseColor(WHITE_COLOR))
+    }else{
+        view.setBackgroundResource(R.drawable.background_detail_trend_price_button_inactive)
+        view.setTextColor(Color.parseColor(PRIMARY_COLOR))
+    }
+    TYPE_MONTHLY -> if(view.id==R.id.detail_fragment_btn_trend_price_monthly){
+        view.setBackgroundResource(R.drawable.background_detail_trend_price_button_active)
+        view.setTextColor(Color.parseColor(WHITE_COLOR))
+    }else{
+        view.setBackgroundResource(R.drawable.background_detail_trend_price_button_inactive)
+        view.setTextColor(Color.parseColor(PRIMARY_COLOR))
+    }
+    else -> {}
 }
 
 @BindingAdapter("setSortColor")

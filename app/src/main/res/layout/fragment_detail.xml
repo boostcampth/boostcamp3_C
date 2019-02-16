@@ -8,7 +8,10 @@
                 type="kr.co.connect.boostcamp.livewhere.ui.detail.DetailViewModel"/>
     </data>
 
-    <ScrollView android:layout_width="match_parent" android:layout_height="wrap_content">
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/detail_fragment_cl"
                 android:orientation="vertical"
