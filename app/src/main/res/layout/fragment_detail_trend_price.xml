@@ -34,20 +34,30 @@
 
             <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/detail_fragment_btn_trend_price_charter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:onClick="@{viewModel.onClickedAvgPriceType}"
+                    setButtonColor="@{viewModel.avgPriceType}"
+                    android:background="@drawable/background_detail_trend_price_button_active"
+                    android:elevation="2dp"
+                    android:translationZ="2dp"
+                    android:stateListAnimator="@null"
+                    style="@style/TrendPriceButton"
                     android:text="@string/charter"
+                    android:layout_marginEnd="@dimen/space_x_small"
                     app:layout_constraintEnd_toStartOf="@id/detail_fragment_btn_trend_price_monthly"
                     app:layout_constraintTop_toTopOf="parent"/>
 
             <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/detail_fragment_btn_trend_price_monthly"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_detail_trend_price_button_inactive"
                     android:onClick="@{viewModel.onClickedAvgPriceType}"
+                    setButtonColor="@{viewModel.avgPriceType}"
+                    android:textColor="@color/colorPrimary"
+                    android:elevation="2dp"
+                    android:translationZ="2dp"
+                    style="@style/TrendPriceButton"
+                    android:stateListAnimator="@null"
                     android:text="@string/monthly_rent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/detail_fragment_chart"
                     app:layout_constraintTop_toTopOf="parent"/>
 
             <com.github.mikephil.charting.charts.BarChart
