@@ -32,7 +32,6 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var placesClient: PlacesClient
     private val homeViewModel: HomeViewModel by viewModel()
-    private val bookmarkViewModel: BookmarkViewModel by viewModel()
     private val searchViewModel: SearchViewModel by viewModel()
     private lateinit var currentFragment: Fragment
 
@@ -49,7 +48,6 @@ class HomeActivity : AppCompatActivity() {
 
         binding.apply {
             homeViewModel = this@HomeActivity.homeViewModel
-            bookmarkViewModel = this@HomeActivity.bookmarkViewModel
             searchViewModel = this@HomeActivity.searchViewModel
             lifecycleOwner = this@HomeActivity
         }
@@ -64,7 +62,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun initBookmark() {
-        bookmarkViewModel.getBookmark()
+        homeViewModel.getBookmark()
     }
 
     private fun observeValues() {
@@ -72,8 +70,8 @@ class HomeActivity : AppCompatActivity() {
             startSearchFragment()
         })
 
-        bookmarkViewModel.sendAddress.observe(this, Observer {
-            startMapActivity(bookmarkViewModel.sendAddress.value)
+        homeViewModel.sendAddress.observe(this, Observer {
+            startMapActivity(homeViewModel.sendAddress.value)
         })
 
         searchViewModel.backBtnClicked.observe(this, Observer {

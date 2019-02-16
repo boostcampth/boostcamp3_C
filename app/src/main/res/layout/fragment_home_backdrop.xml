@@ -5,8 +5,6 @@
         <import type="android.view.View"/>
         <variable name="homeViewModel"
                   type="kr.co.connect.boostcamp.livewhere.ui.main.HomeViewModel"/>
-        <variable name="bookmarkViewModel"
-                  type="kr.co.connect.boostcamp.livewhere.ui.main.BookmarkViewModel"/>
     </data>
     <LinearLayout
             style="@style/BackDrop.White"
@@ -33,13 +31,13 @@
                 style="@style/BasicTv.BodyL"
                 android:layout_marginTop="@dimen/space_small"
                 android:textColor="@color/black_opacity_60"
-                android:visibility="@{bookmarkViewModel.isEmptyBookmark}"
+                android:visibility="@{homeViewModel.isEmptyBookmark}"
                 android:text="@string/bookmark_empty"/>
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_bookmark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:setBookmarkItems="@{bookmarkViewModel.bookmarkEntity}"
+                app:setBookmarkItems="@{homeViewModel.bookmarkEntity}"
                 android:background="@color/white"/>
     </LinearLayout>
 </layout>
