@@ -182,7 +182,6 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
     }
 
     override fun onLoadBuildingList(anyList: List<Any>, view: View) {
-        Log.d("anyList", anyList.toString())
         if (anyList.size == 1 && anyList[0] is MarkerInfo) {
             val markerInfo = anyList[0] as MarkerInfo
             if (!markerInfo.houseList.isNullOrEmpty()) {
@@ -281,7 +280,6 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
                 _searchListLiveData.postValue(listOf(currentMarkerInfo))
                 _markerLiveData.postValue(currentMarkerInfo)
             } else {
-                Log.d("response", response.toString())
                 val currentMarkerInfo = MarkerInfo(response?.addr!!, latLng, emptyList(), StatusCode.RESULT_204)
                 _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_HOUSE, address))
                 _searchListLiveData.postValue(listOf(EmptyInfo(address)))
@@ -357,7 +355,6 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
                     _searchListLiveData.postValue(listOf(currentMarkerInfo))
                     _markerLiveData.postValue(currentMarkerInfo)
                 } else if (response?.houseStatusCode == 204 && response.addrStatusCode == 200) {
-                    Log.d("response", response.toString())
                     val latLng = LatLng(response.addr.y.toDouble(), response.addr.x.toDouble())
                     val currentMarkerInfo = MarkerInfo(response?.addr!!, latLng, emptyList(), StatusCode.RESULT_204)
                     _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_HOUSE, address))
