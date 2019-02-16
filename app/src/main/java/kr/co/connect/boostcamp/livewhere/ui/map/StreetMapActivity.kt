@@ -30,8 +30,10 @@ class StreetMapActivity : AppCompatActivity() {
 
         fragmentStreetView.getStreetViewPanoramaAsync { streetViewPanorama ->
             streetViewPanorama.setPosition(latLng)
-            streetViewPanorama.setOnStreetViewPanoramaChangeListener {location->
-                streetMapViewModel.onAddressData(location.position.latitude, location.position.longitude)
+            streetViewPanorama.setOnStreetViewPanoramaChangeListener { location ->
+                if (location != null) {
+                    streetMapViewModel.onAddressData(location.position.latitude, location.position.longitude)
+                }
             }
             streetMapViewModel.onAddressData(lat.toDouble(), lng.toDouble())
         }
