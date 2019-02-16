@@ -416,9 +416,8 @@ fun Toolbar.onTitleToolbar(markerLiveData: LiveData<MarkerInfo>){
 }
 
 @BindingAdapter(value=["onTouchMapEvent"])
-fun MapView.onTouchMapEvent(backdropML: MotionLayout){
+fun MapView.onTouchMapEvent(mapViewModel: MapViewModel){
     getMapAsync { naverMap->
-        naverMap.setOnMapClickListener { pointF, latLng ->
-        }
+        naverMap.onMapClickListener = mapViewModel
     }
 }

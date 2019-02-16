@@ -23,13 +23,14 @@ import kr.co.connect.boostcamp.livewhere.util.StatusCode
 import retrofit2.Response
 import java.util.*
 
-interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, OnMapReadyCallback, View.OnClickListener,
+interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, NaverMap.OnMapClickListener,OnMapReadyCallback, View.OnClickListener,
     OnMapHistoryListener {
     fun onClickMapImageView(view: View, liveData: LiveData<*>)
 }
 
 class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
     OnMapViewModelInterface {
+
 
     //현재 검색하려는 매물의 좌표 livedata
     private val _markerLiveData: MutableLiveData<MarkerInfo> = MutableLiveData()
@@ -228,6 +229,11 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : ViewModel(),
 
 
     override fun onMapLongClick(point: PointF, latLng: LatLng) {
+        _userStatusLiveData.postValue(UserStatus(StatusCode.SEARCH_HOUSE, "${latLng.latitude}, ${latLng.longitude}"))
+        loadHousePrice(latLng)
+    }
+
+    override fun onMapClick(p0: PointF, latLng: LatLng) {
         _userStatusLiveData.postValue(UserStatus(StatusCode.SEARCH_HOUSE, "${latLng.latitude}, ${latLng.longitude}"))
         loadHousePrice(latLng)
     }

@@ -44,7 +44,7 @@
                     onRemovePlaceOverlay="@{mapViewModel.tempOverlayLiveData}"
                     onRemovePlaceMarker="@{mapViewModel.tempInfoWindowLiveData}"
                     onCameraUpdate="@{mapViewModel.cameraPositionLatLngLiveData}"
-                    onTouchMapEvent="@{mlBackdrop}"/>
+                    onTouchMapEvent="@{mapViewModel}"/>
 
             <com.naver.maps.map.widget.LocationButtonView
                     android:layout_width="wrap_content"
