@@ -1,5 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.repository
 
+import android.util.Log
 import io.reactivex.Observable
 import kr.co.connect.boostcamp.livewhere.data.dao.RecentSearchDAO
 import kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity
@@ -9,28 +10,29 @@ class RecentSearchRepositoryImpl(private val recentSearchDAO: RecentSearchDAO) :
     override fun getRecentSearch(): Observable<List<RecentSearchEntity>> {
         return Observable.fromCallable(object : Callable<List<RecentSearchEntity>> {
             override fun call(): List<RecentSearchEntity> {
+                Log.d("RSR", "Get List ${recentSearchDAO.getAll().toString()}")
                 return recentSearchDAO.getAll()
             }
         })
     }
 
-    override fun setRecentSearch(recentSearch: RecentSearchEntity): Boolean {
-        //TODO: Thread Handle
-        val runnable = Runnable {
-            recentSearchDAO.insertRecentSearch(recentSearch)
-        }
-        val thread = Thread(runnable)
-        thread.start()
-        return true
+    override fun setRecentSearch(recentSearch: RecentSearchEntity): Observable<Boolean> {
+        return Observable.fromCallable(object : Callable<Boolean> {
+            override fun call(): Boolean {
+                Log.d("RSR", "Inserted ${recentSearch.text} to DB")
+                recentSearchDAO.insertRecentSearch(recentSearch)
+                return true
+            }
+        })
     }
 
-    override fun deleteRecentSearch(): Boolean {
-        //TODO: Thread Handle
-        val runnable = Runnable {
-            recentSearchDAO.deleteAll()
-        }
-        val thread = Thread(runnable)
-        thread.start()
-        return true
+    override fun deleteRecentSearch(): Observable<Boolean> {
+        return Observable.fromCallable(object: Callable<Boolean> {
+            override fun call(): Boolean {
+                Log.d("RSR", "Delete All WELL")
+                recentSearchDAO.deleteAll()
+                return true
+            }
+        })
     }
 }

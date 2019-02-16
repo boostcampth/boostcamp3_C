@@ -11,12 +11,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
+import io.fabric.sdk.android.services.common.CommonUtils.hideKeyboard
 import kotlinx.android.synthetic.main.fragment_search.*
 import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityHomeBinding
 import kr.co.connect.boostcamp.livewhere.ui.map.MapActivity
 import kr.co.connect.boostcamp.livewhere.util.APPLICATION_EXIT
+import kr.co.connect.boostcamp.livewhere.util.DELETE_RECENT_SEARCH
 import kr.co.connect.boostcamp.livewhere.util.EMPTY_STRING_TEXT
 import kr.co.connect.boostcamp.livewhere.util.SEARCH_TAG
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -94,6 +96,13 @@ class HomeActivity : AppCompatActivity() {
                 } else {
                     startMapActivity(searchViewModel.searchText.value)
                 }
+            }
+        })
+
+        searchViewModel.showToast.observe(this, Observer {
+            if(it) {
+                Toast.makeText(this, DELETE_RECENT_SEARCH, Toast.LENGTH_LONG).show()
+                searchViewModel.setToastDone()
             }
         })
     }

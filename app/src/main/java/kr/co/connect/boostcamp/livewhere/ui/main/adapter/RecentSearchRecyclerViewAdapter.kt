@@ -1,5 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.ui.main.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
@@ -10,8 +11,8 @@ import kr.co.connect.boostcamp.livewhere.ui.main.SearchViewModel
 
 class RecentSearchRecyclerViewAdapter(
     private val lifecycleOwner: LifecycleOwner,
-    private val searchViewModel: SearchViewModel)
-    : RecyclerView.Adapter<RecentSearchRecyclerViewAdapter.RecentSearchViewHolder>() {
+    private val searchViewModel: SearchViewModel
+) : RecyclerView.Adapter<RecentSearchRecyclerViewAdapter.RecentSearchViewHolder>() {
 
     private var list = listOf<RecentSearchEntity>()
 
@@ -37,10 +38,8 @@ class RecentSearchRecyclerViewAdapter(
     ) : RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bind(lifecycleOwner: LifecycleOwner, recentSearch: RecentSearchEntity, searchViewModel: SearchViewModel) {
-            itemBinding.setLifecycleOwner(lifecycleOwner)
-            //TODO: Binding Error 알아보기
+            itemBinding.lifecycleOwner = lifecycleOwner
             itemBinding.searchViewModel = searchViewModel
-            itemBinding.tvRecentSearch.text = recentSearch.text
             itemBinding.recentSearch = recentSearch
         }
     }

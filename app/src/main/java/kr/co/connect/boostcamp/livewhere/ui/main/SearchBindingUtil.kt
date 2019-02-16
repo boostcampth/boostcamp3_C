@@ -12,7 +12,7 @@ import kr.co.connect.boostcamp.livewhere.ui.main.adapter.RecentSearchRecyclerVie
 
 @BindingAdapter("setRecentRecyclerViewItems")
 fun setRecentRecyclerViewItems(recyclerView: RecyclerView, itemList: List<RecentSearchEntity>?) {
-    if (itemList != null) {
+    if (!itemList.isNullOrEmpty()) {
         (recyclerView.adapter as RecentSearchRecyclerViewAdapter).setData(itemList)
     } else {
         // TODO 데이터 정보 없음 처리.
@@ -21,7 +21,7 @@ fun setRecentRecyclerViewItems(recyclerView: RecyclerView, itemList: List<Recent
 
 @BindingAdapter("setAutoCompleteRecyclerViewItems")
 fun setAutoCompleteRecyclerViewItems(recyclerView: RecyclerView, itemList: List<String>?) {
-    if(itemList != null) {
+    if(!itemList.isNullOrEmpty()) {
         (recyclerView.adapter as AutoCompleteRecyclerViewAdapter).setData(itemList)
     } else {
         //TODO: 데이터 정보 없음 처리.

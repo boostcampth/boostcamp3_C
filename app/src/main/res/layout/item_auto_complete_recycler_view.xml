@@ -23,7 +23,7 @@
                     android:layout_margin="@dimen/space_small"
                     android:textColor="@color/black"/>
         </LinearLayout>
-        <view style="@style/Horizontal_line"/>
+        <View style="@style/Horizontal_line"/>
     </LinearLayout>
 
 </layout>

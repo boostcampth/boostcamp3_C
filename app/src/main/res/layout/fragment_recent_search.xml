@@ -10,6 +10,7 @@
             android:id="@+id/ll_recent_search"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:background="@color/white"
             android:orientation="vertical">
         <LinearLayout
                 android:layout_width="match_parent"
@@ -38,6 +39,13 @@
                         android:text="@string/delete_all"/>
             </LinearLayout>
         </LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_recent_search_empty"
+                android:layout_gravity="center"
+                style="@style/BasicTv.BodyL"
+                android:layout_marginTop="@dimen/space_small"
+                android:textColor="@color/black_opacity_60"
+                android:text="@string/recent_search_empty"/>
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_recent_search"
                 android:layout_width="match_parent"
