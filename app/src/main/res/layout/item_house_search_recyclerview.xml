@@ -7,7 +7,11 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_search_recyclerview_height"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/space_small"
+            android:paddingEnd="@dimen/space_small"
+            android:paddingTop="@dimen/space_x_small"
+            android:paddingBottom="@dimen/space_x_small">
         <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -46,25 +50,27 @@
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_margin="8dp">
+                android:gravity="center">
             <LinearLayout
-                    android:layout_width="@dimen/item_search_circle_view_size"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/item_search_circle_view_size"
                     android:layout_margin="@dimen/item_search_circle_view_margin"
                     android:gravity="center"
-                    android:background="@drawable/drawable_circle_view_design"
+                    android:background="?android:attr/selectableItemBackground"
                     onHomeClickListener="@{mapViewModel}"
                     onMarkerInfo="@{markerInfo}">
-
-                <ImageView
-                        android:layout_width="@dimen/item_search_circle_image_view_size"
-                        android:layout_height="@dimen/item_search_circle_image_view_size"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_search_navigation_24dp"/>
+                <TextView
+                        style="@style/InformationHouseButton"
+                        android:gravity="center"
+                        android:text="@string/all_house_information_text"
+                        android:background="@drawable/background_detail_trend_price_button_active"
+                        android:elevation="2dp"
+                        android:translationZ="2dp"
+                        android:paddingStart="@dimen/space_xx_small"
+                        android:paddingEnd="@dimen/space_xx_small"
+                        android:textColor="@color/white"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
