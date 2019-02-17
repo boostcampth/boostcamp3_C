@@ -6,16 +6,17 @@ import android.widget.Toast
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.data.SharedPreferenceStorage
+import kr.co.connect.boostcamp.livewhere.data.entity.BookmarkEntity
 import kr.co.connect.boostcamp.livewhere.firebase.BookmarkUserDatabaseRepository
 import kr.co.connect.boostcamp.livewhere.firebase.ReviewDatabaseRepository
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.model.entity.BookmarkUserEntity
 import kr.co.connect.boostcamp.livewhere.model.entity.ReviewEntity
-import kr.co.connect.boostcamp.livewhere.repository.BookmarkUserRepository
-import kr.co.connect.boostcamp.livewhere.repository.DetailRepository
-import kr.co.connect.boostcamp.livewhere.repository.ReviewRepository
+import kr.co.connect.boostcamp.livewhere.repository.*
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 import kr.co.connect.boostcamp.livewhere.util.*
 
@@ -23,6 +24,7 @@ class DetailViewModel(
     private val detailRepository: DetailRepository
     , private val reviewRepository: ReviewRepository
     , private val bookmarkUserRepository: BookmarkUserRepository
+    , private val bookmarkRepository: BookmarkRepositoryImpl
     , private val pref: SharedPreferenceStorage
 ) :
     BaseViewModel() {
@@ -116,7 +118,7 @@ class DetailViewModel(
         return _bookmarksList
     }
 
-
+    val address = ObservableField<String>()
     val buildingName = ObservableField<String>()
     val pnuCode = ObservableField<String>()
     val postReviewNickname = ObservableField<String>()
@@ -198,9 +200,12 @@ class DetailViewModel(
 
     fun setMarkerInfoFromActivity(markerInfo: MarkerInfo) { //markerInfo 데이터 수신
         if (markerInfo.address.name.isEmpty()) {
+            address.set(markerInfo.address.addr)
             buildingName.set("건물명 없음")
-        } else
+        } else {
+            address.set(markerInfo.address.addr)
             buildingName.set(markerInfo.address.name)
+        }
         pnuCode.set(markerInfo.address.pnuCode)
         _markerInfo.postValue(markerInfo)
     }
@@ -425,6 +430,8 @@ class DetailViewModel(
     fun postBookmark() {
         _hasLoaded.postValue(false)
         val bookmarkUser = BookmarkUserEntity(pref.uuid)
+        val bookmarkLocal = BookmarkEntity(address.get()!!,buildingName.get()!!,_coordinate.value!!)
+//        insertBookmarkToLocal(bookmarkLocal)
         bookmarkUserRepository.addBookmark(pnuCode.get()!!, bookmarkUser)
             .addOnSuccessListener {
                 loadBookmarks(pnuCode.get()!!)
@@ -466,6 +473,23 @@ class DetailViewModel(
         if (pref.uuid.isNullOrEmpty()) {
             pref.uuid = uuid
         }
+    }
+
+    fun insertBookmarkToLocal(bookmarkEntity: BookmarkEntity){
+        bookmarkRepository.setBookmark(bookmarkEntity)
+    }
+
+    fun getBookmarkFromLocal(){
+        addDisposable(bookmarkRepository.getBookmark()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                if (it != null) {
+                    it.forEach{
+                        Log.d("@@@IT:",""+it.address)
+                    }
+                }
+            })
     }
 
 }
