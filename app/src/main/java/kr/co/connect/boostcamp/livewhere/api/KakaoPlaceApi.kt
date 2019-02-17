@@ -12,7 +12,7 @@ interface KakaoPlaceApi {
     @GET("search/address.json")
     fun getAddress(
         @Query("query") query: String,
-        @Header("Authorization") Authorization: String = BuildConfig.KakaoServiceKey
+        @Header("Authorization") Authorization: String = "KakaoAK 6ef6886ea829b80be5cbc0e09d5fda96"
     ): Single<Response<List<KakaoPlaceResponse>>>
 
 }
