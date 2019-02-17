@@ -14,13 +14,19 @@ class BookmarkRepositoryImpl(private val bookmarkDAO: BookmarkDAO) : BookmarkRep
         })
     }
 
-    override fun setBookmark(bookmarkEntity: BookmarkEntity): Boolean {
-        //TODO: Thread Handle
-        var runnable = Runnable {
-            bookmarkDAO.insertBookmark(bookmarkEntity)
-        }
-        val thread = Thread(runnable)
-        thread.start()
-        return true
+    override fun setBookmark(bookmarkEntity: BookmarkEntity): Observable<Long> {
+        return Observable.fromCallable(object: Callable<Long> {
+            override fun call(): Long {
+                return bookmarkDAO.insertBookmark(bookmarkEntity)
+            }
+        })
+    }
+
+    override fun deleteBookmark(address: String): Observable<Int> {
+        return Observable.fromCallable(object: Callable<Int> {
+            override fun call(): Int {
+                return bookmarkDAO.deleteBookmark(address)
+            }
+        })
     }
 }

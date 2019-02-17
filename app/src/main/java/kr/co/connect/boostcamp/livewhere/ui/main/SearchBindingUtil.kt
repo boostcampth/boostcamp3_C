@@ -12,7 +12,7 @@ import kr.co.connect.boostcamp.livewhere.ui.main.adapter.RecentSearchRecyclerVie
 
 @BindingAdapter("setRecentRecyclerViewItems")
 fun setRecentRecyclerViewItems(recyclerView: RecyclerView, itemList: List<RecentSearchEntity>?) {
-    if (itemList != null) {
+    if (!itemList.isNullOrEmpty()) {
         (recyclerView.adapter as RecentSearchRecyclerViewAdapter).setData(itemList)
     } else {
         // TODO 데이터 정보 없음 처리.
@@ -21,7 +21,7 @@ fun setRecentRecyclerViewItems(recyclerView: RecyclerView, itemList: List<Recent
 
 @BindingAdapter("setAutoCompleteRecyclerViewItems")
 fun setAutoCompleteRecyclerViewItems(recyclerView: RecyclerView, itemList: List<String>?) {
-    if(itemList != null) {
+    if(!itemList.isNullOrEmpty()) {
         (recyclerView.adapter as AutoCompleteRecyclerViewAdapter).setData(itemList)
     } else {
         //TODO: 데이터 정보 없음 처리.
@@ -29,8 +29,8 @@ fun setAutoCompleteRecyclerViewItems(recyclerView: RecyclerView, itemList: List<
 }
 
 @BindingAdapter("searchDone")
-fun finishEntering(editText: EditText, viewModel: SearchViewModel) {
-    editText.setOnKeyListener { v, keyCode, event ->
+fun finishEntering(editText: EditText, viewModel: HomeViewModel) {
+    editText.setOnKeyListener { _, keyCode, event ->
         if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
             //After Enter Key
             viewModel.onClickAutoComplete(editText.text.toString())
@@ -42,8 +42,8 @@ fun finishEntering(editText: EditText, viewModel: SearchViewModel) {
 }
 
 @BindingAdapter("autoComplete")
-fun autoComplete (editText: EditText, viewModel: SearchViewModel) {
-    editText.doOnTextChanged { text, start, count, after ->
+fun autoComplete (editText: EditText, viewModel: HomeViewModel) {
+    editText.doOnTextChanged { text, _, _, _ ->
         viewModel.startAutoComplete(text.toString())
     }
 }

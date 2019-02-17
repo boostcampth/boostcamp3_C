@@ -12,11 +12,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
+import io.fabric.sdk.android.services.common.CommonUtils.hideKeyboard
 import kotlinx.android.synthetic.main.fragment_search.*
 import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityHomeBinding
 import kr.co.connect.boostcamp.livewhere.ui.map.MapActivity
+import kr.co.connect.boostcamp.livewhere.util.APPLICATION_EXIT
+import kr.co.connect.boostcamp.livewhere.util.DELETE_RECENT_SEARCH
 import kr.co.connect.boostcamp.livewhere.util.EMPTY_STRING_TEXT
 import kr.co.connect.boostcamp.livewhere.util.SEARCH_TAG
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -28,10 +31,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityHomeBinding
-    private lateinit var placesClient: PlacesClient
+    lateinit var placesClient: PlacesClient
     private val homeViewModel: HomeViewModel by viewModel()
-    private val bookmarkViewModel: BookmarkViewModel by viewModel()
-    private val searchViewModel: SearchViewModel by viewModel()
     private lateinit var currentFragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,22 +48,15 @@ class HomeActivity : AppCompatActivity() {
 
         binding.apply {
             homeViewModel = this@HomeActivity.homeViewModel
-            bookmarkViewModel = this@HomeActivity.bookmarkViewModel
-            searchViewModel = this@HomeActivity.searchViewModel
             lifecycleOwner = this@HomeActivity
         }
 
-        setGoogleClient()
         observeValues()
         initBookmark()
     }
 
-    private fun setGoogleClient() {
-        searchViewModel.setClient(placesClient)
-    }
-
     private fun initBookmark() {
-        bookmarkViewModel.getBookmark()
+        homeViewModel.getBookmark()
     }
 
     private fun observeValues() {
@@ -70,34 +64,37 @@ class HomeActivity : AppCompatActivity() {
             startSearchFragment()
         })
 
-        bookmarkViewModel.sendAddress.observe(this, Observer {
-            startMapActivity(bookmarkViewModel.sendAddress.value)
+        homeViewModel.sendAddress.observe(this, Observer {
+            startMapActivity(homeViewModel.sendAddress.value)
         })
 
-        searchViewModel.backBtnClicked.observe(this, Observer {
+        homeViewModel.backBtnClicked.observe(this, Observer {
             hideKeyboard()
             startHomeFragment()
         })
 
-        searchViewModel.mapBtnClicked.observe(this, Observer {
+        homeViewModel.mapBtnClicked.observe(this, Observer {
             startMapActivity()
         })
 
-        searchViewModel.searchText.observe(this, Observer {
-            if(searchViewModel.searchText.value.isNullOrEmpty()) {
-                Log.d("HA", searchViewModel.searchText.value.toString())
+        homeViewModel.searchText.observe(this, Observer {
+            if (homeViewModel.searchText.value.isNullOrEmpty()) {
                 Toast.makeText(this, EMPTY_STRING_TEXT, Toast.LENGTH_LONG).show()
             } else {
-                if(currentFragment.et_search_bar.text.toString() == searchViewModel.searchText.toString()) {
-                    Log.d("HA", searchViewModel.searchText.value.toString())
-                    if(searchViewModel.autoCompleteList.value.isNullOrEmpty()) {
-                        Log.d("HA", searchViewModel.searchText.value.toString())
-                        startMapActivity(searchViewModel.autoCompleteList.value!![0])
+                if (currentFragment.et_search_bar.text.toString() == homeViewModel.searchText.toString()) {
+                    if (homeViewModel.autoCompleteList.value.isNullOrEmpty()) {
+                        startMapActivity(homeViewModel.autoCompleteList.value!![0])
                     }
                 } else {
-                    Log.d("HA", searchViewModel.searchText.value.toString())
-                    startMapActivity(searchViewModel.searchText.value)
+                    startMapActivity(homeViewModel.searchText.value)
                 }
+            }
+        })
+
+        homeViewModel.showToast.observe(this, Observer {
+            if (it) {
+                Toast.makeText(this, DELETE_RECENT_SEARCH, Toast.LENGTH_LONG).show()
+                homeViewModel.setToastDone()
             }
         })
     }
@@ -108,10 +105,17 @@ class HomeActivity : AppCompatActivity() {
         imm.hideSoftInputFromWindow(currentFragment.et_search_bar.windowToken, 0)
     }
 
-    private fun startHomeFragment(){
+    private fun startHomeFragment() {
+        homeViewModel.setClient(placesClient)
         currentFragment = HomeFragment.newInstance()
         supportFragmentManager
             .beginTransaction()
+            .setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_right,
+                R.anim.slide_in_left,
+                R.anim.slide_out_left
+            )
             .replace(HOME_CONTAINER_ID, currentFragment)
             .commit()
     }
@@ -120,9 +124,15 @@ class HomeActivity : AppCompatActivity() {
         currentFragment = SearchFragment.newInstance()
         supportFragmentManager
             .beginTransaction()
+            .setCustomAnimations(
+                R.anim.slide_in_left,
+                R.anim.slide_out_left,
+                R.anim.slide_in_right,
+                R.anim.slide_out_right
+            )
             .replace(HOME_CONTAINER_ID, currentFragment)
+            .addToBackStack(null)
             .commit()
-        searchViewModel.setVisibility()
     }
 
     private fun startMapActivity() {
@@ -131,14 +141,26 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun startMapActivity(text: String?) {
-        if(text != null) {
+        if (text != null) {
             intent = Intent(this, MapActivity::class.java)
             intent.putExtra(SEARCH_TAG, text)
             startActivity(intent)
         } else {
             startMapActivity()
         }
+    }
 
-        Toast.makeText(this, text+"MapActivity로 전송됨.",Toast.LENGTH_LONG).show()
+    override fun onBackPressed() {
+        val toast = Toast.makeText(this, APPLICATION_EXIT, Toast.LENGTH_LONG)
+        if (currentFragment is SearchFragment) {
+            startHomeFragment()
+        } else {
+            if (homeViewModel.onBackPressed()) {
+                toast.show()
+            } else {
+                finish()
+                toast.cancel()
+            }
+        }
     }
 }

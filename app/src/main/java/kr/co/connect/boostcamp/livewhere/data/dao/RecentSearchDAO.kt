@@ -17,5 +17,5 @@ interface RecentSearchDAO {
     fun insertRecentSearch(recentSearch:RecentSearchEntity)
 
     @Query("DELETE FROM recent_search")
-    fun deleteAll()
+    fun deleteAll(): Int
 }

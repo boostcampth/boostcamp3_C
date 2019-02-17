@@ -10,8 +10,8 @@ val appModules = arrayListOf(
     , homeModule
     , mapModule
     , searchModule
+    , mapModule
     , reverseGeoApiModule
     , detailModule
-
 
 )

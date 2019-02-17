@@ -10,11 +10,11 @@ import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.data.entity.BookmarkEntity
 import kr.co.connect.boostcamp.livewhere.databinding.ItemBookmarkRecyclerViewBinding
-import kr.co.connect.boostcamp.livewhere.ui.main.BookmarkViewModel
+import kr.co.connect.boostcamp.livewhere.ui.main.HomeViewModel
 
 class BookmarkRecyclerViewAdapter(
     private val lifecycleOwner: LifecycleOwner,
-    private val bookmarkViewModel: BookmarkViewModel
+    private val homeViewModel: HomeViewModel
 ) : RecyclerView.Adapter<BookmarkRecyclerViewAdapter.BookmarkViewHolder>() {
 
     private var list = listOf<BookmarkEntity>()
@@ -33,26 +33,23 @@ class BookmarkRecyclerViewAdapter(
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
-        holder.bind(lifecycleOwner, list[position], bookmarkViewModel)
+        holder.bind(lifecycleOwner, list[position], homeViewModel)
     }
 
     inner class BookmarkViewHolder(
         private val itemBinding: ItemBookmarkRecyclerViewBinding
     ) : RecyclerView.ViewHolder(itemBinding.root) {
 
-        fun bind(lifecycleOwner: LifecycleOwner, bookmark: BookmarkEntity, bookmarkViewModel: BookmarkViewModel) {
+        fun bind(lifecycleOwner: LifecycleOwner, bookmark: BookmarkEntity, homeViewModel: HomeViewModel) {
             itemBinding.setLifecycleOwner(lifecycleOwner)
-            //TODO: Databinding error
             itemBinding.tvBookmarkLocationContents.text = bookmark.address
             itemBinding.bookmark = bookmark
-            itemBinding.bookmarkViewModel = bookmarkViewModel
+            itemBinding.homeViewModel = homeViewModel
 
-            if (itemBinding.ivBookmarkImage != null) {
-                Glide.with(itemBinding.root)
-                    .load(itemBinding.root.context.getString(R.string.glide_street_img_url,bookmark.img_url,BuildConfig.GoogleApiKey))
-                    .apply { RequestOptions.fitCenterTransform() }
-                    .into(itemBinding.ivBookmarkImage)
-            }
+            Glide.with(itemBinding.root)
+                .load(itemBinding.root.context.getString(R.string.glide_street_img_url,bookmark.img_url,BuildConfig.GoogleApiKey))
+                .apply { RequestOptions.fitCenterTransform() }
+                .into(itemBinding.ivBookmarkImage)
         }
     }
 }
