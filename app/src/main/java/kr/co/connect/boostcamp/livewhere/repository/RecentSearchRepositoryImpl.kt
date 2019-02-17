@@ -10,16 +10,14 @@ class RecentSearchRepositoryImpl(private val recentSearchDAO: RecentSearchDAO) :
     override fun getRecentSearch(): Observable<List<RecentSearchEntity>> {
         return Observable.fromCallable(object : Callable<List<RecentSearchEntity>> {
             override fun call(): List<RecentSearchEntity> {
-                Log.d("RSR", "Get List ${recentSearchDAO.getAll().toString()}")
                 return recentSearchDAO.getAll()
             }
         })
     }
 
     override fun setRecentSearch(recentSearch: RecentSearchEntity): Observable<Boolean> {
-        return Observable.fromCallable(object : Callable<Boolean> {
+        return Observable.fromCallable(object : Callable<Boolean> {g
             override fun call(): Boolean {
-                Log.d("RSR", "Inserted ${recentSearch.text} to DB")
                 recentSearchDAO.insertRecentSearch(recentSearch)
                 return true
             }

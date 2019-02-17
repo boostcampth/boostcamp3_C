@@ -6,7 +6,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.connect.boostcamp.livewhere.databinding.ItemAutoCompleteRecyclerViewBinding
 import kr.co.connect.boostcamp.livewhere.ui.main.HomeViewModel
-import kr.co.connect.boostcamp.livewhere.ui.main.SearchViewModel
 
 class AutoCompleteRecyclerViewAdapter(
     private val lifecycleOwner: LifecycleOwner,

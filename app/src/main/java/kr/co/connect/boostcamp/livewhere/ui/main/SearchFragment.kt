@@ -1,27 +1,17 @@
 package kr.co.connect.boostcamp.livewhere.ui.main
 
-import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.libraries.places.api.net.PlacesClient
-import io.fabric.sdk.android.services.common.CommonUtils.hideKeyboard
-import kotlinx.android.synthetic.main.fragment_recent_search.*
 import kotlinx.android.synthetic.main.fragment_recent_search.view.*
-import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.android.synthetic.main.fragment_search.view.*
 import kr.co.connect.boostcamp.livewhere.databinding.FragmentSearchBinding
 import kr.co.connect.boostcamp.livewhere.ui.main.adapter.AutoCompleteRecyclerViewAdapter
 import kr.co.connect.boostcamp.livewhere.ui.main.adapter.RecentSearchRecyclerViewAdapter
-import kr.co.connect.boostcamp.livewhere.util.DELETE_RECENT_SEARCH
-import kr.co.connect.boostcamp.livewhere.util.EMPTY_STRING_TEXT
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class SearchFragment : Fragment() {
@@ -51,6 +41,7 @@ class SearchFragment : Fragment() {
         homeViewModel.isRecentSearchVisible.observe(this, Observer {
             changeSearchRv(it)
         })
+
         homeViewModel.recentSearch.observe(this, Observer {
             if(!it.isNullOrEmpty()) {
                 binding.llSearchFragment.tv_recent_search_empty.visibility = View.GONE
@@ -83,9 +74,10 @@ class SearchFragment : Fragment() {
     }
 
     private fun changeSearchRv(set: Boolean) {
-        if (set) {
+        if (!set) {
             binding.rvAutoComplete.visibility = View.GONE
             binding.svSearch.ll_recent_search.visibility = View.VISIBLE
+            Log.d("SF", "Hide RecentSearch")
         } else {
             binding.rvAutoComplete.visibility = View.VISIBLE
             binding.svSearch.ll_recent_search.visibility = View.GONE
