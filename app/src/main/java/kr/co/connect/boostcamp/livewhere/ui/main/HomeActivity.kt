@@ -133,7 +133,6 @@ class HomeActivity : AppCompatActivity() {
             .replace(HOME_CONTAINER_ID, currentFragment)
             .addToBackStack(null)
             .commit()
-        homeViewModel.setVisibility()
     }
 
     private fun startMapActivity() {

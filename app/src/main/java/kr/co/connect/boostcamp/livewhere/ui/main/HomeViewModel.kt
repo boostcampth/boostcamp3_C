@@ -145,7 +145,7 @@ class HomeViewModel(
         )
     }
 
-    fun setRecentSearch(text: String) {
+    private fun setRecentSearch(text: String) {
         getCompositeDisposable().add(
             recentSearchRepositoryImpl.setRecentSearch(RecentSearchEntity(text))
                 .subscribeOn(Schedulers.io())
@@ -163,8 +163,8 @@ class HomeViewModel(
         this.placesClient = placesClient
     }
 
-    fun setVisibility() {
-        _isRecentSearchVisible.postValue(true)
+    fun setVisibility(value: Boolean) {
+        _isRecentSearchVisible.postValue(value)
     }
 
     fun startAutoComplete(text: String) {
@@ -176,11 +176,17 @@ class HomeViewModel(
             .build()
 
         val textList = ArrayList<String>()
+        Log.d("HVM", "Query: " + text)
         placesClient.findAutocompletePredictions(request)
             .addOnSuccessListener { response ->
                 for (prediction in response.autocompletePredictions) {
-                    Log.d("QUERY", prediction.getFullText(null).toString())
+                    Log.d("HVM", "response: "+prediction.toString())
                     textList.add(prediction.getFullText(null).toString())
+                }
+                if(textList.isNullOrEmpty()) {
+                    setVisibility(false)
+                } else {
+                    setVisibility(true)
                 }
                 _autoCompleteLIst.postValue(textList.toList())
             }
