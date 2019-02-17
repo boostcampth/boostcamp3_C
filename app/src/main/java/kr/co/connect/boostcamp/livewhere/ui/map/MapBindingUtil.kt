@@ -8,7 +8,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -339,9 +338,8 @@ fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
         val bindList = bindPlaceLiveData.value
         if (adapter == null) {
             apply {
-                layoutManager = LinearLayoutManager(context)
-                adapter = MapSearchRVAdapter(bindList!!)
-                adapter?.notifyItemRangeInserted(0, bindList.size)
+                adapter?.notifyItemRangeInserted(0, bindList!!.size)
+                (adapter as MapSearchRVAdapter).setItemChange(bindList!!)
             }
         } else {
             apply {
@@ -352,8 +350,7 @@ fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
         }
     } else {
         val emptyList = arrayListOf<Any>()
-        layoutManager = LinearLayoutManager(context)
-        adapter = MapSearchRVAdapter(emptyList)
+        (adapter as MapSearchRVAdapter).setItemChange(emptyList)
         adapter?.notifyItemRangeInserted(0, emptyList.size)
     }
 }

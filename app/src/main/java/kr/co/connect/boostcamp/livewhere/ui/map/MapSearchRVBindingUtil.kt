@@ -8,12 +8,18 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
-import kr.co.connect.boostcamp.livewhere.ui.detail.DetailActivity
 
-@BindingAdapter(value = ["onWebClickListener", "onMapSearchRVViewModel"])
-fun LinearLayout.setOnWebClickListener(placeUrl: String, mapSearchRVViewModel: MapSearchRVViewModel) {
+@BindingAdapter(value = ["onWebClickListener", "onClickWebSite"])
+fun LinearLayout.setOnWebClickListener(placeUrl: String, mapViewModel: MapViewModel) {
     setOnClickListener {
-        mapSearchRVViewModel.onLaunchUrl(context, placeUrl)
+        mapViewModel.onLaunchUrl(context, placeUrl)
+    }
+}
+
+@BindingAdapter(value = ["onHomeClickListener","onMarkerInfo"])
+fun LinearLayout.startActivityWithIntent(mapViewModel: MapViewModel ,markerInfo: MarkerInfo) {
+    setOnClickListener {
+        mapViewModel.onStartDetailActivity(markerInfo, context)
     }
 }
 
@@ -27,17 +33,9 @@ fun LinearLayout.setOnCallListener(phone: String) {
 
 @BindingAdapter(value = ["onText"])
 fun TextView.onTextView(content: String) {
-    text = content.replace("\n"," ")
+    text = content.replace("\n", " ")
 }
 
-@BindingAdapter(value = ["onIntent"])
-fun LinearLayout.startActivityWithIntent(markerInfo: MarkerInfo) {
-    setOnClickListener {
-        val intent = Intent(context, DetailActivity::class.java)
-        intent.putExtra("markerInfo", markerInfo)
-        context.startActivity(intent)
-    }
-}
 
 @BindingAdapter(value = ["onDrawCategory"])
 fun ImageView.setOnDrawCategory(category: String) {

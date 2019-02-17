@@ -1,9 +1,12 @@
 package kr.co.connect.boostcamp.livewhere.ui.map
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.PointF
+import android.net.Uri
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.naver.maps.geometry.LatLng
@@ -20,6 +23,7 @@ import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.repository.MapRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
+import kr.co.connect.boostcamp.livewhere.ui.detail.DetailActivity
 import kr.co.connect.boostcamp.livewhere.ui.map.interfaces.OnMapHistoryListener
 import kr.co.connect.boostcamp.livewhere.ui.map.interfaces.OnViewHistoryListener
 import kr.co.connect.boostcamp.livewhere.util.RADIUS
@@ -32,6 +36,8 @@ interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, NaverMap.On
     View.OnClickListener, OnMapHistoryListener, OnViewHistoryListener {
     fun onClickMapImageView(view: View, liveData: LiveData<*>)
     fun putPressedLiveData(tick:Long)
+    fun onLaunchUrl(context: Context, url:String)
+    fun onStartDetailActivity(markerInfo: MarkerInfo,context: Context)
 }
 
 class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
@@ -425,5 +431,17 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
 
     override fun onInitActivityStatus() {
         _userStatusLiveData.postValue(UserStatus(StatusCode.DEFAULT_SEARCH, ""))
+    }
+
+    override fun onStartDetailActivity(markerInfo: MarkerInfo, context: Context) {
+        val intent = Intent(context, DetailActivity::class.java)
+        intent.putExtra("markerInfo", markerInfo)
+        context.startActivity(intent)
+    }
+
+    override fun onLaunchUrl(context: Context, url: String) {
+        val builder = CustomTabsIntent.Builder()
+        val customTabsIntent = builder.build()
+        customTabsIntent.launchUrl(context, Uri.parse(url))
     }
 }

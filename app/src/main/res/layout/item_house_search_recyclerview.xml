@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable name="markerInfo" type="kr.co.connect.boostcamp.livewhere.model.MarkerInfo"/>
+        <variable name="mapViewModel" type="kr.co.connect.boostcamp.livewhere.ui.map.MapViewModel"/>
     </data>
     <LinearLayout
             android:layout_width="match_parent"
@@ -56,7 +57,9 @@
                     android:layout_margin="@dimen/item_search_circle_view_margin"
                     android:gravity="center"
                     android:background="@drawable/drawable_circle_view_design"
-                    onIntent="@{markerInfo}">
+                    onHomeClickListener="@{mapViewModel}"
+                    onMarkerInfo="@{markerInfo}">
+
                 <ImageView
                         android:layout_width="@dimen/item_search_circle_image_view_size"
                         android:layout_height="@dimen/item_search_circle_image_view_size"

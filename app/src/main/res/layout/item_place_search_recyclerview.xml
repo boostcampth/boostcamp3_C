@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable name="place" type="kr.co.connect.boostcamp.livewhere.model.Place"/>
-        <variable name="mapSearchRVViewModel" type="kr.co.connect.boostcamp.livewhere.ui.map.MapSearchRVViewModel"/>
+        <variable name="mapViewModel" type="kr.co.connect.boostcamp.livewhere.ui.map.MapViewModel"/>
     </data>
     <LinearLayout
             android:layout_width="match_parent"
@@ -80,7 +80,7 @@
                     android:gravity="center"
                     android:background="@drawable/drawable_circle_view_design"
                     onWebClickListener="@{place.place_url}"
-                    onMapSearchRVViewModel="@{mapSearchRVViewModel}">
+                    onClickWebSite="@{mapViewModel}">
                 <ImageView
                         android:layout_width="@dimen/item_search_circle_image_view_size"
                         android:layout_height="@dimen/item_search_circle_image_view_size"
