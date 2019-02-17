@@ -3,9 +3,11 @@ package kr.co.connect.boostcamp.livewhere.ui.map
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.naver.maps.map.util.FusedLocationSource
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityMapBinding
+import kr.co.connect.boostcamp.livewhere.ui.map.adapter.MapSearchRVAdapter
 import kr.co.connect.boostcamp.livewhere.util.MapUtilImpl.Companion.LOCATION_PERMISSION_REQUEST_CODE
 import kr.co.connect.boostcamp.livewhere.util.SEARCH_TAG
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,6 +33,13 @@ class MapActivity : AppCompatActivity() {
         activityMapBinding.setMlBackdrop(activityMapBinding.mlBackdrop)
         activityMapBinding.mvMainNaver.onCreate(savedInstanceState)
         activityMapBinding.mvMainNaver.getMapAsync(mapViewModel)
+
+
+        activityMapBinding.rvSearchMap.apply{
+            layoutManager = LinearLayoutManager(context)
+            adapter = MapSearchRVAdapter(mapViewModel)
+        }
+
         val address = intent.getStringExtra(SEARCH_TAG)
         if(address!=null){
             intent.extras.clear()
