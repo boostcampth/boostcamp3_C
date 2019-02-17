@@ -16,10 +16,11 @@ fun LinearLayout.setOnWebClickListener(placeUrl: String, mapViewModel: MapViewMo
     }
 }
 
-@BindingAdapter(value = ["onHomeClickListener","onMarkerInfo"])
-fun LinearLayout.startActivityWithIntent(mapViewModel: MapViewModel ,markerInfo: MarkerInfo) {
+@BindingAdapter(value = ["onHomeClickListener", "onMarkerInfo"])
+fun LinearLayout.startActivityWithIntent(mapViewModel: MapViewModel, markerInfo: MarkerInfo) {
+    mapViewModel.onStartDetailActivity(context, markerInfo)
     setOnClickListener {
-        mapViewModel.onStartDetailActivity(markerInfo, context)
+        mapViewModel.onNextStartActivity(this, markerInfo)
     }
 }
 

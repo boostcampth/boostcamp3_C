@@ -19,6 +19,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.BehaviorSubject
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.repository.MapRepositoryImpl
@@ -35,9 +36,11 @@ import java.util.concurrent.TimeUnit
 interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, NaverMap.OnMapClickListener, OnMapReadyCallback,
     View.OnClickListener, OnMapHistoryListener, OnViewHistoryListener {
     fun onClickMapImageView(view: View, liveData: LiveData<*>)
-    fun putPressedLiveData(tick:Long)
-    fun onLaunchUrl(context: Context, url:String)
-    fun onStartDetailActivity(markerInfo: MarkerInfo,context: Context)
+    fun putPressedLiveData(tick: Long)
+    fun onLaunchUrl(context: Context, url: String)
+    fun onStartDetailActivity(context: Context, markerInfo: MarkerInfo)
+    fun onNextStartActivity(view: View, markerInfo: MarkerInfo)
+    fun onRemoveDisposable(disposable: Disposable)
 }
 
 class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
@@ -108,12 +111,15 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
     val cameraPositionLatLngLiveData: LiveData<CameraPositionInfo>
         get() = _cameraPositionLatLngLiveData
 
-    private val _pressedImageViewTimeLiveData:MutableLiveData<Long> = MutableLiveData()
+    private val _pressedImageViewTimeLiveData: MutableLiveData<Long> = MutableLiveData()
 
-    val pressedImageViewTimeLiveData:LiveData<Long>
+    val pressedImageViewTimeLiveData: LiveData<Long>
         get() = _pressedImageViewTimeLiveData
 
     private var timerObservable: Disposable? = null
+
+    private val startActivityBehaviorSubject = BehaviorSubject.createDefault(0L)
+    private var startDetailActivityObservable: Disposable? = null
 
     override fun putPressedLiveData(tick: Long) {
         _pressedImageViewTimeLiveData.postValue(tick)
@@ -138,11 +144,6 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
 
     override fun stopObservable() {
         onCleared()
-        if (timerObservable != null) {
-            if (!timerObservable!!.isDisposed) {
-                getCompositeDisposable().remove(timerObservable!!)
-            }
-        }
     }
 
     override fun onMoveCameraPosition(latLng: LatLng, zoom: Double) {
@@ -221,7 +222,7 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
             }, {
                 _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_PLACE, ""))
             })
-        } else{
+        } else {
             _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_HOUSE_TARGET, ""))
         }
     }
@@ -361,8 +362,9 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
         }
         putPressedLiveData(System.currentTimeMillis())
         view.setOnClickListener {
-            if(pressedImageViewTimeLiveData.value != null &&
-                    System.currentTimeMillis()-pressedImageViewTimeLiveData.value!!>1000){
+            if (pressedImageViewTimeLiveData.value != null &&
+                System.currentTimeMillis() - pressedImageViewTimeLiveData.value!! > 1000
+            ) {
                 val intent = Intent(view.context, StreetMapActivity::class.java)
                 intent.putExtra("lat", lat)
                 intent.putExtra("lng", lng)
@@ -433,15 +435,39 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
         _userStatusLiveData.postValue(UserStatus(StatusCode.DEFAULT_SEARCH, ""))
     }
 
-    override fun onStartDetailActivity(markerInfo: MarkerInfo, context: Context) {
-        val intent = Intent(context, DetailActivity::class.java)
-        intent.putExtra("markerInfo", markerInfo)
-        context.startActivity(intent)
+    override fun onStartDetailActivity(context: Context, markerInfo: MarkerInfo) {
+        startDetailActivityObservable = startActivityBehaviorSubject
+            .buffer(2, 1)
+            .observeOn(AndroidSchedulers.mainThread())
+            .filter { pair -> pair[1] - pair[0] > 1000 }
+            .subscribe({ _ ->
+                val intent = Intent(context, DetailActivity::class.java)
+                intent.putExtra("markerInfo", markerInfo)
+                context.startActivity(intent)
+            }, {}, {
+
+            })
+
+        addDisposable(startDetailActivityObservable!!)
     }
 
     override fun onLaunchUrl(context: Context, url: String) {
-        val builder = CustomTabsIntent.Builder()
-        val customTabsIntent = builder.build()
-        customTabsIntent.launchUrl(context, Uri.parse(url))
+        if (pressedImageViewTimeLiveData.value != null && System.currentTimeMillis() - pressedImageViewTimeLiveData.value!! > 1000) {
+            val builder = CustomTabsIntent.Builder()
+            val customTabsIntent = builder.build()
+            customTabsIntent.launchUrl(context, Uri.parse(url))
+            putPressedLiveData(System.currentTimeMillis())
+        }
+    }
+
+
+
+    override fun onNextStartActivity(view: View, markerInfo: MarkerInfo) {
+        startActivityBehaviorSubject.onNext(System.currentTimeMillis())
+    }
+
+    override fun onRemoveDisposable(disposable: Disposable) {
+        disposable.dispose()
+        getCompositeDisposable().remove(disposable)
     }
 }

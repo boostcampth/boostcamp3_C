@@ -9,5 +9,5 @@ import org.koin.dsl.module.module
 val mapModule = module {
     single("mapRepository") { MapRepositoryImpl(get("api"), get("reverseApi")) }
     viewModel { MapViewModel(get("mapRepository")) }
-    viewModel { StreetMapViewModel(get("mapRepository"))}
+    viewModel { StreetMapViewModel(get("mapRepository")) }
 }

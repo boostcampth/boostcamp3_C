@@ -13,9 +13,6 @@ import kr.co.connect.boostcamp.livewhere.util.SEARCH_TAG
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-
-
-
 class MapActivity : AppCompatActivity() {
     private val mapViewModel: MapViewModel by viewModel()
     private lateinit var activityMapBinding: ActivityMapBinding
@@ -63,7 +60,7 @@ class MapActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         activityMapBinding.mvMainNaver.onPause()
-        mapViewModel.stopObservable()
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -84,6 +81,7 @@ class MapActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         activityMapBinding.mvMainNaver.onDestroy()
+        mapViewModel.stopObservable()
     }
 
     //자신의 위치 관련한 permission 함수
