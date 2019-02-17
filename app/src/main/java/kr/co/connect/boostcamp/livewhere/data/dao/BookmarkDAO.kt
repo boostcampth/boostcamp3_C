@@ -12,14 +12,14 @@ interface BookmarkDAO {
     fun getAll(): List<BookmarkEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertBookmark(bookmark: BookmarkEntity)
+    fun insertBookmark(bookmark: BookmarkEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertBookmarkAll(bookmark: List<BookmarkEntity>)
+    fun insertBookmarkAll(bookmark: List<BookmarkEntity>): List<Long>
 
     @Query("DELETE from Bookmark")
-    fun deleteAll()
+    fun deleteAll(): Int
 
     @Query("DELETE from Bookmark WHERE address IN (:address)")
-    fun deleteBookmark(address: String)
+    fun deleteBookmark(address: String): Int
 }
