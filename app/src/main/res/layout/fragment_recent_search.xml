@@ -3,13 +3,14 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
 >
     <data>
-        <variable name="searchViewModel"
-                  type="kr.co.connect.boostcamp.livewhere.ui.main.SearchViewModel"/>
+        <variable name="homeViewModel"
+                  type="kr.co.connect.boostcamp.livewhere.ui.main.HomeViewModel"/>
     </data>
     <LinearLayout
             android:id="@+id/ll_recent_search"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:background="@color/white"
             android:orientation="vertical">
         <LinearLayout
                 android:layout_width="match_parent"
@@ -34,15 +35,22 @@
                 <androidx.appcompat.widget.AppCompatTextView
                         style="@style/BasicTv.BodyM"
                         android:textColor="@color/black_opacity_60"
-                        android:onClick="@{()->searchViewModel.deleteAll()}"
+                        android:onClick="@{()->homeViewModel.deleteAll()}"
                         android:text="@string/delete_all"/>
             </LinearLayout>
         </LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_recent_search_empty"
+                android:layout_gravity="center"
+                style="@style/BasicTv.BodyL"
+                android:layout_marginTop="@dimen/space_small"
+                android:textColor="@color/black_opacity_60"
+                android:text="@string/recent_search_empty"/>
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_recent_search"
                 android:layout_width="match_parent"
                 android:background="@color/white"
-                app:setRecentRecyclerViewItems="@{searchViewModel.recentSearch}"
+                app:setRecentRecyclerViewItems="@{homeViewModel.recentSearch}"
                 android:layout_height="wrap_content"/>
     </LinearLayout>
 </layout>

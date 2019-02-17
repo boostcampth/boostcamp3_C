@@ -3,8 +3,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-                name="bookmarkViewModel"
-                type="kr.co.connect.boostcamp.livewhere.ui.main.BookmarkViewModel"/>
+                name="homeViewModel"
+                type="kr.co.connect.boostcamp.livewhere.ui.main.HomeViewModel"/>
         <variable
                 name="bookmark"
                 type="kr.co.connect.boostcamp.livewhere.data.entity.BookmarkEntity"/>
@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:id="@+id/cv_bookmark"
-            android:onClick="@{()->bookmarkViewModel.setSendText(bookmark.address)}"
+            android:onClick="@{()->homeViewModel.setSendText(bookmark.address)}"
             app:cardUseCompatPadding="true"
             app:cardElevation="@dimen/elevation_s">
 

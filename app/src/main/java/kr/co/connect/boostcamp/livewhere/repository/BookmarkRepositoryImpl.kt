@@ -24,4 +24,8 @@ class BookmarkRepositoryImpl(private val bookmarkDAO: BookmarkDAO) : BookmarkRep
         thread.start()
         return true
     }
+
+    override fun deleteBookmark(address: String): Observable<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

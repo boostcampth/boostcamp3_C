@@ -4,19 +4,26 @@
         <variable name="autoComplete"
                   type="java.lang.String"/>
         <variable
-                name="searchViewModel"
-                type="kr.co.connect.boostcamp.livewhere.ui.main.SearchViewModel"/>
+                name="homeViewModel"
+                type="kr.co.connect.boostcamp.livewhere.ui.main.HomeViewModel"/>
     </data>
     <LinearLayout
-            style="@style/Table.Double"
-            android:onClick="@{()->searchViewModel.onClickAutoComplete(autoComplete)}"
-            android:gravity="center|left"
-            android:orientation="horizontal">
-        <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_auto_complete"
-                style="@style/BasicTv.BodyL"
-                android:text="@{autoComplete}"
-                android:layout_margin="@dimen/space_small"
-                android:textColor="@color/black"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <LinearLayout
+                style="@style/Table.Double"
+                android:onClick="@{()->homeViewModel.onClickAutoComplete(autoComplete)}"
+                android:gravity="center|left"
+                android:orientation="horizontal">
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_auto_complete"
+                    style="@style/BasicTv.BodyL"
+                    android:text="@{autoComplete}"
+                    android:layout_margin="@dimen/space_small"
+                    android:textColor="@color/black"/>
+        </LinearLayout>
+        <View style="@style/Horizontal_line"/>
     </LinearLayout>
+
 </layout>

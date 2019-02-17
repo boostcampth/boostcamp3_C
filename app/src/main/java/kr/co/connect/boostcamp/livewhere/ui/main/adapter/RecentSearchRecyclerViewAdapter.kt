@@ -6,12 +6,12 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity
 import kr.co.connect.boostcamp.livewhere.databinding.ItemRecentSearchRecyclerViewBinding
-import kr.co.connect.boostcamp.livewhere.ui.main.SearchViewModel
+import kr.co.connect.boostcamp.livewhere.ui.main.HomeViewModel
 
 class RecentSearchRecyclerViewAdapter(
     private val lifecycleOwner: LifecycleOwner,
-    private val searchViewModel: SearchViewModel)
-    : RecyclerView.Adapter<RecentSearchRecyclerViewAdapter.RecentSearchViewHolder>() {
+    private val homeViewModel: HomeViewModel
+) : RecyclerView.Adapter<RecentSearchRecyclerViewAdapter.RecentSearchViewHolder>() {
 
     private var list = listOf<RecentSearchEntity>()
 
@@ -29,18 +29,16 @@ class RecentSearchRecyclerViewAdapter(
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: RecentSearchViewHolder, position: Int) {
-        holder.bind(lifecycleOwner, list[position], searchViewModel)
+        holder.bind(lifecycleOwner, list[position], homeViewModel)
     }
 
     inner class RecentSearchViewHolder(
         private val itemBinding: ItemRecentSearchRecyclerViewBinding
     ) : RecyclerView.ViewHolder(itemBinding.root) {
 
-        fun bind(lifecycleOwner: LifecycleOwner, recentSearch: RecentSearchEntity, searchViewModel: SearchViewModel) {
-            itemBinding.setLifecycleOwner(lifecycleOwner)
-            //TODO: Binding Error 알아보기
-            itemBinding.searchViewModel = searchViewModel
-            itemBinding.tvRecentSearch.text = recentSearch.text
+        fun bind(lifecycleOwner: LifecycleOwner, recentSearch: RecentSearchEntity, homeViewModel: HomeViewModel) {
+            itemBinding.lifecycleOwner = lifecycleOwner
+            itemBinding.homeViewModel = homeViewModel
             itemBinding.recentSearch = recentSearch
         }
     }

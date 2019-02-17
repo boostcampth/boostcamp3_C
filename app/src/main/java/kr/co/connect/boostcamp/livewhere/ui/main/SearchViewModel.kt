@@ -5,10 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.common.api.ApiException
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.AutocompletePrediction
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
-import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
@@ -17,13 +14,14 @@ import io.reactivex.schedulers.Schedulers
 import kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity
 import kr.co.connect.boostcamp.livewhere.repository.RecentSearchRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
+import kr.co.connect.boostcamp.livewhere.util.COUNTRY_CODE
 import kr.co.connect.boostcamp.livewhere.util.SingleLiveEvent
+import java.util.*
 
 class SearchViewModel(
     private val recentSearchRepositoryImpl: RecentSearchRepositoryImpl
 ) : BaseViewModel() {
     private lateinit var placesClient: PlacesClient
-    private val COUNTRYCODE = "kr"
     private var token = AutocompleteSessionToken.newInstance()
 
     private val _isRecentSearchVisible = MutableLiveData<Boolean>()
@@ -50,6 +48,10 @@ class SearchViewModel(
     val backBtnClicked: LiveData<Any>
         get() = _backBtnClicked
 
+    private var _showToast = MutableLiveData<Boolean>()
+    val showToast: LiveData<Boolean>
+        get() = _showToast
+
     init {
         getRecentSearch()
     }
@@ -61,11 +63,29 @@ class SearchViewModel(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    if (it != null) {
+                    if (!it.isNullOrEmpty()) {
+                        Log.d("SVM", "postvalue" + it.toString() + "\n" + "before: " + _recentSearch.value.toString())
+                        _recentSearch.postValue(it)
+                        Log.d("SVM", "after: " + _recentSearch.value.toString())
+                    } else {
                         _recentSearch.postValue(it)
                     }
                 }, {
+                    it.printStackTrace()
+                })
+        )
+    }
 
+    fun setRecentSearch(text: String) {
+        getCompositeDisposable().add(
+            recentSearchRepositoryImpl.setRecentSearch(RecentSearchEntity(text))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    Log.d("SVM", "set RecentSearch")
+                    getRecentSearch()
+                }, {
+                    it.printStackTrace()
                 })
         )
     }
@@ -80,7 +100,7 @@ class SearchViewModel(
 
     fun startAutoComplete(text: String) {
         val request = FindAutocompletePredictionsRequest.builder()
-            .setCountry(COUNTRYCODE)
+            .setCountry(COUNTRY_CODE)
             .setTypeFilter(TypeFilter.GEOCODE)
             .setSessionToken(token)
             .setQuery(text)
@@ -94,11 +114,6 @@ class SearchViewModel(
                     textList.add(prediction.getFullText(null).toString())
                 }
                 _autoCompleteLIst.postValue(textList.toList())
-                if (!textList.isEmpty()) {
-                    _isRecentSearchVisible.postValue(false)
-                } else {
-                    _isRecentSearchVisible.postValue(true)
-                }
             }
             .addOnFailureListener { exception ->
                 if (exception is ApiException) {
@@ -116,13 +131,27 @@ class SearchViewModel(
     }
 
     fun deleteAll() {
-        recentSearchRepositoryImpl.deleteRecentSearch()
-        getRecentSearch()
+        getCompositeDisposable().add(
+            recentSearchRepositoryImpl.deleteRecentSearch()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    getRecentSearch()
+                }, {
+                    it.printStackTrace()
+                })
+        )
+        _showToast.postValue(true)
+    }
+
+    fun setToastDone() {
+        _showToast.postValue(false)
     }
 
     fun onClickAutoComplete(text: String) {
-        recentSearchRepositoryImpl.setRecentSearch(RecentSearchEntity(text))
+        setRecentSearch(text)
         _searchText.postValue(text)
+        getRecentSearch()
     }
 
     fun onRecentSearchClicked(text: String) {
