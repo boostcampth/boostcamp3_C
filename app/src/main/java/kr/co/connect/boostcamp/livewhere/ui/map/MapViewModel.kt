@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit
 interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, NaverMap.OnMapClickListener, OnMapReadyCallback,
     View.OnClickListener, OnMapHistoryListener, OnViewHistoryListener {
     fun onClickMapImageView(view: View, liveData: LiveData<*>)
+    fun putPressedLiveData(tick:Long)
 }
 
 class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
@@ -101,7 +102,17 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
     val cameraPositionLatLngLiveData: LiveData<CameraPositionInfo>
         get() = _cameraPositionLatLngLiveData
 
+    private val _pressedImageViewTimeLiveData:MutableLiveData<Long> = MutableLiveData()
+
+    val pressedImageViewTimeLiveData:LiveData<Long>
+        get() = _pressedImageViewTimeLiveData
+
     private var timerObservable: Disposable? = null
+
+    override fun putPressedLiveData(tick: Long) {
+        _pressedImageViewTimeLiveData.postValue(tick)
+    }
+
     override fun startObservable(title: String, toolbar: Toolbar) {
         timerObservable =
             Observable.interval(0, 1, TimeUnit.SECONDS)
@@ -342,12 +353,17 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
             lng = placeInfo.x
             address = placeInfo.addrName
         }
+        putPressedLiveData(System.currentTimeMillis())
         view.setOnClickListener {
-            val intent = Intent(view.context, StreetMapActivity::class.java)
-            intent.putExtra("lat", lat)
-            intent.putExtra("lng", lng)
-            intent.putExtra("address", address)
-            view.context.startActivity(intent)
+            if(pressedImageViewTimeLiveData.value != null &&
+                    System.currentTimeMillis()-pressedImageViewTimeLiveData.value!!>1000){
+                val intent = Intent(view.context, StreetMapActivity::class.java)
+                intent.putExtra("lat", lat)
+                intent.putExtra("lng", lng)
+                intent.putExtra("address", address)
+                putPressedLiveData(System.currentTimeMillis())
+                view.context.startActivity(intent)
+            }
         }
     }
 
