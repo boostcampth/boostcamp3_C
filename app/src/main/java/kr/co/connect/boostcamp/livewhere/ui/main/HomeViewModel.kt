@@ -16,17 +16,20 @@ import io.reactivex.schedulers.Schedulers
 import kr.co.connect.boostcamp.livewhere.api.KakaoPlaceApi
 import kr.co.connect.boostcamp.livewhere.data.entity.BookmarkEntity
 import kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity
+import kr.co.connect.boostcamp.livewhere.model.KakaoPlaceResponse
+import kr.co.connect.boostcamp.livewhere.repository.AutoCompleteRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.repository.BookmarkRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.repository.RecentSearchRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 import kr.co.connect.boostcamp.livewhere.util.COUNTRY_CODE
+import kr.co.connect.boostcamp.livewhere.util.SEOUL
 import kr.co.connect.boostcamp.livewhere.util.SingleLiveEvent
 import java.util.*
 
 class HomeViewModel(
     private val bookmarkRepositoryImpl: BookmarkRepositoryImpl,
     private val recentSearchRepositoryImpl: RecentSearchRepositoryImpl,
-    private val kakaoPlaceApi: KakaoPlaceApi
+    private val autoCompleteRepositoryImpl: AutoCompleteRepositoryImpl
 ) : BaseViewModel() {
     private var _searchBtnClicked = SingleLiveEvent<Any>()
     val searchBtnClicked: LiveData<Any>
@@ -101,7 +104,7 @@ class HomeViewModel(
     }
 
     private fun checkBookmarkEntity(value: Boolean): Int {
-        return when(value) {
+        return when (value) {
             true -> View.VISIBLE
             false -> View.GONE
         }
@@ -171,6 +174,67 @@ class HomeViewModel(
         _isRecentSearchVisible.postValue(value)
     }
 
+    @SuppressLint("CheckResult")
+    fun getKakaoApi(text: String) {
+        val textList = ArrayList<String>()
+        Log.d("HVM", "get Started")
+        autoCompleteRepositoryImpl.getAddress(text)
+            .subscribe({ response ->
+                Log.d("HVM", response.code().toString())
+                Log.d("HVM", "Start")
+                val addressList = response.body()
+                Log.d("HVM", addressList.toString())
+                if (!addressList.isNullOrEmpty()) {
+                    for (item in addressList) {
+                        Log.d("HVM", "item: " + item.toString())
+                        for (address in item.addressList) {
+                            Log.d("HVM", "address: " + address.toString())
+                            if (address.regionDepthOne == SEOUL) {
+                                textList.add(address.addressName)
+                                Log.d("HVM", "depth: " + address.regionDepthOne)
+                                Log.d("HVM", "AddressName: " + address.addressName)
+                            }
+                        }
+                    }
+                    if (textList.isNullOrEmpty()) {
+                        setVisibility(false)
+                    } else {
+                        setVisibility(true)
+                    }
+                    _autoCompleteLIst.postValue(textList.toList())
+                }
+            }, {
+                it.printStackTrace()
+            })
+
+        /*addDisposable(
+            autoCompleteRepositoryImpl.getAddress(text)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    for (item in it) {
+                        Log.d("HVM", "item: " + item.toString())
+                        for (address in item.addressList) {
+                            Log.d("HVM", "address: " + address.toString())
+                            if (address.regionDepthOne == SEOUL) {
+                                textList.add(address.addressName)
+                                Log.d("HVM", "depth: " + address.regionDepthOne)
+                                Log.d("HVM", "AddressName: " + address.addressName)
+                            }
+                        }
+                    }
+                    if (textList.isNullOrEmpty()) {
+                        setVisibility(false)
+                    } else {
+                        setVisibility(true)
+                    }
+                    _autoCompleteLIst.postValue(textList.toList())
+                }, {
+                    it.printStackTrace()
+                })
+        )*/
+    }
+
     fun startAutoComplete(text: String) {
         val request = FindAutocompletePredictionsRequest.builder()
             .setCountry(COUNTRY_CODE)
@@ -183,11 +247,11 @@ class HomeViewModel(
         placesClient.findAutocompletePredictions(request)
             .addOnSuccessListener { response ->
                 for (prediction in response.autocompletePredictions) {
-                    Log.d("HVM", "response: "+prediction.toString())
-                    if(prediction.placeTypes.contains(Place.Type.SUBLOCALITY_LEVEL_4))
+                    Log.d("HVM", "response: " + prediction.toString())
+                    if (prediction.placeTypes.contains(Place.Type.SUBLOCALITY_LEVEL_4))
                         textList.add(prediction.getFullText(null).toString())
                 }
-                if(textList.isNullOrEmpty()) {
+                if (textList.isNullOrEmpty()) {
                     setVisibility(false)
                 } else {
                     setVisibility(true)

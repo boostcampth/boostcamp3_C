@@ -1,6 +1,7 @@
 package kr.co.connect.boostcamp.livewhere.api
 
 import io.reactivex.Single
+import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.model.KakaoPlaceResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -11,7 +12,7 @@ interface KakaoPlaceApi {
     @GET("search/address.json")
     fun getAddress(
         @Query("query") query: String,
-        @Header("Authorization") Authorization: String
+        @Header("Authorization") Authorization: String = BuildConfig.KakaoServiceKey
     ): Single<Response<List<KakaoPlaceResponse>>>
 
 }
