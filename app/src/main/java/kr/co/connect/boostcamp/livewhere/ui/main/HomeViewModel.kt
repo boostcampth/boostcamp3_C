@@ -7,11 +7,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken
+import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kr.co.connect.boostcamp.livewhere.api.KakaoPlaceApi
 import kr.co.connect.boostcamp.livewhere.data.entity.BookmarkEntity
 import kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity
 import kr.co.connect.boostcamp.livewhere.repository.BookmarkRepositoryImpl
@@ -23,7 +25,8 @@ import java.util.*
 
 class HomeViewModel(
     private val bookmarkRepositoryImpl: BookmarkRepositoryImpl,
-    private val recentSearchRepositoryImpl: RecentSearchRepositoryImpl
+    private val recentSearchRepositoryImpl: RecentSearchRepositoryImpl,
+    private val kakaoPlaceApi: KakaoPlaceApi
 ) : BaseViewModel() {
     private var _searchBtnClicked = SingleLiveEvent<Any>()
     val searchBtnClicked: LiveData<Any>
@@ -94,11 +97,15 @@ class HomeViewModel(
 
                 })
         )
-        if (bookmarkEntity.value.isNullOrEmpty()) {
-            isEmptyBookmark = View.VISIBLE
-        } else {
-            isEmptyBookmark = View.GONE
+        isEmptyBookmark = checkBookmarkEntity(bookmarkEntity.value.isNullOrEmpty())
+    }
+
+    private fun checkBookmarkEntity(value: Boolean): Int {
+        return when(value) {
+            true -> View.VISIBLE
+            false -> View.GONE
         }
+
     }
 
     fun setSendText(text: String) {
@@ -106,15 +113,12 @@ class HomeViewModel(
     }
 
     fun onBackPressed(): Boolean {
-        if (System.currentTimeMillis() > backKeyPressedTime + TIME_LIMIT) {
+        return if (System.currentTimeMillis() > backKeyPressedTime + TIME_LIMIT) {
             backKeyPressedTime = System.currentTimeMillis()
-            return true
+            true
         } else {
-            return false
+            false
         }
-    }
-
-    init {
     }
 
     fun onSearchClicked() {
@@ -163,25 +167,25 @@ class HomeViewModel(
         this.placesClient = placesClient
     }
 
-    fun setVisibility(value: Boolean) {
+    private fun setVisibility(value: Boolean) {
         _isRecentSearchVisible.postValue(value)
     }
 
     fun startAutoComplete(text: String) {
         val request = FindAutocompletePredictionsRequest.builder()
             .setCountry(COUNTRY_CODE)
-            .setTypeFilter(TypeFilter.GEOCODE)
             .setSessionToken(token)
+            .setTypeFilter(TypeFilter.ESTABLISHMENT)
             .setQuery(text)
             .build()
 
         val textList = ArrayList<String>()
-        Log.d("HVM", "Query: " + text)
         placesClient.findAutocompletePredictions(request)
             .addOnSuccessListener { response ->
                 for (prediction in response.autocompletePredictions) {
                     Log.d("HVM", "response: "+prediction.toString())
-                    textList.add(prediction.getFullText(null).toString())
+                    if(prediction.placeTypes.contains(Place.Type.SUBLOCALITY_LEVEL_4))
+                        textList.add(prediction.getFullText(null).toString())
                 }
                 if(textList.isNullOrEmpty()) {
                     setVisibility(false)

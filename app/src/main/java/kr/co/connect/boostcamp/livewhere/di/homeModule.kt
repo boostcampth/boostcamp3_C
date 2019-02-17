@@ -10,5 +10,5 @@ val homeModule = module {
     factory("bookmarkRepository") { BookmarkRepositoryImpl(get("bookmarkDAO")) }
     factory("recentSearchRepository") { RecentSearchRepositoryImpl(get("recentSearchDAO")) }
 
-    viewModel { HomeViewModel(get("bookmarkRepository"), get("recentSearchRepository")) }
+    viewModel { HomeViewModel(get("bookmarkRepository"), get("recentSearchRepository"), get("kakaoPlace")) }
 }
