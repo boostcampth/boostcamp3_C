@@ -16,7 +16,7 @@ class RecentSearchRepositoryImpl(private val recentSearchDAO: RecentSearchDAO) :
     }
 
     override fun setRecentSearch(recentSearch: RecentSearchEntity): Observable<Boolean> {
-        return Observable.fromCallable(object : Callable<Boolean> {g
+        return Observable.fromCallable(object : Callable<Boolean> {
             override fun call(): Boolean {
                 recentSearchDAO.insertRecentSearch(recentSearch)
                 return true
