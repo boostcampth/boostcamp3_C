@@ -81,6 +81,13 @@ class HomeActivity : AppCompatActivity() {
         homeViewModel.bookmarkMap.observe(this, Observer {
             startMapActivity(it)
         })
+
+        homeViewModel.hideKeyboard.observe(this, Observer {
+            if(homeViewModel.hideKeyboard.value!!) {
+                keyboardHide()
+                homeViewModel.setHideKeyboard(false)
+            }
+        })
     }
 
     private fun startNewFragment() {
@@ -122,8 +129,8 @@ class HomeActivity : AppCompatActivity() {
             .replace(HOME_CONTAINER_ID, currentFragment)
             .addToBackStack(null)
             .commit()
-        currentFragment.et_search_bar.requestFocus()
         homeViewModel.getRecentSearch()
+        keyboardShow()
     }
 
     private fun startMapActivity() {

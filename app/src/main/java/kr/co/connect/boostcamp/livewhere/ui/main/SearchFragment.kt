@@ -1,5 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.ui.main
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -41,17 +42,6 @@ class SearchFragment : Fragment() {
         homeViewModel.isRecentSearchVisible.observe(this, Observer {
             changeSearchRv(it)
         })
-
-        homeViewModel.recentSearch.observe(this, Observer {
-            if(!it.isNullOrEmpty()) {
-                binding.llSearchFragment.tv_recent_search_empty.visibility = View.GONE
-                binding.llSearchFragment.rv_recent_search.visibility = View.VISIBLE
-            }
-            else {
-                binding.llSearchFragment.tv_recent_search_empty.visibility = View.VISIBLE
-                binding.llSearchFragment.rv_recent_search.visibility = View.GONE
-            }
-        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -70,7 +60,27 @@ class SearchFragment : Fragment() {
             adapter = autoCompleteRecyclerViewAdapter
         }
 
+        changeSearchRv(false)
+
+        homeViewModel.recentSearch.observe(this, Observer {
+            if(!it.isNullOrEmpty()) {
+                binding.llSearchFragment.tv_recent_search_empty.visibility = View.GONE
+                binding.llSearchFragment.rv_recent_search.visibility = View.VISIBLE
+            }
+            else {
+                binding.llSearchFragment.tv_recent_search_empty.visibility = View.VISIBLE
+                binding.llSearchFragment.rv_recent_search.visibility = View.GONE
+            }
+        })
+
         return binding.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(binding != null) {
+            changeSearchRv(false)
+        }
     }
 
     private fun changeSearchRv(set: Boolean) {

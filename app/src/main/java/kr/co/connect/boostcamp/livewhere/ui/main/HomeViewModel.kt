@@ -24,6 +24,10 @@ class HomeViewModel(
     private val recentSearchRepositoryImpl: RecentSearchRepositoryImpl,
     private val autoCompleteRepositoryImpl: AutoCompleteRepositoryImpl
 ) : BaseViewModel() {
+    private var _hideKeyboard = MutableLiveData<Boolean>()
+    val hideKeyboard: LiveData<Boolean>
+        get() = _hideKeyboard
+
     private var _searchBtnClicked = SingleLiveEvent<Any>()
     val searchBtnClicked: LiveData<Any>
         get() = _searchBtnClicked
@@ -243,5 +247,9 @@ class HomeViewModel(
 
     fun onRecentSearchClicked(text: String) {
         _searchMap.postValue(getLonLat(text))
+    }
+
+    fun setHideKeyboard(value: Boolean) {
+        _hideKeyboard.postValue(value)
     }
 }

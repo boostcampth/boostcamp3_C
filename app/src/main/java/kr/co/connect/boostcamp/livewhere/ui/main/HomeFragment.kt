@@ -1,5 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.ui.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -48,6 +49,21 @@ class HomeFragment : Fragment() {
 
         observeBottomSheet()
         return binding.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        homeViewModel.bookmarkEntity.observe(this, Observer {
+            if(!it.isNullOrEmpty()) {
+                binding.clHomeBackdrop.tv_bookmark_empty.visibility = View.GONE
+                binding.clHomeBackdrop.rv_bookmark.visibility = View.VISIBLE
+            }
+            else {
+                binding.clHomeBackdrop.tv_bookmark_empty.visibility = View.VISIBLE
+                binding.clHomeBackdrop.rv_bookmark.visibility = View.GONE
+            }
+        })
     }
 
     private fun observeBottomSheet() {

@@ -35,7 +35,10 @@
                         android:inputType="text"
                         android:singleLine="true"
                         android:hint="@string/search_hint"
-                        app:autoComplete="@{homeViewModel}"/>
+                        app:onClickDone="@{homeViewModel}"
+                        app:autoComplete="@{homeViewModel}">
+                    <requestFocus/>
+                </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
             <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_search_map"
