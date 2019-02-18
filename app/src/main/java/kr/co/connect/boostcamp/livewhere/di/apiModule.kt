@@ -4,6 +4,7 @@ import io.reactivex.schedulers.Schedulers
 import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.api.Api
 import kr.co.connect.boostcamp.livewhere.api.TmapApi
+import kr.co.connect.boostcamp.livewhere.util.TMAP_BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module.module
@@ -42,7 +43,7 @@ val apiModule = module {
             )
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(BuildConfig.tMapUrl)
+            .baseUrl(TMAP_BASE_URL)
             .build()
             .create(TmapApi::class.java)
     }
