@@ -106,7 +106,7 @@
                                 onStatusTitleEvent="@{mapViewModel.userStatusLiveData}"/>
                     </LinearLayout>
 
-                    <kr.co.connect.boostcamp.livewhere.ui.map.PassTouchRecyclerView
+                    <kr.co.connect.boostcamp.livewhere.ui.map.view.PassTouchRecyclerView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:id="@+id/rv_search_map"
