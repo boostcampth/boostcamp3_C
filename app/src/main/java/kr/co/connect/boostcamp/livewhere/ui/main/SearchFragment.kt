@@ -77,7 +77,6 @@ class SearchFragment : Fragment() {
         if (!set) {
             binding.rvAutoComplete.visibility = View.GONE
             binding.svSearch.ll_recent_search.visibility = View.VISIBLE
-            Log.d("SF", "Hide RecentSearch")
         } else {
             binding.rvAutoComplete.visibility = View.VISIBLE
             binding.svSearch.ll_recent_search.visibility = View.GONE

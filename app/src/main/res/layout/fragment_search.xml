@@ -32,11 +32,9 @@
                         android:id="@+id/et_search_bar"
                         style="@style/BasicEt"
                         android:layout_marginBottom="@dimen/space_small"
-                        android:imeOptions="actionSearch"
                         android:inputType="text"
                         android:singleLine="true"
                         android:hint="@string/search_hint"
-                        app:searchDone="@{homeViewModel}"
                         app:autoComplete="@{homeViewModel}"/>
             </com.google.android.material.textfield.TextInputLayout>
             <androidx.appcompat.widget.AppCompatImageView

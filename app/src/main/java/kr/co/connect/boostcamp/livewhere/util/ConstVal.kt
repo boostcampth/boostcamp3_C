@@ -25,3 +25,5 @@ const val APPLICATION_EXIT = "뒤로가기 버튼을 한번 더 클릭하면 종
 const val DELETE_RECENT_SEARCH = "최근 검색어를 삭제했습니다."
 const val COUNTRY_CODE = "kr"
 const val SEOUL = "서울"
+const val LAT = "latitude"
+const val LON = "longitude"

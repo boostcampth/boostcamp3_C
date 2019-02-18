@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:id="@+id/cv_bookmark"
-            android:onClick="@{()->homeViewModel.setSendText(bookmark.address)}"
+            android:onClick="@{()->homeViewModel.onBookmarkClicked(bookmark.longitude, bookmark.latitude)}"
             app:cardUseCompatPadding="true"
             app:cardElevation="@dimen/elevation_s">
 

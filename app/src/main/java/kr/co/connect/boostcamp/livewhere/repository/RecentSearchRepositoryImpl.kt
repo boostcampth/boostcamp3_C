@@ -1,6 +1,5 @@
 package kr.co.connect.boostcamp.livewhere.repository
 
-import android.util.Log
 import io.reactivex.Observable
 import kr.co.connect.boostcamp.livewhere.data.dao.RecentSearchDAO
 import kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity
@@ -27,7 +26,6 @@ class RecentSearchRepositoryImpl(private val recentSearchDAO: RecentSearchDAO) :
     override fun deleteRecentSearch(): Observable<Boolean> {
         return Observable.fromCallable(object: Callable<Boolean> {
             override fun call(): Boolean {
-                Log.d("RSR", "Delete All WELL")
                 recentSearchDAO.deleteAll()
                 return true
             }
