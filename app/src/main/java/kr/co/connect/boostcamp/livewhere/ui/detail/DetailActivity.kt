@@ -1,17 +1,13 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import kotlinx.android.synthetic.main.fragment_detail_image.view.*
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityDetailBinding
 import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
-import kr.co.connect.boostcamp.livewhere.ui.map.StreetMapActivity
 import kr.co.connect.boostcamp.livewhere.util.generateUuid
 import kr.co.connect.boostcamp.livewhere.util.keyboardHide
 import kr.co.connect.boostcamp.livewhere.util.keyboardShow
@@ -27,10 +23,11 @@ class DetailActivity : AppCompatActivity() {
     private val viewModel: DetailViewModel by viewModel()
     private lateinit var binding: ActivityDetailBinding
     private lateinit var currentFragment: Fragment
+    lateinit var markerInfo:MarkerInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val markerInfo = intent.getParcelableExtra<MarkerInfo>("markerInfo")
+        markerInfo = intent.getParcelableExtra("markerInfo")
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
         if (savedInstanceState == null) {
             addDetailFragment()
@@ -51,8 +48,6 @@ class DetailActivity : AppCompatActivity() {
             viewModel.getCoordinateFromInfo()
             viewModel.getRecentPriceFromInfo()
             viewModel.getPastTransactionFromList()
-            setListenerOnImage(it)
-
         })
 
         viewModel.transactionMoreClicked.observe(this, Observer {
@@ -85,16 +80,6 @@ class DetailActivity : AppCompatActivity() {
         viewModel.getBookmarks().observe(this, Observer {
             viewModel.checkBookmarkId()
         })
-    }
-
-    private fun setListenerOnImage(markerInfo: MarkerInfo){
-        binding.detailActivityCl.detail_fragment_iv.setOnClickListener {
-            val intent = Intent(this, StreetMapActivity::class.java)
-                    intent.putExtra("lat", markerInfo.latLng.latitude.toString())
-                    intent.putExtra("lng", markerInfo.latLng.longitude.toString())
-                    intent.putExtra("address", markerInfo.address.name)
-                    this.startActivity(intent)
-        }
     }
 
     private fun addDetailFragment() {
