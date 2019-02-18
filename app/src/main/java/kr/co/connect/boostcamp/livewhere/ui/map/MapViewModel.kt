@@ -33,7 +33,7 @@ import retrofit2.Response
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, NaverMap.OnMapClickListener, OnMapReadyCallback,
+interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, OnMapReadyCallback,
     View.OnClickListener, OnMapHistoryListener, OnViewHistoryListener {
     fun onClickMapImageView(view: View, liveData: LiveData<*>)
     fun putPressedLiveData(tick: Long)
@@ -274,16 +274,6 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
 
 
     override fun onMapLongClick(point: PointF, latLng: LatLng) {
-        _userStatusLiveData.postValue(
-            UserStatus(
-                StatusCode.SEARCH_HOUSE,
-                "${latLng.latitude.toString().substring(0, 10)}, ${latLng.longitude.toString().substring(0, 10)}"
-            )
-        )
-        loadHousePrice(latLng)
-    }
-
-    override fun onMapClick(p0: PointF, latLng: LatLng) {
         _userStatusLiveData.postValue(
             UserStatus(
                 StatusCode.SEARCH_HOUSE,
