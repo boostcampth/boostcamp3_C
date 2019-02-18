@@ -77,7 +77,6 @@
                     android:layout_height="match_parent"
                     android:id="@+id/ml_backdrop"
                     app:layoutDescription="@xml/scene_map_backdrop_01"
-                    triggerFloatingButton="@{mlFloatBtn}"
                     searchLiveData="@{mapViewModel.searchListLiveData}"
                     android:background="@android:color/transparent">
                 <LinearLayout

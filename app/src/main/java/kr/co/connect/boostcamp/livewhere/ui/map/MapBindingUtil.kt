@@ -143,7 +143,6 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
     val markerInfo = markerInfoLiveData.value
     if (markerInfo != null) {
         val latLang = markerInfo.latLng
-        val houseList = markerInfo.houseList
         val statusCode = markerInfo.statusCode
         getMapAsync { naverMap ->
             mapViewModel.onRemoveFilterMarker()//주변 필터 삭제
@@ -157,8 +156,10 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
             }
             if (tag != null) {
                 val tempMarker = tag as Marker
-                tempMarker.map = null
-                tempMarker.infoWindow?.close()
+                tempMarker.apply{
+                    map = null
+                    infoWindow?.close()
+                }
             }
             marker.apply {
                 position = latLang
@@ -170,11 +171,10 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
                 map = naverMap
             }
             val mInfoWindow = InfoWindow()
-            mInfoWindow.adapter = MapMarkerAdapter(
-                context,
-                mapViewModel.userStatusLiveData.value?.content!!
-            )
-            mInfoWindow.open(marker)
+            mInfoWindow.apply{
+                adapter = MapMarkerAdapter(context, mapViewModel.userStatusLiveData.value?.content!!)
+                open(marker)
+            }
             tag = marker //해당 마커를 닫기 위해서 tag에 marker 값을 저장
             mapViewModel.onMoveCameraPosition(latLang, 17.0)//cameraposition 이동
         }
@@ -307,7 +307,6 @@ fun LocationButtonView.setOnClick(mapStatusLiveData: LiveData<NaverMap>, locatio
     map = mapStatusLiveData.value
     if (map != null) {
         map!!.locationSource = locationSource
-        map!!.locationSource = mapStatusLiveData.value!!.locationSource
     }
 }
 
@@ -325,11 +324,6 @@ fun FloatingActionButton.setTriggerBackdrop(
         mapViewModel.onClick(view)//필터 버튼 클릭시에 일어나는 행위
         filterML.transitionToStart()//필터를 닫음
     }
-}
-
-@BindingAdapter(value = ["triggerFloatingButton"])
-fun MotionLayout.setTriggerFB(filterML: MotionLayout) {
-
 }
 
 @BindingAdapter(value = ["bindData"])

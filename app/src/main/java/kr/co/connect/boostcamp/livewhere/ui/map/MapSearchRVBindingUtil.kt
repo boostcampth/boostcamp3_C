@@ -1,7 +1,5 @@
 package kr.co.connect.boostcamp.livewhere.ui.map
 
-import android.content.Intent
-import android.net.Uri
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -24,19 +22,10 @@ fun LinearLayout.startActivityWithIntent(mapViewModel: MapViewModel, markerInfo:
     }
 }
 
-@BindingAdapter(value = ["onCallClickListener"])
-fun LinearLayout.setOnCallListener(phone: String) {
-    val dial = "tel:$phone"
-    setOnClickListener {
-        context.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dial)))
-    }
-}
-
 @BindingAdapter(value = ["onText"])
 fun TextView.onTextView(content: String) {
     text = content.replace("\n", " ")
 }
-
 
 @BindingAdapter(value = ["onDrawCategory"])
 fun ImageView.setOnDrawCategory(category: String) {

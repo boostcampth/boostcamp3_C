@@ -455,9 +455,11 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
 
     override fun onClickStreetImageView(view:View,lat: String, lng: String, address: String) {
         val intent = Intent(view.context, StreetMapActivity::class.java)
-        intent.putExtra("lat", lat)
-        intent.putExtra("lng", lng)
-        intent.putExtra("address", address)
+        intent.apply{
+            putExtra("lat", lat)
+            putExtra("lng", lng)
+            putExtra("address", address)
+        }
         putPressedLiveData(System.currentTimeMillis())
         view.context.startActivity(intent)
     }
