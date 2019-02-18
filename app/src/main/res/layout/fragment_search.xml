@@ -35,6 +35,7 @@
                         android:inputType="text"
                         android:singleLine="true"
                         android:hint="@string/search_hint"
+                        app:onFocused="@{homeViewModel}"
                         app:onClickDone="@{homeViewModel}"
                         app:autoComplete="@{homeViewModel}">
                     <requestFocus/>

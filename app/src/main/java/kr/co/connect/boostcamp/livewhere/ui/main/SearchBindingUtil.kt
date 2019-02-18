@@ -27,6 +27,12 @@ fun setAutoCompleteRecyclerViewItems(recyclerView: RecyclerView, itemList: List<
     }
 }
 
+@BindingAdapter("onFocused")
+fun onFocus(editText: EditText, viewModel: HomeViewModel) {
+    if(editText.hasFocus())
+        viewModel.setVisibility(false)
+}
+
 @BindingAdapter("onClickDone")
 fun hideKeyboard(editText: EditText, viewModel: HomeViewModel) {
     editText.setOnKeyListener  {_, Keycode, event ->
