@@ -41,6 +41,7 @@ interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, OnMapReadyC
     fun onStartDetailActivity(context: Context, markerInfo: MarkerInfo)
     fun onNextStartActivity(view: View, markerInfo: MarkerInfo)
     fun onRemoveDisposable(disposable: Disposable)
+    fun onClickStreetImageView(view:View,lat:String, lng:String, address:String)
 }
 
 class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
@@ -199,7 +200,7 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
 
         if (currentMarkerInfo != null) {
             val latLng = currentMarkerInfo.latLng
-            mapRepository.getPlace(latLng.latitude, latLng.longitude, RADIUS, category).subscribe({ response ->
+            val searchDisposable = mapRepository.getPlace(latLng.latitude, latLng.longitude, RADIUS, category).subscribe({ response ->
                 val placeResponse = response.body()
                 val placeList = placeResponse?.placeList
                 Collections.sort(placeList as List<Place>) { o1, o2 -> o1.distance.toInt() - o2.distance.toInt() }
@@ -355,12 +356,7 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
             if (pressedImageViewTimeLiveData.value != null &&
                 System.currentTimeMillis() - pressedImageViewTimeLiveData.value!! > 1000
             ) {
-                val intent = Intent(view.context, StreetMapActivity::class.java)
-                intent.putExtra("lat", lat)
-                intent.putExtra("lng", lng)
-                intent.putExtra("address", address)
-                putPressedLiveData(System.currentTimeMillis())
-                view.context.startActivity(intent)
+                onClickStreetImageView(view, lat, lng, address)//이미지뷰 클릭시에 일어나는 로직
             }
         }
     }
@@ -430,13 +426,11 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
             .buffer(2, 1)
             .observeOn(AndroidSchedulers.mainThread())
             .filter { pair -> pair[1] - pair[0] > 1000 }
-            .subscribe({ _ ->
+            .subscribe { _ ->
                 val intent = Intent(context, DetailActivity::class.java)
                 intent.putExtra("markerInfo", markerInfo)
                 context.startActivity(intent)
-            }, {}, {
-
-            })
+            }
 
         addDisposable(startDetailActivityObservable!!)
     }
@@ -459,5 +453,14 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
     override fun onRemoveDisposable(disposable: Disposable) {
         disposable.dispose()
         getCompositeDisposable().remove(disposable)
+    }
+
+    override fun onClickStreetImageView(view:View,lat: String, lng: String, address: String) {
+        val intent = Intent(view.context, StreetMapActivity::class.java)
+        intent.putExtra("lat", lat)
+        intent.putExtra("lng", lng)
+        intent.putExtra("address", address)
+        putPressedLiveData(System.currentTimeMillis())
+        view.context.startActivity(intent)
     }
 }
