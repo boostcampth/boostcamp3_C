@@ -17,7 +17,7 @@
                 style="@style/Table.Double"
                 android:id="@+id/ll_recent_search_table"
                 android:gravity="center|left"
-                android:onClick="@{()->homeViewModel.onRecentSearchClicked(recentSearch.text)}"
+                android:onClick="@{()->homeViewModel.onRecentSearchClicked(recentSearch.latitude, recentSearch.longitude)}"
                 android:orientation="horizontal">
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_recent_search"

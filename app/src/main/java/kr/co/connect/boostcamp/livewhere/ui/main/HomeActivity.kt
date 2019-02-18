@@ -136,6 +136,7 @@ class HomeActivity : AppCompatActivity() {
     private fun startMapActivity() {
         intent = Intent(this, MapActivity::class.java)
         startActivity(intent)
+        keyboardHide()
     }
 
     private fun startMapActivity(map: HashMap<String, String>) {
@@ -143,6 +144,7 @@ class HomeActivity : AppCompatActivity() {
         intent.putExtra(LAT, map[LAT])
         intent.putExtra(LON, map[LON])
         startActivity(intent)
+        keyboardHide()
     }
 
     override fun onBackPressed() {

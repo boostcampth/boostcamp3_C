@@ -188,8 +188,6 @@ class HomeViewModel(
                         textList.add(item.addressName)
                         latList[item.addressName] = item.latitude
                         lonList[item.addressName] = item.longitude
-                        Log.d("HVM", item.latitude)
-                        Log.d("HVM", item.longitude)
                     }
                 }
                 if (textList.isNullOrEmpty()) {
@@ -240,13 +238,21 @@ class HomeViewModel(
 
     private fun getLonLat(text: String): HashMap<String, String> {
         val map = HashMap<String, String>()
+        //TODO: NULL PT Exception
         map[LAT] = latitde.value!![text]!!
         map[LON] = longitude.value!![text]!!
         return map
     }
 
-    fun onRecentSearchClicked(text: String) {
-        _searchMap.postValue(getLonLat(text))
+    private fun getRecentSearchLonLat(lat: String, lon:String): HashMap<String, String> {
+        val map = HashMap<String, String>()
+        map[LAT] = lat
+        map[LON] = lon
+        return map
+    }
+
+    fun onRecentSearchClicked(lat: String, lon: String) {
+        _searchMap.postValue(getRecentSearchLonLat(lat, lon))
     }
 
     fun setHideKeyboard(value: Boolean) {
