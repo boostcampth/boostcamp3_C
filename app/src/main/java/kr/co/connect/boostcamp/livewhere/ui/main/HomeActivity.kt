@@ -90,15 +90,22 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun startHomeFragment() {
+        if(currentFragment is SearchFragment) {
+            currentFragment = HomeFragment.newInstance()
+            supportFragmentManager
+                .beginTransaction()
+                .setCustomAnimations(
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_right,
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_left
+                )
+                .replace(HOME_CONTAINER_ID, currentFragment)
+                .commit()
+        }
         currentFragment = HomeFragment.newInstance()
         supportFragmentManager
             .beginTransaction()
-            .setCustomAnimations(
-                R.anim.slide_in_right,
-                R.anim.slide_out_right,
-                R.anim.slide_in_left,
-                R.anim.slide_out_left
-            )
             .replace(HOME_CONTAINER_ID, currentFragment)
             .commit()
     }
