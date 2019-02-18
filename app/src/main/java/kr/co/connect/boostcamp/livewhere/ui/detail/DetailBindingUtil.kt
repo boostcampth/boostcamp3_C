@@ -15,6 +15,7 @@ import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.github.mikephil.charting.charts.BarChart
 import kr.co.connect.boostcamp.livewhere.BuildConfig
@@ -28,6 +29,14 @@ import kr.co.connect.boostcamp.livewhere.util.*
 
 @BindingAdapter("setProgress")
 fun setProgress(view: View, isVisible: Boolean?) {
+    if (isVisible != null) {
+        if (!isVisible) view.visibility = View.VISIBLE
+        else view.visibility = View.GONE
+    }
+}
+
+@BindingAdapter("setLoadingLottie")
+fun setLoadingLottie(view: LottieAnimationView, isVisible: Boolean?) {
     if (isVisible != null) {
         if (!isVisible) view.visibility = View.VISIBLE
         else view.visibility = View.GONE
