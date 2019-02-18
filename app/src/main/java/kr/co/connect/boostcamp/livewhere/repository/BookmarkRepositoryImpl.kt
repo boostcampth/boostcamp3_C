@@ -6,9 +6,9 @@ import kr.co.connect.boostcamp.livewhere.data.entity.BookmarkEntity
 import java.util.concurrent.Callable
 
 class BookmarkRepositoryImpl(private val bookmarkDAO: BookmarkDAO) : BookmarkRepository {
-    override fun getBookmark():Observable<List<BookmarkEntity>> {
-        return Observable.fromCallable(object: Callable<List<BookmarkEntity>> {
-            override fun call():List<BookmarkEntity> {
+    override fun getBookmark(): Observable<List<BookmarkEntity>> {
+        return Observable.fromCallable(object : Callable<List<BookmarkEntity>> {
+            override fun call(): List<BookmarkEntity> {
                 return bookmarkDAO.getAll()
             }
         })

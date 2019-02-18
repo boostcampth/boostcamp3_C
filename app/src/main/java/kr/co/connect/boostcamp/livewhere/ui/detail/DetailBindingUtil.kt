@@ -3,6 +3,7 @@ package kr.co.connect.boostcamp.livewhere.ui.detail
 import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -42,20 +43,24 @@ fun setClickable(view: View, isClickable: Boolean?) {
 
 @BindingAdapter("setBarChart")
 fun setBarChart(barChart: BarChart, list: LiveData<List<HouseAvgPrice>>) {
-    try {
+    if(!list.value.isNullOrEmpty()) {
+        Log.d("@@@LL",""+ list.value!!.size)
         BarChartUtil.showChart(barChart)
         BarChartUtil.setChartData(barChart, list.value!!)
-        barChart.notifyDataSetChanged()
-    } catch (e: KotlinNullPointerException) {
+    } else {
         barChart.setNoDataText(EMPTY_BARCHART_TEXT)
+        barChart.data = null
     }
+    barChart.notifyDataSetChanged()
+    barChart.invalidate()
 }
 
 @BindingAdapter("setDetailImage") //로드뷰 이미지 세팅
 fun setDetailImage(imageView: AppCompatImageView, location: LiveData<String>?) {
     try {
         Glide.with(imageView.context)
-            .load("https://maps.googleapis.com/maps/api/streetview?size=360x200&location=${location!!.value}&key=${BuildConfig.GoogleApiKey}")
+//            .load("https://maps.googleapis.com/maps/api/streetview?size=360x200&location=${location!!.value}&key=${BuildConfig.GoogleApiKey}")
+            .load(imageView.context.getString(R.string.glide_street_img_url,location!!.value,BuildConfig.GoogleApiKey))
             .into(imageView)
     } catch (e: KotlinNullPointerException) {
         Toast.makeText(imageView.context, "이미지 없음", Toast.LENGTH_SHORT).show()

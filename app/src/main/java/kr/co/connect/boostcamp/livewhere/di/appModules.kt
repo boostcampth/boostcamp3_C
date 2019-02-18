@@ -2,12 +2,13 @@ package kr.co.connect.boostcamp.livewhere.di
 
 
 val appModules = arrayListOf(
-    loginModule
+     apiModule
+    ,loginModule
     , sharedModule
-    , detailModule
-    , apiModule
+    , databaseModule
+    , homeModule
     , mapModule
     , reverseGeoApiModule
-    , homeModule
-    , databaseModule
+    , detailModule
+
 )
