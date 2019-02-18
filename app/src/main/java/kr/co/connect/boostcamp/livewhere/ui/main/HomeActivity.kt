@@ -38,7 +38,7 @@ class HomeActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
 
         if (savedInstanceState == null) {
-            startHomeFragment()
+            startNewFragment()
         }
 
         binding.apply {
@@ -83,6 +83,15 @@ class HomeActivity : AppCompatActivity() {
         })
     }
 
+    private fun startNewFragment() {
+        currentFragment = HomeFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(HOME_CONTAINER_ID, currentFragment)
+            .commit()
+        homeViewModel.getBookmark()
+    }
+
     private fun startHomeFragment() {
         if(currentFragment is SearchFragment) {
             currentFragment = HomeFragment.newInstance()
@@ -94,13 +103,6 @@ class HomeActivity : AppCompatActivity() {
                     R.anim.slide_in_left,
                     R.anim.slide_out_left
                 )
-                .replace(HOME_CONTAINER_ID, currentFragment)
-                .commit()
-            homeViewModel.getBookmark()
-        } else {
-            currentFragment = HomeFragment.newInstance()
-            supportFragmentManager
-                .beginTransaction()
                 .replace(HOME_CONTAINER_ID, currentFragment)
                 .commit()
             homeViewModel.getBookmark()

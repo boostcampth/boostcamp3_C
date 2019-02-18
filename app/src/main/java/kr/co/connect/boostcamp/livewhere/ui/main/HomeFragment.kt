@@ -54,16 +54,17 @@ class HomeFragment : Fragment() {
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.clHomeBackdrop.ll_main_backdrop)
         bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when(newState) {
-                    BottomSheetBehavior.STATE_EXPANDED -> binding.clHomeBackdrop.ll_main_backdrop
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    binding.clHomeBackdrop.ll_main_backdrop
                         .iv_backdrop_btn.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp)
-                    BottomSheetBehavior.STATE_COLLAPSED -> binding.clHomeBackdrop.ll_main_backdrop
+                    homeViewModel.getBookmark()
+                } else if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    binding.clHomeBackdrop.ll_main_backdrop
                         .iv_backdrop_btn.setImageResource(R.drawable.ic_arrow_up_black_24dp)
                 }
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
         })
         homeViewModel.btnClicked.observe(this, Observer {
