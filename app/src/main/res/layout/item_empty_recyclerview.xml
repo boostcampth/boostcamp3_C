@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="emptyInfo" type="kr.co.connect.boostcamp.livewhere.model.EmptyInfo"/>
     </data>
@@ -12,9 +12,12 @@
             android:paddingEnd="@dimen/space_small"
             android:paddingTop="@dimen/space_x_small"
             android:paddingBottom="@dimen/space_x_small">
-        <ImageView
+
+        <com.airbnb.lottie.LottieAnimationView
                 android:layout_width="@dimen/empty_item_imageview_size"
                 android:layout_height="@dimen/empty_item_imageview_size"
-                android:background="@drawable/ic_park"/>
+                app:lottie_fileName="crying_animation.json"
+                app:lottie_loop="true"
+                app:lottie_autoPlay="true" />
     </LinearLayout>
 </layout>
