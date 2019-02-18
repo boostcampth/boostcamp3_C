@@ -13,15 +13,14 @@ import androidx.lifecycle.Observer
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
 import io.fabric.sdk.android.services.common.CommonUtils.hideKeyboard
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home_backdrop.view.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityHomeBinding
 import kr.co.connect.boostcamp.livewhere.ui.map.MapActivity
-import kr.co.connect.boostcamp.livewhere.util.APPLICATION_EXIT
-import kr.co.connect.boostcamp.livewhere.util.DELETE_RECENT_SEARCH
-import kr.co.connect.boostcamp.livewhere.util.EMPTY_STRING_TEXT
-import kr.co.connect.boostcamp.livewhere.util.SEARCH_TAG
+import kr.co.connect.boostcamp.livewhere.util.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeActivity : AppCompatActivity() {
@@ -31,7 +30,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityHomeBinding
-    lateinit var placesClient: PlacesClient
     private val homeViewModel: HomeViewModel by viewModel()
     private lateinit var currentFragment: Fragment
 
@@ -39,11 +37,8 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
 
-        Places.initialize(applicationContext, BuildConfig.GooglePlacesApiKey)
-        placesClient = Places.createClient(this)
-
         if (savedInstanceState == null) {
-            startHomeFragment()
+            startNewFragment()
         }
 
         binding.apply {
@@ -52,11 +47,6 @@ class HomeActivity : AppCompatActivity() {
         }
 
         observeValues()
-        initBookmark()
-    }
-
-    private fun initBookmark() {
-        homeViewModel.getBookmark()
     }
 
     private fun observeValues() {
@@ -64,12 +54,8 @@ class HomeActivity : AppCompatActivity() {
             startSearchFragment()
         })
 
-        homeViewModel.sendAddress.observe(this, Observer {
-            startMapActivity(homeViewModel.sendAddress.value)
-        })
-
         homeViewModel.backBtnClicked.observe(this, Observer {
-            hideKeyboard()
+            keyboardHide()
             startHomeFragment()
         })
 
@@ -77,17 +63,11 @@ class HomeActivity : AppCompatActivity() {
             startMapActivity()
         })
 
-        homeViewModel.searchText.observe(this, Observer {
-            if (homeViewModel.searchText.value.isNullOrEmpty()) {
+        homeViewModel.searchMap.observe(this, Observer {
+            if (homeViewModel.searchMap.value.isNullOrEmpty()) {
                 Toast.makeText(this, EMPTY_STRING_TEXT, Toast.LENGTH_LONG).show()
             } else {
-                if (currentFragment.et_search_bar.text.toString() == homeViewModel.searchText.toString()) {
-                    if (homeViewModel.autoCompleteList.value.isNullOrEmpty()) {
-                        startMapActivity(homeViewModel.autoCompleteList.value!![0])
-                    }
-                } else {
-                    startMapActivity(homeViewModel.searchText.value)
-                }
+                startMapActivity(it)
             }
         })
 
@@ -97,27 +77,43 @@ class HomeActivity : AppCompatActivity() {
                 homeViewModel.setToastDone()
             }
         })
+
+        homeViewModel.bookmarkMap.observe(this, Observer {
+            startMapActivity(it)
+        })
+
+        homeViewModel.hideKeyboard.observe(this, Observer {
+            if(homeViewModel.hideKeyboard.value!!) {
+                keyboardHide()
+                homeViewModel.setHideKeyboard(false)
+            }
+        })
     }
 
-    private fun hideKeyboard() {
-        currentFragment.et_search_bar.inputType = 0
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(currentFragment.et_search_bar.windowToken, 0)
-    }
-
-    private fun startHomeFragment() {
-        homeViewModel.setClient(placesClient)
+    private fun startNewFragment() {
         currentFragment = HomeFragment.newInstance()
         supportFragmentManager
             .beginTransaction()
-            .setCustomAnimations(
-                R.anim.slide_in_right,
-                R.anim.slide_out_right,
-                R.anim.slide_in_left,
-                R.anim.slide_out_left
-            )
             .replace(HOME_CONTAINER_ID, currentFragment)
             .commit()
+        homeViewModel.getBookmark()
+    }
+
+    private fun startHomeFragment() {
+        if(currentFragment is SearchFragment) {
+            currentFragment = HomeFragment.newInstance()
+            supportFragmentManager
+                .beginTransaction()
+                .setCustomAnimations(
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_right,
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_left
+                )
+                .replace(HOME_CONTAINER_ID, currentFragment)
+                .commit()
+            homeViewModel.getBookmark()
+        }
     }
 
     private fun startSearchFragment() {
@@ -133,6 +129,8 @@ class HomeActivity : AppCompatActivity() {
             .replace(HOME_CONTAINER_ID, currentFragment)
             .addToBackStack(null)
             .commit()
+        homeViewModel.getRecentSearch()
+        keyboardShow()
     }
 
     private fun startMapActivity() {
@@ -140,14 +138,11 @@ class HomeActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun startMapActivity(text: String?) {
-        if (text != null) {
-            intent = Intent(this, MapActivity::class.java)
-            intent.putExtra(SEARCH_TAG, text)
-            startActivity(intent)
-        } else {
-            startMapActivity()
-        }
+    private fun startMapActivity(map: HashMap<String, String>) {
+        intent = Intent(this, MapActivity::class.java)
+        intent.putExtra(LAT, map[LAT])
+        intent.putExtra(LON, map[LON])
+        startActivity(intent)
     }
 
     override fun onBackPressed() {

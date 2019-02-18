@@ -1,5 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.ui.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -50,20 +51,36 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        homeViewModel.bookmarkEntity.observe(this, Observer {
+            if(!it.isNullOrEmpty()) {
+                binding.clHomeBackdrop.tv_bookmark_empty.visibility = View.GONE
+                binding.clHomeBackdrop.rv_bookmark.visibility = View.VISIBLE
+            }
+            else {
+                binding.clHomeBackdrop.tv_bookmark_empty.visibility = View.VISIBLE
+                binding.clHomeBackdrop.rv_bookmark.visibility = View.GONE
+            }
+        })
+    }
+
     private fun observeBottomSheet() {
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.clHomeBackdrop.ll_main_backdrop)
         bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when(newState) {
-                    BottomSheetBehavior.STATE_EXPANDED -> binding.clHomeBackdrop.ll_main_backdrop
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    binding.clHomeBackdrop.ll_main_backdrop
                         .iv_backdrop_btn.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp)
-                    BottomSheetBehavior.STATE_COLLAPSED -> binding.clHomeBackdrop.ll_main_backdrop
+                    homeViewModel.getBookmark()
+                } else if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    binding.clHomeBackdrop.ll_main_backdrop
                         .iv_backdrop_btn.setImageResource(R.drawable.ic_arrow_up_black_24dp)
                 }
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
         })
         homeViewModel.btnClicked.observe(this, Observer {

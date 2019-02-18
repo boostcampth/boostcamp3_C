@@ -143,10 +143,23 @@ class DetailViewModel(
         _onPressedBookmarkBtn.call()
         when (_isBookmarked.value) {
             false -> {
-                val bookmarkLocal = BookmarkEntity(address.get()!!, buildingName.get()!!, _coordinate.value!!)
+                Log.d("DVM", address.get().toString())
+                Log.d("DVM", buildingName.get().toString())
+                Log.d("DVM", _coordinate.value.toString())
+                Log.d("DVM", _markerInfo.value!!.address.x)
+                Log.d("DVM", _markerInfo.value!!.address.y)
+                val bookmarkLocal = BookmarkEntity(
+                    address.get()!!, buildingName.get()!!,
+                    _coordinate.value!!, _markerInfo.value!!.address.x, _markerInfo.value!!.address.y
+                )
                 insertBookmarkToLocal(bookmarkLocal)
             }
             true -> {
+                Log.d("DVM", address.get().toString())
+                Log.d("DVM", buildingName.get().toString())
+                Log.d("DVM", _coordinate.value.toString())
+                Log.d("DVM", _markerInfo.value!!.address.x)
+                Log.d("DVM", _markerInfo.value!!.address.y)
                 deleteBookmarkFromLocal(address.get()!!)
             }
         }
@@ -491,14 +504,21 @@ class DetailViewModel(
 
     fun deleteBookmarkFromLocal(address: String) {
         _hasLoaded.postValue(false)
-        addDisposable(bookmarkRepository.deleteBookmark(address)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                if (it > 0) {
+        addDisposable(
+            bookmarkRepository.deleteBookmark(address)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
                     deleteBookmark()
+                    if(it>0){
+                        // TODO: 로컬에 있었던 데이터가 삭제된 상황
+                    }else{
+                        // TODO: 로컬에는 없었지만 파이어베이스에 있었던 상황.
+                    }
+                }, {
+                    Log.d("@@@Error",it.localizedMessage)
                 }
-            })
+        ))
     }
 
 }

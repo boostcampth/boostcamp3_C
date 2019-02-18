@@ -5,29 +5,40 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.common.api.ApiException
-import com.google.android.libraries.places.api.model.AutocompleteSessionToken
-import com.google.android.libraries.places.api.model.TypeFilter
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
-import com.google.android.libraries.places.api.net.PlacesClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kr.co.connect.boostcamp.livewhere.data.entity.BookmarkEntity
 import kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity
+import kr.co.connect.boostcamp.livewhere.repository.AutoCompleteRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.repository.BookmarkRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.repository.RecentSearchRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
-import kr.co.connect.boostcamp.livewhere.util.COUNTRY_CODE
+import kr.co.connect.boostcamp.livewhere.util.LAT
+import kr.co.connect.boostcamp.livewhere.util.LON
 import kr.co.connect.boostcamp.livewhere.util.SingleLiveEvent
 import java.util.*
+import kotlin.collections.HashMap
 
 class HomeViewModel(
     private val bookmarkRepositoryImpl: BookmarkRepositoryImpl,
-    private val recentSearchRepositoryImpl: RecentSearchRepositoryImpl
+    private val recentSearchRepositoryImpl: RecentSearchRepositoryImpl,
+    private val autoCompleteRepositoryImpl: AutoCompleteRepositoryImpl
 ) : BaseViewModel() {
+    private var _hideKeyboard = MutableLiveData<Boolean>()
+    val hideKeyboard: LiveData<Boolean>
+        get() = _hideKeyboard
+
     private var _searchBtnClicked = SingleLiveEvent<Any>()
     val searchBtnClicked: LiveData<Any>
         get() = _searchBtnClicked
+
+    private var _latitude = MutableLiveData<HashMap<String, String>>()
+    val latitde: LiveData<HashMap<String, String>>
+        get() = _latitude
+
+    private var _longitude = MutableLiveData<HashMap<String, String>>()
+    val longitude: LiveData<HashMap<String, String>>
+        get() = _longitude
 
     private val _btnClicked = SingleLiveEvent<Any>()
     val btnClicked: LiveData<Any>
@@ -42,13 +53,6 @@ class HomeViewModel(
     val bookmarkEntity: LiveData<List<BookmarkEntity>>
         get() = _bookmarkEntity
 
-    private val _sendAddress = MutableLiveData<String>()
-    val sendAddress: LiveData<String>
-        get() = _sendAddress
-
-    private lateinit var placesClient: PlacesClient
-    private var token = AutocompleteSessionToken.newInstance()
-
     private val _isRecentSearchVisible = MutableLiveData<Boolean>()
     val isRecentSearchVisible: LiveData<Boolean>
         get() = _isRecentSearchVisible
@@ -57,9 +61,9 @@ class HomeViewModel(
     val autoCompleteList: LiveData<List<String>>
         get() = _autoCompleteLIst
 
-    private val _searchText = MutableLiveData<String>()
-    val searchText: LiveData<String>
-        get() = _searchText
+    private val _searchMap = MutableLiveData<HashMap<String, String>>()
+    val searchMap: LiveData<HashMap<String, String>>
+        get() = _searchMap
 
     private val _recentSearch = MutableLiveData<List<RecentSearchEntity>>()
     val recentSearch: LiveData<List<RecentSearchEntity>>
@@ -77,9 +81,11 @@ class HomeViewModel(
     val showToast: LiveData<Boolean>
         get() = _showToast
 
+    private var _bookmarkMap = MutableLiveData<HashMap<String, String>>()
+    val bookmarkMap: LiveData<HashMap<String, String>>
+        get() = _bookmarkMap
+
     init {
-        getBookmark()
-        getRecentSearch()
     }
 
     @SuppressLint("CheckResult")
@@ -94,27 +100,30 @@ class HomeViewModel(
 
                 })
         )
-        if (bookmarkEntity.value.isNullOrEmpty()) {
-            isEmptyBookmark = View.VISIBLE
-        } else {
-            isEmptyBookmark = View.GONE
-        }
+        isEmptyBookmark = checkBookmarkEntity(bookmarkEntity.value.isNullOrEmpty())
     }
 
-    fun setSendText(text: String) {
-        _sendAddress.postValue(text)
+    fun onBookmarkClicked(lon: String, lat: String) {
+        val map = HashMap<String, String>()
+        map[LON] = lon
+        map[LAT] = lat
+        _bookmarkMap.postValue(map)
+    }
+
+    private fun checkBookmarkEntity(value: Boolean): Int {
+        return when (value) {
+            true -> View.VISIBLE
+            false -> View.GONE
+        }
     }
 
     fun onBackPressed(): Boolean {
-        if (System.currentTimeMillis() > backKeyPressedTime + TIME_LIMIT) {
+        return if (System.currentTimeMillis() > backKeyPressedTime + TIME_LIMIT) {
             backKeyPressedTime = System.currentTimeMillis()
-            return true
+            true
         } else {
-            return false
+            false
         }
-    }
-
-    init {
     }
 
     fun onSearchClicked() {
@@ -133,9 +142,7 @@ class HomeViewModel(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     if (!it.isNullOrEmpty()) {
-                        Log.d("SVM", "postvalue" + it.toString() + "\n" + "before: " + _recentSearch.value.toString())
                         _recentSearch.postValue(it)
-                        Log.d("SVM", "after: " + _recentSearch.value.toString())
                     } else {
                         _recentSearch.postValue(it)
                     }
@@ -147,11 +154,16 @@ class HomeViewModel(
 
     private fun setRecentSearch(text: String) {
         getCompositeDisposable().add(
-            recentSearchRepositoryImpl.setRecentSearch(RecentSearchEntity(text))
+            recentSearchRepositoryImpl.setRecentSearch(
+                RecentSearchEntity(
+                    text,
+                    longitude.value!![text]!!,
+                    latitde.value!![text]!!
+                )
+            )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    Log.d("SVM", "set RecentSearch")
                     getRecentSearch()
                 }, {
                     it.printStackTrace()
@@ -159,42 +171,39 @@ class HomeViewModel(
         )
     }
 
-    fun setClient(placesClient: PlacesClient) {
-        this.placesClient = placesClient
-    }
-
     fun setVisibility(value: Boolean) {
         _isRecentSearchVisible.postValue(value)
     }
 
-    fun startAutoComplete(text: String) {
-        val request = FindAutocompletePredictionsRequest.builder()
-            .setCountry(COUNTRY_CODE)
-            .setTypeFilter(TypeFilter.GEOCODE)
-            .setSessionToken(token)
-            .setQuery(text)
-            .build()
-
+    @SuppressLint("CheckResult")
+    fun getTmapApi(text: String) {
         val textList = ArrayList<String>()
-        Log.d("HVM", "Query: " + text)
-        placesClient.findAutocompletePredictions(request)
-            .addOnSuccessListener { response ->
-                for (prediction in response.autocompletePredictions) {
-                    Log.d("HVM", "response: "+prediction.toString())
-                    textList.add(prediction.getFullText(null).toString())
+        val latList = HashMap<String, String>()
+        val lonList = HashMap<String, String>()
+        autoCompleteRepositoryImpl.getAddress(text)
+            .subscribe({ response ->
+                val addressList = response.body()?.info?.poi?.pois
+                if (!addressList.isNullOrEmpty()) {
+                    for (item in addressList) {
+                        textList.add(item.addressName)
+                        latList[item.addressName] = item.latitude
+                        lonList[item.addressName] = item.longitude
+                        Log.d("HVM", item.latitude)
+                        Log.d("HVM", item.longitude)
+                    }
                 }
-                if(textList.isNullOrEmpty()) {
+                if (textList.isNullOrEmpty()) {
                     setVisibility(false)
                 } else {
                     setVisibility(true)
                 }
+                _latitude.postValue(latList)
+                _longitude.postValue(lonList)
                 _autoCompleteLIst.postValue(textList.toList())
-            }
-            .addOnFailureListener { exception ->
-                if (exception is ApiException) {
-                    Log.e("API Error", "Place not found: " + exception.statusCode)
-                }
-            }
+            },
+                {
+                    it.printStackTrace()
+                })
     }
 
     fun onClickedMap() {
@@ -225,11 +234,22 @@ class HomeViewModel(
 
     fun onClickAutoComplete(text: String) {
         setRecentSearch(text)
-        _searchText.postValue(text)
+        _searchMap.postValue(getLonLat(text))
         getRecentSearch()
     }
 
+    private fun getLonLat(text: String): HashMap<String, String> {
+        val map = HashMap<String, String>()
+        map[LAT] = latitde.value!![text]!!
+        map[LON] = longitude.value!![text]!!
+        return map
+    }
+
     fun onRecentSearchClicked(text: String) {
-        _searchText.postValue(text)
+        _searchMap.postValue(getLonLat(text))
+    }
+
+    fun setHideKeyboard(value: Boolean) {
+        _hideKeyboard.postValue(value)
     }
 }

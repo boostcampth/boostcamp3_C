@@ -8,5 +8,7 @@ import androidx.room.PrimaryKey
 data class BookmarkEntity(
     @PrimaryKey var address: String,
     @ColumnInfo(name = "building_name") var building_name: String,
-    @ColumnInfo(name = "image_url") var img_url: String
+    @ColumnInfo(name = "image_url") var img_url: String,
+    @ColumnInfo(name="longitude") var longitude: String,
+    @ColumnInfo(name="latitude") var latitude: String
 )

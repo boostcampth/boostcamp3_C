@@ -1,6 +1,5 @@
 package kr.co.connect.boostcamp.livewhere.ui.main
 
-import android.util.Log
 import android.view.KeyEvent
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
@@ -28,15 +27,20 @@ fun setAutoCompleteRecyclerViewItems(recyclerView: RecyclerView, itemList: List<
     }
 }
 
-@BindingAdapter("searchDone")
-fun finishEntering(editText: EditText, viewModel: HomeViewModel) {
-    editText.setOnKeyListener { _, keyCode, event ->
-        if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-            //After Enter Key
-            viewModel.onClickAutoComplete(editText.text.toString())
+@BindingAdapter("onFocused")
+fun onFocus(editText: EditText, viewModel: HomeViewModel) {
+    if(editText.hasFocus())
+        viewModel.setVisibility(false)
+}
+
+@BindingAdapter("onClickDone")
+fun hideKeyboard(editText: EditText, viewModel: HomeViewModel) {
+    editText.setOnKeyListener  {_, Keycode, event ->
+        if((event.action == KeyEvent.ACTION_DOWN) && (Keycode == KeyEvent.KEYCODE_ENTER)) {
+            viewModel.setHideKeyboard(true)
             return@setOnKeyListener true
         } else {
-            return@setOnKeyListener false
+            return@setOnKeyListener true
         }
     }
 }
@@ -44,6 +48,6 @@ fun finishEntering(editText: EditText, viewModel: HomeViewModel) {
 @BindingAdapter("autoComplete")
 fun autoComplete (editText: EditText, viewModel: HomeViewModel) {
     editText.doOnTextChanged { text, _, _, _ ->
-        viewModel.startAutoComplete(text.toString())
+        viewModel.getTmapApi(text.toString())
     }
 }
