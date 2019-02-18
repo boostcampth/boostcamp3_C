@@ -1,26 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable name="viewModel"
                   type="kr.co.connect.boostcamp.livewhere.ui.detail.DetailViewModel"/>
     </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:paddingVertical="@dimen/detail_more_vertical_padding">
-
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/detail_review_more_rv"
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/detail_rv_horizontal_margin"
-                app:setReviews="@{viewModel.getComments}"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:paddingVertical="@dimen/detail_more_vertical_padding">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/detail_review_more_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    android:layout_marginHorizontal="@dimen/detail_rv_horizontal_margin"
+                    app:setReviews="@{viewModel.getComments}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                    android:id="@+id/detail_review_more_empty_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/review_empty"
+                    android:textColor="@color/gray"
+                    style="@style/BasicTv.HeadlineM"
+                    setReviewsEmpty="@{viewModel.getComments}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>
