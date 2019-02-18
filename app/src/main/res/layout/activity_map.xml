@@ -78,6 +78,7 @@
                     android:id="@+id/ml_backdrop"
                     app:layoutDescription="@xml/scene_map_backdrop_01"
                     searchLiveData="@{mapViewModel.searchListLiveData}"
+                    onMoveFirstBackDrop="@{mapViewModel.onMoveFirstStepLiveData}"
                     android:background="@android:color/transparent">
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -111,6 +112,7 @@
                             android:layout_height="match_parent"
                             android:id="@+id/rv_search_map"
                             android:overScrollMode="never"
+                            onMoveFirstStepLiveData="@{mapViewModel.onMoveFirstStepLiveData}"
                             bindData="@{mapViewModel.searchListLiveData}"
                     />
                 </LinearLayout>

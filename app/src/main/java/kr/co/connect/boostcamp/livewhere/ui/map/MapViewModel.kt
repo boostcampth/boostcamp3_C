@@ -25,6 +25,7 @@ import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.repository.MapRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 import kr.co.connect.boostcamp.livewhere.ui.detail.DetailActivity
+import kr.co.connect.boostcamp.livewhere.ui.map.adapter.MapMarkerAdapter
 import kr.co.connect.boostcamp.livewhere.ui.map.interfaces.OnMapHistoryListener
 import kr.co.connect.boostcamp.livewhere.ui.map.interfaces.OnViewHistoryListener
 import kr.co.connect.boostcamp.livewhere.util.RADIUS
@@ -41,7 +42,9 @@ interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, OnMapReadyC
     fun onStartDetailActivity(context: Context, markerInfo: MarkerInfo)
     fun onNextStartActivity(view: View, markerInfo: MarkerInfo)
     fun onRemoveDisposable(disposable: Disposable)
-    fun onClickStreetImageView(view:View,lat:String, lng:String, address:String)
+    fun onClickStreetImageView(view: View, lat: String, lng: String, address: String)
+    fun makePlaceDrawInfoWindow(view: View, mapViewModel: MapViewModel, latLng: LatLng, placeName: String): InfoWindow
+    fun onMoveFirstStep(boolean:Boolean)
 }
 
 class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
@@ -87,6 +90,8 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
 
     //PlaceMarker의 정보를 저장해두는 LiveData
     private val _savePlaceMarkersLiveData: MutableLiveData<MutableList<Marker>> = MutableLiveData()
+    val savePlaceMarkersLiveData: LiveData<MutableList<Marker>>
+        get() = _savePlaceMarkersLiveData
     val removePlaceMarkersLiveData: LiveData<MutableList<Marker>>
         get() = _removePlaceMarkersLiveData
 
@@ -117,10 +122,19 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
     val pressedImageViewTimeLiveData: LiveData<Long>
         get() = _pressedImageViewTimeLiveData
 
+    private val _onMoveFirstStepLiveData: MutableLiveData<Boolean> = MutableLiveData()
+
+    val onMoveFirstStepLiveData: LiveData<Boolean>
+        get() = _onMoveFirstStepLiveData
+
     private var timerObservable: Disposable? = null
 
     private val startActivityBehaviorSubject = BehaviorSubject.createDefault(0L)
     private var startDetailActivityObservable: Disposable? = null
+
+    override fun onMoveFirstStep(boolean: Boolean) {
+        _onMoveFirstStepLiveData.value = boolean
+    }
 
     override fun putPressedLiveData(tick: Long) {
         _pressedImageViewTimeLiveData.postValue(tick)
@@ -200,29 +214,30 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
 
         if (currentMarkerInfo != null) {
             val latLng = currentMarkerInfo.latLng
-            val searchDisposable = mapRepository.getPlace(latLng.latitude, latLng.longitude, RADIUS, category).subscribe({ response ->
-                val placeResponse = response.body()
-                val placeList = placeResponse?.placeList
-                Collections.sort(placeList as List<Place>) { o1, o2 -> o1.distance.toInt() - o2.distance.toInt() }
-                _placeResponseLiveData.postValue(placeResponse)
-                _searchListLiveData.postValue(placeList)
-                if (placeList.isEmpty()) {
-                    _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_PLACE, ""))
-                } else {
-                    _userStatusLiveData.postValue(
-                        UserStatus(
-                            StatusCode.SUCCESS_SEARCH_PLACE,
-                            String.format(
-                                view?.context!!.getString(R.string.info_success_search_place_text),
-                                placeList[0].category,
-                                placeList.size
+            val searchDisposable =
+                mapRepository.getPlace(latLng.latitude, latLng.longitude, RADIUS, category).subscribe({ response ->
+                    val placeResponse = response.body()
+                    val placeList = placeResponse?.placeList
+                    Collections.sort(placeList as List<Place>) { o1, o2 -> o1.distance.toInt() - o2.distance.toInt() }
+                    _placeResponseLiveData.postValue(placeResponse)
+                    _searchListLiveData.postValue(placeList)
+                    if (placeList.isEmpty()) {
+                        _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_PLACE, ""))
+                    } else {
+                        _userStatusLiveData.postValue(
+                            UserStatus(
+                                StatusCode.SUCCESS_SEARCH_PLACE,
+                                String.format(
+                                    view?.context!!.getString(R.string.info_success_search_place_text),
+                                    placeList[0].category,
+                                    placeList.size
+                                )
                             )
                         )
-                    )
-                }
-            }, {
-                _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_PLACE, ""))
-            })
+                    }
+                }, {
+                    _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_PLACE, ""))
+                })
         } else {
             _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_HOUSE_TARGET, ""))
         }
@@ -453,9 +468,9 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
         getCompositeDisposable().remove(disposable)
     }
 
-    override fun onClickStreetImageView(view:View,lat: String, lng: String, address: String) {
+    override fun onClickStreetImageView(view: View, lat: String, lng: String, address: String) {
         val intent = Intent(view.context, StreetMapActivity::class.java)
-        intent.apply{
+        intent.apply {
             putExtra("lat", lat)
             putExtra("lng", lng)
             putExtra("address", address)
@@ -463,4 +478,19 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
         putPressedLiveData(System.currentTimeMillis())
         view.context.startActivity(intent)
     }
+
+    override fun makePlaceDrawInfoWindow(
+        view: View,
+        mapViewModel: MapViewModel,
+        latLng: LatLng,
+        placeName: String
+    ): InfoWindow {
+        val mInfoWindow = InfoWindow()
+        mInfoWindow.adapter =
+            MapMarkerAdapter(view.context, placeName)
+        mapViewModel.onSaveInfoWindow(mInfoWindow)
+        mapViewModel.onMoveCameraPosition(latLng, 17.0)
+        return mInfoWindow
+    }
 }
+

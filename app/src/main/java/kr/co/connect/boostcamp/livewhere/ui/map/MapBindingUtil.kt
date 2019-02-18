@@ -66,6 +66,7 @@ fun ImageView.onDrawHouse(markerInfoLiveData: LiveData<MarkerInfo>, mapViewModel
     val markerInfo = markerInfoLiveData.value
     if (markerInfo != null) {
         val latLang = markerInfo.latLng
+        mapViewModel.onMoveCameraPosition(latLang,14.0)
         val streetImgUrl = String.format(
             BuildConfig.BaseGoogleUrl,
             latLang.latitude,
@@ -156,7 +157,7 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
             }
             if (tag != null) {
                 val tempMarker = tag as Marker
-                tempMarker.apply{
+                tempMarker.apply {
                     map = null
                     infoWindow?.close()
                 }
@@ -171,7 +172,7 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
                 map = naverMap
             }
             val mInfoWindow = InfoWindow()
-            mInfoWindow.apply{
+            mInfoWindow.apply {
                 adapter = MapMarkerAdapter(context, mapViewModel.userStatusLiveData.value?.content!!)
                 open(marker)
             }
@@ -227,13 +228,14 @@ fun MapView.onPlaceDrawMarker(placeResponseLiveData: LiveData<PlaceResponse>, ma
                         mapViewModel.onLoadBuildingList(mutablePlaceList, rootView)//현재 장소 리스트에 반영
                         mapViewModel.onClickMarkerPlace(place)//현재 상권의 이미지를 출력
                         mapViewModel.onRemoveInfoWindow()
-                        val mInfoWindow = InfoWindow()
                         val latLng = LatLng(place.y.toDouble(), place.x.toDouble())
-                        mInfoWindow.adapter =
-                            MapMarkerAdapter(context, place.placeName)
+                        val mInfoWindow = mapViewModel.makePlaceDrawInfoWindow(
+                            this@onPlaceDrawMarker,
+                            mapViewModel,
+                            latLng,
+                            place.placeName
+                        )
                         mInfoWindow.open(marker)
-                        mapViewModel.onSaveInfoWindow(mInfoWindow)
-                        mapViewModel.onMoveCameraPosition(latLng, 17.0)
                         true
                     }
                     map = naverMap
@@ -349,6 +351,14 @@ fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
     }
 }
 
+@BindingAdapter(value=["onMoveFirstStepLiveData"])
+fun RecyclerView.moveFirstStep(onMoveFirstStepLiveData:LiveData<Boolean>){
+    if(onMoveFirstStepLiveData.value != null && onMoveFirstStepLiveData.value==true)
+    {
+       smoothScrollToPosition(0)
+    }
+}
+
 @BindingAdapter(value = ["searchLiveData"])
 fun BackdropMotionLayout.changeSearchHeight(searchListLiveData: LiveData<List<Any>>) {
     if (searchListLiveData.value != null) {
@@ -438,3 +448,13 @@ fun Toolbar.onTitleToolbar(markerLiveData: LiveData<MarkerInfo>) {
         title = markerLiveData.value!!.address.addr
     }
 }
+
+@BindingAdapter(value = ["onMoveFirstBackDrop"])
+fun BackdropMotionLayout.onMoveFirstBackDrop(onMoveFirstStepLiveData: LiveData<Boolean>) {
+    if (onMoveFirstStepLiveData.value != null && onMoveFirstStepLiveData.value == true) {
+        if (currentState == R.layout.motion_01_map_backdrop_end) {
+            transitionToStart()
+        }
+    }
+}
+
