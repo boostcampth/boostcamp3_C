@@ -1,9 +1,9 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
+import android.content.Intent
 import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -22,6 +22,7 @@ import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailReviewRvAdapter
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailTransactionRvAdapter
+import kr.co.connect.boostcamp.livewhere.ui.map.StreetMapActivity
 import kr.co.connect.boostcamp.livewhere.util.*
 
 
@@ -43,8 +44,7 @@ fun setClickable(view: View, isClickable: Boolean?) {
 
 @BindingAdapter("setBarChart")
 fun setBarChart(barChart: BarChart, list: LiveData<List<HouseAvgPrice>>) {
-    if(!list.value.isNullOrEmpty()) {
-        Log.d("@@@LL",""+ list.value!!.size)
+    if (!list.value.isNullOrEmpty()) {
         BarChartUtil.showChart(barChart)
         BarChartUtil.setChartData(barChart, list.value!!)
     } else {
@@ -60,12 +60,32 @@ fun setDetailImage(imageView: AppCompatImageView, location: LiveData<String>?) {
     try {
         Glide.with(imageView.context)
 //            .load("https://maps.googleapis.com/maps/api/streetview?size=360x200&location=${location!!.value}&key=${BuildConfig.GoogleApiKey}")
-            .load(imageView.context.getString(R.string.glide_street_img_url,location!!.value,BuildConfig.GoogleApiKey))
+            .load(
+                imageView.context.getString(
+                    R.string.glide_street_img_url,
+                    location!!.value,
+                    BuildConfig.GoogleApiKey
+                )
+            )
             .into(imageView)
     } catch (e: KotlinNullPointerException) {
         Toast.makeText(imageView.context, "이미지 없음", Toast.LENGTH_SHORT).show()
     }
 }
+
+@BindingAdapter("setDetailImageListener")
+fun setDetailImageListener(imageView: AppCompatImageView, markerInfo: MarkerInfo?) {
+    if (markerInfo != null) {
+        imageView.setOnClickListener {
+            val intent = Intent(imageView.context, StreetMapActivity::class.java)
+            intent.putExtra("lat", markerInfo.latLng.latitude.toString())
+            intent.putExtra("lng", markerInfo.latLng.longitude.toString())
+            intent.putExtra("address", markerInfo.address.name)
+            imageView.context.startActivity(intent)
+        }
+    }
+}
+
 
 @BindingAdapter("setRecentPrice")
 fun setRecentPrice(textView: TextView, recentPrice: LiveData<RecentPrice>) {
@@ -103,10 +123,17 @@ fun setRvItems(recyclerView: RecyclerView, itemList: List<PastTransaction>?) {
 
 @BindingAdapter("setReviews")
 fun setReviews(recyclerView: RecyclerView, reviewList: List<Review>?) {
-    if (reviewList != null) {
+    if (!reviewList.isNullOrEmpty()) {
         (recyclerView.adapter as DetailReviewRvAdapter).setData(reviewList)
+    }
+}
+
+@BindingAdapter("setReviewsEmpty")
+fun setReviewsEmpty(textView: TextView, reviewList: List<Review>?) {
+    if (!reviewList.isNullOrEmpty()) {
+        textView.visibility = View.GONE
     } else {
-        // TODO 데이터 정보 없음 처리.
+        textView.visibility = View.VISIBLE
     }
 }
 
@@ -114,7 +141,7 @@ fun setReviews(recyclerView: RecyclerView, reviewList: List<Review>?) {
 fun setPreReview(textView: TextView, review: List<Review>?) {
     if (!review.isNullOrEmpty()) {
         when (textView.id) {
-            R.id.detail_fragment_tv_review_id -> textView.text = review[0].id
+            R.id.detail_fragment_tv_review_date -> textView.text = review[0].date
             R.id.detail_fragment_tv_review_nickname -> textView.text = review[0].nickname
             R.id.detail_fragment_tv_review_contents -> textView.text = review[0].contents
         }
@@ -170,22 +197,23 @@ fun setImageMessage(view: TextView, list: List<BookmarkUser>?) {
 }
 
 @BindingAdapter("setButtonColor") //시세추이 버튼 색상
-fun setButtonColor(view:Button,type:Int) = when(type){
-    TYPE_CHARTER -> if(view.id==R.id.detail_fragment_btn_trend_price_charter){
+fun setButtonColor(view: Button, type: Int) = when (type) {
+    TYPE_CHARTER -> if (view.id == R.id.detail_fragment_btn_trend_price_charter) {
         view.setBackgroundResource(R.drawable.background_detail_trend_price_button_active)
         view.setTextColor(Color.parseColor(WHITE_COLOR))
-    }else{
+    } else {
         view.setBackgroundResource(R.drawable.background_detail_trend_price_button_inactive)
         view.setTextColor(Color.parseColor(PRIMARY_COLOR))
     }
-    TYPE_MONTHLY -> if(view.id==R.id.detail_fragment_btn_trend_price_monthly){
+    TYPE_MONTHLY -> if (view.id == R.id.detail_fragment_btn_trend_price_monthly) {
         view.setBackgroundResource(R.drawable.background_detail_trend_price_button_active)
         view.setTextColor(Color.parseColor(WHITE_COLOR))
-    }else{
+    } else {
         view.setBackgroundResource(R.drawable.background_detail_trend_price_button_inactive)
         view.setTextColor(Color.parseColor(PRIMARY_COLOR))
     }
-    else -> {}
+    else -> {
+    }
 }
 
 @BindingAdapter("setSortColor")

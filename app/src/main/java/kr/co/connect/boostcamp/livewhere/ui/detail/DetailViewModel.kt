@@ -142,8 +142,13 @@ class DetailViewModel(
     fun onPressedBookmarkButton() {
         _onPressedBookmarkBtn.call()
         when (_isBookmarked.value) {
-            false -> postBookmark()
-            true -> deleteBookmark()
+            false -> {
+                val bookmarkLocal = BookmarkEntity(address.get()!!, buildingName.get()!!, _coordinate.value!!)
+                insertBookmarkToLocal(bookmarkLocal)
+            }
+            true -> {
+                deleteBookmarkFromLocal(address.get()!!)
+            }
         }
     }
 
@@ -428,9 +433,7 @@ class DetailViewModel(
     }
 
     fun postBookmark() {
-        _hasLoaded.postValue(false)
         val bookmarkUser = BookmarkUserEntity(pref.uuid)
-        val bookmarkLocal = BookmarkEntity(address.get()!!,buildingName.get()!!,_coordinate.value!!)
 //        insertBookmarkToLocal(bookmarkLocal)
         bookmarkUserRepository.addBookmark(pnuCode.get()!!, bookmarkUser)
             .addOnSuccessListener {
@@ -444,7 +447,6 @@ class DetailViewModel(
     }
 
     fun deleteBookmark() {
-        _hasLoaded.postValue(false)
         bookmarkUserRepository.deleteBookmark(pnuCode.get()!!, pref.uuid!!)
             .addOnSuccessListener {
                 loadBookmarks(pnuCode.get()!!)
@@ -475,19 +477,26 @@ class DetailViewModel(
         }
     }
 
-    fun insertBookmarkToLocal(bookmarkEntity: BookmarkEntity){
-        bookmarkRepository.setBookmark(bookmarkEntity)
-    }
-
-    fun getBookmarkFromLocal(){
-        addDisposable(bookmarkRepository.getBookmark()
+    fun insertBookmarkToLocal(bookmarkEntity: BookmarkEntity) {
+        _hasLoaded.postValue(false)
+        addDisposable(bookmarkRepository.setBookmark(bookmarkEntity)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                if (it != null) {
-                    it.forEach{
-                        Log.d("@@@IT:",""+it.address)
-                    }
+                if (it > 0) {
+                    postBookmark()
+                }
+            })
+    }
+
+    fun deleteBookmarkFromLocal(address: String) {
+        _hasLoaded.postValue(false)
+        addDisposable(bookmarkRepository.deleteBookmark(address)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                if (it > 0) {
+                    deleteBookmark()
                 }
             })
     }
