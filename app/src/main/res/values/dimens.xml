@@ -70,6 +70,7 @@
     <dimen name="arrow_size_map_activity">32dp</dimen>
     <dimen name="map_place_image_view_expand_height">256dp</dimen>
     <dimen name="logo_view_margin_start">8dp</dimen>
+    <dimen name="loading_lottie_view_size">100dp</dimen>
 
     <dimen name="item_search_circle_view_size">36dp</dimen>
     <dimen name="item_search_circle_view_margin">8dp</dimen>

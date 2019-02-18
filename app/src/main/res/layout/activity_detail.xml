@@ -72,15 +72,34 @@
                 android:layout_height="0dp">
         </FrameLayout>
 
-        <ProgressBar
-                android:id="@+id/detail_activity_progress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+        <!--<ProgressBar-->
+                <!--android:id="@+id/detail_activity_progress"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:setProgress="@{viewModel.hasLoaded}"-->
+                <!--app:layout_constraintTop_toTopOf="parent"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--/>-->
+
+        <View
                 app:setProgress="@{viewModel.hasLoaded}"
+                android:background="#55ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="@dimen/loading_lottie_view_size"
+                android:layout_height="@dimen/loading_lottie_view_size"
+                app:lottie_fileName="loading_animation.json"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:lottie_loop="true"
+                app:lottie_autoPlay="true"
+                setLoadingLottie="@{viewModel.hasLoaded}"
         />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
