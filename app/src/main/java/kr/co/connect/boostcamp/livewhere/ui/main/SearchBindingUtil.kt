@@ -36,7 +36,7 @@ fun onFocus(editText: EditText, viewModel: HomeViewModel) {
 @BindingAdapter("onClickDone")
 fun hideKeyboard(editText: EditText, viewModel: HomeViewModel) {
     editText.setOnKeyListener  {_, Keycode, event ->
-        if(event.action == KeyEvent.ACTION_DOWN) {
+        if((event.action == KeyEvent.ACTION_DOWN) && (Keycode == KeyEvent.KEYCODE_ENTER)) {
             viewModel.setHideKeyboard(true)
             return@setOnKeyListener true
         } else {
