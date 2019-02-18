@@ -444,10 +444,3 @@ fun Toolbar.onTitleToolbar(markerLiveData: LiveData<MarkerInfo>) {
         title = markerLiveData.value!!.address.addr
     }
 }
-
-@BindingAdapter(value = ["onTouchMapEvent"])
-fun MapView.onTouchMapEvent(mapViewModel: MapViewModel) {
-    getMapAsync { naverMap ->
-        naverMap.onMapClickListener = mapViewModel
-    }
-}

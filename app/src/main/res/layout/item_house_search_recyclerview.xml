@@ -32,21 +32,28 @@
                 android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_weight="6"
-                android:layout_height="@dimen/item_search_recyclerview_height">
+                android:layout_height="@dimen/item_search_recyclerview_height"
+                android:paddingStart="@dimen/space_small">
             <TextView
                     style="@style/BasicTv.HeadlineM"
                     onText="@{markerInfo.houseList.get(0).name}"
                     android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:ellipsize="end"
+                    android:maxLines="1"/>
             <TextView
                     style="@style/BasicTv.HeadlineS"
                     onText="@{markerInfo.houseList.get(0).name}"
                     android:textColor="@android:color/darker_gray"
-                    android:layout_marginEnd="@dimen/item_place_widget_margin_end"/>
+                    android:layout_marginEnd="@dimen/item_place_widget_margin_end"
+                    android:ellipsize="end"
+                    android:maxLines="1"/>
             <TextView
                     style="@style/BasicTv.HeadlineXS"
                     android:gravity="center_vertical"
-                    android:textColor="@android:color/darker_gray"/>
+                    android:textColor="@android:color/darker_gray"
+                    android:ellipsize="end"
+                    android:maxLines="1"/>
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
