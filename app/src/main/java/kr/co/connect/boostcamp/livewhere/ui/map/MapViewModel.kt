@@ -304,7 +304,7 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
         _userStatusLiveData.postValue(UserStatus(StatusCode.DEFAULT_SEARCH, ""))
     }
 
-    private fun loadHousePrice(latLng: LatLng) = mapRepository
+    fun loadHousePrice(latLng: LatLng) = mapRepository
         .getAddress(latLng.latitude.toString(), latLng.longitude.toString(), "WGS84")
         .flatMap { address ->
             if (address.isSuccessful && address.body()?.metaData?.total_count!! >= 1) {
@@ -493,4 +493,3 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
         return mInfoWindow
     }
 }
-

@@ -4,12 +4,14 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.util.FusedLocationSource
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityMapBinding
 import kr.co.connect.boostcamp.livewhere.ui.map.adapter.MapSearchRVAdapter
+import kr.co.connect.boostcamp.livewhere.util.LAT
+import kr.co.connect.boostcamp.livewhere.util.LON
 import kr.co.connect.boostcamp.livewhere.util.MapUtilImpl.Companion.LOCATION_PERMISSION_REQUEST_CODE
-import kr.co.connect.boostcamp.livewhere.util.SEARCH_TAG
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -37,10 +39,12 @@ class MapActivity : AppCompatActivity() {
             adapter = MapSearchRVAdapter(mapViewModel)
         }
 
-        val address = intent.getStringExtra(SEARCH_TAG)
-        if(address!=null){
+        val lat = intent.getStringExtra(LAT)
+        val lng = intent.getStringExtra(LON)
+        if(lat!=null){
+            val latLng = LatLng(lat.toDouble(),lng.toDouble())
             intent.extras.clear()
-            mapViewModel.onSearchHouseWithAddress(address)
+            mapViewModel.loadHousePrice(latLng)
         }else{
             mapViewModel.onInitActivityStatus()
         }
