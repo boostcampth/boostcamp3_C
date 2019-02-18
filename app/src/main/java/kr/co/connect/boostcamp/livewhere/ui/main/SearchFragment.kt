@@ -76,13 +76,6 @@ class SearchFragment : Fragment() {
         return binding.root
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if(binding != null) {
-            changeSearchRv(false)
-        }
-    }
-
     private fun changeSearchRv(set: Boolean) {
         if (!set) {
             binding.rvAutoComplete.visibility = View.GONE

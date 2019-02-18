@@ -171,7 +171,7 @@ class HomeViewModel(
         )
     }
 
-    private fun setVisibility(value: Boolean) {
+    fun setVisibility(value: Boolean) {
         _isRecentSearchVisible.postValue(value)
     }
 
