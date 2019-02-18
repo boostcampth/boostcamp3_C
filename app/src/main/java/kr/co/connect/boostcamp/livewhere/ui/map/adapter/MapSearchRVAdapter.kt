@@ -12,9 +12,10 @@ import kr.co.connect.boostcamp.livewhere.model.Category
 import kr.co.connect.boostcamp.livewhere.model.EmptyInfo
 import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
 import kr.co.connect.boostcamp.livewhere.model.Place
-import kr.co.connect.boostcamp.livewhere.ui.map.MapActivity
+import kr.co.connect.boostcamp.livewhere.ui.map.MapViewModel
 
-class MapSearchRVAdapter(private var itemList: List<Any>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MapSearchRVAdapter(private val mapViewModel: MapViewModel): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    lateinit var itemList: List<*>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {
             Category.HOUSE.type -> {
@@ -69,12 +70,13 @@ class MapSearchRVAdapter(private var itemList: List<Any>) : RecyclerView.Adapter
                 val houseViewHolder = holder as HouseViewHolder
                 val markerInfo = itemList.get(position) as MarkerInfo
                 houseViewHolder.binding.markerInfo = markerInfo
+                houseViewHolder.binding.mapViewModel = mapViewModel
             }
             holder.itemViewType == Category.PLACE.type -> {
                 val placeViewHolder = holder as PlaceViewHolder
                 val placeItem = itemList.get(position) as Place
                 placeViewHolder.binding.place = placeItem
-                placeViewHolder.binding.lifecycleOwner = placeViewHolder.binding.root.context as MapActivity
+                placeViewHolder.binding.mapViewModel = mapViewModel
             }
             holder.itemViewType == Category.EMPTY.type -> {
                 val emptyViewHolder = holder as EmptyViewHolder

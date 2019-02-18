@@ -5,18 +5,22 @@ import android.net.Uri
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.databinding.BindingAdapter
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
-import kr.co.connect.boostcamp.livewhere.ui.detail.DetailActivity
 
-@BindingAdapter(value = ["onWebClickListener"])
-fun LinearLayout.setOnWebClickListener(placeUrl: String) {
+@BindingAdapter(value = ["onWebClickListener", "onClickWebSite"])
+fun LinearLayout.setOnWebClickListener(placeUrl: String, mapViewModel: MapViewModel) {
     setOnClickListener {
-        val builder = CustomTabsIntent.Builder()
-        val customTabsIntent = builder.build()
-        customTabsIntent.launchUrl(it.context, Uri.parse(placeUrl))
+        mapViewModel.onLaunchUrl(context, placeUrl)
+    }
+}
+
+@BindingAdapter(value = ["onHomeClickListener", "onMarkerInfo"])
+fun LinearLayout.startActivityWithIntent(mapViewModel: MapViewModel, markerInfo: MarkerInfo) {
+    mapViewModel.onStartDetailActivity(context, markerInfo)
+    setOnClickListener {
+        mapViewModel.onNextStartActivity(this, markerInfo)
     }
 }
 
@@ -30,17 +34,9 @@ fun LinearLayout.setOnCallListener(phone: String) {
 
 @BindingAdapter(value = ["onText"])
 fun TextView.onTextView(content: String) {
-    text = content
+    text = content.replace("\n", " ")
 }
 
-@BindingAdapter(value = ["onIntent"])
-fun LinearLayout.startActivityWithIntent(markerInfo: MarkerInfo) {
-    setOnClickListener {
-        val intent = Intent(context, DetailActivity::class.java)
-        intent.putExtra("markerInfo", markerInfo)
-        context.startActivity(intent)
-    }
-}
 
 @BindingAdapter(value = ["onDrawCategory"])
 fun ImageView.setOnDrawCategory(category: String) {

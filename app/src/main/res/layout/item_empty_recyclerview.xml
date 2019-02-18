@@ -7,7 +7,11 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_search_recyclerview_height"
-            android:gravity="center">
+            android:gravity="center"
+            android:paddingStart="@dimen/space_small"
+            android:paddingEnd="@dimen/space_small"
+            android:paddingTop="@dimen/space_x_small"
+            android:paddingBottom="@dimen/space_x_small">
         <ImageView
                 android:layout_width="@dimen/empty_item_imageview_size"
                 android:layout_height="@dimen/empty_item_imageview_size"

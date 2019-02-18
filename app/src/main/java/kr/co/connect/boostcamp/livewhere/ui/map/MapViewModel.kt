@@ -1,9 +1,12 @@
 package kr.co.connect.boostcamp.livewhere.ui.map
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.PointF
+import android.net.Uri
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.naver.maps.geometry.LatLng
@@ -16,10 +19,12 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.BehaviorSubject
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.repository.MapRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
+import kr.co.connect.boostcamp.livewhere.ui.detail.DetailActivity
 import kr.co.connect.boostcamp.livewhere.ui.map.interfaces.OnMapHistoryListener
 import kr.co.connect.boostcamp.livewhere.ui.map.interfaces.OnViewHistoryListener
 import kr.co.connect.boostcamp.livewhere.util.RADIUS
@@ -31,6 +36,11 @@ import java.util.concurrent.TimeUnit
 interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, NaverMap.OnMapClickListener, OnMapReadyCallback,
     View.OnClickListener, OnMapHistoryListener, OnViewHistoryListener {
     fun onClickMapImageView(view: View, liveData: LiveData<*>)
+    fun putPressedLiveData(tick: Long)
+    fun onLaunchUrl(context: Context, url: String)
+    fun onStartDetailActivity(context: Context, markerInfo: MarkerInfo)
+    fun onNextStartActivity(view: View, markerInfo: MarkerInfo)
+    fun onRemoveDisposable(disposable: Disposable)
 }
 
 class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
@@ -101,7 +111,20 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
     val cameraPositionLatLngLiveData: LiveData<CameraPositionInfo>
         get() = _cameraPositionLatLngLiveData
 
+    private val _pressedImageViewTimeLiveData: MutableLiveData<Long> = MutableLiveData()
+
+    val pressedImageViewTimeLiveData: LiveData<Long>
+        get() = _pressedImageViewTimeLiveData
+
     private var timerObservable: Disposable? = null
+
+    private val startActivityBehaviorSubject = BehaviorSubject.createDefault(0L)
+    private var startDetailActivityObservable: Disposable? = null
+
+    override fun putPressedLiveData(tick: Long) {
+        _pressedImageViewTimeLiveData.postValue(tick)
+    }
+
     override fun startObservable(title: String, toolbar: Toolbar) {
         timerObservable =
             Observable.interval(0, 1, TimeUnit.SECONDS)
@@ -121,11 +144,6 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
 
     override fun stopObservable() {
         onCleared()
-        if (timerObservable != null) {
-            if (!timerObservable!!.isDisposed) {
-                getCompositeDisposable().remove(timerObservable!!)
-            }
-        }
     }
 
     override fun onMoveCameraPosition(latLng: LatLng, zoom: Double) {
@@ -204,7 +222,7 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
             }, {
                 _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_PLACE, ""))
             })
-        } else{
+        } else {
             _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_HOUSE_TARGET, ""))
         }
     }
@@ -342,12 +360,18 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
             lng = placeInfo.x
             address = placeInfo.addrName
         }
+        putPressedLiveData(System.currentTimeMillis())
         view.setOnClickListener {
-            val intent = Intent(view.context, StreetMapActivity::class.java)
-            intent.putExtra("lat", lat)
-            intent.putExtra("lng", lng)
-            intent.putExtra("address", address)
-            view.context.startActivity(intent)
+            if (pressedImageViewTimeLiveData.value != null &&
+                System.currentTimeMillis() - pressedImageViewTimeLiveData.value!! > 1000
+            ) {
+                val intent = Intent(view.context, StreetMapActivity::class.java)
+                intent.putExtra("lat", lat)
+                intent.putExtra("lng", lng)
+                intent.putExtra("address", address)
+                putPressedLiveData(System.currentTimeMillis())
+                view.context.startActivity(intent)
+            }
         }
     }
 
@@ -409,5 +433,41 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
 
     override fun onInitActivityStatus() {
         _userStatusLiveData.postValue(UserStatus(StatusCode.DEFAULT_SEARCH, ""))
+    }
+
+    override fun onStartDetailActivity(context: Context, markerInfo: MarkerInfo) {
+        startDetailActivityObservable = startActivityBehaviorSubject
+            .buffer(2, 1)
+            .observeOn(AndroidSchedulers.mainThread())
+            .filter { pair -> pair[1] - pair[0] > 1000 }
+            .subscribe({ _ ->
+                val intent = Intent(context, DetailActivity::class.java)
+                intent.putExtra("markerInfo", markerInfo)
+                context.startActivity(intent)
+            }, {}, {
+
+            })
+
+        addDisposable(startDetailActivityObservable!!)
+    }
+
+    override fun onLaunchUrl(context: Context, url: String) {
+        if (pressedImageViewTimeLiveData.value != null && System.currentTimeMillis() - pressedImageViewTimeLiveData.value!! > 1000) {
+            val builder = CustomTabsIntent.Builder()
+            val customTabsIntent = builder.build()
+            customTabsIntent.launchUrl(context, Uri.parse(url))
+            putPressedLiveData(System.currentTimeMillis())
+        }
+    }
+
+
+
+    override fun onNextStartActivity(view: View, markerInfo: MarkerInfo) {
+        startActivityBehaviorSubject.onNext(System.currentTimeMillis())
+    }
+
+    override fun onRemoveDisposable(disposable: Disposable) {
+        disposable.dispose()
+        getCompositeDisposable().remove(disposable)
     }
 }

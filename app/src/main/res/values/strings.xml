@@ -56,5 +56,6 @@
     <string name="info_empty_house_target">찾으시려는 매물을 지도에 표시해주세요.</string>
     <string name="all_text_empty">EMPTY</string>
     <string name="message_toast_back_btn">뒤로 가기를 한 번 더 누르시면 종료됩니다.</string>
+    <string name="all_house_information_text">정보 보기</string>
 
 </resources>
