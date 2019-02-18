@@ -30,23 +30,23 @@ fun LinearLayout.setOnPlaceItemClickListener(currentPlace: Place, mapViewModel: 
 
         val mutablePlaceList = placeResponse.placeList.toMutableList()
         if (tempInfoWindow != null) {
-            if (tempInfoWindow != null) {
-                tempInfoWindow.map = null
-                tempInfoWindow.close()
-            }
+            tempInfoWindow.map = null
+            tempInfoWindow.close()
         }
+        mapViewModel.onRemoveInfoWindow()
         val tempPlace = placeResponse.placeList[currentIndex]
         mutablePlaceList[currentIndex] = mutablePlaceList[0]
         mutablePlaceList[0] = tempPlace
         mapViewModel.onMoveFirstStep(true)
         mapViewModel.onLoadBuildingList(mutablePlaceList, rootView)//현재 장소 리스트에 반영
+        mapViewModel.onSaveInfoWindow(infoWindow)
         infoWindow.open(marker)
     }
 }
 
 
 @BindingAdapter(value = ["onCurrentHouse", "onHouseItemClickListener"])
-fun LinearLayout.setOnPlaceItemClickListener(markerInfo:MarkerInfo, mapViewModel: MapViewModel) {
+fun LinearLayout.setOnPlaceItemClickListener(markerInfo: MarkerInfo, mapViewModel: MapViewModel) {
     setOnClickListener {
         val latLng = markerInfo.latLng
         mapViewModel.onLoadBuildingList(listOf(markerInfo), rootView)//현재 매물 리스트에 반영
