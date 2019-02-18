@@ -96,12 +96,15 @@ class HomeActivity : AppCompatActivity() {
                 )
                 .replace(HOME_CONTAINER_ID, currentFragment)
                 .commit()
+            homeViewModel.getBookmark()
+        } else {
+            currentFragment = HomeFragment.newInstance()
+            supportFragmentManager
+                .beginTransaction()
+                .replace(HOME_CONTAINER_ID, currentFragment)
+                .commit()
+            homeViewModel.getBookmark()
         }
-        currentFragment = HomeFragment.newInstance()
-        supportFragmentManager
-            .beginTransaction()
-            .replace(HOME_CONTAINER_ID, currentFragment)
-            .commit()
     }
 
     private fun startSearchFragment() {
@@ -117,6 +120,8 @@ class HomeActivity : AppCompatActivity() {
             .replace(HOME_CONTAINER_ID, currentFragment)
             .addToBackStack(null)
             .commit()
+        currentFragment.et_search_bar.requestFocus()
+        homeViewModel.getRecentSearch()
     }
 
     private fun startMapActivity() {

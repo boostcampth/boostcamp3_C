@@ -82,8 +82,7 @@ class HomeViewModel(
         get() = _bookmarkMap
 
     init {
-        getBookmark()
-        getRecentSearch()
+
     }
 
     @SuppressLint("CheckResult")
