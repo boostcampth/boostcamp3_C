@@ -444,8 +444,6 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
         }
     }
 
-
-
     override fun onNextStartActivity(view: View, markerInfo: MarkerInfo) {
         startActivityBehaviorSubject.onNext(System.currentTimeMillis())
     }

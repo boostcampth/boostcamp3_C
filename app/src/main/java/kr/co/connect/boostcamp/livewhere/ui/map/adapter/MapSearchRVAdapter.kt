@@ -14,44 +14,38 @@ import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
 import kr.co.connect.boostcamp.livewhere.model.Place
 import kr.co.connect.boostcamp.livewhere.ui.map.MapViewModel
 
-class MapSearchRVAdapter(private val mapViewModel: MapViewModel): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MapSearchRVAdapter(private val mMapViewModel: MapViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     lateinit var itemList: List<*>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {
             Category.HOUSE.type -> {
-                val itemHouseSearchRecyclerviewBinding: ItemHouseSearchRecyclerviewBinding =
+                val itemHouseSearchRecyclerViewBinding: ItemHouseSearchRecyclerviewBinding =
                     DataBindingUtil.inflate(
                         LayoutInflater.from(parent.context),
                         R.layout.item_house_search_recyclerview,
                         parent,
                         false
                     )
-                return HouseViewHolder(
-                    itemHouseSearchRecyclerviewBinding
-                )
+                return HouseViewHolder(itemHouseSearchRecyclerViewBinding)
             }
             Category.PLACE.type -> {
-                val itemPlaceSearchRecyclerviewBinding: ItemPlaceSearchRecyclerviewBinding =
+                val itemPlaceSearchRecyclerViewBinding: ItemPlaceSearchRecyclerviewBinding =
                     DataBindingUtil.inflate(
                         LayoutInflater.from(parent.context),
                         R.layout.item_place_search_recyclerview,
                         parent,
                         false
                     )
-                return PlaceViewHolder(
-                    itemPlaceSearchRecyclerviewBinding
-                )
+                return PlaceViewHolder(itemPlaceSearchRecyclerViewBinding)
             }
             else -> {
-                val itemEmptyRecyclerviewBinding: ItemEmptyRecyclerviewBinding = DataBindingUtil.inflate(
+                val itemEmptyRecyclerViewBinding: ItemEmptyRecyclerviewBinding = DataBindingUtil.inflate(
                     LayoutInflater.from(parent.context),
                     R.layout.item_empty_recyclerview,
                     parent,
                     false
                 )
-                return EmptyViewHolder(
-                    itemEmptyRecyclerviewBinding
-                )
+                return EmptyViewHolder(itemEmptyRecyclerViewBinding)
             }
         }
     }
@@ -68,19 +62,23 @@ class MapSearchRVAdapter(private val mapViewModel: MapViewModel): RecyclerView.A
         when {
             holder.itemViewType == Category.HOUSE.type -> {
                 val houseViewHolder = holder as HouseViewHolder
-                val markerInfo = itemList.get(position) as MarkerInfo
-                houseViewHolder.binding.markerInfo = markerInfo
-                houseViewHolder.binding.mapViewModel = mapViewModel
+                val mMarkerInfo = itemList[position] as MarkerInfo
+                houseViewHolder.binding.apply {
+                    markerInfo = mMarkerInfo
+                    mapViewModel = mMapViewModel
+                }
             }
             holder.itemViewType == Category.PLACE.type -> {
                 val placeViewHolder = holder as PlaceViewHolder
-                val placeItem = itemList.get(position) as Place
-                placeViewHolder.binding.place = placeItem
-                placeViewHolder.binding.mapViewModel = mapViewModel
+                val placeItem = itemList[position] as Place
+                placeViewHolder.binding.apply {
+                    place = placeItem
+                    mapViewModel = mMapViewModel
+                }
             }
             holder.itemViewType == Category.EMPTY.type -> {
                 val emptyViewHolder = holder as EmptyViewHolder
-                val emptyItem = itemList.get(position) as EmptyInfo
+                val emptyItem = itemList[position] as EmptyInfo
                 emptyViewHolder.binding.emptyInfo = emptyItem
             }
         }
