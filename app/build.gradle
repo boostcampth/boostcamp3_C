@@ -60,6 +60,7 @@ android {
     packagingOptions {
         exclude 'META-INF/proguard/androidx-annotations.pro'
     }
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
 }
 
 dependencies {
@@ -138,6 +139,8 @@ dependencies {
     kapt "android.arch.persistence.room:compiler:$room_version"
     kaptTest "android.arch.persistence.room:testing:$room_version"
     implementation "android.arch.persistence.room:rxjava2:$room_version"
+
+    implementation "com.airbnb.android:lottie:$lottie_version"
 
     implementation("com.google.android.libraries.places:places:1.0.0") {
         exclude group: 'com.google.guava', module: 'listenablefuture'
