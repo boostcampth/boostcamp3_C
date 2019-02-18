@@ -55,7 +55,7 @@ class HomeActivity : AppCompatActivity() {
         })
 
         homeViewModel.backBtnClicked.observe(this, Observer {
-            hideKeyboard()
+            keyboardHide()
             startHomeFragment()
         })
 
@@ -81,12 +81,6 @@ class HomeActivity : AppCompatActivity() {
         homeViewModel.bookmarkMap.observe(this, Observer {
             startMapActivity(it)
         })
-    }
-
-    private fun hideKeyboard() {
-        currentFragment.et_search_bar.inputType = 0
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(currentFragment.et_search_bar.windowToken, 0)
     }
 
     private fun startHomeFragment() {
