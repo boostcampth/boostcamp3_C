@@ -44,6 +44,6 @@ fun finishEntering(editText: EditText, viewModel: HomeViewModel) {
 @BindingAdapter("autoComplete")
 fun autoComplete (editText: EditText, viewModel: HomeViewModel) {
     editText.doOnTextChanged { text, _, _, _ ->
-        viewModel.getKakaoApi(text.toString())
+        viewModel.getTmapApi(text.toString())
     }
 }

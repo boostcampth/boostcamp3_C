@@ -31,6 +31,7 @@ android {
             buildConfigField "String", "KakaoLocalUrl", keystoreProperties.getProperty("kakaoLocalUrl")
             buildConfigField "String", "KakaoServiceKey", keystoreProperties.getProperty("kakaoServiceKey")
             buildConfigField "String", "GooglePlacesApiKey", keystoreProperties.getProperty("googlePlacesApiKey")
+            buildConfigField "String", "tMapUrl", keystoreProperties.getProperty("tMapUrl")
             buildConfigField "boolean", "isDebug", "true"
         }
         release {

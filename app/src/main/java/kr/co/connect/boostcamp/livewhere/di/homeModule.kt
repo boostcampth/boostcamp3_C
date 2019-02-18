@@ -10,7 +10,7 @@ import org.koin.dsl.module.module
 val homeModule = module {
     factory("bookmarkRepository") { BookmarkRepositoryImpl(get("bookmarkDAO")) }
     factory("recentSearchRepository") { RecentSearchRepositoryImpl(get("recentSearchDAO")) }
-    factory("autoCompleteRepository") {AutoCompleteRepositoryImpl(get("kakaoPlace"))}
+    factory("autoCompleteRepository") {AutoCompleteRepositoryImpl(get("tmapApi"))}
 
     viewModel { HomeViewModel(get("bookmarkRepository"), get("recentSearchRepository"), get("autoCompleteRepository")) }
 }
