@@ -3,6 +3,7 @@ package kr.co.connect.boostcamp.livewhere.di
 import io.reactivex.schedulers.Schedulers
 import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.api.Api
+import kr.co.connect.boostcamp.livewhere.api.KakaoPlaceApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module.module
@@ -27,5 +28,22 @@ val apiModule = module {
             .baseUrl(BuildConfig.BaseServerURL)
             .build()
             .create(Api::class.java)
+    }
+
+    single("kakaoPlace") {
+        Retrofit.Builder()
+            .client(
+                OkHttpClient.Builder()
+                    .connectTimeout(30, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .writeTimeout(30, TimeUnit.SECONDS)
+                    .addInterceptor(HttpLoggingInterceptor())
+                    .build()
+            )
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(BuildConfig.KakaoLocalUrl)
+            .build()
+            .create(KakaoPlaceApi::class.java)
     }
 }
