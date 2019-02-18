@@ -5,6 +5,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.overlay.InfoWindow
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
 import kr.co.connect.boostcamp.livewhere.model.Place
@@ -40,6 +41,18 @@ fun LinearLayout.setOnPlaceItemClickListener(currentPlace: Place, mapViewModel: 
         mapViewModel.onMoveFirstStep(true)
         mapViewModel.onLoadBuildingList(mutablePlaceList, rootView)//현재 장소 리스트에 반영
         infoWindow.open(marker)
+    }
+}
+
+
+@BindingAdapter(value = ["onCurrentHouse", "onHouseItemClickListener"])
+fun LinearLayout.setOnPlaceItemClickListener(markerInfo:MarkerInfo, mapViewModel: MapViewModel) {
+    setOnClickListener {
+        val latLng = markerInfo.latLng
+        mapViewModel.onLoadBuildingList(listOf(markerInfo), rootView)//현재 매물 리스트에 반영
+        mapViewModel.onClickMarkerHouse(markerInfo)//매물 이미지 추가
+        val mInfoWindow = InfoWindow()
+        mapViewModel.onMoveCameraPosition(latLng, 14.0)
     }
 }
 

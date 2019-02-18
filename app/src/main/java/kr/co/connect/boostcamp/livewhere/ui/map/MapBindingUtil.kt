@@ -66,6 +66,7 @@ fun ImageView.onDrawHouse(markerInfoLiveData: LiveData<MarkerInfo>, mapViewModel
     val markerInfo = markerInfoLiveData.value
     if (markerInfo != null) {
         val latLang = markerInfo.latLng
+        mapViewModel.onMoveCameraPosition(latLang,14.0)
         val streetImgUrl = String.format(
             BuildConfig.BaseGoogleUrl,
             latLang.latitude,
