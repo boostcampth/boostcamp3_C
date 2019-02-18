@@ -11,7 +11,7 @@
     <color name="black_opacity_87">#de000000</color>
     <color name="black_opacity_60">#99727171</color>
     <color name="gray">#898989</color>
-    <color name="light_gray">#BBBBBB</color>
+    <color name="light_gray">#dddddd</color>
     <color name="white">#ffffff</color>
     <color name="main_color_variation">#396076</color>
 </resources>

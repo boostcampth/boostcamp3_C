@@ -46,6 +46,7 @@
     <string name="glide_street_img_url">https://maps.googleapis.com/maps/api/streetview?size=360x200&amp;location=%1$s&amp;key=%2$s</string>
     <string name="bookmark_empty">즐겨찾기가 비어있습니다.</string>
     <string name="recent_search_empty">최근 검색어가 없습니다.</string>
+    <string name="review_empty">등록된 후기가 없습니다</string>
     <string name="search_hint">주소를 입력하세요.</string>
 
     <!-- user status 관련 resource-->
@@ -57,5 +58,6 @@
     <string name="info_empty_house_target">찾으시려는 매물을 지도에 표시해주세요.</string>
     <string name="all_text_empty">EMPTY</string>
     <string name="message_toast_back_btn">뒤로 가기를 한 번 더 누르시면 종료됩니다.</string>
+    <string name="all_house_information_text">정보 보기</string>
 
 </resources>

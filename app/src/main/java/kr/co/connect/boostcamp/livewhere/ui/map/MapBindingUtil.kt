@@ -8,7 +8,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -144,7 +143,6 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
     val markerInfo = markerInfoLiveData.value
     if (markerInfo != null) {
         val latLang = markerInfo.latLng
-        val houseList = markerInfo.houseList
         val statusCode = markerInfo.statusCode
         getMapAsync { naverMap ->
             mapViewModel.onRemoveFilterMarker()//주변 필터 삭제
@@ -158,8 +156,10 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
             }
             if (tag != null) {
                 val tempMarker = tag as Marker
-                tempMarker.map = null
-                tempMarker.infoWindow?.close()
+                tempMarker.apply{
+                    map = null
+                    infoWindow?.close()
+                }
             }
             marker.apply {
                 position = latLang
@@ -171,11 +171,10 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
                 map = naverMap
             }
             val mInfoWindow = InfoWindow()
-            mInfoWindow.adapter = MapMarkerAdapter(
-                context,
-                mapViewModel.userStatusLiveData.value?.content!!
-            )
-            mInfoWindow.open(marker)
+            mInfoWindow.apply{
+                adapter = MapMarkerAdapter(context, mapViewModel.userStatusLiveData.value?.content!!)
+                open(marker)
+            }
             tag = marker //해당 마커를 닫기 위해서 tag에 marker 값을 저장
             mapViewModel.onMoveCameraPosition(latLang, 17.0)//cameraposition 이동
         }
@@ -308,7 +307,6 @@ fun LocationButtonView.setOnClick(mapStatusLiveData: LiveData<NaverMap>, locatio
     map = mapStatusLiveData.value
     if (map != null) {
         map!!.locationSource = locationSource
-        map!!.locationSource = mapStatusLiveData.value!!.locationSource
     }
 }
 
@@ -328,20 +326,14 @@ fun FloatingActionButton.setTriggerBackdrop(
     }
 }
 
-@BindingAdapter(value = ["triggerFloatingButton"])
-fun MotionLayout.setTriggerFB(filterML: MotionLayout) {
-
-}
-
 @BindingAdapter(value = ["bindData"])
 fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
     if (bindPlaceLiveData.value != null) {
         val bindList = bindPlaceLiveData.value
         if (adapter == null) {
             apply {
-                layoutManager = LinearLayoutManager(context)
-                adapter = MapSearchRVAdapter(bindList!!)
-                adapter?.notifyItemRangeInserted(0, bindList.size)
+                adapter?.notifyItemRangeInserted(0, bindList!!.size)
+                (adapter as MapSearchRVAdapter).setItemChange(bindList!!)
             }
         } else {
             apply {
@@ -352,8 +344,7 @@ fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
         }
     } else {
         val emptyList = arrayListOf<Any>()
-        layoutManager = LinearLayoutManager(context)
-        adapter = MapSearchRVAdapter(emptyList)
+        (adapter as MapSearchRVAdapter).setItemChange(emptyList)
         adapter?.notifyItemRangeInserted(0, emptyList.size)
     }
 }
@@ -445,12 +436,5 @@ fun Toolbar.onInitToolbar(isHomeClick: Boolean) {
 fun Toolbar.onTitleToolbar(markerLiveData: LiveData<MarkerInfo>) {
     if (markerLiveData.value != null) {
         title = markerLiveData.value!!.address.addr
-    }
-}
-
-@BindingAdapter(value = ["onTouchMapEvent"])
-fun MapView.onTouchMapEvent(mapViewModel: MapViewModel) {
-    getMapAsync { naverMap ->
-        naverMap.onMapClickListener = mapViewModel
     }
 }

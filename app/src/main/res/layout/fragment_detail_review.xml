@@ -81,15 +81,16 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/space_small"
                 android:paddingEnd="@dimen/space_small"
+                android:layout_marginTop="@dimen/space_x_small"
                 app:setPreReview="@{viewModel.getComments}"
                 app:layout_constraintTop_toTopOf="@id/detail_fragment_tv_review_contents"
                 app:layout_constraintStart_toStartOf="@id/detail_fragment_tv_review_contents"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/detail_fragment_tv_review_id"
+                android:id="@+id/detail_fragment_tv_review_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="010-****-****"
+                tools:text="2019-01-02"
                 app:setPreReview="@{viewModel.getComments}"
                 app:layout_constraintStart_toEndOf="@id/detail_fragment_tv_review_nickname"
                 app:layout_constraintTop_toTopOf="@id/detail_fragment_tv_review_nickname"

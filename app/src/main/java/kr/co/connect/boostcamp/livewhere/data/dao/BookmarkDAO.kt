@@ -11,7 +11,7 @@ interface BookmarkDAO {
     @Query("SELECT * FROM bookmark")
     fun getAll(): List<BookmarkEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertBookmark(bookmark: BookmarkEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
