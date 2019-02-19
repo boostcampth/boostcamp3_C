@@ -1,16 +1,13 @@
 package kr.co.connect.boostcamp.livewhere.ui.main
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
 import kr.co.connect.boostcamp.livewhere.data.entity.BookmarkEntity
 import kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity
-import kr.co.connect.boostcamp.livewhere.model.TmapResponse
 import kr.co.connect.boostcamp.livewhere.repository.AutoCompleteRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.repository.BookmarkRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.repository.RecentSearchRepositoryImpl
@@ -18,7 +15,6 @@ import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 import kr.co.connect.boostcamp.livewhere.util.LAT
 import kr.co.connect.boostcamp.livewhere.util.LON
 import kr.co.connect.boostcamp.livewhere.util.SingleLiveEvent
-import retrofit2.Response
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.HashMap
@@ -101,7 +97,7 @@ class HomeViewModel(
                 .subscribe({
                     _bookmarkEntity.postValue(it)
                 }, {
-
+                    it.printStackTrace()
                 })
         )
         isEmptyBookmark = checkBookmarkEntity(bookmarkEntity.value.isNullOrEmpty())
@@ -247,7 +243,6 @@ class HomeViewModel(
 
     private fun getLonLat(text: String): HashMap<String, String> {
         val map = HashMap<String, String>()
-        //TODO: NULL PT Exception
         map[LAT] = latitde.value!![text]!!
         map[LON] = longitude.value!![text]!!
         return map
