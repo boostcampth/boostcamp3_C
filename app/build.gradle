@@ -140,6 +140,7 @@ dependencies {
     kaptTest "android.arch.persistence.room:testing:$room_version"
     implementation "android.arch.persistence.room:rxjava2:$room_version"
 
+    //lottie
     implementation "com.airbnb.android:lottie:$lottie_version"
 
     //rxbinding
