@@ -1,6 +1,7 @@
 package kr.co.connect.boostcamp.livewhere.ui.map
 
 import android.graphics.drawable.Drawable
+import android.view.View
 import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.TextView
@@ -9,6 +10,7 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -66,7 +68,7 @@ fun ImageView.onDrawHouse(markerInfoLiveData: LiveData<MarkerInfo>, mapViewModel
     val markerInfo = markerInfoLiveData.value
     if (markerInfo != null) {
         val latLang = markerInfo.latLng
-        mapViewModel.onMoveCameraPosition(latLang,14.0)
+        mapViewModel.onMoveCameraPosition(latLang, 14.0)
         val streetImgUrl = String.format(
             BuildConfig.BaseGoogleUrl,
             latLang.latitude,
@@ -351,11 +353,10 @@ fun RecyclerView.setBindPlaceData(bindPlaceLiveData: LiveData<List<Any>>) {
     }
 }
 
-@BindingAdapter(value=["onMoveFirstStepLiveData"])
-fun RecyclerView.moveFirstStep(onMoveFirstStepLiveData:LiveData<Boolean>){
-    if(onMoveFirstStepLiveData.value != null && onMoveFirstStepLiveData.value==true)
-    {
-       smoothScrollToPosition(0)
+@BindingAdapter(value = ["onMoveFirstStepLiveData"])
+fun RecyclerView.moveFirstStep(onMoveFirstStepLiveData: LiveData<Boolean>) {
+    if (onMoveFirstStepLiveData.value != null && onMoveFirstStepLiveData.value == true) {
+        smoothScrollToPosition(0)
     }
 }
 
@@ -372,7 +373,7 @@ fun BackdropMotionLayout.changeSearchHeight(searchListLiveData: LiveData<List<An
 fun TextView.setStatusTextView(userStatusLiveData: LiveData<UserStatus>) {
     val statusCode = userStatusLiveData.value?.statusCode
     text = when (statusCode) {
-        StatusCode.DEFAULT_SEARCH -> context.getString(R.string.map_init_message)
+        StatusCode.DEFAULT_SEARCH -> context.getString(R.string.map_default_message)
         StatusCode.BEFORE_SEARCH_PLACE -> context.getString(R.string.info_before_search_place_text)
         StatusCode.SEARCH_PLACE -> userStatusLiveData.value?.content
         StatusCode.SEARCH_HOUSE -> userStatusLiveData.value?.content
@@ -404,7 +405,8 @@ fun setStatusTextView(toolbar: Toolbar, userStatusLiveData: LiveData<UserStatus>
     }
 
     toolbar.title = when (statusCode) {
-        StatusCode.DEFAULT_SEARCH -> context.getString(R.string.map_init_message)
+        StatusCode.INIT_SEARCH -> context.getString(R.string.map_init_message)
+        StatusCode.DEFAULT_SEARCH -> context.getString(R.string.map_default_message)
         StatusCode.BEFORE_SEARCH_PLACE -> context.getString(R.string.info_before_search_place_text)
         StatusCode.EMPTY_SEARCH_HOUSE -> context.getString(R.string.info_empty_search_house_text)
         StatusCode.EMPTY_SEARCH_PLACE -> context.getString(R.string.info_empty_search_place_text)
@@ -415,8 +417,6 @@ fun setStatusTextView(toolbar: Toolbar, userStatusLiveData: LiveData<UserStatus>
         StatusCode.SUCCESS_SEARCH_HOUSE -> userStatusLiveData.value?.content
         else -> ""
     }
-
-
 }
 
 @BindingAdapter(value = ["onClickTriggerBackDrop"])
@@ -458,3 +458,25 @@ fun BackdropMotionLayout.onMoveFirstBackDrop(onMoveFirstStepLiveData: LiveData<B
     }
 }
 
+
+@BindingAdapter(value = ["onStatusProgressViewEvent"])
+fun View.setStatusProgressView(userStatusLiveData: LiveData<UserStatus>) {
+    val statusCode = userStatusLiveData.value?.statusCode
+    visibility = when (statusCode) {
+        StatusCode.INIT_SEARCH -> View.VISIBLE
+        StatusCode.SEARCH_PLACE -> View.VISIBLE
+        StatusCode.SEARCH_HOUSE -> View.VISIBLE
+        else -> View.GONE
+    }
+}
+
+@BindingAdapter(value = ["onStatusProgressEvent"])
+fun LottieAnimationView.setStatusProgressView(userStatusLiveData: LiveData<UserStatus>) {
+    val statusCode = userStatusLiveData.value?.statusCode
+    visibility = when (statusCode) {
+        StatusCode.INIT_SEARCH -> View.VISIBLE
+        StatusCode.SEARCH_PLACE -> View.VISIBLE
+        StatusCode.SEARCH_HOUSE -> View.VISIBLE
+        else -> View.GONE
+    }
+}
