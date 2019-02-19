@@ -16,7 +16,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:elevation="1dp"/>
+            app:elevation="@dimen/elevation_xs"/>
     <TextView
             style="@style/BasicTv.BodyL"
             android:text="매물 검색"
@@ -26,11 +26,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:elevation="2dp"
+            android:elevation="@dimen/elevation_s"
             android:alpha="1.0"/>
     <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="@dimen/cancel_size_in_map"
+            android:layout_height="@dimen/cancel_size_in_map"
             android:id="@+id/iv_map_search_cancel"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -38,5 +38,5 @@
             app:layout_constraintStart_toStartOf="parent"
             android:src="@drawable/ic_close_black_24dp"
             android:alpha="0.0"
-            android:elevation="2dp"/>
+            android:elevation="@dimen/elevation_s"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
