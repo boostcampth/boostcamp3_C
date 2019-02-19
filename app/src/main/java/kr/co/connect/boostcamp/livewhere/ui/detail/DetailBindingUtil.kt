@@ -2,6 +2,7 @@ package kr.co.connect.boostcamp.livewhere.ui.detail
 
 import android.content.Intent
 import android.graphics.Color
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -20,6 +21,7 @@ import com.bumptech.glide.Glide
 import com.github.mikephil.charting.charts.BarChart
 import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.R
+import kr.co.connect.boostcamp.livewhere.data.SharedPreferenceStorage
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailReviewRvAdapter
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailTransactionRvAdapter
@@ -29,17 +31,33 @@ import kr.co.connect.boostcamp.livewhere.util.*
 
 @BindingAdapter("setProgress")
 fun setProgress(view: View, isVisible: Boolean?) {
+    val handler = Handler()
     if (isVisible != null) {
         if (!isVisible) view.visibility = View.VISIBLE
-        else view.visibility = View.GONE
+        else {
+            handler.postDelayed(
+                {
+                    view.visibility = View.GONE
+                }, 1500
+            )
+//            view.visibility = View.GONE
+        }
     }
 }
 
 @BindingAdapter("setLoadingLottie")
 fun setLoadingLottie(view: LottieAnimationView, isVisible: Boolean?) {
+    val handler = Handler()
     if (isVisible != null) {
         if (!isVisible) view.visibility = View.VISIBLE
-        else view.visibility = View.GONE
+        else {
+            handler.postDelayed(
+                {
+                    view.visibility = View.GONE
+                }, 1500
+            )
+//            view.visibility = View.GONE
+        }
     }
 }
 
@@ -130,10 +148,22 @@ fun setRvItems(recyclerView: RecyclerView, itemList: List<PastTransaction>?) {
     }
 }
 
+@BindingAdapter("setReviewDelete")
+fun setReviewDelete(imageButton: ImageButton,item :Review){
+    val pref = SharedPreferenceStorage(imageButton.context)
+    if(item.id==pref.uuid){
+        imageButton.visibility= View.VISIBLE
+    }else{
+        imageButton.visibility= View.GONE
+    }
+}
+
 @BindingAdapter("setReviews")
 fun setReviews(recyclerView: RecyclerView, reviewList: List<Review>?) {
     if (!reviewList.isNullOrEmpty()) {
         (recyclerView.adapter as DetailReviewRvAdapter).setData(reviewList)
+    }else{
+        (recyclerView.adapter as DetailReviewRvAdapter).setData(listOfNotNull())
     }
 }
 
