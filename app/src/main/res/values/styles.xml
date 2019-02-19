@@ -12,13 +12,20 @@
         <item name="android:editTextStyle">@style/EditTextStyle</item>
         <item name="android:radioButtonStyle">@style/RadioButtonStyle</item>
         <item name="android:checkboxStyle">@style/CheckboxStyle</item>
+        <item name="alertDialogTheme">@style/MyAlertDialogStyle</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@xml/splash_background</item>
     </style>
 
-    <!-- font family -->
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+   <!-- font family -->
     <style name="TextViewStyle" parent="@android:style/Widget.DeviceDefault.TextView">
         <item name="android:fontFamily">@font/seoul_font_family</item>
     </style>
@@ -208,7 +215,7 @@
     <style name="FilterTextView.CloseMode">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
-        <item name="android:layout_margin">0dp</item>
+        <item name="android:padding">0dp</item>
 
     </style>
 

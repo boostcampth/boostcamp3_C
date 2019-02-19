@@ -3,9 +3,14 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
     <data>
+
+        <variable name="uuid" type="String"/>
         <variable
                 name="review"
                 type="kr.co.connect.boostcamp.livewhere.model.Review"/>
+        <variable
+                name="eventListener"
+                type="kr.co.connect.boostcamp.livewhere.ui.detail.DetailEventListener"/>
     </data>
 
     <androidx.cardview.widget.CardView
@@ -48,6 +53,18 @@
                     android:text="@{review.date}"
                     tools:text="2019년 2월 15일"
                     android:textColor="@color/gray"/>
+            <ImageButton
+                    android:id="@+id/review_delete_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_delete_black_24dp"
+                    android:background="@null"
+                    android:onClick="@{() -> eventListener.onClickItem(review)}"
+                    app:layout_constraintTop_toTopOf="@id/review_more_nickname"
+                    app:layout_constraintBottom_toBottomOf="@id/review_more_nickname"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:padding="@dimen/space_large"
+            />
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/review_more_contents"
@@ -56,7 +73,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/review_more_date"
                     style="@style/BasicTv.BodyM.Bold"
-                    android:paddingStart="@dimen/space_median"
+                    android:lineSpacingExtra="@dimen/space_xx_small"
+                    android:paddingStart="@dimen/space_large"
                     android:paddingEnd="@dimen/space_median"
                     android:text="@{review.contents}"
                     android:textColor="@color/gray"

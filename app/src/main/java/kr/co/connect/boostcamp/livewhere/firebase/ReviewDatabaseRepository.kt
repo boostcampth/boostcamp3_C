@@ -1,9 +1,11 @@
 package kr.co.connect.boostcamp.livewhere.firebase
 
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kr.co.connect.boostcamp.livewhere.model.Review
 import kr.co.connect.boostcamp.livewhere.model.entity.ReviewEntity
 
 
@@ -20,11 +22,15 @@ abstract class ReviewDatabaseRepository<Entity,Model>(private val mapper:Firebas
     }
 
     fun postReview(reviewEntity: ReviewEntity):Task<Void>{
-        val key = databaseReference.child(reviewEntity.land_code!!).push().key
+        val key = databaseReference.child(reviewEntity.land_code!!).child(reviewEntity.id!!).key
         val postValues = reviewEntity.toMap()
         val childUpdates = HashMap<String, Any>()
         childUpdates["/" + reviewEntity.land_code!! + "/" + key] = postValues
         return databaseReference.updateChildren(childUpdates)
+    }
+
+    fun deleteReview(review: Review):Task<Void>{
+         return databaseReference.child(review.land_code!!).child(review.id!!).removeValue()
     }
 
     fun addListener(pnu:String, firebaseCallback: FirebaseDatabaseRepositoryCallback<Model>) {
