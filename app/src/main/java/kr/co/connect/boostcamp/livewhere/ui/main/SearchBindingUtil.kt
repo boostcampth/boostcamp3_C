@@ -34,7 +34,7 @@ fun setAutoCompleteRecyclerViewItems(recyclerView: RecyclerView, itemList: List<
     }
 }
 
-@BindingAdapter("onClickDone")
+/*@BindingAdapter("onClickDone")
 fun hideKeyboard(editText: EditText, viewModel: HomeViewModel) {
     editText.setOnKeyListener { _, Keycode, event ->
         if ((event.action == KeyEvent.ACTION_DOWN) && (Keycode == KeyEvent.KEYCODE_ENTER)) {
@@ -44,7 +44,7 @@ fun hideKeyboard(editText: EditText, viewModel: HomeViewModel) {
             return@setOnKeyListener true
         }
     }
-}
+}*/
 
 @BindingAdapter("autoComplete")
 fun autoComplete(editText: EditText, viewModel: HomeViewModel): Disposable {

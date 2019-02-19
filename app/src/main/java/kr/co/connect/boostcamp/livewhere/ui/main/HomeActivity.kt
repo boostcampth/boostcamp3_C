@@ -132,22 +132,22 @@ class HomeActivity : AppCompatActivity() {
             .replace(HOME_CONTAINER_ID, currentFragment)
             .addToBackStack(null)
             .commit()
-        homeViewModel.getRecentSearch()
         keyboardShow()
+        homeViewModel.getRecentSearch()
     }
 
     private fun startMapActivity() {
         intent = Intent(this, MapActivity::class.java)
-        startActivity(intent)
         keyboardHide()
+        startActivity(intent)
     }
 
     private fun startMapActivity(map: HashMap<String, String>) {
         intent = Intent(this, MapActivity::class.java)
         intent.putExtra(LAT, map[LAT])
         intent.putExtra(LON, map[LON])
-        startActivity(intent)
         keyboardHide()
+        startActivity(intent)
     }
 
     override fun onBackPressed() {
