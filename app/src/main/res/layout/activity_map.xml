@@ -359,7 +359,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            android:src="@drawable/ic_close_black_24dp"
+                            android:src="@drawable/ic_close_white_24dp"
                             android:alpha="0.0"
                             android:elevation="@dimen/elevation_s"/>
                 </androidx.constraintlayout.motion.widget.MotionLayout>
