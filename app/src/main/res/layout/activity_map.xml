@@ -102,7 +102,7 @@
                                 android:gravity="center_vertical"
                                 android:textColor="@color/black"
                                 android:layout_gravity="top"
-                                android:text="@string/map_init_message"
+                                android:text="@string/map_default_message"
                                 android:id="@+id/tv_backdrop_title"
                                 onStatusTitleEvent="@{mapViewModel.userStatusLiveData}"/>
                     </LinearLayout>
@@ -312,6 +312,22 @@
                         app:layout_constraintGuide_percent="0.4"
                         android:orientation="vertical"/>
             </kr.co.connect.boostcamp.livewhere.ui.map.view.BackdropMotionLayout>
+            <View
+                    android:background="@color/bit_black_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    onStatusProgressViewEvent="@{mapViewModel.userStatusLiveData}"/>
+            <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="@dimen/loading_lottie_view_size"
+                    android:layout_height="@dimen/loading_lottie_view_size"
+                    app:lottie_fileName="loading_animation.json"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:lottie_loop="true"
+                    app:lottie_autoPlay="true"
+                    onStatusProgressEvent="@{mapViewModel.userStatusLiveData}"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </layout>

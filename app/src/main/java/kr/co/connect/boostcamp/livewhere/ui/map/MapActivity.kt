@@ -34,18 +34,18 @@ class MapActivity : AppCompatActivity() {
         activityMapBinding.mvMainNaver.getMapAsync(mapViewModel)
 
 
-        activityMapBinding.rvSearchMap.apply{
+        activityMapBinding.rvSearchMap.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = MapSearchRVAdapter(mapViewModel)
         }
 
         val lat = intent.getStringExtra(LAT)
         val lng = intent.getStringExtra(LON)
-        if(lat!=null){
-            val latLng = LatLng(lat.toDouble(),lng.toDouble())
+        if (lat != null) {
+            val latLng = LatLng(lat.toDouble(), lng.toDouble())
             intent.extras.clear()
             mapViewModel.loadHousePrice(latLng)
-        }else{
+        } else {
             mapViewModel.onInitActivityStatus()
         }
     }

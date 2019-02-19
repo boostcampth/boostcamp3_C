@@ -44,7 +44,7 @@ interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, OnMapReadyC
     fun onRemoveDisposable(disposable: Disposable)
     fun onClickStreetImageView(view: View, lat: String, lng: String, address: String)
     fun makePlaceDrawInfoWindow(view: View, mapViewModel: MapViewModel, latLng: LatLng, placeName: String): InfoWindow
-    fun onMoveFirstStep(boolean:Boolean)
+    fun onMoveFirstStep(boolean: Boolean)
 }
 
 class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
@@ -290,66 +290,68 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
 
 
     override fun onMapLongClick(point: PointF, latLng: LatLng) {
+        loadHousePrice(latLng)
+    }
+
+    override fun onMapReady(naverMap: NaverMap) {
+        _mapStatusLiveData.postValue(naverMap)
+    }
+
+    fun loadHousePrice(latLng: LatLng) {
         _userStatusLiveData.postValue(
             UserStatus(
                 StatusCode.SEARCH_HOUSE,
                 "${latLng.latitude.toString().substring(0, 10)}, ${latLng.longitude.toString().substring(0, 10)}"
             )
         )
-        loadHousePrice(latLng)
-    }
-
-    override fun onMapReady(naverMap: NaverMap) {
-        _mapStatusLiveData.postValue(naverMap)
-        _userStatusLiveData.postValue(UserStatus(StatusCode.DEFAULT_SEARCH, ""))
-    }
-
-    fun loadHousePrice(latLng: LatLng) = mapRepository
-        .getAddress(latLng.latitude.toString(), latLng.longitude.toString(), "WGS84")
-        .flatMap { address ->
-            if (address.isSuccessful && address.body()?.metaData?.total_count!! >= 1) {
-                mapRepository.getHouseDetail(address.body()?.documentData!![0].addressMeta.addressName)
-                    .map { response -> Pair(response, address.body()?.documentData!![0].addressMeta.addressName) }
-            } else {
-                mapRepository.getHouseDetail(address.body()?.metaData?.total_count.toString())
-                    .map { response -> Pair(response, address.body()?.documentData!![0].addressMeta.addressName) }
+        mapRepository
+            .getAddress(latLng.latitude.toString(), latLng.longitude.toString(), "WGS84")
+            .flatMap { address ->
+                if (address.isSuccessful && address.body()?.metaData?.total_count!! >= 1) {
+                    mapRepository.getHouseDetail(address.body()?.documentData!![0].addressMeta.addressName)
+                        .map { response -> Pair(response, address.body()?.documentData!![0].addressMeta.addressName) }
+                } else {
+                    mapRepository.getHouseDetail(address.body()?.metaData?.total_count.toString())
+                        .map { response -> Pair(response, address.body()?.documentData!![0].addressMeta.addressName) }
+                }
             }
-        }
-        .flatMap { pair ->
-            val response = pair.first
-            val address = pair.second
-            val houseResponse = response.body()
-            if (houseResponse?.addrStatusCode == StatusCode.RESULT_200.response
-                && houseResponse.houseStatusCode == StatusCode.RESULT_200.response
-            ) {
-                Single.just(Pair(address, houseResponse))
-            } else {
-                Single.just(Pair(address, houseResponse))
+            .flatMap { pair ->
+                val response = pair.first
+                val address = pair.second
+                val houseResponse = response.body()
+                if (houseResponse?.addrStatusCode == StatusCode.RESULT_200.response
+                    && houseResponse.houseStatusCode == StatusCode.RESULT_200.response
+                ) {
+                    Single.just(Pair(address, houseResponse))
+                } else {
+                    Single.just(Pair(address, houseResponse))
+                }
             }
-        }
-        .subscribe({ result ->
-            val address = result.first
-            val response = result.second
-            if (response?.houseStatusCode == 200 && response.addrStatusCode == 200) {
-                val houseList = response.houseList
-                val currentMarkerInfo = MarkerInfo(response.addr, latLng, houseList, StatusCode.RESULT_200)
-                _userStatusLiveData.postValue(
-                    UserStatus(
-                        StatusCode.SUCCESS_SEARCH_HOUSE,
-                        address + "\n" + houseList[0].name
+            .subscribe({ result ->
+                val address = result.first
+                val response = result.second
+                if (response?.houseStatusCode == 200 && response.addrStatusCode == 200) {
+                    val houseList = response.houseList
+                    val currentMarkerInfo = MarkerInfo(response.addr, latLng, houseList, StatusCode.RESULT_200)
+                    _userStatusLiveData.postValue(
+                        UserStatus(
+                            StatusCode.SUCCESS_SEARCH_HOUSE,
+                            address + "\n" + houseList[0].name
+                        )
                     )
-                )
-                _searchListLiveData.postValue(listOf(currentMarkerInfo))
-                _markerLiveData.postValue(currentMarkerInfo)
-            } else {
-                val currentMarkerInfo = MarkerInfo(response?.addr!!, latLng, emptyList(), StatusCode.RESULT_204)
-                _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_HOUSE, address))
-                _searchListLiveData.postValue(listOf(EmptyInfo(address)))
-                _markerLiveData.postValue(currentMarkerInfo)
-            }
-        }, {
-            _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_HOUSE, ""))
-        })
+                    _searchListLiveData.postValue(listOf(currentMarkerInfo))
+                    _markerLiveData.postValue(currentMarkerInfo)
+                } else {
+                    val currentMarkerInfo = MarkerInfo(response?.addr!!, latLng, emptyList(), StatusCode.RESULT_204)
+                    _userStatusLiveData.postValue(UserStatus(StatusCode.EMPTY_SEARCH_HOUSE, address))
+                    _searchListLiveData.postValue(listOf(EmptyInfo(address)))
+                    _markerLiveData.postValue(currentMarkerInfo)
+                }
+            }, {
+                _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_HOUSE, ""))
+                _searchListLiveData.postValue(listOf(EmptyInfo("")))
+            })
+    }
 
     override fun onClickMapImageView(view: View, liveData: LiveData<*>) {
         var lat: String = ""
@@ -433,7 +435,12 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
     }
 
     override fun onInitActivityStatus() {
-        _userStatusLiveData.postValue(UserStatus(StatusCode.DEFAULT_SEARCH, ""))
+        _userStatusLiveData.postValue(UserStatus(StatusCode.INIT_SEARCH, ""))
+        Single.timer(3, TimeUnit.SECONDS)
+            .map { second -> second }
+            .subscribe { _ ->
+                _userStatusLiveData.postValue(UserStatus(StatusCode.DEFAULT_SEARCH, ""))
+            }
     }
 
     override fun onStartDetailActivity(context: Context, markerInfo: MarkerInfo) {
