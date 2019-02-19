@@ -41,7 +41,7 @@ val apiModule = module {
                     .addInterceptor(HttpLoggingInterceptor())
                     .build()
             )
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(TMAP_BASE_URL)
             .build()

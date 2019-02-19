@@ -7,8 +7,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
 import kr.co.connect.boostcamp.livewhere.data.entity.BookmarkEntity
 import kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity
+import kr.co.connect.boostcamp.livewhere.model.TmapResponse
 import kr.co.connect.boostcamp.livewhere.repository.AutoCompleteRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.repository.BookmarkRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.repository.RecentSearchRepositoryImpl
@@ -16,7 +18,9 @@ import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 import kr.co.connect.boostcamp.livewhere.util.LAT
 import kr.co.connect.boostcamp.livewhere.util.LON
 import kr.co.connect.boostcamp.livewhere.util.SingleLiveEvent
+import retrofit2.Response
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.HashMap
 
 class HomeViewModel(
@@ -171,7 +175,7 @@ class HomeViewModel(
         )
     }
 
-    fun setVisibility(value: Boolean) {
+    private fun setVisibility(value: Boolean) {
         _isRecentSearchVisible.postValue(value)
     }
 
@@ -180,30 +184,33 @@ class HomeViewModel(
         val textList = ArrayList<String>()
         val latList = HashMap<String, String>()
         val lonList = HashMap<String, String>()
-        autoCompleteRepositoryImpl.getAddress(text)
-            .subscribe({ response ->
-                val addressList = response.body()?.info?.poi?.pois
-                if (!addressList.isNullOrEmpty()) {
-                    for (item in addressList) {
-                        textList.add(item.addressName)
-                        latList[item.addressName] = item.latitude
-                        lonList[item.addressName] = item.longitude
-                        Log.d("HVM", item.latitude)
-                        Log.d("HVM", item.longitude)
+
+        addDisposable(
+            autoCompleteRepositoryImpl.getAddress(text)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .subscribe({
+                    val addressList = it.body()?.info?.poi?.pois
+                    if (!addressList.isNullOrEmpty()) {
+                        for (item in addressList) {
+                            textList.add(item.addressName)
+                            latList[item.addressName] = item.latitude
+                            lonList[item.addressName] = item.longitude
+                        }
                     }
-                }
-                if (textList.isNullOrEmpty()) {
-                    setVisibility(false)
-                } else {
-                    setVisibility(true)
-                }
-                _latitude.postValue(latList)
-                _longitude.postValue(lonList)
-                _autoCompleteLIst.postValue(textList.toList())
-            },
-                {
+                    if (textList.isNullOrEmpty()) {
+                        setVisibility(false)
+                    } else {
+                        setVisibility(true)
+                    }
+                    _latitude.postValue(latList)
+                    _longitude.postValue(lonList)
+                    _autoCompleteLIst.postValue(textList.toList())
+                }, {
                     it.printStackTrace()
                 })
+        )
     }
 
     fun onClickedMap() {
@@ -240,13 +247,21 @@ class HomeViewModel(
 
     private fun getLonLat(text: String): HashMap<String, String> {
         val map = HashMap<String, String>()
+        //TODO: NULL PT Exception
         map[LAT] = latitde.value!![text]!!
         map[LON] = longitude.value!![text]!!
         return map
     }
 
-    fun onRecentSearchClicked(text: String) {
-        _searchMap.postValue(getLonLat(text))
+    private fun getRecentSearchLonLat(lat: String, lon: String): HashMap<String, String> {
+        val map = HashMap<String, String>()
+        map[LAT] = lat
+        map[LON] = lon
+        return map
+    }
+
+    fun onRecentSearchClicked(lat: String, lon: String) {
+        _searchMap.postValue(getRecentSearchLonLat(lat, lon))
     }
 
     fun setHideKeyboard(value: Boolean) {
