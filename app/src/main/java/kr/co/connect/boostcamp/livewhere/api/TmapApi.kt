@@ -1,6 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.api
 
-import io.reactivex.Single
+import io.reactivex.Observable
 import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.model.TmapResponse
 import retrofit2.Response
@@ -14,6 +14,7 @@ interface TmapApi {
         @Query("appKey") appKey: String = BuildConfig.TmapApiKey,
         @Query("count") count:String = "10",
         @Query("areaLLCode") code:String = "11"
-    ): Single<Response<TmapResponse>>
+    ): Observable<Response<TmapResponse>>
+
 
 }

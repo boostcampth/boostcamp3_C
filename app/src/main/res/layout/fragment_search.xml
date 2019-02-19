@@ -17,21 +17,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:weightSum="10"
                 android:gravity="center_vertical"
                 android:background="@color/main_color">
             <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_search_back"
                     style="@style/ImageBtn"
                     android:src="@drawable/ic_arrow_back_white_24dp"
+                    android:layout_weight="1"
                     android:onClick="@{()->homeViewModel.onClickedBack()}"/>
             <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="8"
                     android:layout_margin="@dimen/space_xx_small">
                 <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_search_bar"
-                        style="@style/BasicEt"
-                        android:layout_marginBottom="@dimen/space_small"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
                         android:inputType="text"
                         android:singleLine="true"
                         android:hint="@string/search_hint"
@@ -43,6 +46,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_search_map"
                     style="@style/ImageBtn"
+                    android:layout_weight="1"
                     android:src="@drawable/ic_outline_map_white_24px"
                     android:layout_gravity="center"
                     android:onClick="@{()->homeViewModel.onClickedMap()}"/>
