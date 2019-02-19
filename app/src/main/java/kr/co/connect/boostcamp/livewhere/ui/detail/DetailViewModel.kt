@@ -27,7 +27,7 @@ class DetailViewModel(
     , private val bookmarkRepository: BookmarkRepositoryImpl
     , private val pref: SharedPreferenceStorage
 ) :
-    BaseViewModel() {
+    BaseViewModel(), DetailEventListener {
 
     private val _markerInfo = MutableLiveData<MarkerInfo>() // 전체 데이터 리스트
     val markerInfo: LiveData<MarkerInfo>
@@ -93,6 +93,14 @@ class DetailViewModel(
     private val _reviewPostSuccess = SingleLiveEvent<Any>()
     val reviewPostSuccess: LiveData<Any>
         get() = _reviewPostSuccess
+
+    private val _reviewDeleteSuccess = SingleLiveEvent<Any>()
+    val reviewDeleteSuccess: LiveData<Any>
+        get() = _reviewDeleteSuccess
+
+    private val _reviewDeletePressed = SingleLiveEvent<Review>()
+    val reviewDeletePressed: LiveData<Review>
+        get() = _reviewDeletePressed
 
     private val _onPressedBackBtn = SingleLiveEvent<Any>()
     val onPressedBackBtn: LiveData<Any>
@@ -276,7 +284,6 @@ class DetailViewModel(
                 cMap[it.contractYear.toFloat()] = ArrayList()
             }
             cMap[it.contractYear.toFloat()]!!.add(it.deposite.toFloat())
-
         }
         for (it in cMap) {
             var sum = 0f
@@ -420,7 +427,16 @@ class DetailViewModel(
         }
     }
 
-    fun loadBookmarks(pnu: String) {
+    fun deleteComment(review: Review) {
+        reviewRepository.deleteReview(review).addOnSuccessListener {
+            _reviewDeleteSuccess.call()
+            Log.d("@@@Delte call", "@@@")
+        }.addOnFailureListener {
+            it.printStackTrace()
+        }
+    }
+
+    private fun loadBookmarks(pnu: String) {
         bookmarkUserRepository.addListener(pnu,
             object : BookmarkUserDatabaseRepository.FirebaseDatabaseRepositoryCallback<BookmarkUser> {
                 override fun onSuccess(result: List<BookmarkUser>) {
@@ -436,7 +452,7 @@ class DetailViewModel(
             })
     }
 
-    fun postBookmark() {
+    private fun postBookmark() {
         val bookmarkUser = BookmarkUserEntity(pref.uuid)
 //        insertBookmarkToLocal(bookmarkLocal)
         bookmarkUserRepository.addBookmark(pnuCode.get()!!, bookmarkUser)
@@ -450,7 +466,7 @@ class DetailViewModel(
             }
     }
 
-    fun deleteBookmark() {
+    private fun deleteBookmark() {
         bookmarkUserRepository.deleteBookmark(pnuCode.get()!!, pref.uuid!!)
             .addOnSuccessListener {
                 loadBookmarks(pnuCode.get()!!)
@@ -481,21 +497,22 @@ class DetailViewModel(
         }
     }
 
-    fun insertBookmarkToLocal(bookmarkEntity: BookmarkEntity) {
-        addDisposable(bookmarkRepository.setBookmark(bookmarkEntity)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                if (it > 0) {
-                    postBookmark()
-                }
-            }, {
-                it.printStackTrace()
-            })
+    private fun insertBookmarkToLocal(bookmarkEntity: BookmarkEntity) {
+        addDisposable(
+            bookmarkRepository.setBookmark(bookmarkEntity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    if (it > 0) {
+                        postBookmark()
+                    }
+                }, {
+                    it.printStackTrace()
+                })
         )
     }
 
-    fun deleteBookmarkFromLocal(address: String) {
+    private fun deleteBookmarkFromLocal(address: String) {
         addDisposable(
             bookmarkRepository.deleteBookmark(address)
                 .subscribeOn(Schedulers.io())
@@ -513,4 +530,12 @@ class DetailViewModel(
                 ))
     }
 
+    override fun onClickItem(item: Review) {
+        _reviewDeletePressed.postValue(item)
+    }
+
+}
+
+interface DetailEventListener {
+    fun onClickItem(item: Review)
 }
