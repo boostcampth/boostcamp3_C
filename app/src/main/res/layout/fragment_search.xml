@@ -32,7 +32,9 @@
                         android:inputType="text"
                         android:singleLine="true"
                         android:hint="@string/search_hint"
+                        android:background="@null"
                         android:layout_weight="8"
+                        android:textCursorDrawable="@drawable/shape_cursor"
                         app:onClickDone="@{homeViewModel}"
                         app:autoComplete="@{homeViewModel}">
                     <requestFocus/>
