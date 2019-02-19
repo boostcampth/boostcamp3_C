@@ -10,7 +10,6 @@ import kr.co.connect.boostcamp.livewhere.model.HouseAvgPrice
 
 
 object BarChartUtil {
-
     fun showChart(barChart: BarChart) {
         barChart.setFitBars(true)
         barChart.animateXY(1000, 1000)
@@ -26,17 +25,22 @@ object BarChartUtil {
             entryList.add(entry)
         }
         val barDataSet = BarDataSet(entryList, AVG_PRICE)
-        barDataSet.color = Color.parseColor(PRIMARY_COLOR)
+        barDataSet.color = Color.parseColor(PRIMARY_COLOR_OPACITY)
         val barData = BarData(barDataSet)
-        barChart.data = barData
 
-        barChart.xAxis.setLabelCount(list.size, false)
-        barChart.xAxis.position = XAxisPosition.BOTTOM
-        barChart.xAxis.setDrawAxisLine(true)
-        barChart.xAxis.valueFormatter = XAxisValueFormatter(values)
-        barChart.xAxis.labelRotationAngle = 45f
-        barChart.xAxis.textSize = 9f
-        barChart.description = null
+        barChart.apply {
+            data = barData
+            description = null
+        }
 
+        barChart.xAxis.apply {
+            setLabelCount(list.size, false)
+            position = XAxisPosition.BOTTOM
+            setDrawAxisLine(true)
+            valueFormatter = XAxisValueFormatter(values)
+            labelRotationAngle = 45f
+            textSize = 9f
+            setDrawGridLines(false)
+        }
     }
 }
