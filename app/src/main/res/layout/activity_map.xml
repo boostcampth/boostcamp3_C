@@ -81,7 +81,8 @@
                     app:layoutDescription="@xml/scene_map_backdrop_01"
                     searchLiveData="@{mapViewModel.searchListLiveData}"
                     onMoveFirstBackDrop="@{mapViewModel.onMoveFirstStepLiveData}"
-                    android:background="@android:color/transparent">
+                    android:background="@android:color/transparent"
+                    android:elevation="2dp">
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -313,19 +314,63 @@
                         android:id="@+id/guideline_filter_ml_width"
                         app:layout_constraintGuide_percent="0.4"
                         android:orientation="vertical"/>
-                <Button android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/btn_search_map"
-                        android:text="검색하기"
-                        android:background="@drawable/background_detail_trend_price_button_active"
+                <androidx.constraintlayout.motion.widget.MotionLayout
+                        android:layout_width="128dp"
+                        android:layout_height="64dp"
+                        android:id="@+id/ml_map_search"
+                        app:layoutDescription="@xml/scene_map_search_btn_01"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/ll_place_detail"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintVertical_bias="0.90"
-                        onSearchBtnEventListener="@{mapViewModel}"
-                />
+                        app:layout_constraintBottom_toTopOf="@+id/guideline_place_image_ml_bottom"
+                        app:layout_constraintVertical_bias="0.875"
+                        app:layout_constraintEnd_toEndOf="@id/guideline_search_map_end"
+                        app:layout_constraintStart_toStartOf="@id/guideline_search_map_start">
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:text=""
+                            android:backgroundTint="@color/colorPrimary"
+                            android:id="@+id/fab_search_map"
+                            app:fabSize="mini"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toTopOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:elevation="1dp"/>
+                    <TextView
+                            style="@style/BasicTv.BodyL"
+                            android:text="매물 검색"
+                            android:textColor="@color/white"
+                            android:id="@+id/tv_find_building"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:elevation="2dp"
+                            android:alpha="1.0"/>
+                    <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:id="@+id/iv_map_search_cancel"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:src="@drawable/ic_close_black_24dp"
+                            android:alpha="0.0"
+                            android:elevation="2dp"/>
+                </androidx.constraintlayout.motion.widget.MotionLayout>
+                <androidx.constraintlayout.widget.Guideline
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/guideline_search_map_end"
+                        app:layout_constraintGuide_percent="0.70"
+                        android:orientation="vertical"/>
+                <androidx.constraintlayout.widget.Guideline
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/guideline_search_map_start"
+                        app:layout_constraintGuide_percent="0.30"
+                        android:orientation="vertical"/>
 
             </kr.co.connect.boostcamp.livewhere.ui.map.view.BackdropMotionLayout>
             <View
@@ -358,7 +403,6 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     onStatusMarkerLife="@{mapViewModel.userStatusLiveData}"
                     android:visibility="gone"/>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </layout>
