@@ -49,6 +49,11 @@ class HomeActivity : AppCompatActivity() {
         observeValues()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        keyboardHide()
+    }
+
     private fun observeValues() {
         homeViewModel.searchBtnClicked.observe(this, Observer {
             startSearchFragment()
