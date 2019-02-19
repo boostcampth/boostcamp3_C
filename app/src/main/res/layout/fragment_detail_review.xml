@@ -41,22 +41,23 @@
                 android:text="@string/review_create"
                 android:paddingStart="@dimen/space_xx_small"
                 android:paddingEnd="@dimen/space_small"
-
                 android:textColor="@color/black"
                 android:onClick="@{viewModel.onClickedReviewPostOpen}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:gravity="center"
+                android:drawableStart="@drawable/ic_post_black"
                 style="@style/BasicTv.BodyL"/>
 
-        <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/detail_fragment_iv_review_create"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_post_black"
-                android:onClick="@{viewModel.onClickedReviewPostOpen}"
-                app:layout_constraintTop_toTopOf="@id/detail_fragment_tv_review_create"
-                app:layout_constraintBottom_toBottomOf="@id/detail_fragment_tv_review_create"
-                app:layout_constraintEnd_toStartOf="@id/detail_fragment_tv_review_create"/>
+        <!--<androidx.appcompat.widget.AppCompatImageView-->
+                <!--android:id="@+id/detail_fragment_iv_review_create"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@drawable/ic_post_black"-->
+                <!--android:onClick="@{viewModel.onClickedReviewPostOpen}"-->
+                <!--app:layout_constraintTop_toTopOf="@id/detail_fragment_tv_review_create"-->
+                <!--app:layout_constraintBottom_toBottomOf="@id/detail_fragment_tv_review_create"-->
+                <!--app:layout_constraintEnd_toStartOf="@id/detail_fragment_tv_review_create"/>-->
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/detail_fragment_tv_review_contents"
