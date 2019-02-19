@@ -46,6 +46,8 @@
                     onRemovePlaceOverlay="@{mapViewModel.tempOverlayLiveData}"
                     onRemovePlaceMarker="@{mapViewModel.tempInfoWindowLiveData}"
                     onCameraUpdate="@{mapViewModel.cameraPositionLatLngLiveData}"
+                    onSearchBtnEvent="@{mapViewModel.searchEventListenerLiveData}"
+                    onPostCenterLatLng="@{mapViewModel}"
             />
 
             <com.naver.maps.map.widget.LocationButtonView
@@ -311,6 +313,20 @@
                         android:id="@+id/guideline_filter_ml_width"
                         app:layout_constraintGuide_percent="0.4"
                         android:orientation="vertical"/>
+                <Button android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btn_search_map"
+                        android:text="검색하기"
+                        android:background="@drawable/background_detail_trend_price_button_active"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/ll_place_detail"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintVertical_bias="0.90"
+                        onSearchBtnEventListener="@{mapViewModel}"
+                />
+
             </kr.co.connect.boostcamp.livewhere.ui.map.view.BackdropMotionLayout>
             <View
                     android:background="@color/bit_black_color"
@@ -328,6 +344,21 @@
                     app:lottie_loop="true"
                     app:lottie_autoPlay="true"
                     onStatusProgressEvent="@{mapViewModel.userStatusLiveData}"/>
+            <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:id="@+id/lottie_marker"
+                    app:lottie_fileName="marker.json"
+                    app:lottie_loop="true"
+                    app:lottie_autoPlay="true"
+                    android:layout_marginBottom="32dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    onStatusMarkerLife="@{mapViewModel.userStatusLiveData}"
+                    android:visibility="gone"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </layout>
