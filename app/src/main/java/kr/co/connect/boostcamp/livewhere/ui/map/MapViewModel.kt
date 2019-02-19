@@ -200,6 +200,11 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
         _markerImageLiveData.postValue(house)
     }
 
+    private val _searchEventListenerLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    val searchEventListenerLiveData: LiveData<Boolean>
+        get() = _searchEventListenerLiveData
+
+
     override fun onClick(view: View?) {
         _userStatusLiveData.postValue(UserStatus(StatusCode.BEFORE_SEARCH_PLACE, ""))
         val currentMarkerInfo = markerLiveData.value
@@ -498,5 +503,13 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
         mapViewModel.onSaveInfoWindow(mInfoWindow)
         mapViewModel.onMoveCameraPosition(latLng, 17.0)
         return mInfoWindow
+    }
+
+    fun postButtonEvent(){
+        _searchEventListenerLiveData.value = true
+    }
+
+    fun postCenterLatlng(latLng: LatLng){
+        loadHousePrice(latLng)
     }
 }

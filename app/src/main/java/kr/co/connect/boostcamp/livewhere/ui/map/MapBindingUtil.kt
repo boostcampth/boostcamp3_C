@@ -3,6 +3,7 @@ package kr.co.connect.boostcamp.livewhere.ui.map
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.View.VISIBLE
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -22,6 +23,7 @@ import com.naver.maps.map.*
 import com.naver.maps.map.overlay.CircleOverlay
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.MarkerIcons.*
 import com.naver.maps.map.widget.LocationButtonView
 import com.naver.maps.map.widget.ScaleBarView
@@ -178,6 +180,10 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
                 adapter = MapMarkerAdapter(context, mapViewModel.userStatusLiveData.value?.content!!)
                 open(marker)
             }
+            marker.height = 140
+            marker.width = 100
+            marker.icon = OverlayImage.fromResource(R.drawable.ic_marker)
+
             tag = marker //해당 마커를 닫기 위해서 tag에 marker 값을 저장
             mapViewModel.onMoveCameraPosition(latLang, 17.0)//cameraposition 이동
         }
@@ -478,5 +484,33 @@ fun LottieAnimationView.setStatusProgressView(userStatusLiveData: LiveData<UserS
         StatusCode.SEARCH_PLACE -> View.VISIBLE
         StatusCode.SEARCH_HOUSE -> View.VISIBLE
         else -> View.GONE
+    }
+}
+
+@BindingAdapter(value=["onStatusMarkerLife"])
+fun LottieAnimationView.setOnStatusMarkerLife(userStatusLiveData: LiveData<UserStatus>) {
+    val statusCode = userStatusLiveData.value?.statusCode
+    visibility = when (statusCode) {
+        StatusCode.DEFAULT_SEARCH -> View.VISIBLE
+        StatusCode.SEARCH_PLACE -> View.GONE
+        StatusCode.SEARCH_HOUSE -> View.GONE
+        else -> View.GONE
+    }
+}
+
+@BindingAdapter(value = ["onSearchBtnEvent","onPostCenterLatLng"])
+fun MapView.setOnSearchBtn(searchEventListenerLiveData: LiveData<Boolean>, mapViewModel: MapViewModel) {
+    getMapAsync { naverMap ->
+        if (searchEventListenerLiveData.value != null) {
+            val centerLatLng = naverMap.contentBounds.center
+            mapViewModel.postCenterLatlng(centerLatLng)
+        }
+    }
+}
+
+@BindingAdapter(value = ["onSearchBtnEventListener"])
+fun Button.setOnSearchBtnEvent(mapViewModel: MapViewModel) {
+    setOnClickListener {
+        mapViewModel.postButtonEvent()
     }
 }
