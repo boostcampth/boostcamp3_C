@@ -35,6 +35,7 @@
                         android:background="@null"
                         android:layout_weight="8"
                         android:textCursorDrawable="@drawable/shape_cursor"
+                        app:handleFocus="@{homeViewModel}"
                         app:autoComplete="@{homeViewModel}">
                     <requestFocus/>
                 </EditText>

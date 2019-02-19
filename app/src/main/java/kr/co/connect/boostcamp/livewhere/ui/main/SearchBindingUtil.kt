@@ -5,6 +5,7 @@ import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.jakewharton.rxbinding3.view.focusChanges
 import com.jakewharton.rxbinding3.widget.TextViewTextChangeEvent
 import com.jakewharton.rxbinding3.widget.textChangeEvents
 import com.jakewharton.rxbinding3.widget.textChanges
@@ -45,6 +46,14 @@ fun hideKeyboard(editText: EditText, viewModel: HomeViewModel) {
         }
     }
 }*/
+
+@BindingAdapter("handleFocus")
+fun handleFocus(editText: EditText, viewModel: HomeViewModel): Disposable {
+    return editText.focusChanges().subscribe {
+        viewModel.setHideKeyboard(!it)
+    }
+}
+
 
 @BindingAdapter("autoComplete")
 fun autoComplete(editText: EditText, viewModel: HomeViewModel): Disposable {
