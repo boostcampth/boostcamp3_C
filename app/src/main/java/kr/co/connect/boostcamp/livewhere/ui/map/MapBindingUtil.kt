@@ -1,9 +1,9 @@
 package kr.co.connect.boostcamp.livewhere.ui.map
 
 import android.graphics.drawable.Drawable
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.VISIBLE
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -70,7 +70,7 @@ fun ImageView.onDrawHouse(markerInfoLiveData: LiveData<MarkerInfo>, mapViewModel
     val markerInfo = markerInfoLiveData.value
     if (markerInfo != null) {
         val latLang = markerInfo.latLng
-        mapViewModel.onMoveCameraPosition(latLang, 14.0)
+        mapViewModel.onMoveCameraPosition(latLang, 17.0)
         val streetImgUrl = String.format(
             BuildConfig.BaseGoogleUrl,
             latLang.latitude,
@@ -487,7 +487,7 @@ fun LottieAnimationView.setStatusProgressView(userStatusLiveData: LiveData<UserS
     }
 }
 
-@BindingAdapter(value=["onStatusMarkerLife"])
+@BindingAdapter(value = ["onStatusMarkerLife"])
 fun LottieAnimationView.setOnStatusMarkerLife(userStatusLiveData: LiveData<UserStatus>) {
     val statusCode = userStatusLiveData.value?.statusCode
     visibility = when (statusCode) {
@@ -498,19 +498,50 @@ fun LottieAnimationView.setOnStatusMarkerLife(userStatusLiveData: LiveData<UserS
     }
 }
 
-@BindingAdapter(value = ["onSearchBtnEvent","onPostCenterLatLng"])
+@BindingAdapter(value = ["onStatusMarkerLife"])
+fun MotionLayout.setOnStatusMarkerLife(userStatusLiveData: LiveData<UserStatus>) {
+    val statusCode = userStatusLiveData.value?.statusCode
+    when (statusCode) {
+        StatusCode.DEFAULT_SEARCH -> transitionToStart()
+        else -> transitionToEnd()
+    }
+}
+
+
+@BindingAdapter(value = ["onSearchBtnEvent", "onPostCenterLatLng"])
 fun MapView.setOnSearchBtn(searchEventListenerLiveData: LiveData<Boolean>, mapViewModel: MapViewModel) {
+    mapViewModel.startSearchHouseObservable()//observable 시작
     getMapAsync { naverMap ->
-        if (searchEventListenerLiveData.value != null) {
+        if (searchEventListenerLiveData.value != null && searchEventListenerLiveData.value == true) {
             val centerLatLng = naverMap.contentBounds.center
-            mapViewModel.postCenterLatlng(centerLatLng)
+            mapViewModel.postCenterLatLng(centerLatLng)//값을 던져줌
+        } else if (searchEventListenerLiveData.value != null && searchEventListenerLiveData.value == false) {
+            if (tag != null) {
+                val tempMarker = tag as Marker
+                tempMarker.apply {
+                    map = null
+                    infoWindow?.close()
+                }
+            }
+            mapViewModel.onRemoveCircleOverlay()
+            mapViewModel.onRemoveFilterMarker()
+            if (mapViewModel.onSearchHouseObservableLiveData.value == true) {
+                mapViewModel.makeDefaultStatus()
+            }
         }
     }
 }
 
-@BindingAdapter(value = ["onSearchBtnEventListener"])
-fun Button.setOnSearchBtnEvent(mapViewModel: MapViewModel) {
-    setOnClickListener {
-        mapViewModel.postButtonEvent()
+@BindingAdapter(value = ["onSearchBtnEventListener", "onSearchFABStatusLiveData"])
+fun FloatingActionButton.setOnSearchBtnEvent(mapViewModel: MapViewModel, userStatusLiveData: LiveData<UserStatus>) {
+    setOnTouchListener { v, event ->
+        if (userStatusLiveData.value != null) {
+            if (event.action == MotionEvent.ACTION_DOWN && userStatusLiveData.value!!.statusCode == StatusCode.DEFAULT_SEARCH) {
+                mapViewModel.postButtonEvent(true)
+            } else if (event.action == MotionEvent.ACTION_DOWN && userStatusLiveData.value!!.statusCode != StatusCode.DEFAULT_SEARCH) {
+                mapViewModel.postButtonEvent(false)
+            }
+        }
+        false
     }
 }
