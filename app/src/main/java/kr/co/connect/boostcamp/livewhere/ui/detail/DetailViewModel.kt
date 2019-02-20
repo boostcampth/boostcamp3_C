@@ -1,6 +1,5 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.ObservableField
@@ -17,7 +16,10 @@ import kr.co.connect.boostcamp.livewhere.firebase.ReviewDatabaseRepository
 import kr.co.connect.boostcamp.livewhere.model.*
 import kr.co.connect.boostcamp.livewhere.model.entity.BookmarkUserEntity
 import kr.co.connect.boostcamp.livewhere.model.entity.ReviewEntity
-import kr.co.connect.boostcamp.livewhere.repository.*
+import kr.co.connect.boostcamp.livewhere.repository.BookmarkRepositoryImpl
+import kr.co.connect.boostcamp.livewhere.repository.BookmarkUserRepository
+import kr.co.connect.boostcamp.livewhere.repository.DetailRepository
+import kr.co.connect.boostcamp.livewhere.repository.ReviewRepository
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 import kr.co.connect.boostcamp.livewhere.util.*
 import java.util.concurrent.TimeUnit
@@ -126,12 +128,20 @@ class DetailViewModel(
         return _commentsList
     }
 
-    private val _bookmarksList = MutableLiveData<List<BookmarkUser>>()
-    fun getBookmarks(): LiveData<List<BookmarkUser>> {
-        if (_commentsList.value == null) {
-            loadBookmarks(pnuCode.get()!!) // TODO: markerInfo 에서 현재 페이지 pnu코드 인자로 넘기기.
+    private val _bookmarksList = MutableLiveData<List<BookmarkEntity>>()
+    fun getBookmarks(): LiveData<List<BookmarkEntity>> {
+        if (_bookmarksList.value == null) {
+            loadBookmarks() // TODO: markerInfo 에서 현재 페이지 pnu코드 인자로 넘기기.
         }
         return _bookmarksList
+    }
+
+    private val _visitorCount = MutableLiveData<Int>()
+    fun visitorCount(): LiveData<Int>{
+        if(_visitorCount.value==null) {
+            getVisitorCount(pnuCode.get()!!)
+        }
+        return _visitorCount
     }
 
     val address = ObservableField<String>()
@@ -146,7 +156,8 @@ class DetailViewModel(
         _hasLoaded.value = false
 
         addDisposable(_onClickedImage.throttleFirst(3, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
-            .subscribe({ _openStreetView.postValue(it) }, {}))
+            .subscribe({ _openStreetView.postValue(it) }, {})
+        )
     }
 
     override fun onCleared() {
@@ -175,7 +186,7 @@ class DetailViewModel(
         }
     }
 
-    fun onClickedImageView(){
+    fun onClickedImageView() {
         val streetView = StreetView(
             _markerInfo.value!!.latLng.latitude.toString(),
             _markerInfo.value!!.latLng.longitude.toString(),
@@ -450,66 +461,38 @@ class DetailViewModel(
     fun deleteComment(review: Review) {
         reviewRepository.deleteReview(review).addOnSuccessListener {
             _reviewDeleteSuccess.call()
-            Log.d("@@@Delte call", "@@@")
         }.addOnFailureListener {
             it.printStackTrace()
         }
     }
 
-    private fun loadBookmarks(pnu: String) {
+    private fun getVisitorCount(pnu: String) {
         bookmarkUserRepository.addListener(pnu,
             object : BookmarkUserDatabaseRepository.FirebaseDatabaseRepositoryCallback<BookmarkUser> {
                 override fun onSuccess(result: List<BookmarkUser>) {
-                    _bookmarksList.postValue(result)
-                    _hasLoaded.postValue(true)
+                    _visitorCount.postValue(result.size)
                 }
-
                 override fun onError(e: Exception) {
-                    _hasLoaded.postValue(true)
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    e.printStackTrace()
                 }
-
             })
     }
 
-    private fun postBookmark() {
+    fun enterDetailPage() {
         val bookmarkUser = BookmarkUserEntity(pref.uuid)
-//        insertBookmarkToLocal(bookmarkLocal)
         bookmarkUserRepository.addBookmark(pnuCode.get()!!, bookmarkUser)
             .addOnSuccessListener {
-                loadBookmarks(pnuCode.get()!!)
-                _hasLoaded.postValue(true)
-            }.addOnFailureListener {
-                Log.e("Error:", "북마크 추가 실패 ")
-                //TODO : 북마크 추가 실패시 처리
-                _hasLoaded.postValue(true)
-            }
+                getVisitorCount(pnuCode.get()!!)
+            }.addOnFailureListener {}
     }
 
-    private fun deleteBookmark() {
+    fun exitDetailPage() {
         bookmarkUserRepository.deleteBookmark(pnuCode.get()!!, pref.uuid!!)
             .addOnSuccessListener {
-                loadBookmarks(pnuCode.get()!!)
-                _hasLoaded.postValue(true)
-            }.addOnFailureListener {
-                //TODO : 북마크 추가 실패시 처리
-                _hasLoaded.postValue(true)
-            }
+                getVisitorCount(pnuCode.get()!!)
+            }.addOnFailureListener {}
     }
 
-    fun checkBookmarkId() {
-        if (_bookmarksList.value.isNullOrEmpty()) {
-            _isBookmarked.postValue(false)
-        } else {
-            _bookmarksList.value!!.forEach {
-                if (it.uuid.equals(pref.uuid)) {
-                    _isBookmarked.postValue(true)
-                    return
-                }
-                _isBookmarked.postValue(false)
-            }
-        }
-    }
 
     fun setUuid(uuid: String?) {
         if (pref.uuid.isNullOrEmpty()) {
@@ -523,9 +506,8 @@ class DetailViewModel(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    if (it > 0) {
-                        postBookmark()
-                    }
+                    _hasLoaded.postValue(true)
+                    loadBookmarks()
                 }, {
                     it.printStackTrace()
                 })
@@ -538,16 +520,40 @@ class DetailViewModel(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    deleteBookmark()
-                    if (it > 0) {
-                        // TODO: 로컬에 있었던 데이터가 삭제된 상황
-                    } else {
-                        // TODO: 로컬에는 없었지만 파이어베이스에 있었던 상황.
-                    }
+                    _hasLoaded.postValue(true)
+                    loadBookmarks()
                 }, {
                     it.printStackTrace()
                 }
                 ))
+    }
+
+    private fun loadBookmarks() {
+        addDisposable(
+            bookmarkRepository.getBookmark()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    _bookmarksList.postValue(it)
+                    _hasLoaded.postValue(true)
+                }, {
+                    it.printStackTrace()
+                })
+        )
+    }
+
+    fun checkBookmarkId() {
+        if (_bookmarksList.value.isNullOrEmpty()) {
+            _isBookmarked.postValue(false)
+        } else {
+            _bookmarksList.value!!.forEach {
+                if (it.building_name == buildingName.get()) {
+                    _isBookmarked.postValue(true)
+                    return
+                }
+                _isBookmarked.postValue(false)
+            }
+        }
     }
 
     override fun onClickItem(item: Review) {

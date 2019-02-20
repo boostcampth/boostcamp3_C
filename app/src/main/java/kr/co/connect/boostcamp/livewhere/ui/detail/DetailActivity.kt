@@ -139,4 +139,14 @@ class DetailActivity : AppCompatActivity() {
             .commit()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.enterDetailPage()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.exitDetailPage()
+    }
+
 }
