@@ -485,6 +485,7 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
 
     override fun makeDefaultStatus() {
         _userStatusLiveData.postValue(UserStatus(StatusCode.DEFAULT_SEARCH, ""))
+        _searchListLiveData.postValue(listOf(EmptyInfo("")))
     }
 
     override fun onStartDetailActivity(context: Context, markerInfo: MarkerInfo) {

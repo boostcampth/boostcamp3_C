@@ -16,7 +16,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:elevation="@dimen/elevation_xs"/>
+            app:elevation="@dimen/elevation_xs"
+            app:borderWidth="0dp"/>
     <TextView
             style="@style/BasicTv.BodyL"
             android:text="매물 검색"
