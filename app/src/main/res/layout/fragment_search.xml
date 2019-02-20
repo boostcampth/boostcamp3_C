@@ -26,23 +26,19 @@
                     android:src="@drawable/ic_arrow_back_white_24dp"
                     android:layout_weight="1"
                     android:onClick="@{()->homeViewModel.onClickedBack()}"/>
-            <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="8"
-                    android:layout_margin="@dimen/space_xx_small">
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                         android:id="@+id/et_search_bar"
-                        android:layout_height="match_parent"
-                        android:layout_width="match_parent"
+                        style="@style/BasicEt"
                         android:inputType="text"
                         android:singleLine="true"
                         android:hint="@string/search_hint"
-                        app:onClickDone="@{homeViewModel}"
+                        android:background="@null"
+                        android:layout_weight="8"
+                        android:textCursorDrawable="@drawable/shape_cursor"
+                        app:handleFocus="@{homeViewModel}"
                         app:autoComplete="@{homeViewModel}">
                     <requestFocus/>
-                </com.google.android.material.textfield.TextInputEditText>
-            </com.google.android.material.textfield.TextInputLayout>
+                </EditText>
             <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_search_map"
                     style="@style/ImageBtn"

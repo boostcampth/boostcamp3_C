@@ -41,7 +41,7 @@ class BookmarkRecyclerViewAdapter(
     ) : RecyclerView.ViewHolder(itemBinding.root) {
 
         fun bind(lifecycleOwner: LifecycleOwner, bookmark: BookmarkEntity, homeViewModel: HomeViewModel) {
-            itemBinding.setLifecycleOwner(lifecycleOwner)
+            itemBinding.lifecycleOwner = lifecycleOwner
             itemBinding.tvBookmarkLocationContents.text = bookmark.address
             itemBinding.bookmark = bookmark
             itemBinding.homeViewModel = homeViewModel

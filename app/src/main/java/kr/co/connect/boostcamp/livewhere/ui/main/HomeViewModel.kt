@@ -6,11 +6,12 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import kr.co.connect.boostcamp.livewhere.data.entity.BookmarkEntity
 import kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity
-import kr.co.connect.boostcamp.livewhere.model.TmapResponse
 import kr.co.connect.boostcamp.livewhere.repository.AutoCompleteRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.repository.BookmarkRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.repository.RecentSearchRepositoryImpl
@@ -18,7 +19,7 @@ import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 import kr.co.connect.boostcamp.livewhere.util.LAT
 import kr.co.connect.boostcamp.livewhere.util.LON
 import kr.co.connect.boostcamp.livewhere.util.SingleLiveEvent
-import retrofit2.Response
+import kr.co.connect.boostcamp.livewhere.util.TIME_LIMIT
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.HashMap
@@ -37,7 +38,7 @@ class HomeViewModel(
         get() = _searchBtnClicked
 
     private var _latitude = MutableLiveData<HashMap<String, String>>()
-    val latitde: LiveData<HashMap<String, String>>
+    val latitude: LiveData<HashMap<String, String>>
         get() = _latitude
 
     private var _longitude = MutableLiveData<HashMap<String, String>>()
@@ -49,9 +50,10 @@ class HomeViewModel(
         get() = _btnClicked
 
     private var backKeyPressedTime: Long = 0
-    private val TIME_LIMIT = 2000
 
     var isEmptyBookmark: Int = View.VISIBLE
+    lateinit var subject: Subject<HashMap<String, String>>
+    lateinit var recentSubject: Subject<HashMap<String, String>>
 
     private val _bookmarkEntity = MutableLiveData<List<BookmarkEntity>>()
     val bookmarkEntity: LiveData<List<BookmarkEntity>>
@@ -101,17 +103,25 @@ class HomeViewModel(
                 .subscribe({
                     _bookmarkEntity.postValue(it)
                 }, {
-
+                    it.printStackTrace()
                 })
         )
         isEmptyBookmark = checkBookmarkEntity(bookmarkEntity.value.isNullOrEmpty())
     }
 
-    fun onBookmarkClicked(lon: String, lat: String) {
-        val map = HashMap<String, String>()
-        map[LON] = lon
-        map[LAT] = lat
-        _bookmarkMap.postValue(map)
+    private fun onBookmarkBeforeClicked(): Disposable {
+        subject = PublishSubject.create()
+        Log.d("HVM", "bookmarkClickStart")
+        return subject.throttleFirst(1, TimeUnit.SECONDS)
+            .subscribe {
+                Log.d("HVM", "BookmarkClick")
+                _bookmarkMap.postValue(it)
+            }
+    }
+
+    fun onBookmarkClicked(lat: String, lon: String) {
+        onBookmarkBeforeClicked()
+        subject.onNext(makeLonLatMap(lat, lon))
     }
 
     private fun checkBookmarkEntity(value: Boolean): Int {
@@ -162,7 +172,7 @@ class HomeViewModel(
                 RecentSearchEntity(
                     text,
                     longitude.value!![text]!!,
-                    latitde.value!![text]!!
+                    latitude.value!![text]!!
                 )
             )
                 .subscribeOn(Schedulers.io())
@@ -246,22 +256,27 @@ class HomeViewModel(
     }
 
     private fun getLonLat(text: String): HashMap<String, String> {
-        val map = HashMap<String, String>()
-        //TODO: NULL PT Exception
-        map[LAT] = latitde.value!![text]!!
-        map[LON] = longitude.value!![text]!!
-        return map
+        return makeLonLatMap(latitude.value!![text]!!, longitude.value!![text]!!)
     }
 
-    private fun getRecentSearchLonLat(lat: String, lon: String): HashMap<String, String> {
+    private fun makeLonLatMap(lat: String, lon: String): HashMap<String, String> {
         val map = HashMap<String, String>()
         map[LAT] = lat
         map[LON] = lon
         return map
     }
 
+    private fun onBeforeRecentSearchClicked(): Disposable {
+        recentSubject = PublishSubject.create()
+        return recentSubject.throttleFirst(1, TimeUnit.SECONDS)
+            .subscribe {
+                _searchMap.postValue(it)
+            }
+    }
+
     fun onRecentSearchClicked(lat: String, lon: String) {
-        _searchMap.postValue(getRecentSearchLonLat(lat, lon))
+        onBeforeRecentSearchClicked()
+        recentSubject.onNext(makeLonLatMap(lat, lon))
     }
 
     fun setHideKeyboard(value: Boolean) {

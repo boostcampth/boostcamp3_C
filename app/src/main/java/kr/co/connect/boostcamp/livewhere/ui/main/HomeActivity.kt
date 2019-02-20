@@ -88,7 +88,7 @@ class HomeActivity : AppCompatActivity() {
         })
 
         homeViewModel.hideKeyboard.observe(this, Observer {
-            if(homeViewModel.hideKeyboard.value!!) {
+            if (homeViewModel.hideKeyboard.value!!) {
                 keyboardHide()
                 homeViewModel.setHideKeyboard(false)
             }
@@ -105,20 +105,18 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun startHomeFragment() {
-        if(currentFragment is SearchFragment) {
-            currentFragment = HomeFragment.newInstance()
-            supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(
-                    R.anim.slide_in_right,
-                    R.anim.slide_out_right,
-                    R.anim.slide_in_left,
-                    R.anim.slide_out_left
-                )
-                .replace(HOME_CONTAINER_ID, currentFragment)
-                .commit()
-            homeViewModel.getBookmark()
-        }
+        currentFragment = HomeFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_right,
+                R.anim.slide_in_left,
+                R.anim.slide_out_left
+            )
+            .replace(HOME_CONTAINER_ID, currentFragment)
+            .commit()
+        homeViewModel.getBookmark()
     }
 
     private fun startSearchFragment() {
@@ -134,22 +132,22 @@ class HomeActivity : AppCompatActivity() {
             .replace(HOME_CONTAINER_ID, currentFragment)
             .addToBackStack(null)
             .commit()
-        homeViewModel.getRecentSearch()
         keyboardShow()
+        homeViewModel.getRecentSearch()
     }
 
     private fun startMapActivity() {
         intent = Intent(this, MapActivity::class.java)
-        startActivity(intent)
         keyboardHide()
+        startActivity(intent)
     }
 
     private fun startMapActivity(map: HashMap<String, String>) {
         intent = Intent(this, MapActivity::class.java)
         intent.putExtra(LAT, map[LAT])
         intent.putExtra(LON, map[LON])
-        startActivity(intent)
         keyboardHide()
+        startActivity(intent)
     }
 
     override fun onBackPressed() {
