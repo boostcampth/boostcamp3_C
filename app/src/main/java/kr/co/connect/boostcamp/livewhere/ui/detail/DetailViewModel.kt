@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.data.SharedPreferenceStorage
 import kr.co.connect.boostcamp.livewhere.data.entity.BookmarkEntity
@@ -19,6 +20,7 @@ import kr.co.connect.boostcamp.livewhere.model.entity.ReviewEntity
 import kr.co.connect.boostcamp.livewhere.repository.*
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 import kr.co.connect.boostcamp.livewhere.util.*
+import java.util.concurrent.TimeUnit
 
 class DetailViewModel(
     private val detailRepository: DetailRepository
@@ -110,6 +112,12 @@ class DetailViewModel(
     val onPressedBookmarkBtn: LiveData<Any>
         get() = _onPressedBookmarkBtn
 
+    private val _onClickedImage = PublishSubject.create<StreetView>()
+
+    private val _openStreetView = MutableLiveData<StreetView>()
+    val openStreetView: LiveData<StreetView>
+        get() = _openStreetView
+
     private val _commentsList = MutableLiveData<List<Review>>()
     fun getComments(): LiveData<List<Review>> {
         if (_commentsList.value == null) {
@@ -136,6 +144,9 @@ class DetailViewModel(
     init {
         _isBookmarked.value = false
         _hasLoaded.value = false
+
+        addDisposable(_onClickedImage.throttleFirst(3, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+            .subscribe({ _openStreetView.postValue(it) }, {}))
     }
 
     override fun onCleared() {
@@ -162,6 +173,15 @@ class DetailViewModel(
                 deleteBookmarkFromLocal(address.get()!!)
             }
         }
+    }
+
+    fun onClickedImageView(){
+        val streetView = StreetView(
+            _markerInfo.value!!.latLng.latitude.toString(),
+            _markerInfo.value!!.latLng.longitude.toString(),
+            _markerInfo.value!!.address.name
+        )
+        _onClickedImage.onNext(streetView)
     }
 
     fun onClickedTransactionMore() { //과거 거래 내역 더보기 클릭

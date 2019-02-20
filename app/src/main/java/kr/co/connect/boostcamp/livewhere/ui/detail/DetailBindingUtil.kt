@@ -100,20 +100,6 @@ fun setDetailImage(imageView: AppCompatImageView, location: LiveData<String>?) {
     }
 }
 
-@BindingAdapter("setDetailImageListener")
-fun setDetailImageListener(imageView: AppCompatImageView, markerInfo: MarkerInfo?) {
-    if (markerInfo != null) {
-        imageView.setOnClickListener {
-            val intent = Intent(imageView.context, StreetMapActivity::class.java)
-            intent.putExtra("lat", markerInfo.latLng.latitude.toString())
-            intent.putExtra("lng", markerInfo.latLng.longitude.toString())
-            intent.putExtra("address", markerInfo.address.name)
-            imageView.context.startActivity(intent)
-        }
-    }
-}
-
-
 @BindingAdapter("setRecentPrice")
 fun setRecentPrice(textView: TextView, recentPrice: LiveData<RecentPrice>) {
     try {
