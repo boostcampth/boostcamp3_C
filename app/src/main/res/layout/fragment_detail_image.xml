@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@id/detail_fragment_iv"
                 app:layout_constraintEnd_toEndOf="@id/detail_fragment_iv"
-                app:setImageMessage="@{viewModel.getBookmarks()}"
+                app:setImageMessage="@{viewModel.visitorCount()}"
                 style="@style/BasicTv.BodyM"
                 android:paddingStart="@dimen/space_x_small"
                 android:paddingEnd="@dimen/space_x_small"
