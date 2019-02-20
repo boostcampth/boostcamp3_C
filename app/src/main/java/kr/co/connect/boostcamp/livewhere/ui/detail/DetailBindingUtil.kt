@@ -213,11 +213,9 @@ fun setBookmarkImage(bookmark: ImageButton, boolean: Boolean) = when {
 
 
 @BindingAdapter("setImageMessage")
-fun setImageMessage(view: TextView, list: List<BookmarkUser>?) {
-    if (!list.isNullOrEmpty()) {
-        view.text = view.context.getString(R.string.detail_image_message, list.size)
-    } else {
-        view.text = view.context.getString(R.string.detail_image_message_empty)
+fun setImageMessage(view: TextView, count: Int?) {
+    if (count!=null) {
+        view.text = view.context.getString(R.string.detail_image_message, count)
     }
 }
 
