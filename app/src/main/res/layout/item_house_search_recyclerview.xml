@@ -39,7 +39,7 @@
                 android:paddingStart="@dimen/space_small">
             <TextView
                     style="@style/BasicTv.HeadlineM"
-                    onText="@{markerInfo.houseList.get(0).name}"
+                    onSetAddressBuildingName="@{markerInfo}"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:ellipsize="end"

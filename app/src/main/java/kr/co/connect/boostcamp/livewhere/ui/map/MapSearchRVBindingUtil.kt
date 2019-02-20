@@ -69,6 +69,15 @@ fun TextView.onTextView(content: String) {
     text = content.replace("\n", " ")
 }
 
+@BindingAdapter(value = ["onSetAddressBuildingName"])
+fun TextView.setAddressBuildingName(markerInfo: MarkerInfo) { //markerInfo 데이터 수신
+    text = if (markerInfo.address.name.isEmpty()) {
+        "건물명 없음"
+    } else {
+        markerInfo.address.name
+    }
+}
+
 @BindingAdapter(value = ["onDrawCategory"])
 fun ImageView.setOnDrawCategory(category: String) {
     when (category) {
