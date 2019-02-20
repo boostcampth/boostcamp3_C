@@ -13,7 +13,7 @@
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/detail_fragment_iv"
                 android:layout_width="match_parent"
-                app:setDetailImageListener="@{viewModel.markerInfo}"
+                android:onClick="@{()->viewModel.onClickedImageView()}"
                 android:layout_height="wrap_content"
                 tools:layout_height="200dp"
                 app:layout_constraintStart_toStartOf="parent"
