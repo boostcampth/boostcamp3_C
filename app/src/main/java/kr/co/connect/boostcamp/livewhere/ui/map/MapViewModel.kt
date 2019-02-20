@@ -266,10 +266,15 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
             val markerInfo = anyList[0] as MarkerInfo
             if (!markerInfo.houseList.isNullOrEmpty()) {
                 _searchListLiveData.postValue(anyList)
+                val buildingName = if (markerInfo.address.name.isEmpty()) {
+                    "건물명 없음"
+                } else {
+                    markerInfo.address.name
+                }
                 _userStatusLiveData.postValue(
                     UserStatus(
                         StatusCode.SUCCESS_SEARCH_HOUSE,
-                        markerInfo.address.addr + "\n" + markerInfo.houseList[0].name
+                        markerInfo.address.addr + "\n" + buildingName
                     )
                 )
             } else {
@@ -279,10 +284,15 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
         } else if (anyList.size > 1 && anyList[0] is MarkerInfo) {
             val markerInfo = anyList[0] as MarkerInfo
             _searchListLiveData.postValue(anyList)
+            val buildingName = if (markerInfo.address.name.isEmpty()) {
+                "건물명 없음"
+            } else {
+                markerInfo.address.name
+            }
             _userStatusLiveData.postValue(
                 UserStatus(
                     StatusCode.SUCCESS_SEARCH_HOUSE,
-                    markerInfo.address.addr + "\n" + markerInfo.houseList[0].name
+                    markerInfo.address.addr + "\n" + buildingName
                 )
             )
         } else if (anyList.size > 1 && anyList[0] is Place) {
@@ -351,10 +361,15 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
                 if (response?.houseStatusCode == 200 && response.addrStatusCode == 200) {
                     val houseList = response.houseList
                     val currentMarkerInfo = MarkerInfo(response.addr, latLng, houseList, StatusCode.RESULT_200)
+                    val buildingName = if (currentMarkerInfo.address.name.isEmpty()) {
+                        "건물명 없음"
+                    } else {
+                        currentMarkerInfo.address.name
+                    }
                     _userStatusLiveData.postValue(
                         UserStatus(
                             StatusCode.SUCCESS_SEARCH_HOUSE,
-                            address + "\n" + houseList[0].name
+                            currentMarkerInfo.address.addr + "\n" + buildingName
                         )
                     )
                     _searchListLiveData.postValue(listOf(currentMarkerInfo))
@@ -431,10 +446,15 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
                     val latLng = LatLng(response?.addr?.y?.toDouble()!!, response?.addr?.x.toDouble())
                     val houseList = response.houseList
                     val currentMarkerInfo = MarkerInfo(response.addr, latLng, houseList, StatusCode.RESULT_200)
+                    val buildingName = if (response.addr.name.isEmpty()) {
+                        "건물명 없음"
+                    } else {
+                        response.addr.name
+                    }
                     _userStatusLiveData.postValue(
                         UserStatus(
                             StatusCode.SUCCESS_SEARCH_HOUSE,
-                            address + "\n" + houseList[0].name
+                            address + "\n" + buildingName
                         )
                     )
                     _searchListLiveData.postValue(listOf(currentMarkerInfo))
