@@ -1,6 +1,7 @@
 package kr.co.connect.boostcamp.livewhere.ui.map
 
 import android.graphics.drawable.Drawable
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.VISIBLE
 import android.widget.ImageView
@@ -22,6 +23,7 @@ import com.naver.maps.map.*
 import com.naver.maps.map.overlay.CircleOverlay
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.MarkerIcons.*
 import com.naver.maps.map.widget.LocationButtonView
 import com.naver.maps.map.widget.ScaleBarView
@@ -68,7 +70,7 @@ fun ImageView.onDrawHouse(markerInfoLiveData: LiveData<MarkerInfo>, mapViewModel
     val markerInfo = markerInfoLiveData.value
     if (markerInfo != null) {
         val latLang = markerInfo.latLng
-        mapViewModel.onMoveCameraPosition(latLang, 14.0)
+        mapViewModel.onMoveCameraPosition(latLang, 17.0)
         val streetImgUrl = String.format(
             BuildConfig.BaseGoogleUrl,
             latLang.latitude,
@@ -178,6 +180,10 @@ fun MapView.onHouseDrawMarker(markerInfoLiveData: LiveData<MarkerInfo>, mapViewM
                 adapter = MapMarkerAdapter(context, mapViewModel.userStatusLiveData.value?.content!!)
                 open(marker)
             }
+            marker.height = 140
+            marker.width = 100
+            marker.icon = OverlayImage.fromResource(R.drawable.ic_marker)
+
             tag = marker //해당 마커를 닫기 위해서 tag에 marker 값을 저장
             mapViewModel.onMoveCameraPosition(latLang, 17.0)//cameraposition 이동
         }
@@ -478,5 +484,64 @@ fun LottieAnimationView.setStatusProgressView(userStatusLiveData: LiveData<UserS
         StatusCode.SEARCH_PLACE -> View.VISIBLE
         StatusCode.SEARCH_HOUSE -> View.VISIBLE
         else -> View.GONE
+    }
+}
+
+@BindingAdapter(value = ["onStatusMarkerLife"])
+fun LottieAnimationView.setOnStatusMarkerLife(userStatusLiveData: LiveData<UserStatus>) {
+    val statusCode = userStatusLiveData.value?.statusCode
+    visibility = when (statusCode) {
+        StatusCode.DEFAULT_SEARCH -> View.VISIBLE
+        StatusCode.SEARCH_PLACE -> View.GONE
+        StatusCode.SEARCH_HOUSE -> View.GONE
+        else -> View.GONE
+    }
+}
+
+@BindingAdapter(value = ["onStatusMarkerLife"])
+fun MotionLayout.setOnStatusMarkerLife(userStatusLiveData: LiveData<UserStatus>) {
+    val statusCode = userStatusLiveData.value?.statusCode
+    when (statusCode) {
+        StatusCode.DEFAULT_SEARCH -> transitionToStart()
+        else -> transitionToEnd()
+    }
+}
+
+
+@BindingAdapter(value = ["onSearchBtnEvent", "onPostCenterLatLng"])
+fun MapView.setOnSearchBtn(searchEventListenerLiveData: LiveData<Boolean>, mapViewModel: MapViewModel) {
+    mapViewModel.startSearchHouseObservable()//observable 시작
+    getMapAsync { naverMap ->
+        if (searchEventListenerLiveData.value != null && searchEventListenerLiveData.value == true) {
+            val centerLatLng = naverMap.contentBounds.center
+            mapViewModel.postCenterLatLng(centerLatLng)//값을 던져줌
+        } else if (searchEventListenerLiveData.value != null && searchEventListenerLiveData.value == false) {
+            if (tag != null) {
+                val tempMarker = tag as Marker
+                tempMarker.apply {
+                    map = null
+                    infoWindow?.close()
+                }
+            }
+            mapViewModel.onRemoveCircleOverlay()
+            mapViewModel.onRemoveFilterMarker()
+            if (mapViewModel.onSearchHouseObservableLiveData.value == true) {
+                mapViewModel.makeDefaultStatus()
+            }
+        }
+    }
+}
+
+@BindingAdapter(value = ["onSearchBtnEventListener", "onSearchFABStatusLiveData"])
+fun FloatingActionButton.setOnSearchBtnEvent(mapViewModel: MapViewModel, userStatusLiveData: LiveData<UserStatus>) {
+    setOnTouchListener { v, event ->
+        if (userStatusLiveData.value != null) {
+            if (event.action == MotionEvent.ACTION_DOWN && userStatusLiveData.value!!.statusCode == StatusCode.DEFAULT_SEARCH) {
+                mapViewModel.postButtonEvent(true)
+            } else if (event.action == MotionEvent.ACTION_DOWN && userStatusLiveData.value!!.statusCode != StatusCode.DEFAULT_SEARCH) {
+                mapViewModel.postButtonEvent(false)
+            }
+        }
+        false
     }
 }

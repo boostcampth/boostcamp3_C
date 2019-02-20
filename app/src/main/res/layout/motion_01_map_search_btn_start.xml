@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text=""
+            android:backgroundTint="@color/colorPrimary"
+            android:id="@+id/fab_search_map"
+            app:fabSize="mini"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:elevation="@dimen/elevation_xs"/>
+    <TextView
+            style="@style/BasicTv.BodyL"
+            android:text="매물 검색"
+            android:textColor="@color/white"
+            android:id="@+id/tv_find_building"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:elevation="@dimen/elevation_s"
+            android:alpha="1.0"/>
+    <ImageView
+            android:layout_width="@dimen/cancel_size_in_map"
+            android:layout_height="@dimen/cancel_size_in_map"
+            android:id="@+id/iv_map_search_cancel"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/ic_close_white_24dp"
+            android:alpha="0.0"
+            android:elevation="@dimen/elevation_s"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

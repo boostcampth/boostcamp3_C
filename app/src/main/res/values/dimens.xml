@@ -8,6 +8,7 @@
     <dimen name="space_large">20dp</dimen>
     <dimen name="space_x_large">24dp</dimen>
 
+    <dimen name="elevation_xs">1dp</dimen>
     <dimen name="elevation_s">2dp</dimen>
     <dimen name="elevation_m">4dp</dimen>
     <dimen name="elevation_l">6dp</dimen>
@@ -77,4 +78,10 @@
     <dimen name="item_search_circle_image_view_size">18dp</dimen>
     <dimen name="item_search_function_view_margin">8dp</dimen>
     <dimen name="filter_ml_elevation">4dp</dimen>
+    <dimen name="lottie_marker_size">64dp</dimen>
+    <dimen name="lottie_marker_half_size">32dp</dimen>
+    <dimen name="cancel_size_in_map">32dp</dimen>
+    <dimen name="motion_map_search_width">96dp</dimen>
+    <dimen name="motion_map_search_height">48dp</dimen>
+
 </resources>

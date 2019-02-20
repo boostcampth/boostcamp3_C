@@ -44,7 +44,11 @@ interface OnMapViewModelInterface : NaverMap.OnMapLongClickListener, OnMapReadyC
     fun onRemoveDisposable(disposable: Disposable)
     fun onClickStreetImageView(view: View, lat: String, lng: String, address: String)
     fun makePlaceDrawInfoWindow(view: View, mapViewModel: MapViewModel, latLng: LatLng, placeName: String): InfoWindow
-    fun onMoveFirstStep(boolean: Boolean)
+    fun postCenterLatLng(latLng: LatLng)
+    fun startSearchHouseObservable()
+    fun onMoveFirstStep(flag: Boolean)
+    fun postButtonEvent(flag: Boolean)
+    fun makeDefaultStatus()
 }
 
 class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
@@ -127,13 +131,22 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
     val onMoveFirstStepLiveData: LiveData<Boolean>
         get() = _onMoveFirstStepLiveData
 
+    private val _onSearchHouseObservableLiveData: MutableLiveData<Boolean> = MutableLiveData()
+
+    val onSearchHouseObservableLiveData: LiveData<Boolean>
+        get() = _onSearchHouseObservableLiveData
+
+
     private var timerObservable: Disposable? = null
 
     private val startActivityBehaviorSubject = BehaviorSubject.createDefault(0L)
+    private val searchHouseBehaviorSubjectInBtn = BehaviorSubject.createDefault(Pair(LatLng(0.0, 0.0), 0L))
     private var startDetailActivityObservable: Disposable? = null
+    private var searchHouseObservable: Disposable? = null
+
 
     override fun onMoveFirstStep(boolean: Boolean) {
-        _onMoveFirstStepLiveData.value = boolean
+        _onMoveFirstStepLiveData.postValue(boolean)
     }
 
     override fun putPressedLiveData(tick: Long) {
@@ -199,6 +212,11 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
     override fun onClickMarkerHouse(house: MarkerInfo) {
         _markerImageLiveData.postValue(house)
     }
+
+    private val _searchEventListenerLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    val searchEventListenerLiveData: LiveData<Boolean>
+        get() = _searchEventListenerLiveData
+
 
     override fun onClick(view: View?) {
         _userStatusLiveData.postValue(UserStatus(StatusCode.BEFORE_SEARCH_PLACE, ""))
@@ -347,9 +365,11 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
                     _searchListLiveData.postValue(listOf(EmptyInfo(address)))
                     _markerLiveData.postValue(currentMarkerInfo)
                 }
+                _onSearchHouseObservableLiveData.postValue(true)
             }, {
                 _userStatusLiveData.postValue(UserStatus(StatusCode.FAILURE_SEARCH_HOUSE, ""))
                 _searchListLiveData.postValue(listOf(EmptyInfo("")))
+                _onSearchHouseObservableLiveData.postValue(true)
             })
     }
 
@@ -443,6 +463,10 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
             }
     }
 
+    override fun makeDefaultStatus() {
+        _userStatusLiveData.postValue(UserStatus(StatusCode.DEFAULT_SEARCH, ""))
+    }
+
     override fun onStartDetailActivity(context: Context, markerInfo: MarkerInfo) {
         startDetailActivityObservable = startActivityBehaviorSubject
             .buffer(2, 1)
@@ -498,5 +522,27 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
         mapViewModel.onSaveInfoWindow(mInfoWindow)
         mapViewModel.onMoveCameraPosition(latLng, 17.0)
         return mInfoWindow
+    }
+
+    override fun postButtonEvent(flag: Boolean) {
+        _searchEventListenerLiveData.postValue(flag)
+    }
+
+    override fun startSearchHouseObservable() {
+        _onSearchHouseObservableLiveData.postValue(false)
+        searchHouseObservable = searchHouseBehaviorSubjectInBtn
+            .buffer(2, 1)
+            .observeOn(AndroidSchedulers.mainThread())
+            .filter { pair -> pair[1].second - pair[0].second > 3000 } //3초보타 작으면
+            .subscribe { pair ->
+                val latLng = pair[1].first
+                loadHousePrice(latLng)
+            }
+
+        addDisposable(searchHouseObservable!!)
+    }
+
+    override fun postCenterLatLng(latLng: LatLng) {
+        searchHouseBehaviorSubjectInBtn.onNext(Pair(latLng, System.currentTimeMillis()))
     }
 }
