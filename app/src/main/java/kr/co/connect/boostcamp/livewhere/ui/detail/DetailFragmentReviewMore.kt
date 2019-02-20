@@ -1,8 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +8,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.data.SharedPreferenceStorage
 import kr.co.connect.boostcamp.livewhere.databinding.FragmentDetailReviewMoreBinding
 import kr.co.connect.boostcamp.livewhere.model.Review
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailReviewRvAdapter
-import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailTransactionRvAdapter
 import kr.co.connect.boostcamp.livewhere.util.DIALOG_MESSAGE
 import kr.co.connect.boostcamp.livewhere.util.DIALOG_NEGATIVE_BUTTON
 import kr.co.connect.boostcamp.livewhere.util.DIALOG_POSITIVE_BUTTON

@@ -1,5 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import kotlinx.android.synthetic.main.fragment_detail_past_transation.view.*
 import kotlinx.android.synthetic.main.fragment_detail_trend_price.view.*
 import kr.co.connect.boostcamp.livewhere.databinding.FragmentDetailBinding
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailTransactionRvAdapter
+import kr.co.connect.boostcamp.livewhere.ui.map.StreetMapActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
@@ -44,6 +46,14 @@ class DetailFragment : Fragment() {
         viewModel.avgPriceType.observe(this, Observer {
             //전세 월세별 시세추이
             setBarChart(binding.detailFragmentCl.detail_fragment_chart, viewModel.getAvgPriceList())
+        })
+
+        viewModel.openStreetView.observe(this, Observer {
+            val intent = Intent(requireContext(), StreetMapActivity::class.java)
+            intent.putExtra("lat",it.latitude)
+            intent.putExtra("lng", it.longitude)
+            intent.putExtra("address", it.addressName)
+            requireContext().startActivity(intent)
         })
 
 
