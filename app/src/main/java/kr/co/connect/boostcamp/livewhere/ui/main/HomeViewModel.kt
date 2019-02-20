@@ -1,12 +1,9 @@
 package kr.co.connect.boostcamp.livewhere.ui.main
 
-import android.annotation.SuppressLint
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
@@ -52,8 +49,8 @@ class HomeViewModel(
     private var backKeyPressedTime: Long = 0
 
     var isEmptyBookmark: Int = View.VISIBLE
-    lateinit var subject: Subject<HashMap<String, String>>
-    lateinit var recentSubject: Subject<HashMap<String, String>>
+    private val subject: Subject<HashMap<String, String>> = PublishSubject.create()
+    private val recentSubject: Subject<HashMap<String, String>> = PublishSubject.create()
 
     private val _bookmarkEntity = MutableLiveData<List<BookmarkEntity>>()
     val bookmarkEntity: LiveData<List<BookmarkEntity>>
@@ -92,9 +89,24 @@ class HomeViewModel(
         get() = _bookmarkMap
 
     init {
+        addDisposable(
+            recentSubject.throttleFirst(1, TimeUnit.SECONDS)
+                .subscribe({
+                    _searchMap.postValue(it)
+                }, {
+                    it.printStackTrace()
+                })
+        )
+
+        addDisposable(subject.throttleFirst(1, TimeUnit.SECONDS)
+            .subscribe ({
+                _searchMap.postValue(it)
+            }, {
+                it.printStackTrace()
+            })
+        )
     }
 
-    @SuppressLint("CheckResult")
     fun getBookmark() {
         getCompositeDisposable().add(
             bookmarkRepositoryImpl.getBookmark()
@@ -109,18 +121,7 @@ class HomeViewModel(
         isEmptyBookmark = checkBookmarkEntity(bookmarkEntity.value.isNullOrEmpty())
     }
 
-    private fun onBookmarkBeforeClicked(): Disposable {
-        subject = PublishSubject.create()
-        Log.d("HVM", "bookmarkClickStart")
-        return subject.throttleFirst(1, TimeUnit.SECONDS)
-            .subscribe {
-                Log.d("HVM", "BookmarkClick")
-                _bookmarkMap.postValue(it)
-            }
-    }
-
     fun onBookmarkClicked(lat: String, lon: String) {
-        onBookmarkBeforeClicked()
         subject.onNext(makeLonLatMap(lat, lon))
     }
 
@@ -148,7 +149,6 @@ class HomeViewModel(
         _btnClicked.call()
     }
 
-    @SuppressLint("CheckResult")
     fun getRecentSearch() {
         getCompositeDisposable().add(
             recentSearchRepositoryImpl.getRecentSearch()
@@ -189,7 +189,6 @@ class HomeViewModel(
         _isRecentSearchVisible.postValue(value)
     }
 
-    @SuppressLint("CheckResult")
     fun getTmapApi(text: String) {
         val textList = ArrayList<String>()
         val latList = HashMap<String, String>()
@@ -266,16 +265,8 @@ class HomeViewModel(
         return map
     }
 
-    private fun onBeforeRecentSearchClicked(): Disposable {
-        recentSubject = PublishSubject.create()
-        return recentSubject.throttleFirst(1, TimeUnit.SECONDS)
-            .subscribe {
-                _searchMap.postValue(it)
-            }
-    }
 
     fun onRecentSearchClicked(lat: String, lon: String) {
-        onBeforeRecentSearchClicked()
         recentSubject.onNext(makeLonLatMap(lat, lon))
     }
 
