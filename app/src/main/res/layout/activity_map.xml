@@ -339,7 +339,7 @@
                             app:elevation="@dimen/elevation_xs"
                             onSearchBtnEventListener="@{mapViewModel}"
                             onSearchFABStatusLiveData="@{mapViewModel.userStatusLiveData}"
-                            />
+                            app:borderWidth="0dp"/>
                     <TextView
                             style="@style/BasicTv.BodyL"
                             android:text="매물 검색"
