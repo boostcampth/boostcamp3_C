@@ -396,7 +396,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     onStatusProgressViewEvent="@{mapViewModel.userStatusLiveData}"
-                    />
+                    android:elevation="@dimen/elevation_m"/>
             <com.airbnb.lottie.LottieAnimationView
                     android:layout_width="@dimen/loading_lottie_view_size"
                     android:layout_height="@dimen/loading_lottie_view_size"
