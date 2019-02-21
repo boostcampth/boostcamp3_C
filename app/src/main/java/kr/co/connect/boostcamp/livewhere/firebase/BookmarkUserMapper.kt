@@ -9,5 +9,4 @@ class BookmarkUserMapper : FirebaseMapper<BookmarkUserEntity, BookmarkUser>() {
         bookmarkUser.uuid = from.uuid
         return bookmarkUser
     }
-
 }

@@ -19,7 +19,6 @@ abstract class BookmarkUserDatabaseRepository<Entity,Model>(private val mapper:F
     }
 
     fun addBookmark(pnu:String,bookmarkUserEntity: BookmarkUserEntity): Task<Void> {
-//        val key = databaseReference.child(pnu).key
         val postValues = bookmarkUserEntity.toMap()
         val childUpdates = HashMap<String, Any>()
         childUpdates["/" + pnu + "/"+bookmarkUserEntity.uuid] = postValues

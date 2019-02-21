@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_detail_review_more.view.*
 import kr.co.connect.boostcamp.livewhere.databinding.FragmentDetailPastTransactionMoreBinding
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailTransactionRvAdapter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -30,7 +29,7 @@ class DetailFragmentTransactionMore : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentDetailPastTransactionMoreBinding.inflate(inflater, container, false).apply {
             viewModel = this@DetailFragmentTransactionMore.viewModel
-            setLifecycleOwner(this@DetailFragmentTransactionMore)
+            lifecycleOwner = this@DetailFragmentTransactionMore
         }
 
         binding.pastTransactionMoreRv.apply {

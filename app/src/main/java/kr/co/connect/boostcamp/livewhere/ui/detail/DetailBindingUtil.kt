@@ -1,6 +1,5 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Handler
 import android.text.Editable
@@ -22,10 +21,12 @@ import com.github.mikephil.charting.charts.BarChart
 import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.data.SharedPreferenceStorage
-import kr.co.connect.boostcamp.livewhere.model.*
+import kr.co.connect.boostcamp.livewhere.model.HouseAvgPrice
+import kr.co.connect.boostcamp.livewhere.model.PastTransaction
+import kr.co.connect.boostcamp.livewhere.model.RecentPrice
+import kr.co.connect.boostcamp.livewhere.model.Review
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailReviewRvAdapter
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailTransactionRvAdapter
-import kr.co.connect.boostcamp.livewhere.ui.map.StreetMapActivity
 import kr.co.connect.boostcamp.livewhere.util.*
 
 
@@ -40,7 +41,6 @@ fun setProgress(view: View, isVisible: Boolean?) {
                     view.visibility = View.GONE
                 }, 1500
             )
-//            view.visibility = View.GONE
         }
     }
 }
@@ -56,7 +56,6 @@ fun setLoadingLottie(view: LottieAnimationView, isVisible: Boolean?) {
                     view.visibility = View.GONE
                 }, 1500
             )
-//            view.visibility = View.GONE
         }
     }
 }
@@ -86,7 +85,6 @@ fun setBarChart(barChart: BarChart, list: LiveData<List<HouseAvgPrice>>) {
 fun setDetailImage(imageView: AppCompatImageView, location: LiveData<String>?) {
     try {
         Glide.with(imageView.context)
-//            .load("https://maps.googleapis.com/maps/api/streetview?size=360x200&location=${location!!.value}&key=${BuildConfig.GoogleApiKey}")
             .load(
                 imageView.context.getString(
                     R.string.glide_street_img_url,
@@ -135,12 +133,12 @@ fun setRvItems(recyclerView: RecyclerView, itemList: List<PastTransaction>?) {
 }
 
 @BindingAdapter("setReviewDelete")
-fun setReviewDelete(imageButton: ImageButton,item :Review){
+fun setReviewDelete(imageButton: ImageButton, item: Review) {
     val pref = SharedPreferenceStorage(imageButton.context)
-    if(item.id==pref.uuid){
-        imageButton.visibility= View.VISIBLE
-    }else{
-        imageButton.visibility= View.GONE
+    if (item.id == pref.uuid) {
+        imageButton.visibility = View.VISIBLE
+    } else {
+        imageButton.visibility = View.GONE
     }
 }
 
@@ -148,7 +146,7 @@ fun setReviewDelete(imageButton: ImageButton,item :Review){
 fun setReviews(recyclerView: RecyclerView, reviewList: List<Review>?) {
     if (!reviewList.isNullOrEmpty()) {
         (recyclerView.adapter as DetailReviewRvAdapter).setData(reviewList)
-    }else{
+    } else {
         (recyclerView.adapter as DetailReviewRvAdapter).setData(listOfNotNull())
     }
 }
@@ -180,7 +178,7 @@ fun setPreReview(textView: TextView, review: List<Review>?) {
 
 @BindingAdapter("setVmText")
 fun setText(view: TextView, text: CharSequence?) {
-//    view.text = text
+
 }
 
 @InverseBindingAdapter(attribute = "setVmText", event = "android:textAttrChanged")
@@ -214,7 +212,7 @@ fun setBookmarkImage(bookmark: ImageButton, boolean: Boolean) = when {
 
 @BindingAdapter("setImageMessage")
 fun setImageMessage(view: TextView, count: Int?) {
-    if (count!=null) {
+    if (count != null) {
         view.text = view.context.getString(R.string.detail_image_message, count)
     }
 }

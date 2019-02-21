@@ -155,7 +155,7 @@ class DetailViewModel(
         _isBookmarked.value = false
         _hasLoaded.value = false
 
-        addDisposable(_onClickedImage.throttleFirst(3, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+        addDisposable(_onClickedImage.throttleFirst(1, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
             .subscribe({ _openStreetView.postValue(it) }, {})
         )
     }

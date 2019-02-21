@@ -1,6 +1,5 @@
 package kr.co.connect.boostcamp.livewhere.firebase
 
-import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import java.lang.reflect.ParameterizedType
 import java.util.*

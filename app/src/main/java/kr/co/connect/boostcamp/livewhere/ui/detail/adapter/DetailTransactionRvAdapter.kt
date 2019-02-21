@@ -8,12 +8,13 @@ import kr.co.connect.boostcamp.livewhere.databinding.FragmentDetailPastTransacti
 import kr.co.connect.boostcamp.livewhere.model.PastTransaction
 
 class DetailTransactionRvAdapter(
-    private val lifecycleOwner: LifecycleOwner) :
+    private val lifecycleOwner: LifecycleOwner
+) :
     RecyclerView.Adapter<DetailTransactionRvAdapter.DetailViewHolder>() {
 
     private var list = listOf<PastTransaction>()
 
-    fun setData(list: List<PastTransaction>){
+    fun setData(list: List<PastTransaction>) {
         this.list = list
         this.notifyDataSetChanged()
     }
@@ -36,17 +37,12 @@ class DetailTransactionRvAdapter(
     class DetailViewHolder(
         private val itemBinding: FragmentDetailPastTransactionBodyItemBinding
     ) : RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(lifecycleOwner: LifecycleOwner,pastTransaction: PastTransaction) {
-            itemBinding.setLifecycleOwner(lifecycleOwner)
-            itemBinding.pastTransaction = pastTransaction
-            itemBinding.executePendingBindings()
-            /* FIXME apply 를 활용하면 효율적으로 코드량을 줄일 수 있습니다.
+        fun bind(_lifecycleOwner: LifecycleOwner, _pastTransaction: PastTransaction) {
             itemBinding.apply {
-                setLifecycleOwner(lifecycleOwner)
+                lifecycleOwner = _lifecycleOwner
                 pastTransaction = _pastTransaction
                 executePendingBindings()
             }
-            */
         }
     }
 }
