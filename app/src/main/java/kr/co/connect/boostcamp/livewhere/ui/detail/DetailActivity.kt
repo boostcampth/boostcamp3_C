@@ -1,5 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -8,6 +9,7 @@ import androidx.lifecycle.Observer
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityDetailBinding
 import kr.co.connect.boostcamp.livewhere.model.MarkerInfo
+import kr.co.connect.boostcamp.livewhere.ui.map.StreetMapActivity
 import kr.co.connect.boostcamp.livewhere.util.generateUuid
 import kr.co.connect.boostcamp.livewhere.util.keyboardHide
 import kr.co.connect.boostcamp.livewhere.util.keyboardShow
@@ -79,6 +81,14 @@ class DetailActivity : AppCompatActivity() {
 
         viewModel.getBookmarks().observe(this, Observer {
             viewModel.checkBookmarkId()
+        })
+
+        viewModel.openStreetView.observe(this, Observer {
+            val intent = Intent(this, StreetMapActivity::class.java)
+            intent.putExtra("lat",it.latitude)
+            intent.putExtra("lng", it.longitude)
+            intent.putExtra("address", it.addressName)
+            this.startActivity(intent)
         })
     }
 
