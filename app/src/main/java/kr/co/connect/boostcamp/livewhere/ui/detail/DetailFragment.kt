@@ -48,14 +48,6 @@ class DetailFragment : Fragment() {
             setBarChart(binding.detailFragmentCl.detail_fragment_chart, viewModel.getAvgPriceList())
         })
 
-        viewModel.openStreetView.observe(this, Observer {
-            val intent = Intent(requireContext(), StreetMapActivity::class.java)
-            intent.putExtra("lat",it.latitude)
-            intent.putExtra("lng", it.longitude)
-            intent.putExtra("address", it.addressName)
-            requireContext().startActivity(intent)
-        })
-
 
         return binding.root
     }
