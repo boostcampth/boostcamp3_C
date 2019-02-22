@@ -6,6 +6,7 @@ import android.view.View
 import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.BindingAdapter
@@ -443,7 +444,7 @@ fun ImageView.onClickTriggerBackDrop(backdropML: MotionLayout) {
 fun Toolbar.onInitToolbar(isHomeClick: Boolean) {
     setNavigationOnClickListener {
         if (isHomeClick) {
-            (context as MapActivity).finish()
+            (context as AppCompatActivity).finish()
         }
     }
 }

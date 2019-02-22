@@ -5,8 +5,8 @@
         xmlns:bind="http://schemas.android.com/tools">
     <data>
         <variable
-            name="homeViewModel"
-            type="kr.co.connect.boostcamp.livewhere.ui.main.HomeViewModel"/>
+                name="homeViewModel"
+                type="kr.co.connect.boostcamp.livewhere.ui.main.HomeViewModel"/>
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/cl_home_backdrop"
@@ -19,7 +19,16 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
                 android:background="@color/main_color">
+            <androidx.appcompat.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/toolbar_home"
+                    isInitToolbar="@{true}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
+            </androidx.appcompat.widget.Toolbar>
             <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_logo"
                     android:layout_width="wrap_content"
@@ -54,7 +63,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
-                layout = "@layout/fragment_home_backdrop"
+                layout="@layout/fragment_home_backdrop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
