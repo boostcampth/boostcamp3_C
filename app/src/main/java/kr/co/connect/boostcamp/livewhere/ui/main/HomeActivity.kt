@@ -1,27 +1,20 @@
 package kr.co.connect.boostcamp.livewhere.ui.main
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.inputmethod.InputMethodManager
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.net.PlacesClient
-import io.fabric.sdk.android.services.common.CommonUtils.hideKeyboard
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_home_backdrop.view.*
-import kotlinx.android.synthetic.main.fragment_search.*
-import kr.co.connect.boostcamp.livewhere.BuildConfig
 import kr.co.connect.boostcamp.livewhere.R
 import kr.co.connect.boostcamp.livewhere.databinding.ActivityHomeBinding
 import kr.co.connect.boostcamp.livewhere.ui.map.MapActivity
 import kr.co.connect.boostcamp.livewhere.util.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class HomeActivity : AppCompatActivity() {
 
@@ -47,6 +40,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         observeValues()
+
     }
 
     override fun onDestroy() {
@@ -160,6 +154,38 @@ class HomeActivity : AppCompatActivity() {
             } else {
                 finish()
                 toast.cancel()
+            }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val menuInflater = menuInflater
+        menuInflater.inflate(kr.co.connect.boostcamp.livewhere.R.menu.menu_home, menu)
+        return true
+    }
+
+    //추가된 소스, ToolBar에 추가된 항목의 select 이벤트를 처리하는 함수
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.item_term_of_use -> {
+                currentFragment = PolicyFragment.newInstance()
+                supportFragmentManager
+                    .beginTransaction()
+                    .setCustomAnimations(
+                        R.anim.slide_in_left,
+                        R.anim.slide_out_left,
+                        R.anim.slide_in_right,
+                        R.anim.slide_out_right
+                    )
+                    .replace(HOME_CONTAINER_ID, currentFragment)
+                    .addToBackStack(null)
+                    .commit()
+                keyboardHide()
+                true
+            }
+
+            else -> {
+                super.onOptionsItemSelected(item)
             }
         }
     }
