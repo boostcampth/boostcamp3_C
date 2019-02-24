@@ -12,8 +12,8 @@ interface TmapApi {
     fun getAddress(
         @Query("searchKeyword") searchKeyword: String,
         @Query("appKey") appKey: String = BuildConfig.TmapApiKey,
-        @Query("count") count:String = "10",
-        @Query("areaLLCode") code:String = "11"
+        @Query("count") count: String = "10",
+        @Query("areaLLCode") code: String = "11"
     ): Observable<Response<TmapResponse>>
 
 

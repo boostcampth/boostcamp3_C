@@ -55,11 +55,10 @@ class HomeFragment : Fragment() {
         super.onAttach(context)
 
         homeViewModel.bookmarkEntity.observe(this, Observer {
-            if(!it.isNullOrEmpty()) {
+            if (!it.isNullOrEmpty()) {
                 binding.clHomeBackdrop.tv_bookmark_empty.visibility = View.GONE
                 binding.clHomeBackdrop.rv_bookmark.visibility = View.VISIBLE
-            }
-            else {
+            } else {
                 binding.clHomeBackdrop.tv_bookmark_empty.visibility = View.VISIBLE
                 binding.clHomeBackdrop.rv_bookmark.visibility = View.GONE
             }

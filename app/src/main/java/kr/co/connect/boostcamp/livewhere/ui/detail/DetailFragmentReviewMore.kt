@@ -29,20 +29,24 @@ class DetailFragmentReviewMore : Fragment() {
         }
     }
 
-    private val pref by lazy{ SharedPreferenceStorage(context!!)}
+    private val pref by lazy { SharedPreferenceStorage(context!!) }
     private val viewModel: DetailViewModel by sharedViewModel()
     private lateinit var binding: FragmentDetailReviewMoreBinding
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentDetailReviewMoreBinding.inflate(inflater,container,false).apply {
+        binding = FragmentDetailReviewMoreBinding.inflate(inflater, container, false).apply {
             viewModel = this@DetailFragmentReviewMore.viewModel
             lifecycleOwner = this@DetailFragmentReviewMore
         }
 
-        binding.detailReviewMoreRv.apply{
+        binding.detailReviewMoreRv.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = DetailReviewRvAdapter(this@DetailFragmentReviewMore,this@DetailFragmentReviewMore.viewModel,pref.uuid!!)
+            adapter = DetailReviewRvAdapter(
+                this@DetailFragmentReviewMore,
+                this@DetailFragmentReviewMore.viewModel,
+                pref.uuid!!
+            )
         }
 
         viewModel.getComments().observe(this, Observer {
@@ -60,7 +64,7 @@ class DetailFragmentReviewMore : Fragment() {
         return binding.root
     }
 
-    private fun alertDeleteDialog(item: Review){
+    private fun alertDeleteDialog(item: Review) {
         val builder = AlertDialog.Builder(context!!)
         builder.setTitle(DIALOG_TITLE)
         builder.setMessage(DIALOG_MESSAGE)

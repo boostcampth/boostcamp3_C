@@ -4,6 +4,6 @@ interface LoginRepository {
 
 }
 
-class LoginRepositoryImpl():LoginRepository{
+class LoginRepositoryImpl() : LoginRepository {
 
 }

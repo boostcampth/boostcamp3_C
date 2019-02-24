@@ -2,7 +2,7 @@ package kr.co.connect.boostcamp.livewhere.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Poi (
+data class Poi(
     @SerializedName("name") val addressName: String,
     @SerializedName("upperAddrName") val upperAddrName: String,
     @SerializedName("middleAddrName") val middleAddrName: String,

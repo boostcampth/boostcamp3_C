@@ -8,12 +8,12 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
 
-interface ReverseGeoApi{
-    @Headers("Authorization: KakaoAK "+BuildConfig.KakaoServiceKey)
+interface ReverseGeoApi {
+    @Headers("Authorization: KakaoAK " + BuildConfig.KakaoServiceKey)
     @GET("geo/coord2address.json")
     fun getAddress(
-        @Query("y") latitude:String,
-        @Query("x") longitude:String,
-        @Query("input_coord") inputCoord:String
-    ) : Single<Response<ReverseGeo>>
+        @Query("y") latitude: String,
+        @Query("x") longitude: String,
+        @Query("input_coord") inputCoord: String
+    ): Single<Response<ReverseGeo>>
 }

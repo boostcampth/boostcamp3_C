@@ -10,8 +10,8 @@ fun Toolbar.initHomeToolbar(isReady: Boolean) {
     }
 }
 
-@BindingAdapter(value=["onStartBackFragment"])
-fun Toolbar.setOnStartBackFragment(homeViewModel: HomeViewModel){
+@BindingAdapter(value = ["onStartBackFragment"])
+fun Toolbar.setOnStartBackFragment(homeViewModel: HomeViewModel) {
     setNavigationOnClickListener {
         homeViewModel.onClickedBack()
     }

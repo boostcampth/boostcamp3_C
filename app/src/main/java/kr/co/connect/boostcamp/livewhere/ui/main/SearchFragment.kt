@@ -1,8 +1,6 @@
 package kr.co.connect.boostcamp.livewhere.ui.main
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,11 +61,10 @@ class SearchFragment : Fragment() {
         changeSearchRv(false)
 
         homeViewModel.recentSearch.observe(this, Observer {
-            if(!it.isNullOrEmpty()) {
+            if (!it.isNullOrEmpty()) {
                 binding.llSearchFragment.tv_recent_search_empty.visibility = View.GONE
                 binding.llSearchFragment.rv_recent_search.visibility = View.VISIBLE
-            }
-            else {
+            } else {
                 binding.llSearchFragment.tv_recent_search_empty.visibility = View.VISIBLE
                 binding.llSearchFragment.rv_recent_search.visibility = View.GONE
             }

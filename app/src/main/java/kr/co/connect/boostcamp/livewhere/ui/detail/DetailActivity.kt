@@ -25,7 +25,7 @@ class DetailActivity : AppCompatActivity() {
     private val viewModel: DetailViewModel by viewModel()
     private lateinit var binding: ActivityDetailBinding
     private lateinit var currentFragment: Fragment
-    lateinit var markerInfo:MarkerInfo
+    lateinit var markerInfo: MarkerInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,7 +85,7 @@ class DetailActivity : AppCompatActivity() {
 
         viewModel.openStreetView.observe(this, Observer {
             val intent = Intent(this, StreetMapActivity::class.java)
-            intent.putExtra("lat",it.latitude)
+            intent.putExtra("lat", it.latitude)
             intent.putExtra("lng", it.longitude)
             intent.putExtra("address", it.addressName)
             this.startActivity(intent)

@@ -8,7 +8,7 @@ import kr.co.connect.boostcamp.livewhere.data.entity.BookmarkEntity
 import kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity
 
 @Database(entities = [BookmarkEntity::class, RecentSearchEntity::class], version = 1)
-abstract class AppDataBase: RoomDatabase() {
+abstract class AppDataBase : RoomDatabase() {
     abstract fun bookmarkDao(): BookmarkDAO
     abstract fun recentSearchDao(): RecentSearchDAO
 }

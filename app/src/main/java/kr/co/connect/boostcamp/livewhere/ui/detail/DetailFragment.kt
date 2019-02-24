@@ -1,6 +1,5 @@
 package kr.co.connect.boostcamp.livewhere.ui.detail
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import kotlinx.android.synthetic.main.fragment_detail_past_transation.view.*
 import kotlinx.android.synthetic.main.fragment_detail_trend_price.view.*
 import kr.co.connect.boostcamp.livewhere.databinding.FragmentDetailBinding
 import kr.co.connect.boostcamp.livewhere.ui.detail.adapter.DetailTransactionRvAdapter
-import kr.co.connect.boostcamp.livewhere.ui.map.StreetMapActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 

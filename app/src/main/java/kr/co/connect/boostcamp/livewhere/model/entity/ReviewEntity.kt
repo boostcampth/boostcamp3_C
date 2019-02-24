@@ -8,16 +8,16 @@ import com.google.firebase.database.IgnoreExtraProperties
 data class ReviewEntity(
     var nickname: String? = null,
     var id: String? = null,
-    var date:String? = null,
+    var date: String? = null,
     var contents: String? = null,
-    var land_code:String? =null
-){
+    var land_code: String? = null
+) {
     @Exclude
     fun toMap(): Map<String, Any> {
-        val result = HashMap<String,String>()
+        val result = HashMap<String, String>()
         result.put("id", id!!)
         result.put("nickname", nickname!!)
-        result.put("date",date!!)
+        result.put("date", date!!)
         result.put("contents", contents!!)
         result.put("land_code", land_code!!)
 

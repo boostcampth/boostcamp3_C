@@ -5,11 +5,11 @@ import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
 data class BookmarkUserEntity(
-    var uuid:String? =null
-){
+    var uuid: String? = null
+) {
     @Exclude
     fun toMap(): Map<String, Any> {
-        val result = HashMap<String,String>()
+        val result = HashMap<String, String>()
         result.put("uuid", uuid!!)
 
         return result

@@ -12,7 +12,7 @@ class BaseValueEventListener<Model, Entity>(
 ) : ValueEventListener {
 
     override fun onDataChange(dataSnapshot: DataSnapshot) {
-        val data = mapper.mapList(pnu,dataSnapshot)
+        val data = mapper.mapList(pnu, dataSnapshot)
         callback.onSuccess(data)
     }
 

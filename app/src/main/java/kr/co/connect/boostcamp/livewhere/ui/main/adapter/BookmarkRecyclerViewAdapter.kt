@@ -47,7 +47,13 @@ class BookmarkRecyclerViewAdapter(
             itemBinding.homeViewModel = homeViewModel
 
             Glide.with(itemBinding.root)
-                .load(itemBinding.root.context.getString(R.string.glide_street_img_url,bookmark.img_url,BuildConfig.GoogleApiKey))
+                .load(
+                    itemBinding.root.context.getString(
+                        R.string.glide_street_img_url,
+                        bookmark.img_url,
+                        BuildConfig.GoogleApiKey
+                    )
+                )
                 .apply { RequestOptions.fitCenterTransform() }
                 .into(itemBinding.ivBookmarkImage)
         }

@@ -18,11 +18,11 @@ abstract class FirebaseMapper<Entity, Model> : IMapper<Entity, Model> {
         return map(entity!!)
     }
 
-    fun mapList(pnu:String,dataSnapshot: DataSnapshot): List<Model> {
+    fun mapList(pnu: String, dataSnapshot: DataSnapshot): List<Model> {
         val list = ArrayList<Model>()
         for (item in dataSnapshot.children) {
-            if(item.key == pnu) {
-                item.children.forEach{
+            if (item.key == pnu) {
+                item.children.forEach {
                     list.add(map(it))
                 }
             }

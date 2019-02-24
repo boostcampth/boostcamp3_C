@@ -24,7 +24,7 @@ class RecentSearchRepositoryImpl(private val recentSearchDAO: RecentSearchDAO) :
     }
 
     override fun deleteRecentSearch(): Observable<Boolean> {
-        return Observable.fromCallable(object: Callable<Boolean> {
+        return Observable.fromCallable(object : Callable<Boolean> {
             override fun call(): Boolean {
                 recentSearchDAO.deleteAll()
                 return true

@@ -15,7 +15,7 @@ class BookmarkRepositoryImpl(private val bookmarkDAO: BookmarkDAO) : BookmarkRep
     }
 
     override fun setBookmark(bookmarkEntity: BookmarkEntity): Observable<Long> {
-        return Observable.fromCallable(object: Callable<Long> {
+        return Observable.fromCallable(object : Callable<Long> {
             override fun call(): Long {
                 return bookmarkDAO.insertBookmark(bookmarkEntity)
             }
@@ -23,7 +23,7 @@ class BookmarkRepositoryImpl(private val bookmarkDAO: BookmarkDAO) : BookmarkRep
     }
 
     override fun deleteBookmark(address: String): Observable<Int> {
-        return Observable.fromCallable(object: Callable<Int> {
+        return Observable.fromCallable(object : Callable<Int> {
             override fun call(): Int {
                 return bookmarkDAO.deleteBookmark(address)
             }

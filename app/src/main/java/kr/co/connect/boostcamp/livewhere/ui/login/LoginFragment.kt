@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import kr.co.connect.boostcamp.livewhere.databinding.FragmentLoginBinding
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class LoginFragment: Fragment(){
+class LoginFragment : Fragment() {
     companion object {
         fun newInstance(): LoginFragment {
             val args = Bundle()
@@ -22,7 +22,7 @@ class LoginFragment: Fragment(){
     private lateinit var binding: FragmentLoginBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentLoginBinding.inflate(inflater,container,false).apply {
+        binding = FragmentLoginBinding.inflate(inflater, container, false).apply {
             viewModel = this@LoginFragment.viewModel
             lifecycleOwner = this@LoginFragment
         }
