@@ -7,10 +7,10 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 interface SharedPreference {
-    var uuid:String?
+    var uuid: String?
 }
 
-class SharedPreferenceStorage(context: Context):SharedPreference {
+class SharedPreferenceStorage(context: Context) : SharedPreference {
     private val prefs = context.applicationContext.getSharedPreferences(PREF, Context.MODE_PRIVATE)
 
     override var uuid: String? by UuidPreference(prefs, PREF_UUID, null)
@@ -25,7 +25,7 @@ class UuidPreference(
     private val pref: SharedPreferences,
     private val name: String,
     private val defaultValue: String?
-):ReadWriteProperty<Any,String?> {
+) : ReadWriteProperty<Any, String?> {
 
 
     override fun getValue(thisRef: Any, property: KProperty<*>): String? {

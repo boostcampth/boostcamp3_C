@@ -7,7 +7,7 @@ import java.util.*
 
 object DateUtil {
     @SuppressLint("SimpleDateFormat")
-    fun getCurrentDate() : String? {
+    fun getCurrentDate(): String? {
         val now = System.currentTimeMillis()
         val date = Date(now)
         val sdf = SimpleDateFormat("yyyy년 MM월 dd일")

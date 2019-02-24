@@ -10,8 +10,7 @@ class PassTouchRecyclerView(context: Context, attributeSet: AttributeSet? = null
     private var isNotPassTouch = false
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        if(isNotPassTouch)
-        {
+        if (isNotPassTouch) {
             super.onTouchEvent(event)
         }
         return isNotPassTouch

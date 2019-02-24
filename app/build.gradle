@@ -22,6 +22,7 @@ android {
     }
     buildTypes {
         debug {
+            // FIXME debug/release에 따라서 base url, key 등이 따로 쓰이도록 설정해주세요. 개발환경과 배포환경에서 쓰이는 값들이 분리되어야 합니다.
             buildConfigField "String", "BaseServerURL", keystoreProperties.getProperty("baseServerUrl")
             buildConfigField "String", "TmapApiKey", keystoreProperties.getProperty("tMapApiKey")
             buildConfigField "String", "GoogleApiKey", keystoreProperties.getProperty("googleApiKey")

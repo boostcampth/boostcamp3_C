@@ -18,15 +18,13 @@ import kr.co.connect.boostcamp.livewhere.model.entity.BookmarkUserEntity
 import kr.co.connect.boostcamp.livewhere.model.entity.ReviewEntity
 import kr.co.connect.boostcamp.livewhere.repository.BookmarkRepositoryImpl
 import kr.co.connect.boostcamp.livewhere.repository.BookmarkUserRepository
-import kr.co.connect.boostcamp.livewhere.repository.DetailRepository
 import kr.co.connect.boostcamp.livewhere.repository.ReviewRepository
 import kr.co.connect.boostcamp.livewhere.ui.BaseViewModel
 import kr.co.connect.boostcamp.livewhere.util.*
 import java.util.concurrent.TimeUnit
 
 class DetailViewModel(
-    private val detailRepository: DetailRepository
-    , private val reviewRepository: ReviewRepository
+    private val reviewRepository: ReviewRepository
     , private val bookmarkUserRepository: BookmarkUserRepository
     , private val bookmarkRepository: BookmarkRepositoryImpl
     , private val pref: SharedPreferenceStorage
@@ -123,7 +121,7 @@ class DetailViewModel(
     private val _commentsList = MutableLiveData<List<Review>>()
     fun getComments(): LiveData<List<Review>> {
         if (_commentsList.value == null) {
-            loadComments(pnuCode.get()!!) // TODO: markerInfo 에서 현재 페이지 pnu코드 인자로 넘기기.
+            loadComments(pnuCode.get()!!)
         }
         return _commentsList
     }
@@ -131,14 +129,14 @@ class DetailViewModel(
     private val _bookmarksList = MutableLiveData<List<BookmarkEntity>>()
     fun getBookmarks(): LiveData<List<BookmarkEntity>> {
         if (_bookmarksList.value == null) {
-            loadBookmarks() // TODO: markerInfo 에서 현재 페이지 pnu코드 인자로 넘기기.
+            loadBookmarks()
         }
         return _bookmarksList
     }
 
     private val _visitorCount = MutableLiveData<Int>()
-    fun visitorCount(): LiveData<Int>{
-        if(_visitorCount.value==null) {
+    fun visitorCount(): LiveData<Int> {
+        if (_visitorCount.value == null) {
             getVisitorCount(pnuCode.get()!!)
         }
         return _visitorCount
@@ -155,8 +153,9 @@ class DetailViewModel(
         _isBookmarked.value = false
         _hasLoaded.value = false
 
-        addDisposable(_onClickedImage.throttleFirst(1, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
-            .subscribe({ _openStreetView.postValue(it) }, {})
+        addDisposable(
+            _onClickedImage.throttleFirst(1, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+                .subscribe({ _openStreetView.postValue(it) }, {})
         )
     }
 
@@ -472,6 +471,7 @@ class DetailViewModel(
                 override fun onSuccess(result: List<BookmarkUser>) {
                     _visitorCount.postValue(result.size)
                 }
+
                 override fun onError(e: Exception) {
                     e.printStackTrace()
                 }

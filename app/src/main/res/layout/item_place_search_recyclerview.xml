@@ -89,6 +89,8 @@
                         android:translationZ="2dp"
                         android:paddingStart="@dimen/space_xx_small"
                         android:paddingEnd="@dimen/space_xx_small"
+                        android:paddingTop="@dimen/space_x_small"
+                        android:paddingBottom="@dimen/space_x_small"
                         android:textColor="@color/white"/>
             </LinearLayout>
         </LinearLayout>

@@ -17,7 +17,7 @@ class LiveApplication : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
         //debug변수를 놓고 debug 인지 캐치함.
-        if(BuildConfig.isDebug){
+        if (BuildConfig.isDebug) {
             Stetho.initializeWithDefaults(this)
         }
         startKoin(this, appModules)

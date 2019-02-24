@@ -15,15 +15,15 @@ class BookmarkRepositoryImpl(private val bookmarkDAO: BookmarkDAO) : BookmarkRep
     }
 
     override fun setBookmark(bookmarkEntity: BookmarkEntity): Observable<Long> {
-        return Observable.fromCallable(object: Callable<Long> {
+        return Observable.fromCallable(object : Callable<Long> {
             override fun call(): Long {
                 return bookmarkDAO.insertBookmark(bookmarkEntity)
             }
         })
     }
 
-    override fun deleteBookmark(address: String): Observable<Int> { //삭제한 행의 개수 반환
-        return Observable.fromCallable(object: Callable<Int> {
+    override fun deleteBookmark(address: String): Observable<Int> {
+        return Observable.fromCallable(object : Callable<Int> {
             override fun call(): Int {
                 return bookmarkDAO.deleteBookmark(address)
             }

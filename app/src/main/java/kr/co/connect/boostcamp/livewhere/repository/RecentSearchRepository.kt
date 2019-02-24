@@ -1,6 +1,5 @@
 package kr.co.connect.boostcamp.livewhere.repository
 
-import androidx.lifecycle.LiveData
 import io.reactivex.Observable
 import kr.co.connect.boostcamp.livewhere.data.entity.RecentSearchEntity
 

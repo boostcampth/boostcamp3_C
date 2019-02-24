@@ -98,12 +98,13 @@ class HomeViewModel(
                 })
         )
 
-        addDisposable(subject.throttleFirst(1, TimeUnit.SECONDS)
-            .subscribe ({
-                _searchMap.postValue(it)
-            }, {
-                it.printStackTrace()
-            })
+        addDisposable(
+            subject.throttleFirst(1, TimeUnit.SECONDS)
+                .subscribe({
+                    _searchMap.postValue(it)
+                }, {
+                    it.printStackTrace()
+                })
         )
     }
 

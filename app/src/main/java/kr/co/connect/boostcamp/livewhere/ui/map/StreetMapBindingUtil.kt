@@ -13,7 +13,7 @@ fun Toolbar.onClickFinish(isHomeClick: Boolean) {
 
 @BindingAdapter(value = ["onTitleText"])
 fun Toolbar.onTitleText(addressLiveData: LiveData<String>) {
-    if(addressLiveData.value != null){
+    if (addressLiveData.value != null) {
         title = addressLiveData.value
     }
 }

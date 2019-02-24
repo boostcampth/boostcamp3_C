@@ -6,12 +6,13 @@
                 type="kr.co.connect.boostcamp.livewhere.ui.detail.DetailViewModel"/>
     </data>
 
-    <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="wrap_content">
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/white">
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/past_transaction_more_cl"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:paddingVertical="@dimen/detail_more_vertical_padding"
                 android:background="@color/white">
 

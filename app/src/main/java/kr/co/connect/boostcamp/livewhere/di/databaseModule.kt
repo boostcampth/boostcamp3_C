@@ -9,8 +9,8 @@ const val DATABASE_NAME = "mdatabase.db"
 
 val databaseModule = module {
     single("databaseModule") {
-         Room.databaseBuilder(androidContext(), AppDataBase::class.java, DATABASE_NAME)
-             .fallbackToDestructiveMigration()
+        Room.databaseBuilder(androidContext(), AppDataBase::class.java, DATABASE_NAME)
+            .fallbackToDestructiveMigration()
             .build()
     }
 

@@ -25,7 +25,7 @@ class DetailActivity : AppCompatActivity() {
     private val viewModel: DetailViewModel by viewModel()
     private lateinit var binding: ActivityDetailBinding
     private lateinit var currentFragment: Fragment
-    lateinit var markerInfo:MarkerInfo
+    lateinit var markerInfo: MarkerInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +45,7 @@ class DetailActivity : AppCompatActivity() {
         viewModel.setMarkerInfoFromActivity(markerInfo)
 
         viewModel.markerInfo.observe(this, Observer {
-            //지도 화면으로부터 전체 데이터 넘겨 받은 시점
+            //지도 화면으로부터 전체 데이터 넘겨 받았을 때
             setBuildingTitle(binding.detailActivityTvAddress, viewModel.buildingName.get())
             viewModel.getCoordinateFromInfo()
             viewModel.getRecentPriceFromInfo()
@@ -53,17 +53,17 @@ class DetailActivity : AppCompatActivity() {
         })
 
         viewModel.transactionMoreClicked.observe(this, Observer {
-            //과거 거래내역 더보기 클릭 시
+            //과거 거래내역 더보기 클릭
             addDetailMore()
         })
 
         viewModel.reviewMoreClicked.observe(this, Observer {
-            //거주 후기 더보기 클릭시
+            //거주 후기 더보기 클릭
             addReviewMore()
         })
 
         viewModel.reviewPostOpenClicked.observe(this, Observer {
-            // 작성하기 클릭시
+            // 작성하기 클릭
             keyboardShow()
             addReviewPost()
         })
@@ -85,7 +85,7 @@ class DetailActivity : AppCompatActivity() {
 
         viewModel.openStreetView.observe(this, Observer {
             val intent = Intent(this, StreetMapActivity::class.java)
-            intent.putExtra("lat",it.latitude)
+            intent.putExtra("lat", it.latitude)
             intent.putExtra("lng", it.longitude)
             intent.putExtra("address", it.addressName)
             this.startActivity(intent)
@@ -112,7 +112,7 @@ class DetailActivity : AppCompatActivity() {
                 R.anim.slide_in_right,
                 R.anim.slide_out_right
             )
-            .replace(DETAIL_CONTAINER_ID, fragment)
+            .add(DETAIL_CONTAINER_ID, fragment)
             .addToBackStack(null)
             .commit()
     }
@@ -128,7 +128,7 @@ class DetailActivity : AppCompatActivity() {
                 R.anim.slide_in_right,
                 R.anim.slide_out_right
             )
-            .replace(DETAIL_CONTAINER_ID, fragment)
+            .add(DETAIL_CONTAINER_ID, fragment)
             .addToBackStack(null)
             .commit()
     }
@@ -144,7 +144,7 @@ class DetailActivity : AppCompatActivity() {
                 R.anim.slide_in_bottom,
                 R.anim.slide_out_bottom
             )
-            .replace(DETAIL_CONTAINER_ID, fragment)
+            .add(DETAIL_CONTAINER_ID, fragment)
             .addToBackStack(null)
             .commit()
     }
