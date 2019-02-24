@@ -83,19 +83,16 @@ fun setBarChart(barChart: BarChart, list: LiveData<List<HouseAvgPrice>>) {
 
 @BindingAdapter("setDetailImage") //로드뷰 이미지 세팅
 fun setDetailImage(imageView: AppCompatImageView, location: LiveData<String>?) {
-    try {
+    if (location != null)
         Glide.with(imageView.context)
             .load(
                 imageView.context.getString(
                     R.string.glide_street_img_url,
-                    location!!.value,
+                    location.value,
                     BuildConfig.GoogleApiKey
                 )
             )
             .into(imageView)
-    } catch (e: KotlinNullPointerException) {
-        Toast.makeText(imageView.context, "이미지 없음", Toast.LENGTH_SHORT).show()
-    }
 }
 
 @BindingAdapter("setRecentPrice")

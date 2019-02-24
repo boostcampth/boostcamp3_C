@@ -22,7 +22,7 @@ class BookmarkRepositoryImpl(private val bookmarkDAO: BookmarkDAO) : BookmarkRep
         })
     }
 
-    override fun deleteBookmark(address: String): Observable<Int> { //삭제한 행의 개수 반환
+    override fun deleteBookmark(address: String): Observable<Int> {
         return Observable.fromCallable(object: Callable<Int> {
             override fun call(): Int {
                 return bookmarkDAO.deleteBookmark(address)
