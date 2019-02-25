@@ -219,7 +219,6 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
 
 
     override fun onClick(view: View?) {
-        _userStatusLiveData.postValue(UserStatus(StatusCode.BEFORE_SEARCH_PLACE, ""))
         val currentMarkerInfo = markerLiveData.value
         val category = when {
             view?.id == R.id.fab_filter_cafe -> "CE7"
@@ -229,8 +228,8 @@ class MapViewModel(val mapRepository: MapRepositoryImpl) : BaseViewModel(),
             view?.id == R.id.fab_filter_store -> "MT1,CS2"
             else -> ""
         }
-
         if (currentMarkerInfo != null) {
+            _userStatusLiveData.postValue(UserStatus(StatusCode.BEFORE_SEARCH_PLACE, ""))
             val latLng = currentMarkerInfo.latLng
             val searchDisposable =
                 mapRepository.getPlace(latLng.latitude, latLng.longitude, RADIUS, category).subscribe({ response ->
