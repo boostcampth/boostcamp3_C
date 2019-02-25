@@ -46,6 +46,7 @@ class MapActivity : AppCompatActivity() {
             intent.extras.clear()
             mapViewModel.loadHousePrice(latLng)
         } else {
+            mapViewModel.makeDefaultStatus()
             mapViewModel.onInitActivityStatus()
         }
     }

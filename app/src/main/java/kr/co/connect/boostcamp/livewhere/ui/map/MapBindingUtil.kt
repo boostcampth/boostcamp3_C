@@ -493,6 +493,7 @@ fun LottieAnimationView.setOnStatusMarkerLife(userStatusLiveData: LiveData<UserS
     val statusCode = userStatusLiveData.value?.statusCode
     visibility = when (statusCode) {
         StatusCode.DEFAULT_SEARCH -> View.VISIBLE
+        StatusCode.EMPTY_HOUSE_TARGET -> View.VISIBLE
         StatusCode.SEARCH_PLACE -> View.GONE
         StatusCode.SEARCH_HOUSE -> View.GONE
         else -> View.GONE
@@ -504,6 +505,7 @@ fun MotionLayout.setOnStatusMarkerLife(userStatusLiveData: LiveData<UserStatus>)
     val statusCode = userStatusLiveData.value?.statusCode
     when (statusCode) {
         StatusCode.DEFAULT_SEARCH -> transitionToStart()
+        StatusCode.EMPTY_HOUSE_TARGET -> transitionToStart()
         else -> transitionToEnd()
     }
 }
@@ -537,10 +539,12 @@ fun MapView.setOnSearchBtn(searchEventListenerLiveData: LiveData<Boolean>, mapVi
 fun FloatingActionButton.setOnSearchBtnEvent(mapViewModel: MapViewModel, userStatusLiveData: LiveData<UserStatus>) {
     setOnTouchListener { v, event ->
         if (userStatusLiveData.value != null) {
-            if (event.action == MotionEvent.ACTION_DOWN && userStatusLiveData.value!!.statusCode == StatusCode.DEFAULT_SEARCH) {
-                mapViewModel.postButtonEvent(true)
-            } else if (event.action == MotionEvent.ACTION_DOWN && userStatusLiveData.value!!.statusCode != StatusCode.DEFAULT_SEARCH) {
-                mapViewModel.postButtonEvent(false)
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                when (userStatusLiveData.value!!.statusCode) {
+                    StatusCode.DEFAULT_SEARCH -> mapViewModel.postButtonEvent(true)
+                    StatusCode.EMPTY_HOUSE_TARGET -> mapViewModel.postButtonEvent(true)
+                    else -> mapViewModel.postButtonEvent(false)
+                }
             }
         }
         false
